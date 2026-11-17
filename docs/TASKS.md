@@ -20,7 +20,7 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Deliverable: a root workspace that runs `pnpm install` cleanly.
   - Acceptance test: `pnpm install && pnpm turbo run build --dry-run` exits 0.
   - Refs: §10
-  - Done: 2026-11-17, commit f17a27e — public GitHub `arsalan-arshad/wildwindow`; stub apps/* + packages/*; `assets/` pack + README docs. App scaffolds deferred to T0.6–T0.9.
+  - Done: 2026-11-17, commit aa4851e — public GitHub `arsalan-arshad/wildwindow`; stub apps/* + packages/*; `assets/` pack + README docs. App scaffolds deferred to T0.6–T0.9.
 
 - [ ] **T0.2 Shared config package**
   - Depends on: T0.1
