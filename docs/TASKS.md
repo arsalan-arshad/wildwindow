@@ -127,7 +127,7 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Depends on: T1.1
   - Do: quantile buckets (1–5) for map levels.
   - Acceptance test: tests for ties, a single value and an empty input.
-  - Done: 2026-11-17, commit pending — 1–5 quantile bucketiser.
+  - Done: 2026-11-17, commit d2166c9 — 1–5 quantile bucketiser.
 
 - [x] **T1.6 `assertPublicSafe`**
   - Depends on: T1.2
