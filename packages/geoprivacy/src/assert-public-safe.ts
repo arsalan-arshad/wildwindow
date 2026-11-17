@@ -3,10 +3,10 @@ import { getResolution, isValidCell } from 'h3-js';
 import { GeoPrivacyViolation } from './errors.js';
 import { type Tier } from './tiers.js';
 
-/** Forbidden coordinate / geometry keys (any case) — ARCHITECTURE §5.3. */
+/** Forbidden coordinate / geometry keys (any case) — ARCHITECTURE §5.3 (+ lon/long aliases). */
 const FORBIDDEN_KEYS = new Set(
-  ['lat', 'lng', 'latitude', 'longitude', 'coordinates', 'geom', 'point', 'wkt'].map((key) =>
-    key.toLowerCase(),
+  ['lat', 'lng', 'lon', 'long', 'latitude', 'longitude', 'coordinates', 'geom', 'point', 'wkt'].map(
+    (key) => key.toLowerCase(),
   ),
 );
 
@@ -17,7 +17,8 @@ export type AssertPublicSafeOptions = {
   allowOwnerLocation?: boolean;
   /**
    * Tier used when validating H3 strings found in the payload.
-   * Defaults to the coarsest (lowest resolution number allowed) across maxResolutionByTier.
+   * When omitted, the coarsest allowed resolution is used (smallest numeric value in
+   * `maxResolutionByTier`). Any `null` entry rejects every H3 cell.
    */
   h3Tier?: Tier;
 };
@@ -30,21 +31,36 @@ function looksLikeH3(value: string): boolean {
   return /^[0-9a-f]+$/i.test(value) && value.length >= 15 && isValidCell(value);
 }
 
+/**
+ * Resolve the maximum H3 resolution a public payload may contain.
+ * Returns `null` when every H3 cell must be rejected.
+ *
+ * - With `h3Tier`: that tier's map entry. Missing or `null` → reject all H3.
+ * - Without `h3Tier`: coarsest (smallest) numeric resolution across the map.
+ *   Any `null` entry → reject all H3.
+ */
 function maxAllowedResolution(opts: AssertPublicSafeOptions): number | null {
   if (opts.h3Tier !== undefined) {
+    if (!(opts.h3Tier in opts.maxResolutionByTier)) {
+      return null;
+    }
     const fromTier = opts.maxResolutionByTier[opts.h3Tier];
-    return fromTier === undefined ? null : fromTier;
+    return typeof fromTier === 'number' ? fromTier : null;
   }
-  let max: number | null = null;
+
+  let coarsest: number | null = null;
   for (const raw of Object.values(opts.maxResolutionByTier)) {
+    if (raw === null) {
+      return null;
+    }
     if (typeof raw !== 'number') {
       continue;
     }
-    if (max === null || raw > max) {
-      max = raw;
+    if (coarsest === null || raw < coarsest) {
+      coarsest = raw;
     }
   }
-  return max;
+  return coarsest;
 }
 
 function walk(value: unknown, opts: AssertPublicSafeOptions, path: string): void {
@@ -86,7 +102,9 @@ function walk(value: unknown, opts: AssertPublicSafeOptions, path: string): void
 
 /**
  * Walk any JSON-like payload and throw `GeoPrivacyViolation` on forbidden
- * coordinate keys or H3 cells finer than the tier allows (§5.3 / §5.2).
+ * coordinate keys or H3 cells finer than allowed. Without `h3Tier`, the
+ * coarsest (smallest) resolution in `maxResolutionByTier` is enforced; any
+ * `null` tier entry rejects every H3 cell (§5.3 / §5.2).
  */
 export function assertPublicSafe(payload: unknown, opts: AssertPublicSafeOptions): void {
   walk(payload, opts, '');

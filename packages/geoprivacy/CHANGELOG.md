@@ -4,6 +4,10 @@ All notable changes to `@wildwindow/geoprivacy` are documented in this file.
 
 ## 0.0.0 — 2026-11-17
 
+### Fixed
+
+- `assertPublicSafe` now defaults to the **coarsest** allowed H3 resolution (and rejects all cells if any tier is `null`); forbids `lon` / `long` keys.
+
 ### Added
 
 - `TIER_POLICY` matching PRD §9.2 / ARCHITECTURE §5.1

@@ -61,4 +61,52 @@ describe('assertPublicSafe', () => {
       assertPublicSafe({ Latitude: 1 }, { maxResolutionByTier: { open: 7 } });
     }).toThrow(GeoPrivacyViolation);
   });
+
+  it('without h3Tier uses coarsest resolution across the map', () => {
+    const res7 = latLngToCell(55.86, -4.25, 7);
+    const res5 = latLngToCell(55.86, -4.25, 5);
+    const opts = { maxResolutionByTier: { open: 7, protected: 5 } };
+
+    expect(() => {
+      assertPublicSafe({ displayCell: res7 }, opts);
+    }).toThrow(GeoPrivacyViolation);
+
+    expect(() => {
+      assertPublicSafe({ displayCell: res5 }, opts);
+    }).not.toThrow();
+  });
+
+  it('rejects every H3 cell when any tier resolution is null', () => {
+    const cell = latLngToCell(55.86, -4.25, 7);
+    expect(() => {
+      assertPublicSafe({ displayCell: cell }, { maxResolutionByTier: { no_forecast: null } });
+    }).toThrow(GeoPrivacyViolation);
+  });
+
+  it('with h3Tier uses that tier only and ignores sibling nulls', () => {
+    const res5 = latLngToCell(55.86, -4.25, 5);
+    const res6 = latLngToCell(55.86, -4.25, 6);
+    const opts = {
+      maxResolutionByTier: { protected: 5, no_forecast: null },
+      h3Tier: 'protected' as const,
+    };
+
+    expect(() => {
+      assertPublicSafe({ displayCell: res5 }, opts);
+    }).not.toThrow();
+
+    expect(() => {
+      assertPublicSafe({ displayCell: res6 }, opts);
+    }).toThrow(GeoPrivacyViolation);
+  });
+
+  it('rejects lon and Long as forbidden keys', () => {
+    expect(() => {
+      assertPublicSafe({ lon: 1 }, { maxResolutionByTier: { open: 7 } });
+    }).toThrow(GeoPrivacyViolation);
+
+    expect(() => {
+      assertPublicSafe({ Long: 1 }, { maxResolutionByTier: { open: 7 } });
+    }).toThrow(GeoPrivacyViolation);
+  });
 });
