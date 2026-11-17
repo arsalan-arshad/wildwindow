@@ -135,10 +135,11 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Acceptance test: property test where random payloads with an injected `lat` key at a random depth always throw; clean payloads never throw; a res-8 cell in an `open` context throws.
   - Done: 2026-11-17, commit 8c4e531 — assertPublicSafe with forbidden keys + H3 resolution checks.
 
-- [ ] **T1.7 Make the package ready to publish (don't publish yet)**
+- [x] **T1.7 Make the package ready to publish (don't publish yet)**
   - Depends on: T1.2–T1.6
   - Do: `package.json` `exports`, a `tsup` build (ESM + CJS + types), a README with a usage example and a "how we protect wildlife" section, and a `CHANGELOG.md`.
   - Acceptance test: `pnpm --filter @wildwindow/geoprivacy build` produces `dist`; `npm pack --dry-run` lists only `dist`, README, LICENSE and CHANGELOG.
+  - Done: 2026-11-17, commit pending — ESM+CJS+types; README + CHANGELOG; `npm pack --dry-run` clean. Not published.
 
 ## Phase 2: Database and reference data
 

@@ -2,13 +2,14 @@
   "name": "@wildwindow/geoprivacy",
   "version": "0.0.0",
   "private": true,
-  "description": "Location protection for wildlife data — No-Pin Promise helpers (MIT)",
+  "description": "Location protection for wildlife data \u2014 No-Pin Promise helpers (MIT)",
   "license": "MIT",
   "type": "module",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
     }
   },
   "files": [
@@ -34,5 +35,12 @@
     "tsup": "^8.4.0",
     "typescript": "~5.8.3",
     "vitest": "^3.0.9"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
   }
 }
