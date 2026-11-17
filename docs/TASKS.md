@@ -133,7 +133,7 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Depends on: T1.2
   - Do: walk any JSON payload and throw `GeoPrivacyViolation` on forbidden keys (§5.3 list, any case, nested) or on H3 strings finer than allowed for the tier given in the context. Support `allowOwnerLocation`.
   - Acceptance test: property test where random payloads with an injected `lat` key at a random depth always throw; clean payloads never throw; a res-8 cell in an `open` context throws.
-  - Done: 2026-11-17, commit pending — assertPublicSafe with forbidden keys + H3 resolution checks.
+  - Done: 2026-11-17, commit 8c4e531 — assertPublicSafe with forbidden keys + H3 resolution checks.
 
 - [ ] **T1.7 Make the package ready to publish (don't publish yet)**
   - Depends on: T1.2–T1.6
