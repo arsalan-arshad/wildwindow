@@ -1,3 +1,14 @@
+export {
+  auditLog,
+  challengeEntries,
+  challenges,
+  entitlements,
+  ingestRuns,
+  logbookEntries,
+  users,
+  waitlist,
+  watchlist,
+} from './app.js';
 export { geometryMultipolygon4326, geometryPoint4326 } from './geometry.js';
 export {
   effortCellWeek,
