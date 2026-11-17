@@ -50,19 +50,19 @@ Direct pushes, force-pushes, and branch deletes on `main` are blocked by a repos
 
 GitHub Actions workflows live under [`.github/workflows/`](.github/workflows/).
 
-| Workflow | When it runs | What it does |
-| --- | --- | --- |
-| **CI** (`.github/workflows/ci.yml`) | Every PR and every push to `main` | Turborepo-aware jobs with pnpm cache + local `.turbo` cache |
+| Workflow                                          | When it runs                                      | What it does                                                                      |
+| ------------------------------------------------- | ------------------------------------------------- | --------------------------------------------------------------------------------- |
+| **CI** (`.github/workflows/ci.yml`)               | Every PR and every push to `main`                 | Turborepo-aware jobs with pnpm cache + local `.turbo` cache                       |
 | **EAS Build** (`.github/workflows/eas-build.yml`) | Version tags (`v*`) or **workflow_dispatch** only | Native Expo builds — not on every PR, so free EAS minutes are not burned casually |
 
 ### Required status checks
 
 Branch protection expects these check **names** (job `name:` fields):
 
-| Check | Meaning |
-| --- | --- |
-| `CI` | Aggregate gate — green only if every job below succeeded |
-| `gitleaks` | Secret scan (also required on its own) |
+| Check      | Meaning                                                  |
+| ---------- | -------------------------------------------------------- |
+| `CI`       | Aggregate gate — green only if every job below succeeded |
+| `gitleaks` | Secret scan (also required on its own)                   |
 
 Supporting jobs (also reported on the PR, but the ruleset keys off `CI` + `gitleaks`):
 
