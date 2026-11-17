@@ -63,7 +63,7 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Do: Next.js App Router, TypeScript strict, Tailwind, and a placeholder landing page reading "WildWindow – coming soon".
   - Deliverable: a web app that runs with `pnpm --filter web dev`.
   - Acceptance test: `pnpm --filter web build` succeeds; a Vitest test renders the landing component.
-  - Done: 2026-11-17, commit pending — Next App Router + Tailwind landing + Vitest render test.
+  - Done: 2026-11-17, commit cd6a8d6 — Next App Router + Tailwind landing + Vitest render test.
 
 - [ ] **T0.8 Scaffold `apps/mobile` (Expo)**
   - Depends on: T0.2
@@ -76,7 +76,7 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Do: a Node CLI using `commander`, run with `tsx`, with a `hello` command. Root script `worker` (`pnpm worker <command>`). Add a Dockerfile.
   - Deliverable: a worker CLI.
   - Acceptance test: `pnpm worker hello` prints `ok`; a unit test covers the command registry.
-  - Done: 2026-11-17, commit pending — commander + hello; Dockerfile added (docker build not verified locally).
+  - Done: 2026-11-17, commit 682d31d — commander + hello; Dockerfile added (docker build not verified locally).
 
 - [ ] **T0.10 CI**
   - Depends on: T0.6–T0.9
