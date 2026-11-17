@@ -84,14 +84,14 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Do: `.github/workflows/ci.yml` with pnpm cache → install → `format:check` → lint → typecheck → test (a PostGIS service container, `DATABASE_URL` set) → build. Add a `gitleaks` step.
   - Deliverable: a green CI run on the pull request.
   - Acceptance test: the CI run passes; adding a fake AWS key to a file makes the gitleaks step fail (do it locally, don't commit it).
-  - Done: 2026-11-17, commit pending — CI workflow + gitleaks job; PostGIS service for tests. First green run awaits GitHub Actions after push.
+  - Done: 2026-11-17, commit  — CI workflow + gitleaks job; PostGIS service for tests. First green run awaits GitHub Actions after push.
 
 - [x] **T0.11 Data config files and validator**
   - Depends on: T0.5
   - Do: create `data/beta-species.yaml` and `data/sensitive-species.yaml` with Zod schemas in `packages/shared/src/data-schemas.ts`, and a `pnpm data:validate` script. Add 3 example species per region for now (the full list comes in T2.7). The tiers must follow PRD §9.2.
   - Deliverable: validated config files.
   - Acceptance test: `pnpm data:validate` passes; an invalid tier value fails with a clear message; runs in CI.
-  - Done: 2026-11-17, commit pending — 3 species/region stubs; Zod tier enum; `pnpm data:validate` wired in CI.
+  - Done: 2026-11-17, commit 10ada0f — 3 species/region stubs; Zod tier enum; `pnpm data:validate` wired in CI.
 
 ## Phase 1: Location protection (`@wildwindow/geoprivacy`, MIT)
 
