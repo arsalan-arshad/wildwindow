@@ -168,10 +168,11 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Acceptance test: an integration test covers the unique constraints (watchlist, users.firebase_uid).
   - Done: 2026-11-17 — migration `0003_app_tables` + `0004` unique on `challenge_entries.logbook_entry_id` (1:0..1); FK from `raw.occurrences.ingest_run_id` → `app.ingest_runs`; unique tests for firebase_uid + watchlist.
 
-- [ ] **T2.5 Database roles and privacy isolation**
+- [x] **T2.5 Database roles and privacy isolation**
   - Depends on: T2.2–T2.4
   - Do: a migration that creates `ww_worker` and `ww_api` with the privileges in §6.3 (passwords come from env when the migration runs). Add `DATABASE_URL_API` and `DATABASE_URL_WORKER` to `.env.example`.
   - Acceptance test: an integration test connected as `ww_api` gets a permission error on `SELECT 1 FROM raw.occurrences`, and can read `pub.taxon_cell_week`. This test must never be skipped.
+  - Done: 2026-11-17 — `applyRoles` after migrate when `WW_*_DB_PASSWORD` set; ww_api denied on `raw`, allowed on `pub.taxon_cell_week`; test never skipped.
 
 - [ ] **T2.6 Seed the regions**
   - Depends on: T2.2

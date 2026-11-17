@@ -62,6 +62,10 @@ jobs:
           --health-retries 10
     env:
       DATABASE_URL: postgresql://postgres:postgres@localhost:5432/wildwindow
+      WW_API_DB_PASSWORD: ci_ww_api_password
+      WW_WORKER_DB_PASSWORD: ci_ww_worker_password
+      DATABASE_URL_API: postgresql://ww_api:ci_ww_api_password@localhost:5432/wildwindow
+      DATABASE_URL_WORKER: postgresql://ww_worker:ci_ww_worker_password@localhost:5432/wildwindow
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -80,14 +84,14 @@ jobs:
       - name: Typecheck packages
         run: pnpm turbo run typecheck --filter="./packages/*"
 
+      - name: Migrate + roles (before DB integration tests)
+        run: pnpm db:migrate
+
       - name: Test packages
         run: pnpm turbo run test --filter="./packages/*"
 
       - name: Build packages
         run: pnpm turbo run build --filter="./packages/*"
-
-      - name: Migrate (T2.1 acceptance)
-        run: pnpm db:migrate
 
   api:
     name: api

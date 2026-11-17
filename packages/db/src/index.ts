@@ -1,5 +1,6 @@
 export { createDb, createPool, type CreateDbOptions, type Database } from './client.js';
 export { migrationsFolder, runMigrations, type RunMigrationsResult } from './migrate.js';
+export { applyRoles, roleConnectionUrl, type RolePasswords } from './roles.js';
 export {
   appSchema,
   auditLog,
