@@ -2,5 +2,36 @@
   "name": "@wildwindow/shared",
   "version": "0.0.0",
   "private": true,
-  "description": "Zod API schemas, types, typed client, env helper (starts T0.5)"
+  "description": "Zod API schemas, types, typed client, env helper",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./env": {
+      "types": "./dist/env.d.ts",
+      "import": "./dist/env.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "lint": "eslint src --max-warnings=0",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run --config ./vitest.config.ts"
+  },
+  "dependencies": {
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "@wildwindow/config": "workspace:*",
+    "tsup": "^8.4.0",
+    "typescript": "~5.8.3",
+    "vitest": "^3.0.9"
+  }
 }

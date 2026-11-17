@@ -44,11 +44,12 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Acceptance test: `pnpm db:up` and then `docker compose exec db psql -U postgres -c "SELECT postgis_full_version();"` prints a version.
   - Blocked: 2026-11-17 — Docker Desktop not installed on this machine; compose file + `.env.example` deferred with the runnable acceptance. Continuing Phase 0 tasks that do not need Docker.
 
-- [ ] **T0.5 Env validation helper**
+- [x] **T0.5 Env validation helper**
   - Depends on: T0.2
   - Do: `packages/shared/src/env.ts`, a `loadEnv(schema)` that uses Zod and throws one readable error listing every missing or invalid key.
   - Deliverable: a helper used by api, worker and web.
   - Acceptance test: unit tests for missing, invalid and valid env.
+  - Done: 2026-11-17, commit pending — `loadEnv` + EnvValidationError; unit tests for missing/invalid/valid.
 
 - [ ] **T0.6 Scaffold `apps/api` (NestJS)**
   - Depends on: T0.3, T0.5
