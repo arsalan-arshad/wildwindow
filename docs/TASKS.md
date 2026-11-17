@@ -20,7 +20,7 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Deliverable: a root workspace that runs `pnpm install` cleanly.
   - Acceptance test: `pnpm install && pnpm turbo run build --dry-run` exits 0.
   - Refs: §10
-  - Done: 2026-11-17, commit aa4851e — public GitHub `arsalan-arshad/wildwindow`; stub apps/* + packages/*; `assets/` pack + README docs. App scaffolds deferred to T0.6–T0.9.
+  - Done: 2026-11-17, commit 3aade1a — public GitHub `arsalan-arshad/wildwindow`; stub apps/* + packages/*; `assets/` pack + README docs. App scaffolds deferred to T0.6–T0.9.
 
 - [x] **T0.2 Shared config package**
   - Depends on: T0.1
@@ -28,7 +28,7 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Deliverable: presets that the other packages extend.
   - Acceptance test: a dummy `packages/config/test-fixture.ts` with an implicit `any` fails `pnpm lint`; once fixed, it passes.
   - Refs: AGENTS.md §4
-  - Done: 2026-11-17, commit 75f4707 — tsconfig.base + eslint flat + prettier presets; root lint wired.
+  - Done: 2026-11-17, commit 3aade1a — tsconfig.base + eslint flat + prettier presets; root lint wired.
 
 - [ ] **T0.3 Test runner**
   - Depends on: T0.2
