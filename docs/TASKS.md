@@ -121,7 +121,7 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Do: implement §5.4 with an input of `{cell, nRecords, observers:Set<string>}`, merging into the parent until the minimums are met, down to res 3 at least.
   - Deliverable: the function, plus a fixture-based test.
   - Acceptance test: property tests check that (a) every output cell meets the minimums, (b) the total records in the output ≤ the total in the input, (c) no output cell is finer than the tier's resolution, and (d) the result is the same whatever order the input comes in.
-  - Done: 2026-11-17, commit pending — suppressAndMerge with fixture + fast-check properties.
+  - Done: 2026-11-17, commit 80ef4b2 — suppressAndMerge with fixture + fast-check properties.
 
 - [x] **T1.5 `bucketise`**
   - Depends on: T1.1
