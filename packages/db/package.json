@@ -1,0 +1,6 @@
+{
+  "name": "@wildwindow/db",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Drizzle schema, migrations and seeds (starts T2.1)"
+}

@@ -1,0 +1,6 @@
+{
+  "name": "@wildwindow/shared",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Zod API schemas, types, typed client, env helper (starts T0.5)"
+}

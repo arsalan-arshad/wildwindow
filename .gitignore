@@ -1,0 +1,49 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Builds / caches
+dist/
+build/
+.turbo/
+.next/
+out/
+.expo/
+expo-env.d.ts
+*.tsbuildinfo
+
+# Env and secrets
+.env
+.env.*
+!.env.example
+*.pem
+service-account*.json
+*-firebase-adminsdk*.json
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# Test / coverage
+coverage/
+.nyc_output/
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Local data dumps (never commit raw GBIF / GeoNames dumps)
+data/dumps/
+tmp/
+temp/
+
+# Mobile native
+apps/mobile/ios/
+apps/mobile/android/
+
+# Reports generated locally
+reports/*.local.*
