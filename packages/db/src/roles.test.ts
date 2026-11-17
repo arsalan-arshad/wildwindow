@@ -6,12 +6,11 @@ import { applyRoles, roleConnectionUrl } from './roles.js';
 
 /**
  * T2.5 acceptance: ww_api must not read raw.occurrences and must read pub.
- * This suite must never be skipped — fail hard if DATABASE_URL is missing.
+ * Never skip — fail on connection/privilege errors. Turbo must pass through
+ * DATABASE_URL (see turbo.json); fall back to local compose URL like other db tests.
  */
-const DATABASE_URL = process.env['DATABASE_URL'];
-if (DATABASE_URL === undefined || DATABASE_URL.length === 0) {
-  throw new Error('DATABASE_URL is required for T2.5 roles isolation tests (must not skip)');
-}
+const DATABASE_URL =
+  process.env['DATABASE_URL'] ?? 'postgresql://postgres:postgres@localhost:5432/wildwindow';
 
 const API_PASSWORD = process.env['WW_API_DB_PASSWORD'] ?? 'ww_api_test_password';
 const WORKER_PASSWORD = process.env['WW_WORKER_DB_PASSWORD'] ?? 'ww_worker_test_password';
@@ -41,10 +40,6 @@ describe('T2.5 ww_api privacy isolation', () => {
       apiPassword: API_PASSWORD,
       workerPassword: WORKER_PASSWORD,
     });
-  });
-
-  afterAll(async () => {
-    // no shared pool; each test opens its own client
   });
 
   it('denies ww_api SELECT on raw.occurrences', async () => {

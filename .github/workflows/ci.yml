@@ -84,14 +84,14 @@ jobs:
       - name: Typecheck packages
         run: pnpm turbo run typecheck --filter="./packages/*"
 
+      - name: Migrate + roles (before DB integration tests)
+        run: pnpm db:migrate
+
       - name: Test packages
         run: pnpm turbo run test --filter="./packages/*"
 
       - name: Build packages
         run: pnpm turbo run build --filter="./packages/*"
-
-      - name: Migrate + roles (T2.1 / T2.5)
-        run: pnpm db:migrate
 
   api:
     name: api
