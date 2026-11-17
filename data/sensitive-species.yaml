@@ -1,0 +1,31 @@
+version: 1
+species:
+  # Tiers follow PRD §9.2. Prefer the higher tier when unsure.
+  - scientificName: Alcedo atthis
+    region: scotland
+    tier: open
+  - scientificName: Sciurus vulgaris
+    region: scotland
+    tier: open
+  - scientificName: Halichoerus grypus
+    region: scotland
+    tier: open
+  - scientificName: Lutra lutra
+    region: scotland
+    tier: protected
+    notes: Eurasian otter — example protected tier for Scotland
+  - scientificName: Alcedo atthis
+    region: sindh
+    tier: open
+  - scientificName: Psittacula krameri
+    region: sindh
+    tier: open
+  - scientificName: Lutrogale perspicillata
+    region: sindh
+    tier: protected
+    notes: Smooth-coated otter — example protected tier for Sindh
+  - scientificName: Platanista minor
+    region: sindh
+    tier: highly_protected
+    lockoutMonths: [3, 4, 5, 6]
+    notes: Indus river dolphin — example highly_protected

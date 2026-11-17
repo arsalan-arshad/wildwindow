@@ -17,7 +17,8 @@
     "test:coverage": "vitest run --coverage",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "worker": "pnpm --filter worker exec tsx src/cli.ts"
+    "worker": "pnpm --filter worker exec tsx src/cli.ts",
+    "data:validate": "pnpm --filter @wildwindow/shared validate-data"
   },
   "devDependencies": {
     "@eslint/js": "^9.22.0",
@@ -34,5 +35,11 @@
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.26.0",
     "vitest": "^3.0.9"
+  },
+  "pnpm": {
+    "overrides": {
+      "react": "19.3.0",
+      "react-dom": "19.3.0"
+    }
   }
 }

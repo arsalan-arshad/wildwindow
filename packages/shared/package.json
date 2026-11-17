@@ -22,9 +22,11 @@
     "dev": "tsup --watch",
     "lint": "eslint src --max-warnings=0",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "vitest run --config ./vitest.config.ts"
+    "test": "vitest run --config ./vitest.config.ts",
+    "validate-data": "tsx scripts/validate-data.ts"
   },
   "dependencies": {
+    "yaml": "^2.7.0",
     "zod": "^3.24.2"
   },
   "devDependencies": {
@@ -32,6 +34,7 @@
     "@wildwindow/config": "workspace:*",
     "tsup": "^8.4.0",
     "typescript": "~5.8.3",
-    "vitest": "^3.0.9"
+    "vitest": "^3.0.9",
+    "tsx": "^4.19.3"
   }
 }

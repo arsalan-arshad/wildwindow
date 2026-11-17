@@ -1,0 +1,22 @@
+version: 1
+species:
+  # Scotland examples (full list in T2.7)
+  - commonName: Common kingfisher
+    scientificName: Alcedo atthis
+    region: scotland
+  - commonName: Red squirrel
+    scientificName: Sciurus vulgaris
+    region: scotland
+  - commonName: Grey seal
+    scientificName: Halichoerus grypus
+    region: scotland
+  # Sindh examples
+  - commonName: Common kingfisher
+    scientificName: Alcedo atthis
+    region: sindh
+  - commonName: Rose-ringed parakeet
+    scientificName: Psittacula krameri
+    region: sindh
+  - commonName: Smooth-coated otter
+    scientificName: Lutrogale perspicillata
+    region: sindh
