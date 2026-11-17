@@ -114,7 +114,7 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Do: `isOlderThanDelay(eventDate, now, tier)` and `isInLockout(date, months, timeZone)`, both time-zone aware (use `Intl`, not a heavy date library).
   - Deliverable: functions with tests.
   - Acceptance test: tests at month boundaries in `Europe/London` and `Asia/Karachi`, including the change to and from daylight saving time.
-  - Done: 2026-11-17, commit pending — delay + Intl lockout with London DST and Karachi boundaries.
+  - Done: 2026-11-17, commit d226f56 — delay + Intl lockout with London DST and Karachi boundaries.
 
 - [ ] **T1.4 `suppressAndMerge`**
   - Depends on: T1.2
