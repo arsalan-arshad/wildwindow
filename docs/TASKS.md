@@ -156,10 +156,11 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Acceptance test: an integration test inserts and reads a row in each table.
   - Done: 2026-11-17 — migration `0001_ref_tables` (+ `pg_trgm`), GIST on region/zone geoms, GIN trigram on `places.name`; insert/read integration test.
 
-- [ ] **T2.3 `raw` and `pub` tables**
+- [x] **T2.3 `raw` and `pub` tables**
   - Depends on: T2.1
   - Do: `raw.occurrences`, `pub.taxon_cell_week`, `taxon_region_week`, `effort_cell_week`, `taxon_hour_profile`, `taxon_score_ref`, `weather_cache` and `forecast_cache`.
   - Acceptance test: an integration test inserts a point and runs `ST_Within` against a region polygon.
+  - Done: 2026-11-17 — migration `0002_raw_pub_tables`; GIST on `raw.occurrences.geom`; `ingest_run_id` without FK until T2.4; ST_Within integration test.
 
 - [ ] **T2.4 `app` tables**
   - Depends on: T2.1

@@ -3,7 +3,11 @@ export { migrationsFolder, runMigrations, type RunMigrationsResult } from './mig
 export {
   appSchema,
   datasets,
+  effortCellWeek,
+  forecastCache,
   geometryMultipolygon4326,
+  geometryPoint4326,
+  occurrences,
   places,
   pubSchema,
   rawSchema,
@@ -11,6 +15,11 @@ export {
   regions,
   speciesCards,
   taxa,
+  taxonCellWeek,
+  taxonHourProfile,
   taxonRegion,
+  taxonRegionWeek,
+  taxonScoreRef,
+  weatherCache,
   zones,
 } from './schema/index.js';

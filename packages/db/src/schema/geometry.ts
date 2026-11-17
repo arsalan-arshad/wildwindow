@@ -13,3 +13,13 @@ export const geometryMultipolygon4326 = customType<{
     return 'geometry(MultiPolygon,4326)';
   },
 });
+
+/** PostGIS Point in EPSG:4326 (raw.occurrences only — never public). */
+export const geometryPoint4326 = customType<{
+  data: string;
+  driverData: string;
+}>({
+  dataType() {
+    return 'geometry(Point,4326)';
+  },
+});
