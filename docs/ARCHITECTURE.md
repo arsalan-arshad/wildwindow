@@ -610,7 +610,7 @@ flowchart TB
 
 | Environment  | Setup                                                                                                                                                                            |
 | ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Local        | `docker compose up db` (PostGIS). The API, worker and web run with pnpm. Mobile uses an Expo dev build. Local filesystem storage driver. Weather provider `openmeteo` or a mock. |
+| Local        | `pnpm db:up` → Docker `postgis/postgis:17-3.5` on port 5432 (ARCHITECTURE §2). Host Postgres.app / PG 18 without PostGIS is not a substitute; free 5432 or remap the host port. The API, worker and web run with pnpm. Mobile uses an Expo dev build. Local filesystem storage driver. Weather provider `openmeteo` or a mock. |
 | CI           | GitHub Actions: install → lint → typecheck → test (with a PostGIS service container) → build. Mobile: `expo-doctor` and jest-expo.                                               |
 | Staging/beta | The AWS stack above at its smallest size (single-AZ RDS, 1 API task). Web preview deploys on Vercel. EAS internal distribution and TestFlight.                                   |
 | Production   | The same stack. Turn on RDS automated backups and point-in-time recovery, run 2 API tasks, add alarms.                                                                           |

@@ -25,7 +25,7 @@ docs/          PRD, ARCHITECTURE, TASKS
 
 ## Getting started
 
-Requires **Node 22 LTS** (see `.nvmrc`) and **pnpm** 9.
+Requires **Node 22 LTS** (see `.nvmrc`), **pnpm** 9, and **Docker Desktop** for the local database.
 
 ```bash
 nvm use          # or install Node 22
@@ -33,7 +33,20 @@ pnpm install
 pnpm lint && pnpm typecheck && pnpm test && pnpm build
 ```
 
-Local PostGIS (when you need DB-backed tests): `pnpm db:up`, then `pnpm db:migrate` / `pnpm db:seed` once those scripts exist.
+### Local PostGIS
+
+Project standard is **PostgreSQL 17 + PostGIS 3.5** via `docker-compose.yml` (`postgis/postgis:17-3.5`), not a host-only Postgres install. On Apple Silicon the compose file pins `platform: linux/amd64` because that image is amd64-only.
+
+```bash
+pnpm db:up
+docker compose exec db psql -U postgres -c "SELECT postgis_full_version();"
+# later: pnpm db:migrate / pnpm db:seed
+pnpm db:down
+```
+
+Default URL: `postgresql://postgres:postgres@localhost:5432/wildwindow` (see `.env.example`).
+
+If **Postgres.app** (or another Postgres) is already listening on `5432`, stop it before `pnpm db:up`, or change the compose host mapping to e.g. `"5433:5432"` and point `DATABASE_URL*` at that port. A host Postgres 18 without the PostGIS extension is not enough for WildWindow.
 
 ## Contributing
 
