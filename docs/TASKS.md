@@ -37,12 +37,12 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Acceptance test: a sample test in `packages/config` passes; a deliberately failing test makes `pnpm test` exit non-zero (then remove it).
   - Done: 2026-11-17, commit 73ce8f2 — vitest workspace + coverage-v8; sample test in packages/config.
 
-- [!] **T0.4 Local database and env**
+- [x] **T0.4 Local database and env**
   - Depends on: T0.1
   - Do: `docker-compose.yml` with the `db` service (`postgis/postgis:17-3.5`, port 5432, a named volume, a healthcheck). Root scripts `db:up` and `db:down`. A `.env.example` listing **every** key from AGENTS.md §3 with no secret values.
   - Deliverable: a local PostGIS that starts with one command.
   - Acceptance test: `pnpm db:up` and then `docker compose exec db psql -U postgres -c "SELECT postgis_full_version();"` prints a version.
-  - Blocked: 2026-11-17 — Docker Desktop not installed; `docker-compose.yml` + `pnpm db:up` acceptance deferred. `.env.example` key list shipped early with T0.10/T0.11.
+  - Done: 2026-11-17 — `docker-compose.yml` + `docker/db/init-postgis.sql` + `pnpm db:up`/`db:down`; acceptance printed PostGIS 3.5.2 on PG 17.5. Kept project image `17-3.5` (ARCHITECTURE §2); host Postgres.app 18 has no PostGIS and is not a substitute — free 5432 or remap. Apple Silicon: `platform: linux/amd64` (official image is amd64-only).
 
 - [x] **T0.5 Env validation helper**
   - Depends on: T0.2
