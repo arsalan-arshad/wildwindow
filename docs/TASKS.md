@@ -162,10 +162,11 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Acceptance test: an integration test inserts a point and runs `ST_Within` against a region polygon.
   - Done: 2026-11-17 — migration `0002_raw_pub_tables`; GIST on `raw.occurrences.geom`; `ingest_run_id` without FK until T2.4; ST_Within integration test.
 
-- [ ] **T2.4 `app` tables**
+- [x] **T2.4 `app` tables**
   - Depends on: T2.1
   - Do: `app.users`, `watchlist`, `logbook_entries`, `challenges`, `challenge_entries`, `entitlements`, `waitlist`, `audit_log` and `ingest_runs`.
   - Acceptance test: an integration test covers the unique constraints (watchlist, users.firebase_uid).
+  - Done: 2026-11-17 — migration `0003_app_tables` + `0004` unique on `challenge_entries.logbook_entry_id` (1:0..1); FK from `raw.occurrences.ingest_run_id` → `app.ingest_runs`; unique tests for firebase_uid + watchlist.
 
 - [ ] **T2.5 Database roles and privacy isolation**
   - Depends on: T2.2–T2.4

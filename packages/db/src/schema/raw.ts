@@ -1,13 +1,11 @@
 import { bigserial, date, index, integer, smallint, text, uniqueIndex } from 'drizzle-orm/pg-core';
 
+import { ingestRuns } from './app.js';
 import { geometryPoint4326 } from './geometry.js';
 import { regions, taxa } from './ref.js';
 import { rawSchema } from './schemas.js';
 
-/**
- * Precise occurrence points — worker-only (ARCHITECTURE §6.1 / §6.2).
- * `ingest_run_id` is a plain int until `app.ingest_runs` lands in T2.4.
- */
+/** Precise occurrence points — worker-only (ARCHITECTURE §6.1 / §6.2). */
 export const occurrences = rawSchema.table(
   'occurrences',
   {
@@ -29,7 +27,7 @@ export const occurrences = rawSchema.table(
     license: text('license').notNull(),
     datasetKey: text('dataset_key').notNull(),
     observerHash: text('observer_hash').notNull(),
-    ingestRunId: integer('ingest_run_id'),
+    ingestRunId: integer('ingest_run_id').references(() => ingestRuns.id),
   },
   (table) => [
     uniqueIndex('occurrences_source_record_uidx').on(table.source, table.sourceRecordId),

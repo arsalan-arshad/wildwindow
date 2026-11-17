@@ -2,11 +2,17 @@ export { createDb, createPool, type CreateDbOptions, type Database } from './cli
 export { migrationsFolder, runMigrations, type RunMigrationsResult } from './migrate.js';
 export {
   appSchema,
+  auditLog,
+  challengeEntries,
+  challenges,
   datasets,
   effortCellWeek,
+  entitlements,
   forecastCache,
   geometryMultipolygon4326,
   geometryPoint4326,
+  ingestRuns,
+  logbookEntries,
   occurrences,
   places,
   pubSchema,
@@ -20,6 +26,9 @@ export {
   taxonRegion,
   taxonRegionWeek,
   taxonScoreRef,
+  users,
+  waitlist,
+  watchlist,
   weatherCache,
   zones,
 } from './schema/index.js';
