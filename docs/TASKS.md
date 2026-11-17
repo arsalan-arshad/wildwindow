@@ -139,7 +139,7 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Depends on: T1.2–T1.6
   - Do: `package.json` `exports`, a `tsup` build (ESM + CJS + types), a README with a usage example and a "how we protect wildlife" section, and a `CHANGELOG.md`.
   - Acceptance test: `pnpm --filter @wildwindow/geoprivacy build` produces `dist`; `npm pack --dry-run` lists only `dist`, README, LICENSE and CHANGELOG.
-  - Done: 2026-11-17, commit pending — ESM+CJS+types; README + CHANGELOG; `npm pack --dry-run` clean. Not published.
+  - Done: 2026-11-17, commit 5ec81aa — ESM+CJS+types; README + CHANGELOG; `npm pack --dry-run` clean. Not published.
 
 ## Phase 2: Database and reference data
 
