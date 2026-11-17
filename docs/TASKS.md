@@ -116,26 +116,30 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Acceptance test: tests at month boundaries in `Europe/London` and `Asia/Karachi`, including the change to and from daylight saving time.
   - Done: 2026-11-17, commit d226f56 — delay + Intl lockout with London DST and Karachi boundaries.
 
-- [ ] **T1.4 `suppressAndMerge`**
+- [x] **T1.4 `suppressAndMerge`**
   - Depends on: T1.2
   - Do: implement §5.4 with an input of `{cell, nRecords, observers:Set<string>}`, merging into the parent until the minimums are met, down to res 3 at least.
   - Deliverable: the function, plus a fixture-based test.
   - Acceptance test: property tests check that (a) every output cell meets the minimums, (b) the total records in the output ≤ the total in the input, (c) no output cell is finer than the tier's resolution, and (d) the result is the same whatever order the input comes in.
+  - Done: 2026-11-17, commit 80ef4b2 — suppressAndMerge with fixture + fast-check properties.
 
-- [ ] **T1.5 `bucketise`**
+- [x] **T1.5 `bucketise`**
   - Depends on: T1.1
   - Do: quantile buckets (1–5) for map levels.
   - Acceptance test: tests for ties, a single value and an empty input.
+  - Done: 2026-11-17, commit d2166c9 — 1–5 quantile bucketiser.
 
-- [ ] **T1.6 `assertPublicSafe`**
+- [x] **T1.6 `assertPublicSafe`**
   - Depends on: T1.2
   - Do: walk any JSON payload and throw `GeoPrivacyViolation` on forbidden keys (§5.3 list, any case, nested) or on H3 strings finer than allowed for the tier given in the context. Support `allowOwnerLocation`.
   - Acceptance test: property test where random payloads with an injected `lat` key at a random depth always throw; clean payloads never throw; a res-8 cell in an `open` context throws.
+  - Done: 2026-11-17, commit 8c4e531 — assertPublicSafe with forbidden keys + H3 resolution checks.
 
-- [ ] **T1.7 Make the package ready to publish (don't publish yet)**
+- [x] **T1.7 Make the package ready to publish (don't publish yet)**
   - Depends on: T1.2–T1.6
   - Do: `package.json` `exports`, a `tsup` build (ESM + CJS + types), a README with a usage example and a "how we protect wildlife" section, and a `CHANGELOG.md`.
   - Acceptance test: `pnpm --filter @wildwindow/geoprivacy build` produces `dist`; `npm pack --dry-run` lists only `dist`, README, LICENSE and CHANGELOG.
+  - Done: 2026-11-17, commit 5ec81aa — ESM+CJS+types; README + CHANGELOG; `npm pack --dry-run` clean. Not published.
 
 ## Phase 2: Database and reference data
 
