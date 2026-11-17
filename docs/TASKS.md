@@ -65,11 +65,12 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Acceptance test: `pnpm --filter web build` succeeds; a Vitest test renders the landing component.
   - Done: 2026-11-17, commit cd6a8d6 — Next App Router + Tailwind landing + Vitest render test.
 
-- [ ] **T0.8 Scaffold `apps/mobile` (Expo)**
+- [x] **T0.8 Scaffold `apps/mobile` (Expo)**
   - Depends on: T0.2
   - Do: the latest stable Expo SDK with Expo Router; tabs `Home`, `Explore`, `Logbook`, `Challenge`, `Profile` with placeholder screens; `jest-expo` with one test; `app.config.ts` reading `EXPO_PUBLIC_API_URL`. Check that Metro works with pnpm (hoisted).
   - Deliverable: an app that starts with `pnpm --filter mobile start`.
   - Acceptance test: `pnpm --filter mobile test` passes; `npx expo-doctor` shows no errors; `npx expo export --platform web` (or `ios`) builds.
+  - Done: 2026-11-17, commit pending — Expo SDK 58 + five tabs; jest-expo; expo-doctor 20/20; web export OK.
 
 - [x] **T0.9 Scaffold `apps/worker` (CLI)**
   - Depends on: T0.3, T0.5
