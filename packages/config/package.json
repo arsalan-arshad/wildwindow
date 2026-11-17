@@ -10,8 +10,9 @@
     "./prettier": "./prettier/index.js"
   },
   "scripts": {
-    "lint": "eslint --config ./eslint/index.js ./test-fixture.ts",
-    "typecheck": "tsc -p tsconfig.json --noEmit"
+    "lint": "eslint --config ./eslint/index.js ./test-fixture.ts ./identity.test.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run --config ./vitest.config.ts"
   },
   "devDependencies": {
     "@eslint/js": "^9.22.0",
@@ -19,6 +20,7 @@
     "eslint-plugin-import-x": "^4.6.1",
     "globals": "^16.0.0",
     "typescript": "~5.8.3",
-    "typescript-eslint": "^8.26.0"
+    "typescript-eslint": "^8.26.0",
+    "vitest": "^3.0.9"
   }
 }

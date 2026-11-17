@@ -7,7 +7,9 @@
     "packages/config/**/*.ts",
     "packages/config/**/*.js",
     "eslint.config.js",
-    ".prettierrc.js"
+    ".prettierrc.js",
+    "vitest.config.ts",
+    "vitest.workspace.ts"
   ],
   "exclude": ["node_modules", "dist", "build", ".next", "coverage"]
 }

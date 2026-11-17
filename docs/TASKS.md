@@ -30,17 +30,19 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Refs: AGENTS.md §4
   - Done: 2026-11-17, commit 3aade1a — tsconfig.base + eslint flat + prettier presets; root lint wired.
 
-- [ ] **T0.3 Test runner**
+- [x] **T0.3 Test runner**
   - Depends on: T0.2
   - Do: a Vitest workspace config at the root, wired into `turbo test`; coverage with `@vitest/coverage-v8`.
   - Deliverable: `pnpm test` runs the tests in every package.
   - Acceptance test: a sample test in `packages/config` passes; a deliberately failing test makes `pnpm test` exit non-zero (then remove it).
+  - Done: 2026-11-17, commit pending — vitest workspace + coverage-v8; sample test in packages/config.
 
-- [ ] **T0.4 Local database and env**
+- [!] **T0.4 Local database and env**
   - Depends on: T0.1
   - Do: `docker-compose.yml` with the `db` service (`postgis/postgis:17-3.5`, port 5432, a named volume, a healthcheck). Root scripts `db:up` and `db:down`. A `.env.example` listing **every** key from AGENTS.md §3 with no secret values.
   - Deliverable: a local PostGIS that starts with one command.
   - Acceptance test: `pnpm db:up` and then `docker compose exec db psql -U postgres -c "SELECT postgis_full_version();"` prints a version.
+  - Blocked: 2026-11-17 — Docker Desktop not installed on this machine; compose file + `.env.example` deferred with the runnable acceptance. Continuing Phase 0 tasks that do not need Docker.
 
 - [ ] **T0.5 Env validation helper**
   - Depends on: T0.2
