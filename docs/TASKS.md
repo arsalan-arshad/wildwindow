@@ -109,11 +109,12 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Acceptance test: property test (fast-check): for random points, `displayCellFor` returns a cell at the tier's resolution; every res-7 child of a display cell maps to the same display cell; `no_forecast` → `null`.
   - Done: 2026-11-17, commit e1355f6 — snapToCell + displayCellFor with fast-check properties.
 
-- [ ] **T1.3 Delay and lockout helpers**
+- [x] **T1.3 Delay and lockout helpers**
   - Depends on: T1.1
   - Do: `isOlderThanDelay(eventDate, now, tier)` and `isInLockout(date, months, timeZone)`, both time-zone aware (use `Intl`, not a heavy date library).
   - Deliverable: functions with tests.
   - Acceptance test: tests at month boundaries in `Europe/London` and `Asia/Karachi`, including the change to and from daylight saving time.
+  - Done: 2026-11-17, commit pending — delay + Intl lockout with London DST and Karachi boundaries.
 
 - [ ] **T1.4 `suppressAndMerge`**
   - Depends on: T1.2
