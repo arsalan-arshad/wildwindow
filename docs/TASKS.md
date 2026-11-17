@@ -20,7 +20,7 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Deliverable: a root workspace that runs `pnpm install` cleanly.
   - Acceptance test: `pnpm install && pnpm turbo run build --dry-run` exits 0.
   - Refs: §10
-  - Done: 2026-11-17, commit 3aade1a — public GitHub `arsalan-arshad/wildwindow`; stub apps/* + packages/*; `assets/` pack + README docs. App scaffolds deferred to T0.6–T0.9.
+  - Done: 2026-11-17, commit aa4851e — public GitHub `arsalan-arshad/wildwindow`; stub apps/* + packages/*; `assets/` pack + README docs. App scaffolds deferred to T0.6–T0.9.
 
 - [x] **T0.2 Shared config package**
   - Depends on: T0.1
@@ -42,7 +42,7 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Do: `docker-compose.yml` with the `db` service (`postgis/postgis:17-3.5`, port 5432, a named volume, a healthcheck). Root scripts `db:up` and `db:down`. A `.env.example` listing **every** key from AGENTS.md §3 with no secret values.
   - Deliverable: a local PostGIS that starts with one command.
   - Acceptance test: `pnpm db:up` and then `docker compose exec db psql -U postgres -c "SELECT postgis_full_version();"` prints a version.
-  - Blocked: 2026-11-17 — Docker Desktop not installed on this machine; compose file + `.env.example` deferred with the runnable acceptance. Continuing Phase 0 tasks that do not need Docker.
+  - Blocked: 2026-11-17 — Docker Desktop not installed; `docker-compose.yml` + `pnpm db:up` acceptance deferred. `.env.example` key list shipped early with T0.10/T0.11.
 
 - [x] **T0.5 Env validation helper**
   - Depends on: T0.2
@@ -84,7 +84,7 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Do: `.github/workflows/ci.yml` with pnpm cache → install → `format:check` → lint → typecheck → test (a PostGIS service container, `DATABASE_URL` set) → build. Add a `gitleaks` step.
   - Deliverable: a green CI run on the pull request.
   - Acceptance test: the CI run passes; adding a fake AWS key to a file makes the gitleaks step fail (do it locally, don't commit it).
-  - Done: 2026-11-17, commit  — CI workflow + gitleaks job; PostGIS service for tests. First green run awaits GitHub Actions after push.
+  - Done: 2026-11-17, commit 10ada0f — CI workflow + gitleaks job; PostGIS service for tests. First green run awaits GitHub Actions after push.
 
 - [x] **T0.11 Data config files and validator**
   - Depends on: T0.5
