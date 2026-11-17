@@ -46,6 +46,9 @@ describe('T2.3 raw/pub tables', () => {
 
   it('inserts a point and ST_Within against a region polygon', async () => {
     const suffix = String(Date.now());
+    const effortGroup = `birds-${suffix}`;
+    const weatherProvider = `open-meteo-${suffix}`;
+    const cellR5 = `8519582b${suffix.slice(-7)}`;
 
     const [regionRow] = await db
       .insert(regions)
@@ -117,7 +120,7 @@ describe('T2.3 raw/pub tables', () => {
       nEffort: 10,
     });
     await db.insert(effortCellWeek).values({
-      effortGroup: 'birds',
+      effortGroup,
       regionId: region.id,
       res: 7,
       cell: '8719582a8ffffff',
@@ -138,15 +141,15 @@ describe('T2.3 raw/pub tables', () => {
       scoringVersion: 'v1',
     });
     await db.insert(weatherCache).values({
-      provider: 'open-meteo',
-      cellR5: '8519582bfffffff',
+      provider: weatherProvider,
+      cellR5,
       fetchedAt: new Date(),
       expiresAt: new Date(Date.now() + 3600_000),
       payload: { tempC: 12 },
     });
     await db.insert(forecastCache).values({
       taxonId: taxon.id,
-      displayCell: '8519582bfffffff',
+      displayCell: cellR5,
       startDate: '2024-06-10',
       scoringVersion: 'v1',
       payload: { weekScore: 70 },
@@ -157,10 +160,10 @@ describe('T2.3 raw/pub tables', () => {
       SELECT (
         (SELECT COUNT(*) FROM pub.taxon_cell_week WHERE taxon_id = ${taxon.id})
         + (SELECT COUNT(*) FROM pub.taxon_region_week WHERE taxon_id = ${taxon.id})
-        + (SELECT COUNT(*) FROM pub.effort_cell_week WHERE region_id = ${region.id})
+        + (SELECT COUNT(*) FROM pub.effort_cell_week WHERE effort_group = ${effortGroup})
         + (SELECT COUNT(*) FROM pub.taxon_hour_profile WHERE taxon_id = ${taxon.id})
         + (SELECT COUNT(*) FROM pub.taxon_score_ref WHERE taxon_id = ${taxon.id})
-        + (SELECT COUNT(*) FROM pub.weather_cache WHERE provider = 'open-meteo')
+        + (SELECT COUNT(*) FROM pub.weather_cache WHERE provider = ${weatherProvider})
         + (SELECT COUNT(*) FROM pub.forecast_cache WHERE taxon_id = ${taxon.id})
       )::int AS n
     `);
