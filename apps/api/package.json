@@ -2,5 +2,36 @@
   "name": "api",
   "version": "0.0.0",
   "private": true,
-  "description": "NestJS REST API /v1 (scaffold T0.6)"
+  "description": "NestJS REST API /v1",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/main.ts",
+    "build": "tsup",
+    "start": "node dist/main.js",
+    "lint": "eslint src --max-warnings=0",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run --config ./vitest.config.ts"
+  },
+  "dependencies": {
+    "@nestjs/common": "^11.0.12",
+    "@nestjs/core": "^11.0.12",
+    "@nestjs/platform-express": "^11.0.12",
+    "@wildwindow/shared": "workspace:*",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.2"
+  },
+  "devDependencies": {
+    "@nestjs/testing": "^11.0.12",
+    "@swc/core": "^1.11.13",
+    "@types/express": "^5.0.1",
+    "@types/node": "^22.13.10",
+    "@types/supertest": "^6.0.2",
+    "@wildwindow/config": "workspace:*",
+    "supertest": "^7.1.0",
+    "tsup": "^8.4.0",
+    "tsx": "^4.19.3",
+    "typescript": "~5.8.3",
+    "unplugin-swc": "^1.5.1",
+    "vitest": "^3.0.9"
+  }
 }

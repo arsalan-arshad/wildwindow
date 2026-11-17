@@ -82,6 +82,14 @@ export default tseslint.config(
     },
   },
   {
+    // NestJS modules/controllers are decorator-driven empty classes.
+    files: ['**/apps/api/**/*.{ts,tsx}'],
+    rules: {
+      '@typescript-eslint/no-extraneous-class': 'off',
+    },
+  },
+
+  {
     files: ['**/*.{js,mjs,cjs}'],
     ...tseslint.configs.disableTypeChecked,
   },

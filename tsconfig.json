@@ -4,12 +4,19 @@
     "noEmit": true
   },
   "include": [
-    "packages/config/**/*.ts",
-    "packages/config/**/*.js",
-    "packages/shared/**/*.ts",
-    "eslint.config.js",
     ".prettierrc.js",
+    "apps/api/**/*.ts",
+    "eslint.config.js",
+    "packages/config/**/*.js",
+    "packages/config/**/*.ts",
+    "packages/shared/**/*.ts",
     "vitest.config.ts"
   ],
-  "exclude": ["node_modules", "dist", "build", ".next", "coverage"]
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+    ".next",
+    "coverage"
+  ]
 }
