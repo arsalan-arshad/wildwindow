@@ -13,15 +13,15 @@ Runtime dependency: [`h3-js`](https://github.com/uber/h3) only. No I/O, no clock
 
 ## Threat model (summary)
 
-| Threat | Mitigation |
-| --- | --- |
-| Exact points from an API | Raw points stay in worker-only storage; public responses use coarse cells. |
-| Averaging random jitter | No jitter — snapping is deterministic. |
-| Differential queries nearby | Responses keyed on the **display cell** (parent at tier resolution). |
-| Small-count re-identification | Minimum records + distinct observers; merge/suppress otherwise. |
-| Freshness leaks | Per-tier delays; breeding lockout for highly protected species. |
-| Count leaks on maps | Public maps show 1–5 quantile levels, not counts. |
-| Developer mistakes | `assertPublicSafe` rejects forbidden coordinate keys and over-fine H3 cells. |
+| Threat                        | Mitigation                                                                   |
+| ----------------------------- | ---------------------------------------------------------------------------- |
+| Exact points from an API      | Raw points stay in worker-only storage; public responses use coarse cells.   |
+| Averaging random jitter       | No jitter — snapping is deterministic.                                       |
+| Differential queries nearby   | Responses keyed on the **display cell** (parent at tier resolution).         |
+| Small-count re-identification | Minimum records + distinct observers; merge/suppress otherwise.              |
+| Freshness leaks               | Per-tier delays; breeding lockout for highly protected species.              |
+| Count leaks on maps           | Public maps show 1–5 quantile levels, not counts.                            |
+| Developer mistakes            | `assertPublicSafe` rejects forbidden coordinate keys and over-fine H3 cells. |
 
 Full policy constants live in `TIER_POLICY` (ARCHITECTURE §5.1 / PRD §9.2).
 

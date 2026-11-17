@@ -1,0 +1,86 @@
+name: EAS Build
+
+# Native builds burn Expo free minutes — run only on version tags or manual dispatch.
+# Do not enable on every push to main until a paid EAS plan or intentional release cadence exists.
+on:
+  workflow_dispatch:
+    inputs:
+      profile:
+        description: EAS build profile
+        required: true
+        default: preview
+        type: choice
+        options:
+          - development
+          - preview
+          - production
+      platform:
+        description: Target platform
+        required: true
+        default: all
+        type: choice
+        options:
+          - all
+          - ios
+          - android
+  push:
+    tags:
+      - 'v*'
+
+concurrency:
+  group: eas-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  eas-build:
+    name: eas-build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/mobile
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Require EXPO_TOKEN
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        run: |
+          if [ -z "${EXPO_TOKEN}" ]; then
+            echo "::error::Missing repository secret EXPO_TOKEN. Add an Expo access token, then re-run."
+            echo "Skip creating a project until Arsalan adds EXPO_TOKEN and eas.json."
+            exit 1
+          fi
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install (workspace root)
+        working-directory: .
+        run: pnpm install --frozen-lockfile
+
+      - name: Setup EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: EAS build
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        run: |
+          PROFILE="${{ github.event.inputs.profile || 'production' }}"
+          PLATFORM="${{ github.event.inputs.platform || 'all' }}"
+          if [ ! -f eas.json ]; then
+            echo "::error::apps/mobile/eas.json is missing. Configure EAS before tagging a release."
+            exit 1
+          fi
+          eas build --non-interactive --platform "$PLATFORM" --profile "$PROFILE"

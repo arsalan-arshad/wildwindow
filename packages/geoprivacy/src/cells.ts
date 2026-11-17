@@ -40,7 +40,9 @@ function assertValidRes7Cell(cellR7: string): void {
   }
   const resolution = getResolution(cellR7);
   if (resolution !== DEFAULT_RES) {
-    throw new GeoPrivacyError(`expected res-${String(DEFAULT_RES)} cell, got res-${String(resolution)}`);
+    throw new GeoPrivacyError(
+      `expected res-${String(DEFAULT_RES)} cell, got res-${String(resolution)}`,
+    );
   }
 }
 

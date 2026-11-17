@@ -30,10 +30,56 @@ Requires **Node 22 LTS** (see `.nvmrc`) and **pnpm** 9.
 ```bash
 nvm use          # or install Node 22
 pnpm install
-pnpm turbo run build --dry-run
+pnpm lint && pnpm typecheck && pnpm test && pnpm build
 ```
 
-Later Phase 0 tasks add lint/typecheck/test, local PostGIS (`pnpm db:up`), and app scaffolds.
+Local PostGIS (when you need DB-backed tests): `pnpm db:up`, then `pnpm db:migrate` / `pnpm db:seed` once those scripts exist.
+
+## Contributing
+
+`main` is **protected**. Do not push commits straight to `main`.
+
+1. Create a branch from an up-to-date `main` (or use a separate git worktree if another agent already has the primary checkout dirty).
+2. Open a pull request into `main`.
+3. Wait for required GitHub Actions checks to pass (see [CI](#ci) below).
+4. Prefer squash merges; keep secrets, coordinates, and unlicensed data out of the diff (see [AGENTS.md](AGENTS.md)).
+
+Direct pushes, force-pushes, and branch deletes on `main` are blocked by a repository ruleset. Stale PR reviews are dismissed when new commits are pushed.
+
+## CI
+
+GitHub Actions workflows live under [`.github/workflows/`](.github/workflows/).
+
+| Workflow | When it runs | What it does |
+| --- | --- | --- |
+| **CI** (`.github/workflows/ci.yml`) | Every PR and every push to `main` | Turborepo-aware jobs with pnpm cache + local `.turbo` cache |
+| **EAS Build** (`.github/workflows/eas-build.yml`) | Version tags (`v*`) or **workflow_dispatch** only | Native Expo builds — not on every PR, so free EAS minutes are not burned casually |
+
+### Required status checks
+
+Branch protection expects these check **names** (job `name:` fields):
+
+| Check | Meaning |
+| --- | --- |
+| `CI` | Aggregate gate — green only if every job below succeeded |
+| `gitleaks` | Secret scan (also required on its own) |
+
+Supporting jobs (also reported on the PR, but the ruleset keys off `CI` + `gitleaks`):
+
+- `format` — `pnpm format:check`
+- `packages` — `data:validate` plus lint / typecheck / test / build for `packages/*`
+- `api` — Nest app lint / typecheck / test / build (PostGIS service)
+- `web` — Next.js lint / typecheck / test / build
+- `mobile` — Expo lint / typecheck / test (`expo-doctor` is advisory / non-blocking)
+- `worker` — worker CLI lint / typecheck / test / build (PostGIS service)
+
+### EAS / mobile native builds
+
+1. Add repository secret **`EXPO_TOKEN`** (Expo access token).
+2. Add `apps/mobile/eas.json` when the mobile app is ready for EAS.
+3. Run **Actions → EAS Build → Run workflow**, or push a `v*` tag.
+
+Until those exist, the EAS workflow is expected to fail closed rather than silently skip.
 
 ## Assets pack
 
