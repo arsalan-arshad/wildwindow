@@ -49,7 +49,7 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Do: `packages/shared/src/env.ts`, a `loadEnv(schema)` that uses Zod and throws one readable error listing every missing or invalid key.
   - Deliverable: a helper used by api, worker and web.
   - Acceptance test: unit tests for missing, invalid and valid env.
-  - Done: 2026-11-17, commit pending — `loadEnv` + EnvValidationError; unit tests for missing/invalid/valid.
+  - Done: 2026-11-17, commit c06b8ae — `loadEnv` + EnvValidationError; unit tests for missing/invalid/valid.
 
 - [ ] **T0.6 Scaffold `apps/api` (NestJS)**
   - Depends on: T0.3, T0.5
