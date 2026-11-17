@@ -1,0 +1,13 @@
+{
+  "extends": "@wildwindow/config/tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true
+  },
+  "include": [
+    "packages/config/**/*.ts",
+    "packages/config/**/*.js",
+    "eslint.config.js",
+    ".prettierrc.js"
+  ],
+  "exclude": ["node_modules", "dist", "build", ".next", "coverage"]
+}

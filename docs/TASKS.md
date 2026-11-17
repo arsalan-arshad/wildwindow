@@ -22,12 +22,13 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Refs: §10
   - Done: 2026-11-17, commit aa4851e — public GitHub `arsalan-arshad/wildwindow`; stub apps/* + packages/*; `assets/` pack + README docs. App scaffolds deferred to T0.6–T0.9.
 
-- [ ] **T0.2 Shared config package**
+- [x] **T0.2 Shared config package**
   - Depends on: T0.1
   - Do: `packages/config` with `tsconfig.base.json` (`strict`, `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`, `noImplicitOverride`), an ESLint flat config (`typescript-eslint` strict-type-checked, import order, `no-console` except in the worker), and a Prettier config.
   - Deliverable: presets that the other packages extend.
   - Acceptance test: a dummy `packages/config/test-fixture.ts` with an implicit `any` fails `pnpm lint`; once fixed, it passes.
   - Refs: AGENTS.md §4
+  - Done: 2026-11-17, commit 75f4707 — tsconfig.base + eslint flat + prettier presets; root lint wired.
 
 - [ ] **T0.3 Test runner**
   - Depends on: T0.2

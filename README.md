@@ -39,26 +39,26 @@ Later Phase 0 tasks add lint/typecheck/test, local PostGIS (`pnpm db:up`), and a
 
 Brand and store imagery lives under [`assets/`](assets/). Placeholders are committed so paths are stable; replace files in place before launch (final product name TBD).
 
-| Path | Use |
-|---|---|
-| `assets/icons/` | App icon sources (`icon-1024.png`, `icon-512.png`, adaptive, splash) |
-| `assets/favicon/` | Web favicon + Apple touch icon |
-| `assets/banners/` | App Store / Play listing banners |
-| `assets/marketing/` | Landing / waitlist imagery |
-| `assets/social/` | Twitter/X and LinkedIn share images |
-| `assets/og/` | Open Graph templates for Next `/api/og` |
+| Path                | Use                                                                  |
+| ------------------- | -------------------------------------------------------------------- |
+| `assets/icons/`     | App icon sources (`icon-1024.png`, `icon-512.png`, adaptive, splash) |
+| `assets/favicon/`   | Web favicon + Apple touch icon                                       |
+| `assets/banners/`   | App Store / Play listing banners                                     |
+| `assets/marketing/` | Landing / waitlist imagery                                           |
+| `assets/social/`    | Twitter/X and LinkedIn share images                                  |
+| `assets/og/`        | Open Graph templates for Next `/api/og`                              |
 
 See [`assets/README.md`](assets/README.md) for sizes and replacement notes. Do not commit secrets or raw GPS-bearing photos here.
 
 ## Planning docs
 
-| File | What it is |
-|---|---|
-| [docs/PRD.md](docs/PRD.md) | Product requirements: problem, personas, MVP scope, user stories, screens, metrics, ethics |
-| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Stack, data pipeline, scoring v1, location protection, schema, API, infra |
-| [docs/TASKS.md](docs/TASKS.md) | Phased build tasks, each small enough for one AI agent run |
-| [AGENTS.md](AGENTS.md) | Rules and conventions for AI coding agents working in this repo |
-| [CURSOR_PROMPT.md](CURSOR_PROMPT.md) | Copy-paste prompts to start and continue work with a Cursor agent |
+| File                                         | What it is                                                                                 |
+| -------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| [docs/PRD.md](docs/PRD.md)                   | Product requirements: problem, personas, MVP scope, user stories, screens, metrics, ethics |
+| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Stack, data pipeline, scoring v1, location protection, schema, API, infra                  |
+| [docs/TASKS.md](docs/TASKS.md)               | Phased build tasks, each small enough for one AI agent run                                 |
+| [AGENTS.md](AGENTS.md)                       | Rules and conventions for AI coding agents working in this repo                            |
+| [CURSOR_PROMPT.md](CURSOR_PROMPT.md)         | Copy-paste prompts to start and continue work with a Cursor agent                          |
 
 Start with `CURSOR_PROMPT.md`.
 
