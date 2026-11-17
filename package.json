@@ -2,7 +2,7 @@
   "name": "wildwindow",
   "private": true,
   "version": "0.0.0",
-  "description": "WildWindow — wildlife photo forecast app (working name)",
+  "description": "WildWindow \u2014 wildlife photo forecast app (working name)",
   "type": "module",
   "packageManager": "pnpm@9.15.9",
   "engines": {
@@ -14,7 +14,7 @@
     "lint": "eslint .",
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",
-    "test:coverage": "vitest run --coverage --workspace vitest.workspace.ts",
+    "test:coverage": "vitest run --coverage",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
