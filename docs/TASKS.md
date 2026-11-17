@@ -166,7 +166,7 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Depends on: T2.1
   - Do: `app.users`, `watchlist`, `logbook_entries`, `challenges`, `challenge_entries`, `entitlements`, `waitlist`, `audit_log` and `ingest_runs`.
   - Acceptance test: an integration test covers the unique constraints (watchlist, users.firebase_uid).
-  - Done: 2026-11-17 — migration `0003_app_tables`; FK from `raw.occurrences.ingest_run_id` → `app.ingest_runs`; unique tests for firebase_uid + watchlist.
+  - Done: 2026-11-17 — migration `0003_app_tables` + `0004` unique on `challenge_entries.logbook_entry_id` (1:0..1); FK from `raw.occurrences.ingest_run_id` → `app.ingest_runs`; unique tests for firebase_uid + watchlist.
 
 - [ ] **T2.5 Database roles and privacy isolation**
   - Depends on: T2.2–T2.4

@@ -88,26 +88,33 @@ export const challenges = appSchema.table(
   (table) => [uniqueIndex('challenges_slug_uidx').on(table.slug)],
 );
 
-export const challengeEntries = appSchema.table('challenge_entries', {
-  id: serial('id').primaryKey(),
-  challengeId: integer('challenge_id')
-    .notNull()
-    .references(() => challenges.id),
-  userId: uuid('user_id')
-    .notNull()
-    .references(() => users.id),
-  logbookEntryId: integer('logbook_entry_id')
-    .notNull()
-    .references(() => logbookEntries.id),
-  countryCode: text('country_code').notNull(),
-  regionLabel: text('region_label').notNull(),
-  photoKey: text('photo_key').notNull(),
-  pledgeAcceptedAt: timestamp('pledge_accepted_at', { withTimezone: true }).notNull(),
-  status: text('status').notNull().default('pending'),
-  rejectReason: text('reject_reason'),
-  publishAfter: timestamp('publish_after', { withTimezone: true }).notNull(),
-  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
-});
+export const challengeEntries = appSchema.table(
+  'challenge_entries',
+  {
+    id: serial('id').primaryKey(),
+    challengeId: integer('challenge_id')
+      .notNull()
+      .references(() => challenges.id),
+    userId: uuid('user_id')
+      .notNull()
+      .references(() => users.id),
+    logbookEntryId: integer('logbook_entry_id')
+      .notNull()
+      .references(() => logbookEntries.id),
+    countryCode: text('country_code').notNull(),
+    regionLabel: text('region_label').notNull(),
+    photoKey: text('photo_key').notNull(),
+    pledgeAcceptedAt: timestamp('pledge_accepted_at', { withTimezone: true }).notNull(),
+    status: text('status').notNull().default('pending'),
+    rejectReason: text('reject_reason'),
+    publishAfter: timestamp('publish_after', { withTimezone: true }).notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [
+    // ER: LOGBOOK_ENTRIES ||--o| CHALLENGE_ENTRIES (one logbook photo → at most one challenge row)
+    uniqueIndex('challenge_entries_logbook_entry_uidx').on(table.logbookEntryId),
+  ],
+);
 
 export const entitlements = appSchema.table(
   'entitlements',
