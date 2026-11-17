@@ -2,5 +2,29 @@
   "name": "worker",
   "version": "0.0.0",
   "private": true,
-  "description": "Ingestion and aggregation CLI (scaffold T0.9)"
+  "description": "Ingestion and aggregation CLI",
+  "type": "module",
+  "bin": {
+    "ww-worker": "./dist/cli.js"
+  },
+  "scripts": {
+    "dev": "tsx src/cli.ts",
+    "build": "tsup",
+    "start": "node dist/cli.js",
+    "lint": "eslint src --max-warnings=0",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run --config ./vitest.config.ts"
+  },
+  "dependencies": {
+    "@wildwindow/shared": "workspace:*",
+    "commander": "^13.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "@wildwindow/config": "workspace:*",
+    "tsup": "^8.4.0",
+    "tsx": "^4.19.3",
+    "typescript": "~5.8.3",
+    "vitest": "^3.0.9"
+  }
 }
