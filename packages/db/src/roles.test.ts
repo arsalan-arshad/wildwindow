@@ -1,5 +1,5 @@
 import { Client } from 'pg';
-import { afterAll, beforeAll, describe, expect, it } from 'vitest';
+import { beforeAll, describe, expect, it } from 'vitest';
 
 import { migrationsFolder, runMigrations } from './migrate.js';
 import { applyRoles, roleConnectionUrl } from './roles.js';
