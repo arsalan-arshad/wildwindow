@@ -17,7 +17,9 @@ services:
       - wildwindow_pgdata:/var/lib/postgresql/data
       - ./docker/db/init-postgis.sql:/docker-entrypoint-initdb.d/01-postgis.sql:ro
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U postgres -d wildwindow']
+      # Probe TCP so the check fails while the init-only temp server is
+      # listening on the Unix socket (before port 5432 accepts clients).
+      test: ['CMD-SHELL', 'pg_isready -h 127.0.0.1 -U postgres -d wildwindow']
       interval: 5s
       timeout: 5s
       retries: 10

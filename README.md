@@ -40,7 +40,8 @@ Project standard is **PostgreSQL 17 + PostGIS 3.5** via `docker-compose.yml` (`p
 ```bash
 pnpm db:up
 docker compose exec db psql -U postgres -c "SELECT postgis_full_version();"
-# later: pnpm db:migrate / pnpm db:seed
+pnpm db:migrate   # PostGIS + raw/ref/pub/app schemas (T2.1); safe to re-run
+# later: pnpm db:seed
 pnpm db:down
 ```
 
@@ -81,6 +82,7 @@ Supporting jobs (also reported on the PR, but the ruleset keys off `CI` + `gitle
 
 - `format` — `pnpm format:check`
 - `packages` — `data:validate` plus lint / typecheck / test / build for `packages/*`
+- `packages` — shared packages lint / typecheck / test / build + `pnpm db:migrate` (PostGIS service)
 - `api` — Nest app lint / typecheck / test / build (PostGIS service)
 - `web` — Next.js lint / typecheck / test / build
 - `mobile` — Expo lint / typecheck / test (`expo-doctor` is advisory / non-blocking)

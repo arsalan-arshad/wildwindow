@@ -46,6 +46,22 @@ jobs:
   packages:
     name: packages
     runs-on: ubuntu-latest
+    services:
+      db:
+        image: postgis/postgis:17-3.5
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: wildwindow
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/wildwindow
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -69,6 +85,9 @@ jobs:
 
       - name: Build packages
         run: pnpm turbo run build --filter="./packages/*"
+
+      - name: Migrate (T2.1 acceptance)
+        run: pnpm db:migrate
 
   api:
     name: api

@@ -143,11 +143,12 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
 
 ## Phase 2: Database and reference data
 
-- [ ] **T2.1 `packages/db` setup**
+- [x] **T2.1 `packages/db` setup**
   - Depends on: T0.4
   - Do: Drizzle ORM + `drizzle-kit`, the `pg` driver, a migration runner script (`pnpm db:migrate`), and a first SQL migration: `CREATE EXTENSION postgis;` plus schemas `raw`, `ref`, `pub` and `app`.
   - Acceptance test: `pnpm db:up && pnpm db:migrate` on an empty database creates the 4 schemas; re-running it is a no-op.
   - Refs: §6.1
+  - Done: 2026-11-17 — `@wildwindow/db` with Drizzle + `pg`, migration `0000_init_schemas` (`CREATE EXTENSION IF NOT EXISTS postgis` + schemas `raw`/`ref`/`pub`/`app`), `pnpm db:migrate`, integration tests; packages CI job gets PostGIS; `db:up` uses `--wait` and TCP `pg_isready`.
 
 - [ ] **T2.2 `ref` tables**
   - Depends on: T2.1
