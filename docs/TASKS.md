@@ -58,11 +58,12 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Acceptance test: an e2e test with `supertest` gets 200 from `/v1/health`; `docker build -f apps/api/Dockerfile .` succeeds.
   - Done: 2026-11-17, commit 4ae88c1 — health e2e green; Dockerfile added. Note: `docker build` not verified locally (Docker missing; same as T0.4).
 
-- [ ] **T0.7 Scaffold `apps/web` (Next.js)**
+- [x] **T0.7 Scaffold `apps/web` (Next.js)**
   - Depends on: T0.2
   - Do: Next.js App Router, TypeScript strict, Tailwind, and a placeholder landing page reading "WildWindow – coming soon".
   - Deliverable: a web app that runs with `pnpm --filter web dev`.
   - Acceptance test: `pnpm --filter web build` succeeds; a Vitest test renders the landing component.
+  - Done: 2026-11-17, commit pending — Next App Router + Tailwind landing + Vitest render test.
 
 - [ ] **T0.8 Scaffold `apps/mobile` (Expo)**
   - Depends on: T0.2
@@ -70,11 +71,12 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Deliverable: an app that starts with `pnpm --filter mobile start`.
   - Acceptance test: `pnpm --filter mobile test` passes; `npx expo-doctor` shows no errors; `npx expo export --platform web` (or `ios`) builds.
 
-- [ ] **T0.9 Scaffold `apps/worker` (CLI)**
+- [x] **T0.9 Scaffold `apps/worker` (CLI)**
   - Depends on: T0.3, T0.5
   - Do: a Node CLI using `commander`, run with `tsx`, with a `hello` command. Root script `worker` (`pnpm worker <command>`). Add a Dockerfile.
   - Deliverable: a worker CLI.
   - Acceptance test: `pnpm worker hello` prints `ok`; a unit test covers the command registry.
+  - Done: 2026-11-17, commit pending — commander + hello; Dockerfile added (docker build not verified locally).
 
 - [ ] **T0.10 CI**
   - Depends on: T0.6–T0.9

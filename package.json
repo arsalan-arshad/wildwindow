@@ -11,12 +11,13 @@
   "scripts": {
     "dev": "turbo run dev",
     "build": "turbo run build",
-    "lint": "eslint .",
+    "lint": "turbo run lint",
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",
     "test:coverage": "vitest run --coverage",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "worker": "pnpm --filter worker exec tsx src/cli.ts"
   },
   "devDependencies": {
     "@eslint/js": "^9.22.0",

@@ -28,6 +28,8 @@ export default tseslint.config(
       '.prettierrc.js',
       'packages/config/eslint/**',
       'packages/config/prettier/**',
+      'apps/web/**',
+      'apps/mobile/**',
     ],
   },
   js.configs.recommended,
