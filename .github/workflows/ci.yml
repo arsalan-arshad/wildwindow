@@ -9,9 +9,69 @@ concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  NODE_ENV: test
+  TURBO_TELEMETRY_DISABLED: '1'
+
 jobs:
-  quality:
-    name: format · lint · typecheck · test · build
+  gitleaks:
+    name: gitleaks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  format:
+    name: format
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup
+        uses: ./.github/actions/setup-node-pnpm
+        with:
+          turbo-cache-key: format
+
+      - name: Format check
+        run: pnpm format:check
+
+  packages:
+    name: packages
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup
+        uses: ./.github/actions/setup-node-pnpm
+        with:
+          turbo-cache-key: packages
+
+      - name: Validate data YAML
+        run: pnpm data:validate
+
+      - name: Lint packages
+        run: pnpm turbo run lint --filter="./packages/*"
+
+      - name: Typecheck packages
+        run: pnpm turbo run typecheck --filter="./packages/*"
+
+      - name: Test packages
+        run: pnpm turbo run test --filter="./packages/*"
+
+      - name: Build packages
+        run: pnpm turbo run build --filter="./packages/*"
+
+  api:
+    name: api
     runs-on: ubuntu-latest
     services:
       db:
@@ -29,53 +89,146 @@ jobs:
           --health-retries 10
     env:
       DATABASE_URL: postgresql://postgres:postgres@localhost:5432/wildwindow
-      NODE_ENV: test
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+      - name: Setup
+        uses: ./.github/actions/setup-node-pnpm
         with:
-          version: 9.15.9
+          turbo-cache-key: api
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version-file: .nvmrc
-          cache: pnpm
+      - name: Lint api
+        run: pnpm turbo run lint --filter=api
 
-      - name: Install
-        run: pnpm install --frozen-lockfile
+      - name: Typecheck api
+        run: pnpm turbo run typecheck --filter=api
 
-      - name: Format check
-        run: pnpm format:check
+      - name: Test api
+        run: pnpm turbo run test --filter=api
 
-      - name: Lint
-        run: pnpm lint
+      - name: Build api
+        run: pnpm turbo run build --filter=api
 
-      - name: Typecheck
-        run: pnpm typecheck
-
-      - name: Validate data YAML
-        run: pnpm data:validate
-
-      - name: Test
-        run: pnpm test
-
-      - name: Build
-        run: pnpm build
-
-  gitleaks:
-    name: gitleaks
+  web:
+    name: web
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
-      - name: Gitleaks
-        uses: gitleaks/gitleaks-action@v2
+      - name: Setup
+        uses: ./.github/actions/setup-node-pnpm
+        with:
+          turbo-cache-key: web
+
+      - name: Lint web
+        run: pnpm turbo run lint --filter=web
+
+      - name: Typecheck web
+        run: pnpm turbo run typecheck --filter=web
+
+      - name: Test web
+        run: pnpm turbo run test --filter=web
+
+      - name: Build web
+        run: pnpm turbo run build --filter=web
+
+  mobile:
+    name: mobile
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup
+        uses: ./.github/actions/setup-node-pnpm
+        with:
+          turbo-cache-key: mobile
+
+      - name: Lint mobile
+        run: pnpm turbo run lint --filter=mobile
+
+      - name: Typecheck mobile
+        run: pnpm turbo run typecheck --filter=mobile
+
+      - name: Test mobile
+        run: pnpm turbo run test --filter=mobile
+
+      - name: Expo doctor
+        working-directory: apps/mobile
+        run: npx --yes expo-doctor
+        continue-on-error: true
+
+  worker:
+    name: worker
+    runs-on: ubuntu-latest
+    services:
+      db:
+        image: postgis/postgis:17-3.5
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: wildwindow
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/wildwindow
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup
+        uses: ./.github/actions/setup-node-pnpm
+        with:
+          turbo-cache-key: worker
+
+      - name: Lint worker
+        run: pnpm turbo run lint --filter=worker
+
+      - name: Typecheck worker
+        run: pnpm turbo run typecheck --filter=worker
+
+      - name: Test worker
+        run: pnpm turbo run test --filter=worker
+
+      - name: Build worker
+        run: pnpm turbo run build --filter=worker
+
+  # Single required status check for branch protection / rulesets.
+  ci:
+    name: CI
+    if: always()
+    needs: [gitleaks, format, packages, api, web, mobile, worker]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require all jobs
+        run: |
+          set -euo pipefail
+          results=(
+            "${{ needs.gitleaks.result }}"
+            "${{ needs.format.result }}"
+            "${{ needs.packages.result }}"
+            "${{ needs.api.result }}"
+            "${{ needs.web.result }}"
+            "${{ needs.mobile.result }}"
+            "${{ needs.worker.result }}"
+          )
+          names=(gitleaks format packages api web mobile worker)
+          failed=0
+          for i in "${!results[@]}"; do
+            echo "${names[$i]}: ${results[$i]}"
+            if [[ "${results[$i]}" != "success" ]]; then
+              failed=1
+            fi
+          done
+          if [[ "$failed" -ne 0 ]]; then
+            echo "::error::One or more required CI jobs did not succeed"
+            exit 1
+          fi
+          echo "All required CI jobs succeeded"
