@@ -174,10 +174,11 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Acceptance test: an integration test connected as `ww_api` gets a permission error on `SELECT 1 FROM raw.occurrences`, and can read `pub.taxon_cell_week`. This test must never be skipped.
   - Done: 2026-11-17 — `applyRoles` after migrate when `WW_*_DB_PASSWORD` set; ww_api denied on `raw`, allowed on `pub.taxon_cell_week`; test never skipped.
 
-- [ ] **T2.6 Seed the regions**
+- [x] **T2.6 Seed the regions**
   - Depends on: T2.2
   - Do: commit simplified GeoJSON for Scotland and Sindh to `data/boundaries/` (Natural Earth, public domain; write the source and date in `data/boundaries/SOURCES.md`). A seed script adds `ref.regions` with `time_zone` (`Europe/London`, `Asia/Karachi`).
   - Acceptance test: `pnpm db:seed` → 2 regions; an integration test finds that Glasgow (55.86, −4.25) is in Scotland and Karachi (24.86, 67.01) is in Sindh.
+  - Done: 2026-11-17 — Natural Earth Admin-1 dissolve+simplify for Scotland/Sindh; `pnpm db:seed` upserts `ref.regions`; ST_Covers tests for Glasgow and Karachi.
 
 - [ ] **T2.7 Beta species list and taxon resolution**
   - Depends on: T0.11, T2.2

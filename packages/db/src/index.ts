@@ -2,6 +2,13 @@ export { createDb, createPool, type CreateDbOptions, type Database } from './cli
 export { migrationsFolder, runMigrations, type RunMigrationsResult } from './migrate.js';
 export { applyRoles, roleConnectionUrl, type RolePasswords } from './roles.js';
 export {
+  REGION_SEEDS,
+  boundariesFolder,
+  seedRegions,
+  type RegionSeed,
+  type SeedRegionsResult,
+} from './seed.js';
+export {
   appSchema,
   auditLog,
   challengeEntries,

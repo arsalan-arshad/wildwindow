@@ -21,7 +21,8 @@
     "data:validate": "pnpm --filter @wildwindow/shared validate-data",
     "db:up": "docker compose up -d --wait db",
     "db:down": "docker compose down",
-    "db:migrate": "pnpm --filter @wildwindow/shared build && pnpm --filter @wildwindow/db migrate"
+    "db:migrate": "pnpm --filter @wildwindow/shared build && pnpm --filter @wildwindow/db migrate",
+    "db:seed": "pnpm --filter @wildwindow/shared build && pnpm --filter @wildwindow/db seed"
   },
   "devDependencies": {
     "@eslint/js": "^9.22.0",
