@@ -96,7 +96,10 @@ export function suppressAndMerge(cells: readonly CellCount[], tier: Tier): CellC
         observers: new Set(entry.observers),
       };
       const existing = parentMap.get(parentCell);
-      parentMap.set(parentCell, existing === undefined ? asParent : mergeCellCounts(existing, asParent));
+      parentMap.set(
+        parentCell,
+        existing === undefined ? asParent : mergeCellCounts(existing, asParent),
+      );
     }
 
     // Also merge into any already-present parent at parentRes among others.

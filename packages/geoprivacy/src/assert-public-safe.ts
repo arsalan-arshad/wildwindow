@@ -5,16 +5,9 @@ import { type Tier } from './tiers.js';
 
 /** Forbidden coordinate / geometry keys (any case) — ARCHITECTURE §5.3. */
 const FORBIDDEN_KEYS = new Set(
-  [
-    'lat',
-    'lng',
-    'latitude',
-    'longitude',
-    'coordinates',
-    'geom',
-    'point',
-    'wkt',
-  ].map((key) => key.toLowerCase()),
+  ['lat', 'lng', 'latitude', 'longitude', 'coordinates', 'geom', 'point', 'wkt'].map((key) =>
+    key.toLowerCase(),
+  ),
 );
 
 export type AssertPublicSafeOptions = {

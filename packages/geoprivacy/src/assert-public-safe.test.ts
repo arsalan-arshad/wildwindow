@@ -26,10 +26,7 @@ describe('assertPublicSafe', () => {
     const fine = latLngToCell(55.86, -4.25, 8);
     expect(getResolution(fine)).toBe(8);
     expect(() => {
-      assertPublicSafe(
-        { displayCell: fine },
-        { maxResolutionByTier: { open: 7 }, h3Tier: 'open' },
-      );
+      assertPublicSafe({ displayCell: fine }, { maxResolutionByTier: { open: 7 }, h3Tier: 'open' });
     }).toThrow(GeoPrivacyViolation);
   });
 

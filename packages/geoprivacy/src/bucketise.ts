@@ -4,10 +4,7 @@ export type BucketLevel = 1 | 2 | 3 | 4 | 5;
  * Build a quantile bucketiser for public map levels (1–5).
  * Ties share the higher bucket of equal values (stable by value).
  */
-export function bucketise(
-  values: readonly number[],
-  buckets = 5,
-): (value: number) => BucketLevel {
+export function bucketise(values: readonly number[], buckets = 5): (value: number) => BucketLevel {
   if (buckets !== 5) {
     throw new RangeError('bucketise currently supports exactly 5 buckets');
   }
