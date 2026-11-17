@@ -8,7 +8,7 @@ services:
     platform: linux/amd64
     container_name: wildwindow-db
     ports:
-      - "5432:5432"
+      - '5432:5432'
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -17,7 +17,7 @@ services:
       - wildwindow_pgdata:/var/lib/postgresql/data
       - ./docker/db/init-postgis.sql:/docker-entrypoint-initdb.d/01-postgis.sql:ro
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d wildwindow"]
+      test: ['CMD-SHELL', 'pg_isready -U postgres -d wildwindow']
       interval: 5s
       timeout: 5s
       retries: 10
