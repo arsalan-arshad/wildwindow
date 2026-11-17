@@ -150,10 +150,11 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Refs: §6.1
   - Done: 2026-11-17 — `@wildwindow/db` with Drizzle + `pg`, migration `0000_init_schemas` (`CREATE EXTENSION IF NOT EXISTS postgis` + schemas `raw`/`ref`/`pub`/`app`), `pnpm db:migrate`, integration tests; packages CI job gets PostGIS; `db:up` uses `--wait` and TCP `pg_isready`.
 
-- [ ] **T2.2 `ref` tables**
+- [x] **T2.2 `ref` tables**
   - Depends on: T2.1
   - Do: Drizzle schema and migration for `ref.regions`, `zones`, `places`, `taxa`, `taxon_region`, `species_cards` and `datasets` (§6.2), with the right indexes (GIST on geometries, a trigram index on place names with `pg_trgm`).
   - Acceptance test: an integration test inserts and reads a row in each table.
+  - Done: 2026-11-17 — migration `0001_ref_tables` (+ `pg_trgm`), GIST on region/zone geoms, GIN trigram on `places.name`; insert/read integration test.
 
 - [ ] **T2.3 `raw` and `pub` tables**
   - Depends on: T2.1
