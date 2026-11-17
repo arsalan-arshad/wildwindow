@@ -107,7 +107,7 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Do: `snapToCell(lat,lng,res=7)` and `displayCellFor(cellR7, tier)` (§5.2). Validate the inputs (lat/lng ranges, a valid res-7 cell).
   - Deliverable: functions with full tests.
   - Acceptance test: property test (fast-check): for random points, `displayCellFor` returns a cell at the tier's resolution; every res-7 child of a display cell maps to the same display cell; `no_forecast` → `null`.
-  - Done: 2026-11-17, commit pending — snapToCell + displayCellFor with fast-check properties.
+  - Done: 2026-11-17, commit e1355f6 — snapToCell + displayCellFor with fast-check properties.
 
 - [ ] **T1.3 Delay and lockout helpers**
   - Depends on: T1.1
