@@ -95,11 +95,12 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
 
 ## Phase 1: Location protection (`@wildwindow/geoprivacy`, MIT)
 
-- [ ] **T1.1 Package scaffold and policy constants**
+- [x] **T1.1 Package scaffold and policy constants**
   - Depends on: T0.3
   - Do: `packages/geoprivacy` with an MIT `LICENSE`, a README (purpose and threat model summary from §5.3), the `Tier` type and `TIER_POLICY` exactly as in §5.1. The only runtime dependency is `h3-js`.
   - Deliverable: a buildable package.
   - Acceptance test: a unit test checks that `TIER_POLICY` matches the PRD §9.2 table (resolution, delay, minimums).
+  - Done: 2026-11-17, commit pending — MIT package + TIER_POLICY matching PRD §9.2.
 
 - [ ] **T1.2 Snapping and display cells**
   - Depends on: T1.1

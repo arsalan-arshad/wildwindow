@@ -2,5 +2,37 @@
   "name": "@wildwindow/geoprivacy",
   "version": "0.0.0",
   "private": true,
-  "description": "Location protection (MIT) — Phase 1"
+  "description": "Location protection for wildlife data — No-Pin Promise helpers (MIT)",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "lint": "eslint src --max-warnings=0",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run --config ./vitest.config.ts"
+  },
+  "dependencies": {
+    "h3-js": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "@wildwindow/config": "workspace:*",
+    "fast-check": "^4.0.0",
+    "tsup": "^8.4.0",
+    "typescript": "~5.8.3",
+    "vitest": "^3.0.9"
+  }
 }
