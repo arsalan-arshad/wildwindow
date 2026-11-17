@@ -56,7 +56,7 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Do: a NestJS app on Vitest (with `unplugin-swc` for decorators) and `GET /v1/health` returning `{status:"ok"}`. Scripts `dev`, `build`, `start`, `test`. Add a Dockerfile (multi-stage, non-root).
   - Deliverable: an API that runs locally and in Docker.
   - Acceptance test: an e2e test with `supertest` gets 200 from `/v1/health`; `docker build -f apps/api/Dockerfile .` succeeds.
-  - Done: 2026-11-17, commit pending — health e2e green; Dockerfile added. Note: `docker build` not verified locally (Docker missing; same as T0.4).
+  - Done: 2026-11-17, commit 4ae88c1 — health e2e green; Dockerfile added. Note: `docker build` not verified locally (Docker missing; same as T0.4).
 
 - [ ] **T0.7 Scaffold `apps/web` (Next.js)**
   - Depends on: T0.2
