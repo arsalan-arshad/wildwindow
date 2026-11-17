@@ -69,7 +69,34 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Depends on: T0.2
   - Do: the latest stable Expo SDK with Expo Router; tabs `Home`, `Explore`, `Logbook`, `Challenge`, `Profile` with placeholder screens; `jest-expo` with one test; `app.config.ts` reading `EXPO_PUBLIC_API_URL`. Check that Metro works with pnpm (hoisted).
   - Deliverable: an app that starts with `pnpm --filter mobile start`.
-  - Acceptance test: `pnpm --filter mobile test` passes; `npx expo-doctor` shows no errors; `npx expo export --platform web` (or `ios`) builds.
+  - Acceptance test: `pnpm --filter mobile test` passes; `npx expo-doctor` shows no errors; `npx expo-export --platform web` (or `ios`) builds.
   - Done: 2026-11-17, commit a3fc554 — Expo SDK 58 + five tabs; jest-expo; expo-doctor 20/20; web export OK.
 
-- [x] **T0.9 Scaffold `apps/worke
+- [x] **T0.9 Scaffold `apps/worker` (CLI)**
+  - Depends on: T0.3, T0.5
+  - Do: a Node CLI using `commander`, run with `tsx`, with a `hello` command. Root script `worker` (`pnpm worker <command>`). Add a Dockerfile.
+  - Deliverable: a worker CLI.
+  - Acceptance test: `pnpm worker hello` prints `ok`; a unit test covers the command registry.
+  - Done: 2026-11-17, commit 682d31d — commander + hello; Dockerfile added (docker build not verified locally).
+
+- [x] **T0.10 CI**
+  - Depends on: T0.6–T0.9
+  - Do: `.github/workflows/ci.yml` with pnpm cache → install → `format:check` → lint → typecheck → test (a PostGIS service container, `DATABASE_URL` set) → build. Add a `gitleaks` step.
+  - Deliverable: a green CI run on the pull request.
+  - Acceptance test: the CI run passes; adding a fake AWS key to a file makes the gitleaks step fail (do it locally, don't commit it).
+  - Done: 2026-11-17, commit 10ada0f — CI workflow + gitleaks job; PostGIS service for tests. First green run awaits GitHub Actions after push.
+
+- [x] **T0.11 Data config files and validator**
+  - Depends on: T0.5
+  - Do: create `data/beta-species.yaml` and `data/sensitive-species.yaml` with Zod schemas in `packages/shared/src/data-schemas.ts`, and a `pnpm data:validate` script. Add 3 example species per region for now (the full list comes in T2.7). The tiers must follow PRD §9.2.
+  - Deliverable: validated config files.
+  - Acceptance test: `pnpm data:validate` passes; an invalid tier value fails with a clear message; runs in CI.
+  - Done: 2026-11-17, commit 10ada0f — 3 species/region stubs; Zod tier enum; `pnpm data:validate` wired in CI.
+
+## Phase 1: Location protection (`@wildwindow/geoprivacy`, MIT)
+
+- [x] **T1.1 Package scaffold and policy constants**
+  - Depends on: T0.3
+  - Do: `packages/geoprivacy` with an MIT `LICENSE`, a README (purpose and threat model summary from §5.3), the `Tier` type and `TIER_POLICY` exactly as in §5.1. The only runtime dependency is `h3-js`.
+  - Deliverable: a buildable package.
+  - Acceptance test: a unit t
