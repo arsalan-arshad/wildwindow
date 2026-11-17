@@ -35,7 +35,7 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Do: a Vitest workspace config at the root, wired into `turbo test`; coverage with `@vitest/coverage-v8`.
   - Deliverable: `pnpm test` runs the tests in every package.
   - Acceptance test: a sample test in `packages/config` passes; a deliberately failing test makes `pnpm test` exit non-zero (then remove it).
-  - Done: 2026-11-17, commit pending — vitest workspace + coverage-v8; sample test in packages/config.
+  - Done: 2026-11-17, commit 73ce8f2 — vitest workspace + coverage-v8; sample test in packages/config.
 
 - [!] **T0.4 Local database and env**
   - Depends on: T0.1
