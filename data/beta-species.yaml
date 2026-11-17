@@ -1,1 +1,731 @@
-PLACEHOLDER_WILL_REPLACE
+version: 1
+species:
+  - scientificName: Alcedo atthis
+    commonNames:
+      en: Common kingfisher
+      ur: عام کنگ فشر
+    group: bird
+    effortGroup: Aves
+    regions:
+      - scotland
+      - sindh
+    coastal: false
+    activityPattern: diurnal
+    challengeEligible: true
+    gbifTaxonKey: 2475532
+    resolvedAt: 2026-11-17T18:18:52.895Z
+    matchType: EXACT
+    reviewNeeded: false
+  - scientificName: Sciurus vulgaris
+    commonNames:
+      en: Red squirrel
+    group: mammal
+    effortGroup: Mammalia
+    regions:
+      - scotland
+    coastal: false
+    activityPattern: diurnal
+    challengeEligible: false
+    gbifTaxonKey: 8211070
+    resolvedAt: 2026-11-17T18:18:52.895Z
+    matchType: EXACT
+    reviewNeeded: false
+  - scientificName: Halichoerus grypus
+    commonNames:
+      en: Grey seal
+    group: marine
+    effortGroup: Mammalia
+    regions:
+      - scotland
+    coastal: true
+    tidePref: high
+    activityPattern: tidal
+    challengeEligible: false
+    gbifTaxonKey: 2434806
+    resolvedAt: 2026-11-17T18:18:52.895Z
+    matchType: EXACT
+    reviewNeeded: false
+  - scientificName: Lutra lutra
+    commonNames:
+      en: Eurasian otter
+    group: mammal
+    effortGroup: Mammalia
+    regions:
+      - scotland
+    coastal: false
+    activityPattern: crepuscular
+    challengeEligible: false
+    gbifTaxonKey: 2433753
+    resolvedAt: 2026-11-17T18:18:52.895Z
+    matchType: EXACT
+    reviewNeeded: false
+  - scientificName: Lepus timidus
+    commonNames:
+      en: Mountain hare
+    group: mammal
+    effortGroup: Mammalia
+    regions:
+      - scotland
+    coastal: false
+    activityPattern: crepuscular
+    challengeEligible: false
+    gbifTaxonKey: 2436756
+    resolvedAt: 2026-11-17T18:18:52.895Z
+    matchType: EXACT
+    reviewNeeded: false
+  - scientificName: Pandion haliaetus
+    commonNames:
+      en: Osprey
+    group: bird
+    effortGroup: Aves
+    regions:
+      - scotland
+    coastal: false
+    activityPattern: diurnal
+    challengeEligible: false
+    gbifTaxonKey: 2480726
+    resolvedAt: 2026-11-17T18:18:52.895Z
+    matchType: EXACT
+    reviewNeeded: false
+  - scientificName: Haliaeetus albicilla
+    commonNames:
+      en: White-tailed eagle
+    group: bird
+    effortGroup: Aves
+    regions:
+      - scotland
+    coastal: true
+    tidePref: none
+    activityPattern: diurnal
+    challengeEligible: false
+    gbifTaxonKey: 2480449
+    resolvedAt: 2026-11-17T18:18:52.895Z
+    matchType: EXACT
+    reviewNeeded: false
+  - scientificName: Tetrao urogallus
+    commonNames:
+      en: Western capercaillie
+    group: bird
+    effortGroup: Aves
+    regions:
+      - scotland
+    coastal: false
+    activityPattern: diurnal
+    challengeEligible: false
+    gbifTaxonKey: 2473577
+    resolvedAt: 2026-11-17T18:18:52.895Z
+    matchType: EXACT
+    reviewNeeded: false
+  - scientificName: Cervus elaphus
+    commonNames:
+      en: Red deer
+    group: mammal
+    effortGroup: Mammalia
+    regions:
+      - scotland
+    coastal: false
+    activityPattern: crepuscular
+    challengeEligible: false
+    gbifTaxonKey: 2440958
+    resolvedAt: 2026-11-17T18:18:52.895Z
+    matchType: EXACT
+    reviewNeeded: false
+  - scientificName: Capreolus capreolus
+    commonNames:
+      en: Roe deer
+    group: mammal
+    effortGroup: Mammalia
+    regions:
+      - scotland
+    coastal: false
+    activityPattern: crepuscular
+    challengeEligible: false
+    gbifTaxonKey: 5220126
+    resolvedAt: 2026-11-17T18:18:52.895Z
+    matchType: EXACT
+    reviewNeeded: false
+  - scientificName: Vulpes vulpes
+    commonNames:
+      en: Red fox
+    group: mammal
+    effortGroup: Mammalia
+    regions:
+      - scotland
+    coastal: false
+    activityPattern: nocturnal
+    challengeEligible: false
+    gbifTaxonKey: 5219243
+    resolvedAt: 2026-11-17T18:18:52.895Z
+    matchType: EXACT
+    reviewNeeded: false
+  - scientificName: Meles meles
+    commonNames:
+      en: European badger
+    group: mammal
+    effortGroup: Mammalia
+    regions:
+      - scotland
+    coastal: false
+    activityPattern: nocturnal
+    challengeEligible: false
+    gbifTaxonKey: 2433875
+    resolvedAt: 2026-11-17T18:18:52.895Z
+    matchType: EXACT
+    reviewNeeded: false
+  - scientificName: Martes martes
+    commonNames:
+      en: Pine marten
+    group: mammal
+    effortGroup: Mammalia
+    regions:
+      - scotland
+    coastal: false
+    activityPattern: nocturnal
+    challengeEligible: false
+    gbifTaxonKey: 5218878
+    resolvedAt: 2026-11-17T18:18:52.895Z
+    matchType: EXACT
+    reviewNeeded: false
+  - scientificName: Phoca vitulina
+    commonNames:
+      en: Harbour seal
+    group: marine
+    effortGroup: Mammalia
+    regions:
+      - scotland
+    coastal: true
+    tidePref: low
+    activityPattern: tidal
+    challengeEligible: false
+    gbifTaxonKey: 2434793
+    resolvedAt: 2026-11-17T18:18:52.895Z
+    matchType: EXACT
+    reviewNeeded: false
+  - scientificName: Ardea cinerea
+    commonNames:
+      en: Grey heron
+    group: bird
+    effortGroup: Aves
+    regions:
+      - scotland
+    coastal: false
+    activityPattern: diurnal
+    challengeEligible: false
+    gbifTaxonKey: 9797180
+    resolvedAt: 2026-11-17T18:18:52.895Z
+    matchType: EXACT
+    reviewNeeded: false
+  - scientificName: Circus cyaneus
+    commonNames:
+      en: Hen harrier
+    group: bird
+    effortGroup: Aves
+    regions:
+      - scotland
+    coastal: false
+    activityPattern: diurnal
+    challengeEligible: false
+    gbifTaxonKey: 2480487
+    resolvedAt: 2026-11-17T18:18:52.895Z
+    matchType: EXACT
+    reviewNeeded: false
+  - scientificName: Falco peregrinus
+    commonNames:
+      en: Peregrine falcon
+    group: bird
+    effortGroup: Aves
+    regions:
+      - scotland
+    coastal: false
+    activityPattern: diurnal
+    challengeEligible: false
+    gbifTaxonKey: 2481047
+    resolvedAt: 2026-11-17T18:18:52.895Z
+    matchType: EXACT
+    reviewNeeded: false
+  - scientificName: Fratercula arctica
+    commonNames:
+      en: Atlantic puffin
+    group: bird
+    effortGroup: Aves
+    regions:
+      - scotland
+    coastal: true
+    tidePref: none
+    activityPattern: diurnal
+    challengeEligible: false
+    gbifTaxonKey: 2481353
+    resolvedAt: 2026-11-17T18:18:52.895Z
+    matchType: EXACT
+    reviewNeeded: false
+  - scientificName: Uria aalge
+    commonNames:
+      en: Common murre
+    group: bird
+    effortGroup: Aves
+    regions:
+      - scotland
+    coastal: true
+    tidePref: none
+    activityPattern: diurnal
+    challengeEligible: false
+    gbifTaxonKey: 2481342
+    resolvedAt: 2026-11-17T18:18:52.895Z
+    matchType: EXACT
+    reviewNeeded: false
+  - scientificName: Gavia immer
+    commonNames:
+      en: Common loon
+    group: bird
+    effortGroup: Aves
+    regions:
+      - scotland
+    coastal: true
+    tidePref: none
+    activityPattern: diurnal
+    challengeEligible: false
+    gbifTaxonKey: 2481962
+    resolvedAt: 2026-11-17T18:18:52.895Z
+    matchType: EXACT
+    reviewNeeded: false
+  - scientificName: Cygnus cygnus
+    commonNames:
+      en: Whooper swan
+    group: bird
+    effortGroup: Aves
+    regions:
+      - scotland
+    coastal: false
+    activityPattern: diurnal
+    challengeEligible: false
+    gbifTaxonKey: 2498347
+    resolvedAt: 2026-11-17T18:18:52.895Z
+    matchType: EXACT
+    reviewNeeded: false
+  - scientificName: Anser anser
+    commonNames:
+      en: Greylag goose
+    group: bird
+    effortGroup: Aves
+    regions:
+      - scotland
+    coastal: false
+    activityPattern: diurnal
+    challengeEligible: false
+    gbifTaxonKey: 2498036
+    resolvedAt: 2026-11-17T18:18:52.895Z
+    matchType: EXACT
+    reviewNeeded: false
+  - scientificName: Erinaceus europaeus
+    commonNames:
+      en: West European hedgehog
+    group: mammal
+    effortGroup: Mammalia
+    regions:
+      - scotland
+    coastal: false
+    activityPattern: nocturnal
+    challengeEligible: false
+    gbifTaxonKey: 5219616
+    resolvedAt: 2026-11-17T18:18:52.895Z
+    matchType: EXACT
+    reviewNeeded: false
+  - scientificName: Mustela erminea
+    commonNames:
+      en: Stoat
+    group: mammal
+    effortGroup: Mammalia
+    regions:
+      - scotland
+    coastal: false
+    activityPattern: diurnal
+    challengeEligible: false
+    gbifTaxonKey: 5219019
+    resolvedAt: 2026-11-17T18:18:52.895Z
+    matchType: EXACT
+    reviewNeeded: false
+  - scientificName: Buteo buteo
+    commonNames:
+      en: Common buzzard
+    group: bird
+    effortGroup: Aves
+    regions:
+      - scotland
+    coastal: false
+    activityPattern: diurnal
+    challengeEligible: false
+    gbifTaxonKey: 2480537
+    resolvedAt: 2026-11-17T18:18:52.895Z
+    matchType: EXACT
+    reviewNeeded: false
+  - scientificName: Haematopus ostralegus
+    commonNames:
+      en: Eurasian oystercatcher
+    group: bird
+    effortGroup: Aves
+    regions:
+      - scotland
+    coastal: true
+    tidePref: low
+    activityPattern: tidal
+    challengeEligible: false
+    gbifTaxonKey: 7788295
+    resolvedAt: 2026-11-17T18:18:52.895Z
+    matchType: EXACT
+    reviewNeeded: false
+  - scientificName: Psittacula krameri
+    commonNames:
+      en: Rose-ringed parakeet
+      ur: طوطا
+    group: bird
+    effortGroup: Aves
+    regions:
+      - sindh
+    coastal: false
+    activityPattern: diurnal
+    challengeEligible: false
+    gbifTaxonKey: 2479226
+    resolvedAt: 2026-11-17T18:18:52.895Z
+    matchType: EXACT
+    reviewNeeded: false
+  - scientificName: Lutrogale perspicillata
+    commonNames:
+      en: Smooth-coated otter
+      ur: آبی اوٹر
+    group: mammal
+    effortGroup: Mammalia
+    regions:
+      - sindh
+    coastal: false
+    activityPattern: crepuscular
+    challengeEligible: false
+    gbifTaxonKey: 2433686
+    resolvedAt: 2026-11-17T18:18:52.895Z
+    matchType: EXACT
+    reviewNeeded: false
+  - scientificName: Platanista gangetica
+    commonNames:
+      en: Indus river dolphin
+      ur: بلھن
+    group: marine
+    effortGroup: Mammalia
+    regions:
+      - sindh
+    coastal: false
+    activityPattern: diurnal
+    challengeEligible: false
+    gbifTaxonKey: 2440764
+    resolvedAt: 2026-11-17T18:18:52.895Z
+    matchType: EXACT
+    reviewNeeded: false
+  - scientificName: Chelonia mydas
+    commonNames:
+      en: Green turtle
+      ur: سبز کچھوا
+    group: reptile
+    effortGroup: Reptilia
+    regions:
+      - sindh
+    coastal: true
+    tidePref: high
+    activityPattern: nocturnal
+    challengeEligible: false
+    gbifTaxonKey: 2442225
+    resolvedAt: 2026-11-17T18:18:52.895Z
+    matchType: EXACT
+    reviewNeeded: false
+  - scientificName: Axis axis
+    commonNames:
+      en: Chital
+    group: mammal
+    effortGroup: Mammalia
+    regions:
+      - sindh
+    coastal: false
+    activityPattern: crepuscular
+    challengeEligible: false
+    gbifTaxonKey: 2440934
+    resolvedAt: 2026-11-17T18:18:52.895Z
+    matchType: EXACT
+    reviewNeeded: false
+  - scientificName: Sus scrofa
+    commonNames:
+      en: Wild boar
+    group: mammal
+    effortGroup: Mammalia
+    regions:
+      - sindh
+    coastal: false
+    activityPattern: nocturnal
+    challengeEligible: false
+    gbifTaxonKey: 7705930
+    resolvedAt: 2026-11-17T18:18:52.895Z
+    matchType: EXACT
+    reviewNeeded: false
+  - scientificName: Canis aureus
+    commonNames:
+      en: Golden jackal
+    group: mammal
+    effortGroup: Mammalia
+    regions:
+      - sindh
+    coastal: false
+    activityPattern: nocturnal
+    challengeEligible: false
+    gbifTaxonKey: 5219219
+    resolvedAt: 2026-11-17T18:18:52.895Z
+    matchType: EXACT
+    reviewNeeded: false
+  - scientificName: Felis chaus
+    commonNames:
+      en: Jungle cat
+    group: mammal
+    effortGroup: Mammalia
+    regions:
+      - sindh
+    coastal: false
+    activityPattern: nocturnal
+    challengeEligible: false
+    gbifTaxonKey: 2435066
+    resolvedAt: 2026-11-17T18:18:52.895Z
+    matchType: EXACT
+    reviewNeeded: false
+  - scientificName: Hyaena hyaena
+    commonNames:
+      en: Striped hyena
+    group: mammal
+    effortGroup: Mammalia
+    regions:
+      - sindh
+    coastal: false
+    activityPattern: nocturnal
+    challengeEligible: false
+    gbifTaxonKey: 5218777
+    resolvedAt: 2026-11-17T18:18:52.895Z
+    matchType: EXACT
+    reviewNeeded: false
+  - scientificName: Gazella bennettii
+    commonNames:
+      en: Chinkara
+    group: mammal
+    effortGroup: Mammalia
+    regions:
+      - sindh
+    coastal: false
+    activityPattern: crepuscular
+    challengeEligible: false
+    gbifTaxonKey: 5220147
+    resolvedAt: 2026-11-17T18:18:52.895Z
+    matchType: EXACT
+    reviewNeeded: false
+  - scientificName: Porphyrio poliocephalus
+    commonNames:
+      en: Grey-headed swamphen
+    group: bird
+    effortGroup: Aves
+    regions:
+      - sindh
+    coastal: false
+    activityPattern: diurnal
+    challengeEligible: false
+    gbifTaxonKey: 5739284
+    resolvedAt: 2026-11-17T18:18:52.895Z
+    matchType: EXACT
+    reviewNeeded: false
+  - scientificName: Phoenicopterus roseus
+    commonNames:
+      en: Greater flamingo
+    group: bird
+    effortGroup: Aves
+    regions:
+      - sindh
+    coastal: true
+    tidePref: none
+    activityPattern: diurnal
+    challengeEligible: false
+    gbifTaxonKey: 4352332
+    resolvedAt: 2026-11-17T18:18:52.895Z
+    matchType: EXACT
+    reviewNeeded: false
+  - scientificName: Pelecanus onocrotalus
+    commonNames:
+      en: Great white pelican
+    group: bird
+    effortGroup: Aves
+    regions:
+      - sindh
+    coastal: false
+    activityPattern: diurnal
+    challengeEligible: false
+    gbifTaxonKey: 2480350
+    resolvedAt: 2026-11-17T18:18:52.895Z
+    matchType: EXACT
+    reviewNeeded: false
+  - scientificName: Haliaeetus leucoryphus
+    commonNames:
+      en: Pallas's fish-eagle
+    group: bird
+    effortGroup: Aves
+    regions:
+      - sindh
+    coastal: false
+    activityPattern: diurnal
+    challengeEligible: false
+    gbifTaxonKey: 2480453
+    resolvedAt: 2026-11-17T18:18:52.895Z
+    matchType: EXACT
+    reviewNeeded: false
+  - scientificName: Grus grus
+    commonNames:
+      en: Common crane
+    group: bird
+    effortGroup: Aves
+    regions:
+      - sindh
+    coastal: false
+    activityPattern: diurnal
+    challengeEligible: false
+    gbifTaxonKey: 2474950
+    resolvedAt: 2026-11-17T18:18:52.895Z
+    matchType: EXACT
+    reviewNeeded: false
+  - scientificName: Bubulcus ibis
+    commonNames:
+      en: Cattle egret
+    group: bird
+    effortGroup: Aves
+    regions:
+      - sindh
+    coastal: false
+    activityPattern: diurnal
+    challengeEligible: false
+    gbifTaxonKey: 2480830
+    resolvedAt: 2026-11-17T18:18:52.895Z
+    matchType: EXACT
+    reviewNeeded: false
+  - scientificName: Egretta garzetta
+    commonNames:
+      en: Little egret
+    group: bird
+    effortGroup: Aves
+    regions:
+      - sindh
+    coastal: false
+    activityPattern: diurnal
+    challengeEligible: false
+    gbifTaxonKey: 2480876
+    resolvedAt: 2026-11-17T18:18:52.895Z
+    matchType: EXACT
+    reviewNeeded: false
+  - scientificName: Crocodylus palustris
+    commonNames:
+      en: Mugger crocodile
+    group: reptile
+    effortGroup: Reptilia
+    regions:
+      - sindh
+    coastal: false
+    activityPattern: diurnal
+    challengeEligible: false
+    gbifTaxonKey: 2441350
+    resolvedAt: 2026-11-17T18:18:52.895Z
+    matchType: EXACT
+    reviewNeeded: false
+  - scientificName: Lissemys punctata
+    commonNames:
+      en: Indian flapshell turtle
+    group: reptile
+    effortGroup: Reptilia
+    regions:
+      - sindh
+    coastal: false
+    activityPattern: diurnal
+    challengeEligible: false
+    gbifTaxonKey: 2442758
+    resolvedAt: 2026-11-17T18:18:52.895Z
+    matchType: EXACT
+    reviewNeeded: false
+  - scientificName: Naja naja
+    commonNames:
+      en: Indian cobra
+    group: reptile
+    effortGroup: Reptilia
+    regions:
+      - sindh
+    coastal: false
+    activityPattern: nocturnal
+    challengeEligible: false
+    gbifTaxonKey: 2470351
+    resolvedAt: 2026-11-17T18:18:52.895Z
+    matchType: EXACT
+    reviewNeeded: false
+  - scientificName: Ortygornis pondicerianus
+    commonNames:
+      en: Grey francolin
+    group: bird
+    effortGroup: Aves
+    regions:
+      - sindh
+    coastal: false
+    activityPattern: diurnal
+    challengeEligible: false
+    gbifTaxonKey: 11273070
+    resolvedAt: 2026-11-17T18:18:52.895Z
+    matchType: EXACT
+    reviewNeeded: false
+  - scientificName: Pavo cristatus
+    commonNames:
+      en: Indian peafowl
+    group: bird
+    effortGroup: Aves
+    regions:
+      - sindh
+    coastal: false
+    activityPattern: diurnal
+    challengeEligible: false
+    gbifTaxonKey: 9451184
+    resolvedAt: 2026-11-17T18:18:52.895Z
+    matchType: EXACT
+    reviewNeeded: false
+  - scientificName: Tadorna ferruginea
+    commonNames:
+      en: Ruddy shelduck
+    group: bird
+    effortGroup: Aves
+    regions:
+      - sindh
+    coastal: false
+    activityPattern: diurnal
+    challengeEligible: false
+    gbifTaxonKey: 2498015
+    resolvedAt: 2026-11-17T18:18:52.895Z
+    matchType: EXACT
+    reviewNeeded: false
+  - scientificName: Anastomus oscitans
+    commonNames:
+      en: Asian openbill
+    group: bird
+    effortGroup: Aves
+    regions:
+      - sindh
+    coastal: false
+    activityPattern: diurnal
+    challengeEligible: false
+    gbifTaxonKey: 5229410
+    resolvedAt: 2026-11-17T18:18:52.895Z
+    matchType: EXACT
+    reviewNeeded: false
+  - scientificName: Circus aeruginosus
+    commonNames:
+      en: Western marsh harrier
+    group: bird
+    effortGroup: Aves
+    regions:
+      - sindh
+    coastal: false
+    activityPattern: diurnal
+    challengeEligible: false
+    gbifTaxonKey: 2480482
+    resolvedAt: 2026-11-17T18:18:52.895Z
+    matchType: EXACT
+    reviewNeeded: false
