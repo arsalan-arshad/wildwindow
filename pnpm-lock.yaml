@@ -267,6 +267,9 @@ importers:
       '@wildwindow/geoprivacy':
         specifier: workspace:^
         version: link:../../packages/geoprivacy
+      '@wildwindow/scoring':
+        specifier: workspace:^
+        version: link:../../packages/scoring
       '@wildwindow/shared':
         specifier: workspace:*
         version: link:../../packages/shared

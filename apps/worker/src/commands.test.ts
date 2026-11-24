@@ -11,5 +11,6 @@ describe('worker command registry', () => {
     expect(names).toContain('gbif:fetch');
     expect(names).toContain('gbif:load');
     expect(names).toContain('aggregate');
+    expect(names).toContain('score:refs');
   });
 });
