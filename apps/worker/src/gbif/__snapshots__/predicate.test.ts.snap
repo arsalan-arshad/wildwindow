@@ -1,0 +1,107 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`buildPredicate > builds a scotland target predicate (snapshot) 1`] = `
+{
+  "predicates": [
+    {
+      "key": "TAXON_KEY",
+      "type": "in",
+      "values": [
+        "2498262",
+        "5219173",
+      ],
+    },
+    {
+      "key": "COUNTRY",
+      "type": "equals",
+      "value": "GB",
+    },
+    {
+      "key": "LICENSE",
+      "type": "in",
+      "values": [
+        "CC0_1_0",
+        "CC_BY_4_0",
+      ],
+    },
+    {
+      "key": "HAS_COORDINATE",
+      "type": "equals",
+      "value": "true",
+    },
+    {
+      "key": "HAS_GEOSPATIAL_ISSUE",
+      "type": "equals",
+      "value": "false",
+    },
+    {
+      "key": "BASIS_OF_RECORD",
+      "type": "in",
+      "values": [
+        "HUMAN_OBSERVATION",
+        "MACHINE_OBSERVATION",
+        "OBSERVATION",
+      ],
+    },
+    {
+      "key": "YEAR",
+      "type": "greaterThanOrEquals",
+      "value": "2005",
+    },
+  ],
+  "type": "and",
+}
+`;
+
+exports[`buildPredicate > builds a sindh effort predicate (snapshot) 1`] = `
+{
+  "predicates": [
+    {
+      "key": "TAXON_KEY",
+      "type": "in",
+      "values": [
+        "212",
+        "359",
+      ],
+    },
+    {
+      "key": "GADM_GID",
+      "type": "equals",
+      "value": "PAK.8_1",
+    },
+    {
+      "key": "LICENSE",
+      "type": "in",
+      "values": [
+        "CC0_1_0",
+        "CC_BY_4_0",
+      ],
+    },
+    {
+      "key": "HAS_COORDINATE",
+      "type": "equals",
+      "value": "true",
+    },
+    {
+      "key": "HAS_GEOSPATIAL_ISSUE",
+      "type": "equals",
+      "value": "false",
+    },
+    {
+      "key": "BASIS_OF_RECORD",
+      "type": "in",
+      "values": [
+        "HUMAN_OBSERVATION",
+        "MACHINE_OBSERVATION",
+        "OBSERVATION",
+      ],
+    },
+    {
+      "key": "YEAR",
+      "type": "greaterThanOrEquals",
+      "value": "2005",
+    },
+  ],
+  "type": "and",
+}
+`;

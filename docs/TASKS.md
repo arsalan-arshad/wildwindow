@@ -205,12 +205,13 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Depends on: T0.9
   - Do: a typed client for `POST /v1/occurrence/download/request`, `GET /v1/occurrence/download/{key}` and the download file, using `GBIF_USER`, `GBIF_PASSWORD` and `GBIF_EMAIL`. Add retries with backoff.
   - Acceptance test: unit tests with a mocked HTTP layer (`msw` or `nock`); no network in CI.
-  - Done: 2026-11-25 — `GbifClient` in `apps/worker/src/gbif/` (request, getDownload, downloadFile) with Zod schemas, Basic auth from `GBIF_USER`/`GBIF_PASSWORD`/`GBIF_EMAIL`, exponential backoff retries; msw unit tests (no network). New deps: `zod` (runtime), `msw@2` (dev).
+  - Done: 2026-11-25, PR #14 — `GbifClient` in `apps/worker/src/gbif/` (request, getDownload, downloadFile) with Zod schemas, Basic auth from `GBIF_USER`/`GBIF_PASSWORD`/`GBIF_EMAIL`, exponential backoff retries; msw unit tests (no network). New deps: `zod` (runtime), `msw@2` (dev).
 
-- [ ] **T3.2 Predicate builder**
+- [x] **T3.2 Predicate builder**
   - Depends on: T3.1, T2.7
   - Do: `buildPredicate({region, kind, taxonKeys})` following §3.2 step 1, **always** including `LICENSE in [CC0_1_0, CC_BY_4_0]`.
   - Acceptance test: snapshot tests; a test fails if the licence predicate is missing or has extra licences.
+  - Done: 2026-11-25 — `buildPredicate` in `apps/worker/src/gbif/predicate.ts`: TAXON_KEY + region geo (scotland=`COUNTRY=GB`, sindh=`GADM_GID=PAK.8_1` looked up 2026-11-24) + LICENSE allowlist + coords/issues/basis/year≥2005. Snapshot + licence-guard tests.
 
 - [ ] **T3.3 `gbif:request` and `gbif:fetch` commands**
   - Depends on: T3.2, T2.4
