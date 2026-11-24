@@ -1,8 +1,8 @@
 # Local PostGIS for WildWindow (ARCHITECTURE §2 / §11).
-# Image: PostgreSQL 17 + PostGIS 3.5 — project standard (not host Postgres.app).
+# Image: PostgreSQL 18 + PostGIS 3.7 — project standard (not host Postgres.app).
 services:
   db:
-    image: postgis/postgis:17-3.5
+    image: postgis/postgis:18-3.7
     # Official postgis/postgis tags are amd64-only today; Docker Desktop on
     # Apple Silicon runs this under emulation (Rosetta / QEMU).
     platform: linux/amd64
@@ -14,7 +14,9 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: wildwindow
     volumes:
-      - wildwindow_pgdata:/var/lib/postgresql/data
+      # PG 18+ official image VOLUME is `/var/lib/postgresql` (not `.../data`).
+      # New volume name so a leftover PG 17 data dir is never reused.
+      - wildwindow_pgdata18:/var/lib/postgresql
       - ./docker/db/init-postgis.sql:/docker-entrypoint-initdb.d/01-postgis.sql:ro
     healthcheck:
       # Probe TCP so the check fails while the init-only temp server is
@@ -23,7 +25,7 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
-      start_period: 10s
+      start_period: 15s
 
 volumes:
-  wildwindow_pgdata:
+  wildwindow_pgdata18:

@@ -39,10 +39,10 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
 
 - [x] **T0.4 Local database and env**
   - Depends on: T0.1
-  - Do: `docker-compose.yml` with the `db` service (`postgis/postgis:17-3.5`, port 5432, a named volume, a healthcheck). Root scripts `db:up` and `db:down`. A `.env.example` listing **every** key from AGENTS.md §3 with no secret values.
+  - Do: `docker-compose.yml` with the `db` service (`postgis/postgis:18-3.7`, port 5432, a named volume at `/var/lib/postgresql`, a healthcheck). Root scripts `db:up` and `db:down`. A `.env.example` listing **every** key from AGENTS.md §3 with no secret values.
   - Deliverable: a local PostGIS that starts with one command.
   - Acceptance test: `pnpm db:up` and then `docker compose exec db psql -U postgres -c "SELECT postgis_full_version();"` prints a version.
-  - Done: 2026-11-17 — `docker-compose.yml` + `docker/db/init-postgis.sql` + `pnpm db:up`/`db:down`; acceptance printed PostGIS 3.5.2 on PG 17.5. Kept project image `17-3.5` (ARCHITECTURE §2); host Postgres.app 18 has no PostGIS and is not a substitute — free 5432 or remap. Apple Silicon: `platform: linux/amd64` (official image is amd64-only).
+  - Done: 2026-11-17 — `docker-compose.yml` + `docker/db/init-postgis.sql` + `pnpm db:up`/`db:down`. Updated 2026-11-25 to `postgis/postgis:18-3.7` (PG 18 volume `/var/lib/postgresql`, fresh `wildwindow_pgdata18`); CI services match. Apple Silicon: `platform: linux/amd64` (official image is amd64-only).
 
 - [x] **T0.5 Env validation helper**
   - Depends on: T0.2
