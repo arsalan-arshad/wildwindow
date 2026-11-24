@@ -180,12 +180,12 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Acceptance test: `pnpm db:seed` → 2 regions; an integration test finds that Glasgow (55.86, −4.25) is in Scotland and Karachi (24.86, 67.01) is in Sindh.
   - Done: 2026-11-17 — Natural Earth Admin-1 dissolve+simplify for Scotland/Sindh; `pnpm db:seed` upserts `ref.regions`; ST_Covers tests for Glasgow and Karachi.
 
-- [ ] **T2.7 Beta species list and taxon resolution**
+- [x] **T2.7 Beta species list and taxon resolution**
   - Depends on: T0.11, T2.2
   - Do: fill in `data/beta-species.yaml` with about 40–60 species (about 20–30 per region; the common kingfisher must be in both). Write the `pnpm data:resolve-taxa` script, which calls the GBIF species match API and fills in `gbifTaxonKey` along with `resolvedAt`. **Do not type keys from memory.** Seed `ref.taxa` and `ref.taxon_region` (tiers from `sensitive-species.yaml`).
   - Deliverable: a resolved YAML file and a seed.
   - Acceptance test: every species has `gbifTaxonKey` with match type `EXACT`; anything that isn't exact is listed for human review; `pnpm db:seed` loads every species and tier.
-  - 🧑 Arsalan checks the species list and the starting tiers.
+  - Done: 2026-11-25 — 51 taxa (26 Scotland / 26 Sindh incl. common kingfisher in both); all `matchType: EXACT` via `pnpm data:resolve-taxa`; seeds `ref.taxa` + `ref.taxon_region` from YAML tiers. 🧑 Follow-up: Arsalan still reviews the species list and starting tiers (does not block merge).
 
 - [ ] **T2.8 Seed the places (GeoNames)**
   - Depends on: T2.6

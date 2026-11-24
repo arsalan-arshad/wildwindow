@@ -4,9 +4,14 @@ export { applyRoles, roleConnectionUrl, type RolePasswords } from './roles.js';
 export {
   REGION_SEEDS,
   boundariesFolder,
+  dataFolder,
+  seedAll,
   seedRegions,
+  seedTaxa,
   type RegionSeed,
+  type SeedAllResult,
   type SeedRegionsResult,
+  type SeedTaxaResult,
 } from './seed.js';
 export {
   appSchema,

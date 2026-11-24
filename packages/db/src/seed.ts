@@ -2,7 +2,13 @@ import { readFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { loadEnv } from '@wildwindow/shared';
+import {
+  loadEnv,
+  validateDataDir,
+  type BetaSpeciesEntry,
+  type RegionId,
+  type SensitivityTier,
+} from '@wildwindow/shared';
 import { z } from 'zod';
 
 import { createPool } from './client.js';
@@ -24,8 +30,12 @@ const here = dirname(fileURLToPath(import.meta.url));
 
 /** Repo `data/boundaries/` — GeoJSON committed for T2.6 (Natural Earth). */
 export function boundariesFolder(): string {
-  // packages/db/src → repo root data/boundaries (also works from dist/)
   return resolve(here, '..', '..', '..', 'data', 'boundaries');
+}
+
+/** Repo `data/` — beta-species + sensitive-species YAML. */
+export function dataFolder(): string {
+  return resolve(here, '..', '..', '..', 'data');
 }
 
 export type RegionSeed = {
@@ -61,6 +71,16 @@ export type SeedRegionsResult = {
   readonly regions: readonly { slug: string; id: number; name: string; timeZone: string }[];
 };
 
+export type SeedTaxaResult = {
+  readonly taxaCount: number;
+  readonly taxonRegionCount: number;
+};
+
+export type SeedAllResult = {
+  readonly regions: SeedRegionsResult['regions'];
+  readonly taxa: SeedTaxaResult;
+};
+
 async function loadRegionGeometryJson(folder: string, fileName: string): Promise<string> {
   const raw = await readFile(resolve(folder, fileName), 'utf8');
   const parsed: unknown = JSON.parse(raw);
@@ -91,10 +111,7 @@ export async function seedRegions(
         `
         INSERT INTO ref.regions (slug, name, country_code, time_zone, geom, min_res)
         VALUES (
-          $1,
-          $2,
-          $3,
-          $4,
+          $1, $2, $3, $4,
           ST_Multi(ST_SetSRID(ST_GeomFromGeoJSON($5), 4326)),
           $6
         )
@@ -133,14 +150,155 @@ export async function seedRegions(
   }
 }
 
+function requireGbifKey(entry: BetaSpeciesEntry): number {
+  if (entry.gbifTaxonKey === undefined) {
+    throw new Error(
+      `seedTaxa: ${entry.scientificName} is missing gbifTaxonKey — run pnpm data:resolve-taxa`,
+    );
+  }
+  if (entry.matchType !== undefined && entry.matchType !== 'EXACT') {
+    throw new Error(
+      `seedTaxa: ${entry.scientificName} matchType=${entry.matchType} (needs human review)`,
+    );
+  }
+  return entry.gbifTaxonKey;
+}
+
+function tierFor(
+  scientificName: string,
+  region: RegionId,
+  sensitive: Map<string, { tier: SensitivityTier; lockoutMonths: number[] }>,
+): { tier: SensitivityTier; lockoutMonths: number[] } {
+  const hit = sensitive.get(`${scientificName.toLowerCase()}::${region}`);
+  if (hit !== undefined) {
+    return hit;
+  }
+  // ARCHITECTURE §3.3 default: when missing, use protected (safer) rather than open.
+  return { tier: 'protected', lockoutMonths: [] };
+}
+
+/**
+ * Upsert `ref.taxa` and `ref.taxon_region` from data YAML (T2.7).
+ * Requires resolved EXACT gbifTaxonKey on every beta species.
+ */
+export async function seedTaxa(
+  connectionString: string,
+  folder: string = dataFolder(),
+): Promise<SeedTaxaResult> {
+  const { betaSpecies, sensitiveSpecies } = validateDataDir(folder);
+  const sensitive = new Map<string, { tier: SensitivityTier; lockoutMonths: number[] }>();
+  for (const row of sensitiveSpecies.species) {
+    sensitive.set(`${row.scientificName.toLowerCase()}::${row.region}`, {
+      tier: row.tier,
+      lockoutMonths: row.lockoutMonths ?? [],
+    });
+  }
+
+  const pool = createPool(connectionString);
+  try {
+    const regionIds = new Map<string, number>();
+    const regionResult = await pool.query<{ id: number; slug: string }>(
+      `SELECT id, slug FROM ref.regions WHERE slug = ANY($1::text[])`,
+      [REGION_SEEDS.map((r) => r.slug)],
+    );
+    for (const row of regionResult.rows) {
+      regionIds.set(row.slug, row.id);
+    }
+    for (const seed of REGION_SEEDS) {
+      if (!regionIds.has(seed.slug)) {
+        throw new Error(`seedTaxa: region ${seed.slug} missing — run seedRegions first`);
+      }
+    }
+
+    let taxaCount = 0;
+    let taxonRegionCount = 0;
+
+    for (const entry of betaSpecies.species) {
+      const gbifKey = requireGbifKey(entry);
+      const taxonResult = await pool.query<{ id: number }>(
+        `
+        INSERT INTO ref.taxa (
+          gbif_taxon_key, scientific_name, common_names, "group", effort_group,
+          coastal, tide_pref, activity_pattern, challenge_eligible
+        )
+        VALUES ($1, $2, $3::jsonb, $4, $5, $6, $7, $8, $9)
+        ON CONFLICT (gbif_taxon_key) DO UPDATE SET
+          scientific_name = EXCLUDED.scientific_name,
+          common_names = EXCLUDED.common_names,
+          "group" = EXCLUDED."group",
+          effort_group = EXCLUDED.effort_group,
+          coastal = EXCLUDED.coastal,
+          tide_pref = EXCLUDED.tide_pref,
+          activity_pattern = EXCLUDED.activity_pattern,
+          challenge_eligible = EXCLUDED.challenge_eligible
+        RETURNING id
+        `,
+        [
+          gbifKey,
+          entry.scientificName,
+          JSON.stringify(entry.commonNames),
+          entry.group,
+          entry.effortGroup,
+          entry.coastal,
+          entry.tidePref ?? null,
+          entry.activityPattern,
+          entry.challengeEligible,
+        ],
+      );
+      const taxon = taxonResult.rows[0];
+      if (taxon === undefined) {
+        throw new Error(`seedTaxa: no taxon row for ${entry.scientificName}`);
+      }
+      taxaCount += 1;
+
+      for (const regionSlug of entry.regions) {
+        const regionId = regionIds.get(regionSlug);
+        if (regionId === undefined) {
+          throw new Error(`seedTaxa: unknown region ${regionSlug}`);
+        }
+        const { tier, lockoutMonths } = tierFor(entry.scientificName, regionSlug, sensitive);
+        await pool.query(
+          `
+          INSERT INTO ref.taxon_region (taxon_id, region_id, tier, lockout_months)
+          VALUES ($1, $2, $3, $4::int[])
+          ON CONFLICT (taxon_id, region_id) DO UPDATE SET
+            tier = EXCLUDED.tier,
+            lockout_months = EXCLUDED.lockout_months
+          `,
+          [taxon.id, regionId, tier, lockoutMonths],
+        );
+        taxonRegionCount += 1;
+      }
+    }
+
+    return { taxaCount, taxonRegionCount };
+  } finally {
+    await pool.end();
+  }
+}
+
+/** Seed regions then taxa / tiers (T2.6 + T2.7). */
+export async function seedAll(
+  connectionString: string,
+  options: { boundariesDir?: string; dataDir?: string } = {},
+): Promise<SeedAllResult> {
+  const regions = await seedRegions(connectionString, options.boundariesDir ?? boundariesFolder());
+  const taxa = await seedTaxa(connectionString, options.dataDir ?? dataFolder());
+  return { regions: regions.regions, taxa };
+}
+
 async function main(): Promise<void> {
   const env = loadEnv(seedEnvSchema);
-  const result = await seedRegions(env.DATABASE_URL);
+  const result = await seedAll(env.DATABASE_URL);
   // eslint-disable-next-line no-console -- CLI progress for pnpm db:seed
   console.log(
     `Seeded ${String(result.regions.length)} regions: ${result.regions
       .map((r) => `${r.slug} (${r.timeZone})`)
       .join(', ')}`,
+  );
+  // eslint-disable-next-line no-console -- CLI progress for pnpm db:seed
+  console.log(
+    `Seeded ${String(result.taxa.taxaCount)} taxa and ${String(result.taxa.taxonRegionCount)} taxon_region rows`,
   );
 }
 
