@@ -201,10 +201,11 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
 
 ## Phase 3: Ingestion (`apps/worker`)
 
-- [ ] **T3.1 GBIF client**
+- [x] **T3.1 GBIF client**
   - Depends on: T0.9
   - Do: a typed client for `POST /v1/occurrence/download/request`, `GET /v1/occurrence/download/{key}` and the download file, using `GBIF_USER`, `GBIF_PASSWORD` and `GBIF_EMAIL`. Add retries with backoff.
   - Acceptance test: unit tests with a mocked HTTP layer (`msw` or `nock`); no network in CI.
+  - Done: 2026-11-25 — `GbifClient` in `apps/worker/src/gbif/` (request, getDownload, downloadFile) with Zod schemas, Basic auth from `GBIF_USER`/`GBIF_PASSWORD`/`GBIF_EMAIL`, exponential backoff retries; msw unit tests (no network). New deps: `zod` (runtime), `msw@2` (dev).
 
 - [ ] **T3.2 Predicate builder**
   - Depends on: T3.1, T2.7
