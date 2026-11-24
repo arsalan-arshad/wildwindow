@@ -1,5 +1,6 @@
 import { Command } from 'commander';
 
+import { runAggregate } from './aggregate/run.js';
 import { runGbifFetch } from './gbif/fetch.js';
 import { runGbifLoad } from './gbif/load.js';
 import { runGbifRequest } from './gbif/request.js';
@@ -101,6 +102,27 @@ export function createProgram(): Command {
           rejectedLicence: result.rejectedLicence,
           rejectedCoords: result.rejectedCoords,
           rejectedOther: result.rejectedOther,
+        }),
+      );
+    });
+
+  program
+    .command('aggregate')
+    .description('Rebuild pub taxon aggregates for a region (tier delay + suppressAndMerge)')
+    .requiredOption('--region <slug>', 'scotland|sindh')
+    .action(async (opts: { region: string }) => {
+      const result = await runAggregate({
+        region: parseRegion(opts.region),
+      });
+      console.log(
+        JSON.stringify({
+          regionId: result.regionId,
+          regionSlug: result.regionSlug,
+          taxaProcessed: result.taxaProcessed,
+          taxaSkippedNoForecast: result.taxaSkippedNoForecast,
+          cellWeekRows: result.cellWeekRows,
+          regionWeekRows: result.regionWeekRows,
+          hourProfileRows: result.hourProfileRows,
         }),
       );
     });

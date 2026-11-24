@@ -230,12 +230,13 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Depends on: T3.3, T3.4, T2.5
   - Do: unzip and stream the TSV; send target rows to `raw.occurrences` with `COPY` (dedupe on conflict) and count effort rows into `pub.effort_cell_week` at res 7, 5 and 4. Connect as `ww_worker`. Update the run counters.
   - Acceptance test: a 10k-row fixture loads in under 30 s locally; the counters match; re-running it creates no duplicates.
-  - Done: 2026-11-25 — `gbif:load` streams zip/TSV via yauzl+csv-parse; COPY→staging→`ON CONFLICT DO NOTHING` for targets; effort upsert at res 7/5/4 (region replace); ww_worker + `SELECT` on `ingest_runs`.
+  - Done: 2026-11-25, PR #18 — `gbif:load` streams zip/TSV via yauzl+csv-parse; COPY→staging→`ON CONFLICT DO NOTHING` for targets; effort upsert at res 7/5/4 (region replace); ww_worker + `SELECT` on `ingest_runs`; fixture entry `occurrence.csv`.
 
-- [ ] **T3.6 `aggregate` command**
+- [~] **T3.6 `aggregate` command**
   - Depends on: T3.5, T1.4, T1.3
   - Do: §3.2 step 4. For each (taxon, region): apply the delay, count per (cell at the tier's resolution, week) with observer sets, run `suppressAndMerge`, and write `pub.taxon_cell_week` and `pub.taxon_region_week`; build `pub.taxon_hour_profile`. Do everything for a region in one transaction. Skip `no_forecast` taxa entirely.
   - Acceptance test: an integration test with seeded raw rows checks that a `protected` species only ever produces cells at res ≤ 5, cells under the minimums are merged or suppressed, records younger than 30 days are excluded, and no `pub` row exists for a `no_forecast` taxon.
+  - In progress: 2026-11-25 — implementing `aggregate --region` on `cursor/t3-6-aggregate-0379`.
 
 - [ ] **T3.7 `score:refs` command**
   - Depends on: T3.6, T4.3
