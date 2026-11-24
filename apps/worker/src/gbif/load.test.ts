@@ -144,7 +144,9 @@ describe('T3.5 gbif:load streaming', () => {
     runId = requireRow(run[0], 'run').id;
 
     workDir = await mkdtemp(path.join(tmpdir(), 'ww-t35-'));
-    const tsvPath = path.join(workDir, 'occurrence.txt');
+    // GBIF SIMPLE_CSV uses a .csv extension (tab-delimited). Zip entry must
+    // end in .csv/.tsv so openOccurrenceTsvStream finds it.
+    const tsvPath = path.join(workDir, 'occurrence.csv');
     await writeFile(tsvPath, buildTsv(ROW_COUNT), 'utf8');
     zipPath = path.join(workDir, 'occurrence.zip');
     execFileSync('zip', ['-j', zipPath, tsvPath], { stdio: 'ignore' });
