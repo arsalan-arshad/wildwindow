@@ -202,6 +202,10 @@ jobs:
           --health-retries 10
     env:
       DATABASE_URL: postgresql://postgres:postgres@localhost:5432/wildwindow
+      WW_API_DB_PASSWORD: ci_ww_api_password
+      WW_WORKER_DB_PASSWORD: ci_ww_worker_password
+      DATABASE_URL_WORKER: postgresql://ww_worker:ci_ww_worker_password@localhost:5432/wildwindow
+      OBSERVER_HASH_SALT: ci-observer-hash-salt
     steps:
       - name: Checkout
         uses: actions/checkout@v4

@@ -87,7 +87,8 @@ export async function applyRoles(
       `GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA pub TO ww_worker`,
     );
     await client.query(`GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA raw, ref, pub TO ww_worker`);
-    await client.query(`GRANT INSERT, UPDATE ON TABLE app.ingest_runs TO ww_worker`);
+    // SELECT needed so gbif:fetch / gbif:load can read run bookkeeping (T3.3+).
+    await client.query(`GRANT SELECT, INSERT, UPDATE ON TABLE app.ingest_runs TO ww_worker`);
     await client.query(`GRANT USAGE, SELECT ON SEQUENCE app.ingest_runs_id_seq TO ww_worker`);
 
     // Future tables created by the owner keep the same policy.

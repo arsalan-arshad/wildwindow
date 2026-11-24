@@ -1,6 +1,7 @@
 import { Command } from 'commander';
 
 import { runGbifFetch } from './gbif/fetch.js';
+import { runGbifLoad } from './gbif/load.js';
 import { runGbifRequest } from './gbif/request.js';
 import { defaultBetaSpeciesPath, defaultDownloadDir } from './paths.js';
 
@@ -74,6 +75,32 @@ export function createProgram(): Command {
           doi: result.doi,
           total: result.total,
           zipPath: result.zipPath,
+        }),
+      );
+    });
+
+  program
+    .command('gbif:load')
+    .description('Stream-parse a GBIF zip/TSV into raw.occurrences or effort cells')
+    .requiredOption('--run <id>', 'ingest_runs id', (v) => Number.parseInt(v, 10))
+    .requiredOption('--file <path>', 'path to download .zip or .tsv')
+    .action(async (opts: { run: number; file: string }) => {
+      if (!Number.isInteger(opts.run) || opts.run <= 0) {
+        throw new Error(`--run must be a positive integer (got ${String(opts.run)})`);
+      }
+      const result = await runGbifLoad({
+        runId: opts.run,
+        zipPath: opts.file,
+      });
+      console.log(
+        JSON.stringify({
+          runId: result.runId,
+          kind: result.kind,
+          total: result.total,
+          loaded: result.loaded,
+          rejectedLicence: result.rejectedLicence,
+          rejectedCoords: result.rejectedCoords,
+          rejectedOther: result.rejectedOther,
         }),
       );
     });
