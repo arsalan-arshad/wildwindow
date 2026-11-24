@@ -211,13 +211,14 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Depends on: T3.1, T2.7
   - Do: `buildPredicate({region, kind, taxonKeys})` following §3.2 step 1, **always** including `LICENSE in [CC0_1_0, CC_BY_4_0]`.
   - Acceptance test: snapshot tests; a test fails if the licence predicate is missing or has extra licences.
-  - Done: 2026-11-25 — `buildPredicate` in `apps/worker/src/gbif/predicate.ts`: TAXON_KEY + region geo (scotland=`COUNTRY=GB`, sindh=`GADM_GID=PAK.8_1` looked up 2026-11-24) + LICENSE allowlist + coords/issues/basis/year≥2005. Snapshot + licence-guard tests.
+  - Done: 2026-11-25, PR #15 — `buildPredicate` in `apps/worker/src/gbif/predicate.ts`: TAXON_KEY + region geo (scotland=`COUNTRY=GB`, sindh=`GADM_GID=PAK.8_1` looked up 2026-11-24) + LICENSE allowlist + coords/issues/basis/year≥2005. Snapshot + licence-guard tests.
 
-- [ ] **T3.3 `gbif:request` and `gbif:fetch` commands**
+- [x] **T3.3 `gbif:request` and `gbif:fetch` commands**
   - Depends on: T3.2, T2.4
   - Do: the commands and `app.ingest_runs` bookkeeping (status, key, DOI, totals).
   - Acceptance test: an integration test with a mocked GBIF moves a run from `requested` to `succeeded` and stores the DOI.
-  - 🧑 Arsalan creates a GBIF account and puts the credentials in `.env`.
+  - 🧑 Arsalan creates a GBIF account and puts the credentials in `.env` (still needed for live T3.9 runs; tests mock GBIF).
+  - Done: 2026-11-25 — `gbif:request` / `gbif:fetch` CLI; `app.ingest_runs` status `requested`→`succeeded` with key/DOI/total; effort keys looked up (Aves 212, Mammalia 359, Reptilia→Squamata/Testudines/Crocodylia). Integration test mocks GBIF via msw. Worker CI runs `pnpm db:migrate` before tests.
 
 - [ ] **T3.4 Row validator**
   - Depends on: T0.9
