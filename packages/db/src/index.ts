@@ -33,6 +33,14 @@ export {
   type GeonameCandidate,
 } from './geonames.js';
 export {
+  areaLabelFor,
+  cellToWktPolygon,
+  formatAreaLabel,
+  type AreaLabelLookup,
+  type AreaLabelParts,
+} from './area-label.js';
+export { defaultZonesFolder, seedZones, zonesFolder, type SeedZonesResult } from './seed-zones.js';
+export {
   appSchema,
   auditLog,
   challengeEntries,

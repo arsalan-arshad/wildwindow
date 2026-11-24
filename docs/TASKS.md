@@ -193,10 +193,11 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Acceptance test: searching "Glasgow" and "Karachi" in `ref.places` returns them; every place has `cell_r7`.
   - Done: 2026-11-25 — `pnpm data:places` (+ `--fixture`); fixture seeds Glasgow/Karachi; ST_Covers filter; cell_r7 via geoprivacy; attribution in `data/places/SOURCES.md`.
 
-- [ ] **T2.9 Area labels**
+- [x] **T2.9 Area labels**
   - Depends on: T2.6
   - Do: seed `ref.zones` for label use only (check and record the source licence in `SOURCES.md`). Add a function `areaLabelFor(cell)` → for example "Glasgow · Kelvin area" (res 7), "Lower Clyde area" (res 5) or "Highland area" (res 4): the largest-overlap zone plus the nearest big place.
   - Acceptance test: unit and integration tests for each resolution; labels never contain numbers that look like coordinates.
+  - Done: 2026-11-25 — 32 Scotland council areas + 23 Sindh districts in `data/boundaries/zones/` (licences in `data/boundaries/SOURCES.md`); `areaLabelFor` + `formatAreaLabel`; labels reject coordinate-like numbers.
 
 ## Phase 3: Ingestion (`apps/worker`)
 

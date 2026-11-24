@@ -276,19 +276,28 @@ export type SeedAllResult = {
   readonly regions: SeedRegionsResult['regions'];
   readonly taxa: SeedTaxaResult;
   readonly places: { readonly inserted: number };
+  readonly zones: { readonly zoneCount: number };
 };
 
-/** Seed regions, taxa / tiers, then places from the GeoNames fixture (T2.6–T2.8). */
+/** Seed regions, taxa, places fixture, and label-only zones (T2.6–T2.9). */
 export async function seedAll(
   connectionString: string,
   options: { boundariesDir?: string; dataDir?: string } = {},
 ): Promise<SeedAllResult> {
-  const regions = await seedRegions(connectionString, options.boundariesDir ?? boundariesFolder());
+  const boundariesDir = options.boundariesDir ?? boundariesFolder();
+  const regions = await seedRegions(connectionString, boundariesDir);
   const taxa = await seedTaxa(connectionString, options.dataDir ?? dataFolder());
-  // Lazy import avoids a cycle: seed-places → seed → seed-places.
+  // Lazy imports avoid cycles with seed-places / seed-zones.
   const { seedPlacesFromFixture } = await import('./seed-places.js');
+  const { seedZones, zonesFolder } = await import('./seed-zones.js');
   const places = await seedPlacesFromFixture(connectionString);
-  return { regions: regions.regions, taxa, places: { inserted: places.inserted } };
+  const zones = await seedZones(connectionString, zonesFolder(boundariesDir));
+  return {
+    regions: regions.regions,
+    taxa,
+    places: { inserted: places.inserted },
+    zones: { zoneCount: zones.zoneCount },
+  };
 }
 
 async function main(): Promise<void> {
@@ -306,6 +315,8 @@ async function main(): Promise<void> {
   );
   // eslint-disable-next-line no-console -- CLI progress for pnpm db:seed
   console.log(`Seeded ${String(result.places.inserted)} places (GeoNames fixture)`);
+  // eslint-disable-next-line no-console -- CLI progress for pnpm db:seed
+  console.log(`Seeded ${String(result.zones.zoneCount)} zones (label-only)`);
 }
 
 const isMain =
