@@ -6,11 +6,7 @@ export {
   type GbifCredentials,
   type RequestDownloadInput,
 } from './client.js';
-export {
-  GbifHttpError,
-  GbifResponseError,
-  GbifRetryExhaustedError,
-} from './errors.js';
+export { GbifHttpError, GbifResponseError, GbifRetryExhaustedError } from './errors.js';
 export {
   GbifDownloadFormatSchema,
   GbifDownloadRequestSchema,

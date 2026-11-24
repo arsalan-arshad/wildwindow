@@ -66,9 +66,7 @@ describe('GbifClient.requestDownload', () => {
     });
 
     expect(key).toBe('0001234-testkey');
-    expect(seenAuth).toBe(
-      `Basic ${Buffer.from('ww-test:secret', 'utf8').toString('base64')}`,
-    );
+    expect(seenAuth).toBe(`Basic ${Buffer.from('ww-test:secret', 'utf8').toString('base64')}`);
     expect(seenBody).toEqual({
       creator: 'ww-test',
       notificationAddresses: ['ww@example.com'],
@@ -134,11 +132,13 @@ describe('GbifClient.downloadFile', () => {
   it('streams the zip to disk', async () => {
     const zipBytes = Buffer.from('PK\u0003\u0004-fake-zip');
     server.use(
-      http.get(`${BASE}/v1/occurrence/download/request/0001234-testkey.zip`, () =>
-        new HttpResponse(zipBytes, {
-          status: 200,
-          headers: { 'Content-Type': 'application/zip' },
-        }),
+      http.get(
+        `${BASE}/v1/occurrence/download/request/0001234-testkey.zip`,
+        () =>
+          new HttpResponse(zipBytes, {
+            status: 200,
+            headers: { 'Content-Type': 'application/zip' },
+          }),
       ),
     );
 
@@ -187,9 +187,9 @@ describe('GbifClient retries', () => {
       }),
     );
 
-    await expect(
-      client({ maxAttempts: 3 }).getDownload('rate'),
-    ).rejects.toBeInstanceOf(GbifRetryExhaustedError);
+    await expect(client({ maxAttempts: 3 }).getDownload('rate')).rejects.toBeInstanceOf(
+      GbifRetryExhaustedError,
+    );
     expect(hits).toBe(3);
   });
 });

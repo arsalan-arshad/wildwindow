@@ -140,9 +140,10 @@ export class GbifClient {
    * Writes to `destPath` using a stream; creates parent directories.
    */
   async downloadFile(keyOrLink: string, destPath: string): Promise<void> {
-    const url = keyOrLink.startsWith('http://') || keyOrLink.startsWith('https://')
-      ? keyOrLink
-      : `${this.baseUrl}/v1/occurrence/download/request/${encodeURIComponent(keyOrLink)}.zip`;
+    const url =
+      keyOrLink.startsWith('http://') || keyOrLink.startsWith('https://')
+        ? keyOrLink
+        : `${this.baseUrl}/v1/occurrence/download/request/${encodeURIComponent(keyOrLink)}.zip`;
 
     const response = await this.fetchWithRetryAbsolute(url, {
       method: 'GET',
@@ -158,16 +159,11 @@ export class GbifClient {
 
     await mkdir(path.dirname(destPath), { recursive: true });
     // fetch body is a web ReadableStream; Node's fromWeb accepts it at runtime.
-    const nodeStream = Readable.fromWeb(
-      response.body as Parameters<typeof Readable.fromWeb>[0],
-    );
+    const nodeStream = Readable.fromWeb(response.body as Parameters<typeof Readable.fromWeb>[0]);
     await pipeline(nodeStream, createWriteStream(destPath));
   }
 
-  private async fetchWithRetry(
-    apiPath: string,
-    init: RequestInit,
-  ): Promise<Response> {
+  private async fetchWithRetry(apiPath: string, init: RequestInit): Promise<Response> {
     return this.fetchWithRetryAbsolute(`${this.baseUrl}${apiPath}`, init, apiPath);
   }
 
