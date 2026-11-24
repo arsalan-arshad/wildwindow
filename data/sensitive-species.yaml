@@ -1,31 +1,231 @@
+# Sensitivity tiers per (taxon, region). Must follow PRD §9.2 / ARCHITECTURE §3.3.
+# Prefer the higher tier when unsure. Arsalan / conservation reviewers sign off (T2.7 🧑 / T8.3).
 version: 1
 species:
-  # Tiers follow PRD §9.2. Prefer the higher tier when unsure.
+  # —— Scotland (PRD examples + Schedule 1 / sensitive defaults) ——
   - scientificName: Alcedo atthis
     region: scotland
     tier: open
+
   - scientificName: Sciurus vulgaris
     region: scotland
     tier: open
+
   - scientificName: Halichoerus grypus
     region: scotland
     tier: open
+
+  - scientificName: Phoca vitulina
+    region: scotland
+    tier: open
+
+  - scientificName: Cervus elaphus
+    region: scotland
+    tier: open
+
+  - scientificName: Capreolus capreolus
+    region: scotland
+    tier: open
+
+  - scientificName: Vulpes vulpes
+    region: scotland
+    tier: open
+
+  - scientificName: Meles meles
+    region: scotland
+    tier: open
+
+  - scientificName: Ardea cinerea
+    region: scotland
+    tier: open
+
+  - scientificName: Fratercula arctica
+    region: scotland
+    tier: open
+
+  - scientificName: Uria aalge
+    region: scotland
+    tier: open
+
+  - scientificName: Gavia immer
+    region: scotland
+    tier: open
+
+  - scientificName: Cygnus cygnus
+    region: scotland
+    tier: open
+
+  - scientificName: Anser anser
+    region: scotland
+    tier: open
+
+  - scientificName: Erinaceus europaeus
+    region: scotland
+    tier: open
+
+  - scientificName: Mustela erminea
+    region: scotland
+    tier: open
+
+  - scientificName: Buteo buteo
+    region: scotland
+    tier: open
+
+  - scientificName: Haematopus ostralegus
+    region: scotland
+    tier: open
+
   - scientificName: Lutra lutra
     region: scotland
     tier: protected
-    notes: Eurasian otter — example protected tier for Scotland
+    notes: Eurasian otter — PRD §9.2 protected example
+
+  - scientificName: Lepus timidus
+    region: scotland
+    tier: protected
+    notes: Mountain hare — PRD §9.2 protected example
+
+  - scientificName: Martes martes
+    region: scotland
+    tier: protected
+    notes: Pine marten — prefer higher tier when unsure
+
+  - scientificName: Pandion haliaetus
+    region: scotland
+    tier: highly_protected
+    lockoutMonths: [3, 4, 5, 6, 7, 8]
+    notes: Osprey — PRD §9.2 highly_protected with breeding lockout (Schedule 1)
+
+  - scientificName: Haliaeetus albicilla
+    region: scotland
+    tier: highly_protected
+    lockoutMonths: [1, 2, 3, 4, 5, 6, 7, 8]
+    notes: White-tailed eagle — PRD §9.2 highly_protected with breeding lockout (Schedule 1)
+
+  - scientificName: Circus cyaneus
+    region: scotland
+    tier: highly_protected
+    lockoutMonths: [3, 4, 5, 6, 7, 8]
+    notes: Hen harrier — Schedule 1; prefer higher tier
+
+  - scientificName: Falco peregrinus
+    region: scotland
+    tier: highly_protected
+    lockoutMonths: [2, 3, 4, 5, 6, 7]
+    notes: Peregrine falcon — Schedule 1; prefer higher tier
+
+  - scientificName: Tetrao urogallus
+    region: scotland
+    tier: no_forecast
+    notes: Capercaillie — PRD §9.2 no_forecast example
+
+  # —— Sindh ——
   - scientificName: Alcedo atthis
     region: sindh
     tier: open
+
   - scientificName: Psittacula krameri
     region: sindh
     tier: open
+
+  - scientificName: Axis axis
+    region: sindh
+    tier: open
+
+  - scientificName: Sus scrofa
+    region: sindh
+    tier: open
+
+  - scientificName: Canis aureus
+    region: sindh
+    tier: open
+
+  - scientificName: Porphyrio poliocephalus
+    region: sindh
+    tier: open
+
+  - scientificName: Phoenicopterus roseus
+    region: sindh
+    tier: open
+
+  - scientificName: Pelecanus onocrotalus
+    region: sindh
+    tier: open
+
+  - scientificName: Grus grus
+    region: sindh
+    tier: open
+
+  - scientificName: Bubulcus ibis
+    region: sindh
+    tier: open
+
+  - scientificName: Egretta garzetta
+    region: sindh
+    tier: open
+
+  - scientificName: Ortygornis pondicerianus
+    region: sindh
+    tier: open
+
+  - scientificName: Pavo cristatus
+    region: sindh
+    tier: open
+
+  - scientificName: Tadorna ferruginea
+    region: sindh
+    tier: open
+
+  - scientificName: Anastomus oscitans
+    region: sindh
+    tier: open
+
+  - scientificName: Circus aeruginosus
+    region: sindh
+    tier: open
+
   - scientificName: Lutrogale perspicillata
     region: sindh
     tier: protected
-    notes: Smooth-coated otter — example protected tier for Sindh
-  - scientificName: Platanista minor
+    notes: Smooth-coated otter — PRD §9.2 / ARCHITECTURE §3.3 protected
+
+  - scientificName: Platanista gangetica
+    region: sindh
+    tier: protected
+    notes: Indus river dolphin — PRD §9.2 / ARCHITECTURE §3.3 protected
+
+  - scientificName: Felis chaus
+    region: sindh
+    tier: protected
+
+  - scientificName: Hyaena hyaena
+    region: sindh
+    tier: protected
+
+  - scientificName: Gazella bennettii
+    region: sindh
+    tier: protected
+
+  - scientificName: Crocodylus palustris
+    region: sindh
+    tier: protected
+
+  - scientificName: Lissemys punctata
+    region: sindh
+    tier: protected
+
+  - scientificName: Naja naja
+    region: sindh
+    tier: protected
+
+  - scientificName: Chelonia mydas
     region: sindh
     tier: highly_protected
-    lockoutMonths: [3, 4, 5, 6]
-    notes: Indus river dolphin — example highly_protected
+    lockoutMonths: [6, 7, 8, 9, 10, 11]
+    notes: Green turtle nesting lockout — PRD §9.2 / ARCHITECTURE §3.3 highly_protected
+
+  - scientificName: Haliaeetus leucoryphus
+    region: sindh
+    tier: highly_protected
+    lockoutMonths: [10, 11, 12, 1, 2, 3]
+    notes: Pallas's fish-eagle — prefer higher tier when unsure

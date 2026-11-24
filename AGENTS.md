@@ -6,6 +6,10 @@ You are working on **WildWindow** (working name), a wildlife **photo forecast** 
 - Technical source of truth: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) (sections are cited as `§`)
 - Work queue: [docs/TASKS.md](docs/TASKS.md)
 
+### Current status / handoff
+
+Pick the **first unchecked** task in [docs/TASKS.md](docs/TASKS.md) whose dependencies are done. After each landed task: tick that row in `docs/TASKS.md`, and if you are in the Cursor Project autopilot, also update the Project store `docs/project-context.md`. One PR per task.
+
 ## 1. Project overview
 
 - A user picks a **species + area** and gets a weekly **Window score (0–100)**: the best days and best 2-hour block, from historic sightings (season and time of day), golden hour, weather and tides, plus camera settings and fieldcraft.
