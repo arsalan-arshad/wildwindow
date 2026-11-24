@@ -50,10 +50,15 @@ export function formatAreaLabel(parts: AreaLabelParts): string | null {
 }
 
 function shortZoneName(zone: string): string {
-  return zone
-    .replace(/^City of\s+/i, '')
-    .replace(/\s+City$/i, '')
-    .trim();
+  // Avoid `\s+` regexes (CodeQL polynomial-ReDoS); names are short admin labels.
+  let name = zone.trim();
+  if (name.toLowerCase().startsWith('city of ')) {
+    name = name.slice('city of '.length).trim();
+  }
+  if (name.toLowerCase().endsWith(' city')) {
+    name = name.slice(0, -' city'.length).trim();
+  }
+  return name;
 }
 
 function namesOverlap(a: string, b: string): boolean {
