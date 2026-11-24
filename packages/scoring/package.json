@@ -2,5 +2,35 @@
   "name": "@wildwindow/scoring",
   "version": "0.0.0",
   "private": true,
-  "description": "Window score v1 + light helpers — Phase 4"
+  "description": "Window score v1 + light helpers — Phase 4",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "lint": "eslint src --max-warnings=0",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run --config ./vitest.config.ts"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "@wildwindow/config": "workspace:*",
+    "tsup": "^8.4.0",
+    "typescript": "~5.8.3",
+    "vitest": "^3.0.9"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "sideEffects": false
 }

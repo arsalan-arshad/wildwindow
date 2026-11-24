@@ -232,11 +232,11 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Acceptance test: a 10k-row fixture loads in under 30 s locally; the counters match; re-running it creates no duplicates.
   - Done: 2026-11-25, PR #18 — `gbif:load` streams zip/TSV via yauzl+csv-parse; COPY→staging→`ON CONFLICT DO NOTHING` for targets; effort upsert at res 7/5/4 (region replace); ww_worker + `SELECT` on `ingest_runs`; fixture entry `occurrence.csv`.
 
-- [~] **T3.6 `aggregate` command**
+- [x] **T3.6 `aggregate` command**
   - Depends on: T3.5, T1.4, T1.3
   - Do: §3.2 step 4. For each (taxon, region): apply the delay, count per (cell at the tier's resolution, week) with observer sets, run `suppressAndMerge`, and write `pub.taxon_cell_week` and `pub.taxon_region_week`; build `pub.taxon_hour_profile`. Do everything for a region in one transaction. Skip `no_forecast` taxa entirely.
   - Acceptance test: an integration test with seeded raw rows checks that a `protected` species only ever produces cells at res ≤ 5, cells under the minimums are merged or suppressed, records younger than 30 days are excluded, and no `pub` row exists for a `no_forecast` taxon.
-  - In progress: 2026-11-25 — implementing `aggregate --region` on `cursor/t3-6-aggregate-0379`.
+  - Done: 2026-11-25, PR #19 — `aggregate --region` rebuilds pub taxon tables in one txn; delay + `suppressAndMerge`; skips `no_forecast`.
 
 - [ ] **T3.7 `score:refs` command**
   - Depends on: T3.6, T4.3
@@ -259,16 +259,18 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Depends on: T1.1
   - Do: the package, `SCORING_V1` config (every constant from §4), and input and output types that mirror the §7 response.
   - Acceptance test: a typecheck test that the config is `as const` and that the version string is `"1.0"`.
+  - Notes: package + `SCORING_V1` stub landed with T4.3 (WPO-16); full §7 I/O types still TODO.
 
 - [ ] **T4.2 Light helpers**
   - Depends on: T4.1
   - Do: `light.ts` using `suncalc`: civil dawn and dusk, golden hour (−4°…+6°), blue hour (−6°…−4°), and candidate 2-hour blocks, all in the region's time zone. Export a light-only entry point (`@wildwindow/scoring/light`) for mobile and web.
   - Acceptance test: Glasgow and Karachi on fixed dates (a solstice and an equinox) match reference times within ±1 minute (write down where the reference values come from in the test); polar edge cases don't throw.
 
-- [ ] **T4.3 Factor H and reporting rate**
+- [~] **T4.3 Factor H and reporting rate**
   - Depends on: T4.1
   - Do: `reportingRate()` and `factorH()` following §4.2, with circular weeks and the zero-effort rule.
   - Acceptance test: the §4.6 numbers give `H ≈ 0.68`; the week 1 and week 52 wrap works; zero effort → 0.
+  - In progress: 2026-11-25 — minimal `reportingRate`/`factorH`/`weeksAround`/`p95` for T3.7 (WPO-16).
 
 - [ ] **T4.4 Factor T**
   - Depends on: T4.2
