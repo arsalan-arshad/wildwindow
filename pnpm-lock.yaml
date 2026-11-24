@@ -313,6 +313,9 @@ importers:
 
   packages/db:
     dependencies:
+      '@wildwindow/geoprivacy':
+        specifier: workspace:*
+        version: link:../geoprivacy
       '@wildwindow/shared':
         specifier: workspace:*
         version: link:../shared

@@ -7,5 +7,5 @@ export default defineConfig({
   sourcemap: true,
   clean: true,
   target: 'node22',
-  external: ['pg', 'drizzle-orm', '@wildwindow/shared', 'zod'],
+  external: ['pg', 'drizzle-orm', '@wildwindow/shared', '@wildwindow/geoprivacy', 'zod'],
 });
