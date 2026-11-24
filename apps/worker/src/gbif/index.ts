@@ -41,3 +41,18 @@ export { INGEST_SOURCE_GBIF, INGEST_STATUS, type IngestStatus } from './ingest-s
 export { resolveTaxonKeysForRequest, type ResolveTaxonKeysInput } from './taxon-keys.js';
 export { runGbifRequest, type GbifRequestOptions, type GbifRequestResult } from './request.js';
 export { runGbifFetch, type GbifFetchOptions, type GbifFetchResult } from './fetch.js';
+export {
+  UNCERTAINTY_COARSE_MAX_M,
+  UNCERTAINTY_DEFAULT_M,
+  UNCERTAINTY_RES7_MAX_M,
+  hashObserver,
+  normaliseObserver,
+  parseEventDate,
+  isoWeekParts,
+  validateRow,
+  type GbifOccurrenceRow,
+  type ValidateRejectReason,
+  type ValidateRowContext,
+  type ValidateRowResult,
+  type ValidatedOccurrence,
+} from './validate-row.js';
