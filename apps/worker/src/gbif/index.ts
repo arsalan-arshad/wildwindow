@@ -36,3 +36,8 @@ export {
   type GbifDownloadStatus,
   type GbifPredicate,
 } from './schemas.js';
+export { EFFORT_GROUP_TAXON_KEYS, taxonKeysForEffortGroup } from './effort-keys.js';
+export { INGEST_SOURCE_GBIF, INGEST_STATUS, type IngestStatus } from './ingest-status.js';
+export { resolveTaxonKeysForRequest, type ResolveTaxonKeysInput } from './taxon-keys.js';
+export { runGbifRequest, type GbifRequestOptions, type GbifRequestResult } from './request.js';
+export { runGbifFetch, type GbifFetchOptions, type GbifFetchResult } from './fetch.js';

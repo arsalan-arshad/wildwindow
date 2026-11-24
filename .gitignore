@@ -38,6 +38,8 @@ pnpm-debug.log*
 
 # Local data dumps (never commit raw GBIF / GeoNames dumps)
 data/dumps/
+# GBIF download zips from gbif:fetch (T3.3+)
+data/downloads/
 tmp/
 temp/
 

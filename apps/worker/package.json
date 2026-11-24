@@ -16,12 +16,16 @@
     "test": "vitest run --config ./vitest.config.ts"
   },
   "dependencies": {
+    "@wildwindow/db": "workspace:^",
     "@wildwindow/shared": "workspace:*",
     "commander": "^13.1.0",
+    "drizzle-orm": "^0.45.4",
+    "yaml": "^2.7.0",
     "zod": "^3.24.2"
   },
   "devDependencies": {
     "@types/node": "^22.13.10",
+    "@types/pg": "^8.23.1",
     "@wildwindow/config": "workspace:*",
     "msw": "2.7.3",
     "tsup": "^8.4.0",
