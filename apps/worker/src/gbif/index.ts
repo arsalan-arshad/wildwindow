@@ -41,6 +41,14 @@ export { INGEST_SOURCE_GBIF, INGEST_STATUS, type IngestStatus } from './ingest-s
 export { resolveTaxonKeysForRequest, type ResolveTaxonKeysInput } from './taxon-keys.js';
 export { runGbifRequest, type GbifRequestOptions, type GbifRequestResult } from './request.js';
 export { runGbifFetch, type GbifFetchOptions, type GbifFetchResult } from './fetch.js';
+export { runGbifLoad, type GbifLoadOptions, type GbifLoadResult } from './load.js';
+export { effortGroupFromClass } from './effort-group-from-class.js';
+export {
+  pointInRegionGeometry,
+  type GeoJsonMultiPolygon,
+  type GeoJsonPolygon,
+  type RegionGeometry,
+} from './point-in-polygon.js';
 export {
   UNCERTAINTY_COARSE_MAX_M,
   UNCERTAINTY_DEFAULT_M,

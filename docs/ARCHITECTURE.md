@@ -453,7 +453,7 @@ erDiagram
 ### 6.3 Database roles (created by migration)
 
 - `ww_owner`: owns all objects and runs migrations.
-- `ww_worker`: `USAGE, SELECT, INSERT, UPDATE, DELETE` on `raw`, `pub` and `ref`; `INSERT, UPDATE` on `app.ingest_runs`.
+- `ww_worker`: `USAGE, SELECT, INSERT, UPDATE, DELETE` on `raw`, `pub` and `ref`; `SELECT, INSERT, UPDATE` on `app.ingest_runs` (read key/DOI/status for fetch/load).
 - `ww_api`: **no `USAGE` on schema `raw`**; `SELECT` on `ref` and `pub`; `INSERT/UPDATE/DELETE` on `pub.*_cache`; full DML on the `app` tables. An integration test connects as `ww_api` and checks that `SELECT * FROM raw.occurrences` fails.
 - Logbook `exact_point_enc` is encrypted with AES-256-GCM in the app. The key comes from `LOGBOOK_ENC_KEY` (dev) or an AWS KMS data key (prod).
 

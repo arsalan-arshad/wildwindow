@@ -9,5 +9,6 @@ describe('worker command registry', () => {
     expect(names).toContain('hello');
     expect(names).toContain('gbif:request');
     expect(names).toContain('gbif:fetch');
+    expect(names).toContain('gbif:load');
   });
 });

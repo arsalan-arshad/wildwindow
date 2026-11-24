@@ -7,6 +7,7 @@
     "DATABASE_URL_WORKER",
     "WW_API_DB_PASSWORD",
     "WW_WORKER_DB_PASSWORD",
+    "OBSERVER_HASH_SALT",
     "NODE_ENV"
   ],
   "tasks": {
@@ -31,7 +32,8 @@
         "DATABASE_URL_API",
         "DATABASE_URL_WORKER",
         "WW_API_DB_PASSWORD",
-        "WW_WORKER_DB_PASSWORD"
+        "WW_WORKER_DB_PASSWORD",
+        "OBSERVER_HASH_SALT"
       ]
     }
   }

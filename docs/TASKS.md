@@ -224,12 +224,13 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Depends on: T0.9
   - Do: `validateRow(row, ctx)` following §3.2 step 3 (licence, coordinates, region, uncertainty, date and week, the 00:00 time rule, observer HMAC). It returns `{ok, record}` or `{ok:false, reason}`.
   - Acceptance test: a fixture TSV with 20 crafted rows (CC BY-NC, missing coordinates, 00:00 time, week 53 and so on) gives the expected accepts and rejects; the raw `recordedBy` is never in the output.
-  - Done: 2026-11-25 — pure `validateRow` + 20-row TSV fixture; licence/coords/date/other reasons; observer HMAC only (no `recordedBy` in output); week 53→52; 00:00→hour null; uncertainty bands.
+  - Done: 2026-11-25, PR #17 — pure `validateRow` + 20-row TSV fixture; licence/coords/date/other reasons; observer HMAC only (no `recordedBy` in output); week 53→52; 00:00→hour null; uncertainty bands.
 
-- [ ] **T3.5 `gbif:load` streaming loader**
+- [x] **T3.5 `gbif:load` streaming loader**
   - Depends on: T3.3, T3.4, T2.5
   - Do: unzip and stream the TSV; send target rows to `raw.occurrences` with `COPY` (dedupe on conflict) and count effort rows into `pub.effort_cell_week` at res 7, 5 and 4. Connect as `ww_worker`. Update the run counters.
   - Acceptance test: a 10k-row fixture loads in under 30 s locally; the counters match; re-running it creates no duplicates.
+  - Done: 2026-11-25 — `gbif:load` streams zip/TSV via yauzl+csv-parse; COPY→staging→`ON CONFLICT DO NOTHING` for targets; effort upsert at res 7/5/4 (region replace); ww_worker + `SELECT` on `ingest_runs`.
 
 - [ ] **T3.6 `aggregate` command**
   - Depends on: T3.5, T1.4, T1.3
