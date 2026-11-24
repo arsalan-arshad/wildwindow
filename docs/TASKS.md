@@ -218,12 +218,13 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Do: the commands and `app.ingest_runs` bookkeeping (status, key, DOI, totals).
   - Acceptance test: an integration test with a mocked GBIF moves a run from `requested` to `succeeded` and stores the DOI.
   - 🧑 Arsalan creates a GBIF account and puts the credentials in `.env` (still needed for live T3.9 runs; tests mock GBIF).
-  - Done: 2026-11-25 — `gbif:request` / `gbif:fetch` CLI; `app.ingest_runs` status `requested`→`succeeded` with key/DOI/total; effort keys looked up (Aves 212, Mammalia 359, Reptilia→Squamata/Testudines/Crocodylia). Integration test mocks GBIF via msw. Worker CI runs `pnpm db:migrate` before tests.
+  - Done: 2026-11-25, PR #16 — `gbif:request` / `gbif:fetch` CLI; `app.ingest_runs` status `requested`→`succeeded` with key/DOI/total; effort keys looked up (Aves 212, Mammalia 359, Reptilia→Squamata/Testudines/Crocodylia). Integration test mocks GBIF via msw. Worker CI runs `pnpm db:migrate` before tests.
 
-- [ ] **T3.4 Row validator**
+- [x] **T3.4 Row validator**
   - Depends on: T0.9
   - Do: `validateRow(row, ctx)` following §3.2 step 3 (licence, coordinates, region, uncertainty, date and week, the 00:00 time rule, observer HMAC). It returns `{ok, record}` or `{ok:false, reason}`.
   - Acceptance test: a fixture TSV with 20 crafted rows (CC BY-NC, missing coordinates, 00:00 time, week 53 and so on) gives the expected accepts and rejects; the raw `recordedBy` is never in the output.
+  - Done: 2026-11-25 — pure `validateRow` + 20-row TSV fixture; licence/coords/date/other reasons; observer HMAC only (no `recordedBy` in output); week 53→52; 00:00→hour null; uncertainty bands.
 
 - [ ] **T3.5 `gbif:load` streaming loader**
   - Depends on: T3.3, T3.4, T2.5
