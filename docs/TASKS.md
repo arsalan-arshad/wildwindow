@@ -187,10 +187,11 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Acceptance test: every species has `gbifTaxonKey` with match type `EXACT`; anything that isn't exact is listed for human review; `pnpm db:seed` loads every species and tier.
   - Done: 2026-11-25 — 51 taxa (26 Scotland / 26 Sindh incl. common kingfisher in both); all `matchType: EXACT` via `pnpm data:resolve-taxa`; seeds `ref.taxa` + `ref.taxon_region` from YAML tiers. 🧑 Follow-up: Arsalan still reviews the species list and starting tiers (does not block merge).
 
-- [ ] **T2.8 Seed the places (GeoNames)**
+- [x] **T2.8 Seed the places (GeoNames)**
   - Depends on: T2.6
   - Do: the script `pnpm data:places` downloads the GeoNames GB and PK dumps (CC BY 4.0), keeps populated places and parks inside the region polygons, computes `cell_r7` and fills in `ref.places`. Don't commit the raw dumps; commit the script and a small test fixture.
   - Acceptance test: searching "Glasgow" and "Karachi" in `ref.places` returns them; every place has `cell_r7`.
+  - Done: 2026-11-25 — `pnpm data:places` (+ `--fixture`); fixture seeds Glasgow/Karachi; ST_Covers filter; cell_r7 via geoprivacy; attribution in `data/places/SOURCES.md`.
 
 - [ ] **T2.9 Area labels**
   - Depends on: T2.6

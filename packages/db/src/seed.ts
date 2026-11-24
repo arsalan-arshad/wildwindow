@@ -76,11 +76,6 @@ export type SeedTaxaResult = {
   readonly taxonRegionCount: number;
 };
 
-export type SeedAllResult = {
-  readonly regions: SeedRegionsResult['regions'];
-  readonly taxa: SeedTaxaResult;
-};
-
 async function loadRegionGeometryJson(folder: string, fileName: string): Promise<string> {
   const raw = await readFile(resolve(folder, fileName), 'utf8');
   const parsed: unknown = JSON.parse(raw);
@@ -277,14 +272,23 @@ export async function seedTaxa(
   }
 }
 
-/** Seed regions then taxa / tiers (T2.6 + T2.7). */
+export type SeedAllResult = {
+  readonly regions: SeedRegionsResult['regions'];
+  readonly taxa: SeedTaxaResult;
+  readonly places: { readonly inserted: number };
+};
+
+/** Seed regions, taxa / tiers, then places from the GeoNames fixture (T2.6–T2.8). */
 export async function seedAll(
   connectionString: string,
   options: { boundariesDir?: string; dataDir?: string } = {},
 ): Promise<SeedAllResult> {
   const regions = await seedRegions(connectionString, options.boundariesDir ?? boundariesFolder());
   const taxa = await seedTaxa(connectionString, options.dataDir ?? dataFolder());
-  return { regions: regions.regions, taxa };
+  // Lazy import avoids a cycle: seed-places → seed → seed-places.
+  const { seedPlacesFromFixture } = await import('./seed-places.js');
+  const places = await seedPlacesFromFixture(connectionString);
+  return { regions: regions.regions, taxa, places: { inserted: places.inserted } };
 }
 
 async function main(): Promise<void> {
@@ -300,6 +304,8 @@ async function main(): Promise<void> {
   console.log(
     `Seeded ${String(result.taxa.taxaCount)} taxa and ${String(result.taxa.taxonRegionCount)} taxon_region rows`,
   );
+  // eslint-disable-next-line no-console -- CLI progress for pnpm db:seed
+  console.log(`Seeded ${String(result.places.inserted)} places (GeoNames fixture)`);
 }
 
 const isMain =

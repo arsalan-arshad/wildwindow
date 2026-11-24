@@ -26,9 +26,11 @@
     "test": "vitest run --config ./vitest.config.ts",
     "migrate": "tsx src/migrate.ts",
     "seed": "tsx src/seed.ts",
+    "places": "tsx src/seed-places.ts",
     "generate": "drizzle-kit generate"
   },
   "dependencies": {
+    "@wildwindow/geoprivacy": "workspace:*",
     "@wildwindow/shared": "workspace:*",
     "drizzle-orm": "^0.45.4",
     "pg": "^8.23.1",

@@ -14,6 +14,25 @@ export {
   type SeedTaxaResult,
 } from './seed.js';
 export {
+  GEONAMES_COUNTRY_DUMPS,
+  candidateToPlaceSeed,
+  downloadAndSeedPlaces,
+  loadPlaceSeedsFromTsv,
+  placesDumpDir,
+  placesFixturePath,
+  seedPlaces,
+  seedPlacesFromFixture,
+  type PlaceSeedRow,
+  type SeedPlacesResult,
+} from './seed-places.js';
+export {
+  isKeptGeonameFeature,
+  parseGeonameLine,
+  placeKindFor,
+  readGeonameDump,
+  type GeonameCandidate,
+} from './geonames.js';
+export {
   appSchema,
   auditLog,
   challengeEntries,
