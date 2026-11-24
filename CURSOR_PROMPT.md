@@ -26,7 +26,7 @@ How to work:
 - Do the tasks one at a time, in file order, following AGENTS.md §6. Before each task, say which task you are starting and which § sections you read.
 - For each task: write the code and tests, make the task's acceptance test pass, then run pnpm lint, pnpm typecheck and pnpm test.
 - After each task, update docs/TASKS.md (tick the box, add "Done: <date>, <commit>", and note any change from the plan), then make one commit in Conventional Commits style with the task ID, for example "chore(repo): init pnpm + turborepo monorepo (T0.1)".
-- Use the stack exactly as ARCHITECTURE §2 says: pnpm + Turborepo, TypeScript strict, Expo Router, Next.js App Router, NestJS, Postgres 17 + PostGIS 3.5, Drizzle, Vitest (jest-expo for mobile). Use the latest stable versions, and check that Expo works with pnpm (node-linker=hoisted).
+- Use the stack exactly as ARCHITECTURE §2 says: pnpm + Turborepo, TypeScript strict, Expo Router, Next.js App Router, NestJS, Postgres 18 + PostGIS 3.7, Drizzle, Vitest (jest-expo for mobile). Use the latest stable versions, and check that Expo works with pnpm (node-linker=hoisted).
 - Non-negotiable: never expose exact coordinates, respect data licences (GBIF CC0/CC BY only; eBird off; no iNaturalist AI training; Open-Meteo dev only), no secrets in code, .env.example without values. See AGENTS.md §5.
 - Don't do anything irreversible or external (deploying, publishing packages, creating cloud resources, sending email).
 - If a task needs me (marked 🧑), do everything you can, mark it "[!] Blocked: needs Arsalan – <what>" and move on to the next task whose dependencies are done.

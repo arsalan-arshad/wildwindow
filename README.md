@@ -35,19 +35,23 @@ pnpm lint && pnpm typecheck && pnpm test && pnpm build
 
 ### Local PostGIS
 
-Project standard is **PostgreSQL 17 + PostGIS 3.5** via `docker-compose.yml` (`postgis/postgis:17-3.5`), not a host-only Postgres install. On Apple Silicon the compose file pins `platform: linux/amd64` because that image is amd64-only.
+Project standard is **PostgreSQL 18 + PostGIS 3.7** via `docker-compose.yml` (`postgis/postgis:18-3.7`), not a host-only Postgres install. On Apple Silicon the compose file pins `platform: linux/amd64` because that image is amd64-only.
+
+PG 18 Docker images mount data at `/var/lib/postgresql` (not `/var/lib/postgresql/data`). This compose file uses a fresh named volume (`wildwindow_pgdata18`). After upgrading from PG 17, recreate local data:
 
 ```bash
+pnpm db:down
+docker volume rm wildwindow_wildwindow_pgdata 2>/dev/null || true   # old PG17 volume, if present
 pnpm db:up
-docker compose exec db psql -U postgres -c "SELECT postgis_full_version();"
+docker compose exec db psql -U postgres -c "SELECT version(); SELECT postgis_full_version();"
 pnpm db:migrate   # PostGIS + raw/ref/pub/app schemas (T2.1); safe to re-run
-# later: pnpm db:seed
+pnpm db:seed
 pnpm db:down
 ```
 
 Default URL: `postgresql://postgres:postgres@localhost:5432/wildwindow` (see `.env.example`).
 
-If **Postgres.app** (or another Postgres) is already listening on `5432`, stop it before `pnpm db:up`, or change the compose host mapping to e.g. `"5433:5432"` and point `DATABASE_URL*` at that port. A host Postgres 18 without the PostGIS extension is not enough for WildWindow.
+If **Postgres.app** (or another Postgres) is already listening on `5432`, stop it before `pnpm db:up`, or change the compose host mapping to e.g. `"5433:5432"` and point `DATABASE_URL*` at that port. A host Postgres without the PostGIS extension is not enough for WildWindow.
 
 ## Contributing
 
