@@ -22,9 +22,10 @@ RUN pnpm --filter @wildwindow/geoprivacy build \
 FROM node:22-bookworm-slim AS runner
 WORKDIR /app
 ENV NODE_ENV=production
+# Non-root runtime. No corepack/pnpm here — entrypoint runs compiled
+# `node packages/db/dist/migrate.js` (and optional seed.js) only.
 RUN groupadd --system --gid 1001 ww \
-  && useradd --system --uid 1001 --gid ww ww \
-  && corepack enable && corepack prepare pnpm@9.15.9 --activate
+  && useradd --system --uid 1001 --gid ww ww
 COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/packages ./packages
 COPY --from=build /app/package.json ./package.json
