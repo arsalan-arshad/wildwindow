@@ -1,7 +1,7 @@
 import { execFile } from 'node:child_process';
 import { createWriteStream } from 'node:fs';
 import { mkdir, access } from 'node:fs/promises';
-import { dirname, resolve } from 'node:path';
+import { basename, dirname, resolve } from 'node:path';
 import { Readable } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
 import { fileURLToPath } from 'node:url';
@@ -239,10 +239,18 @@ async function main(): Promise<void> {
   );
 }
 
-const isMain =
-  process.argv[1] !== undefined && resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+/** True when invoked as `node …/seed-places.js` or `tsx …/seed-places.ts`. */
+function isMain(): boolean {
+  const entry = process.argv[1];
+  if (entry === undefined) {
+    return false;
+  }
+  // Basename check: must not fire when this module is bundled into seed.js.
+  const base = basename(resolve(entry));
+  return base === 'seed-places.js' || base === 'seed-places.ts';
+}
 
-if (isMain) {
+if (isMain()) {
   main().catch((error: unknown) => {
     const message = error instanceof Error ? error.message : String(error);
     // eslint-disable-next-line no-console -- CLI error path

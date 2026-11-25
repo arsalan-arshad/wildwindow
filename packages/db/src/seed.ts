@@ -1,5 +1,5 @@
 import { readFile } from 'node:fs/promises';
-import { dirname, resolve } from 'node:path';
+import { basename, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import {
@@ -319,10 +319,18 @@ async function main(): Promise<void> {
   console.log(`Seeded ${String(result.zones.zoneCount)} zones (label-only)`);
 }
 
-const isMain =
-  process.argv[1] !== undefined && resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+/** True when invoked as `node …/seed.js` or `tsx …/seed.ts` (not when imported). */
+function isMain(): boolean {
+  const entry = process.argv[1];
+  if (entry === undefined) {
+    return false;
+  }
+  // Basename check: safe when sibling CLIs (e.g. seed-places) are bundled into this file.
+  const base = basename(resolve(entry));
+  return base === 'seed.js' || base === 'seed.ts';
+}
 
-if (isMain) {
+if (isMain()) {
   main().catch((error: unknown) => {
     const message = error instanceof Error ? error.message : String(error);
     // eslint-disable-next-line no-console -- CLI error path

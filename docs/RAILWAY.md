@@ -50,7 +50,7 @@ For **each** of `api`, `web`, `worker`, `migrate`:
 | `api`     | `apps/api/Dockerfile`     | NestJS `/v1` (health: `/v1/health`)       |
 | `web`     | `apps/web/Dockerfile`     | Next.js App Router                        |
 | `worker`  | `apps/worker/Dockerfile`  | CLI; default `hello` smoke (no live GBIF) |
-| `migrate` | `apps/migrate/Dockerfile` | One-off: migrations + optional seed       |
+| `migrate` | `apps/migrate/Dockerfile` | One-off: migrations + optional seed (compiled `node …/dist/migrate.js`, not pnpm) |
 
 ### D. First migrate, then smoke
 

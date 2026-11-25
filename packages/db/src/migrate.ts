@@ -1,4 +1,4 @@
-import { dirname, resolve } from 'node:path';
+import { basename, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { loadEnv } from '@wildwindow/shared';
@@ -81,10 +81,18 @@ async function main(): Promise<void> {
   }
 }
 
-const isDirectRun =
-  process.argv[1] !== undefined && resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+/** True when invoked as `node …/migrate.js` or `tsx …/migrate.ts` (not when imported). */
+function isDirectRun(): boolean {
+  const entry = process.argv[1];
+  if (entry === undefined) {
+    return false;
+  }
+  // Basename check: safe when this file is bundled into another CLI entry.
+  const base = basename(resolve(entry));
+  return base === 'migrate.js' || base === 'migrate.ts';
+}
 
-if (isDirectRun) {
+if (isDirectRun()) {
   main().catch((error: unknown) => {
     const message = error instanceof Error ? error.message : String(error);
     // eslint-disable-next-line no-console -- CLI error path
