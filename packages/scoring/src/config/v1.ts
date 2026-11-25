@@ -35,6 +35,11 @@ export const SCORING_V1 = {
     windGaleKph: 50,
     windFloor: 0.5,
     beyondHorizon: 0.85,
+    /**
+     * When `precipProb` is missing, derive it as `min(1, precipMm / precipMmForCertain)`
+     * (ARCHITECTURE §3.4 MET Norway note).
+     */
+    precipMmForCertain: 2,
   },
   tide: {
     preferred: 1.0,
