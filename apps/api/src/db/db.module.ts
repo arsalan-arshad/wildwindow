@@ -1,7 +1,7 @@
 import { Global, Inject, Module, type OnModuleDestroy } from '@nestjs/common';
 import { createDb, type Database } from '@wildwindow/db';
 
-import { loadApiEnv } from '../config/api-env.js';
+import { API_ENV, type ApiEnv } from '../config/api-env.js';
 
 import type { Pool } from 'pg';
 
@@ -20,12 +20,13 @@ const DB_HANDLES = Symbol('WW_DB_HANDLES');
   providers: [
     {
       provide: DB_HANDLES,
-      useFactory: (): DbHandles | null => {
-        const env = loadApiEnv();
+      inject: [API_ENV],
+      useFactory: (env: ApiEnv): DbHandles | null => {
         const url = env.DATABASE_URL_API;
         if (url === undefined || url.length === 0) {
           return null;
         }
+        // Connects as ww_api via DATABASE_URL_API (ARCHITECTURE §6.3 / T5.2).
         return createDb({ connectionString: url });
       },
     },

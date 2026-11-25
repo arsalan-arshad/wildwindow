@@ -4,6 +4,7 @@ import request from 'supertest';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
 import { AppModule } from './app.module.js';
+import { apiNestOptions, configureApiApp } from './bootstrap.js';
 import { corsOptionsFromWebOrigin } from './cors.js';
 
 describe('GET /v1/health', () => {
@@ -14,7 +15,8 @@ describe('GET /v1/health', () => {
       imports: [AppModule],
     }).compile();
 
-    app = moduleRef.createNestApplication();
+    app = moduleRef.createNestApplication(apiNestOptions());
+    configureApiApp(app);
     await app.init();
   });
 
@@ -42,7 +44,7 @@ describe('CORS for WEB_ORIGIN', () => {
       imports: [AppModule],
     }).compile();
 
-    app = moduleRef.createNestApplication();
+    app = moduleRef.createNestApplication(apiNestOptions());
     const cors = corsOptionsFromWebOrigin(process.env['WEB_ORIGIN']);
     expect(cors).toBeDefined();
     app.enableCors(cors);

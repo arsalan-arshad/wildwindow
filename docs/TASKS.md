@@ -320,10 +320,11 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Acceptance test: a schema test fails if any public schema has a forbidden key (it reuses the `assertPublicSafe` key list).
   - Done: 2026-11-25 — Zod schemas for all ARCHITECTURE §7 endpoints under `packages/shared/src/api/`; public registry guard reuses `FORBIDDEN_PUBLIC_KEYS` from geoprivacy; owner logbook schemas excluded; typed `createApiClient` covers health/regions/species/places/areas/forecast/attributions/waitlist/me/watchlist/logbook/uploads/challenges.
 
-- [ ] **T5.2 API foundations**
+- [x] **T5.2 API foundations**
   - Depends on: T0.6, T2.5
   - Do: a config module (Zod env), a database module connecting as `ww_api`, a pino logger with a redaction list (`lat`, `lng`, `latitude`, `longitude`, `authorization`), Helmet, CORS, the Throttler, `nestjs-zod` validation and OpenAPI at `/docs` (not in prod).
   - Acceptance test: an e2e test where a request whose query includes `lat=` has it redacted in the captured logs; a 61st request in a minute gets 429.
+  - Done: 2026-11-25 — `ApiConfigModule` + `API_ENV`; DbModule via `DATABASE_URL_API` (`ww_api`); nestjs-pino with redact + URL scrub; Helmet; CORS; global Throttler 60/min (`RATE_LIMIT`); `ZodValidationPipe`; OpenAPI at `/docs` when not production. Foundations e2e covers lat redaction and 61st→429.
 
 - [ ] **T5.3 `PublicGeoInterceptor` and `@OwnerLocation()`**
   - Depends on: T5.2, T1.6

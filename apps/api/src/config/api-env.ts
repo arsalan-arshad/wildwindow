@@ -38,6 +38,9 @@ export const ApiEnvSchema = z.object({
 
 export type ApiEnv = z.infer<typeof ApiEnvSchema>;
 
+/** Nest DI token for the validated API env (T5.2). */
+export const API_ENV = Symbol('WW_API_ENV');
+
 export function loadApiEnv(source: NodeJS.ProcessEnv = process.env): ApiEnv {
   return loadEnv(ApiEnvSchema, source);
 }

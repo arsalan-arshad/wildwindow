@@ -34,7 +34,7 @@ class ThrottleProbeController {
 })
 class ThrottleProbeModule {}
 
-describe('Throttler → WAITLIST_RATE_LIMIT', () => {
+describe('Throttler → RATE_LIMIT', () => {
   let app: INestApplication;
 
   beforeAll(async () => {
@@ -49,7 +49,7 @@ describe('Throttler → WAITLIST_RATE_LIMIT', () => {
     await app.close();
   });
 
-  it('returns 429 with WAITLIST_RATE_LIMIT after the IP budget is spent', async () => {
+  it('returns 429 with RATE_LIMIT after the IP budget is spent', async () => {
     const server = app.getHttpServer() as Parameters<typeof request>[0];
     await request(server)
       .get('/v1/throttle-probe')
@@ -63,6 +63,6 @@ describe('Throttler → WAITLIST_RATE_LIMIT', () => {
       .get('/v1/throttle-probe')
       .set('X-Forwarded-For', '203.0.113.50')
       .expect(429);
-    expect(limited.body).toMatchObject({ code: 'WAITLIST_RATE_LIMIT' });
+    expect(limited.body).toMatchObject({ code: 'RATE_LIMIT' });
   });
 });
