@@ -86,9 +86,7 @@ export async function runGbifRequest(options: GbifRequestOptions): Promise<GbifR
 
   const owned = options.db === undefined;
   const { db, pool } =
-    options.db !== undefined
-      ? { db: options.db, pool: undefined }
-      : createDb({ connectionString });
+    options.db !== undefined ? { db: options.db, pool: undefined } : createDb({ connectionString });
 
   try {
     const regionId = await resolveRegionId(db, options.region);

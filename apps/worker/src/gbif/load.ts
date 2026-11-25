@@ -333,8 +333,7 @@ export async function runGbifLoad(options: GbifLoadOptions): Promise<GbifLoadRes
               counters.rejectedOther += 1;
               continue;
             }
-            const resolutions: readonly number[] =
-              result.record.maxRes === 7 ? [7, 5, 4] : [5, 4];
+            const resolutions: readonly number[] = result.record.maxRes === 7 ? [7, 5, 4] : [5, 4];
             for (const res of resolutions) {
               const cell = snapToCell(result.record.lat, result.record.lng, res);
               const key = `${group}\t${String(res)}\t${cell}\t${String(result.record.week)}`;

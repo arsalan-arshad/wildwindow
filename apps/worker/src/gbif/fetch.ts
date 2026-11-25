@@ -74,9 +74,7 @@ export async function runGbifFetch(options: GbifFetchOptions): Promise<GbifFetch
 
   const owned = options.db === undefined;
   const { db, pool } =
-    options.db !== undefined
-      ? { db: options.db, pool: undefined }
-      : createDb({ connectionString });
+    options.db !== undefined ? { db: options.db, pool: undefined } : createDb({ connectionString });
 
   try {
     const rows = await db
