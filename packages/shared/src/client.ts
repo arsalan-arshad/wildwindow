@@ -17,8 +17,17 @@ export type ApiClient = {
   };
 };
 
+function stripTrailingSlashes(value: string): string {
+  // Linear-time trim (avoid `/\/+$/` ReDoS on long slash runs).
+  let end = value.length;
+  while (end > 0 && value.charAt(end - 1) === '/') {
+    end -= 1;
+  }
+  return end === value.length ? value : value.slice(0, end);
+}
+
 function joinUrl(baseUrl: string, path: string): string {
-  const base = baseUrl.replace(/\/+$/, '');
+  const base = stripTrailingSlashes(baseUrl);
   const suffix = path.startsWith('/') ? path : `/${path}`;
   return `${base}${suffix}`;
 }

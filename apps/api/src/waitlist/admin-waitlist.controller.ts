@@ -17,8 +17,17 @@ function extractAdminToken(
   if (authorization === undefined) {
     return undefined;
   }
-  const match = /^Bearer\s+(.+)$/i.exec(authorization.trim());
-  return match?.[1]?.trim();
+  // Linear-time parse (avoid `/^Bearer\s+/i` ReDoS on long space runs).
+  const trimmed = authorization.trim();
+  if (trimmed.length < 7 || trimmed.slice(0, 6).toLowerCase() !== 'bearer') {
+    return undefined;
+  }
+  const afterBearer = trimmed.slice(6);
+  if (afterBearer.length === 0 || (afterBearer[0] !== ' ' && afterBearer[0] !== '\t')) {
+    return undefined;
+  }
+  const token = afterBearer.trimStart();
+  return token.length > 0 ? token : undefined;
 }
 
 @Controller('v1/admin/waitlist')
