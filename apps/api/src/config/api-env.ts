@@ -1,0 +1,31 @@
+import { loadEnv } from '@wildwindow/shared';
+import { z } from 'zod';
+
+const boolish = z
+  .string()
+  .optional()
+  .transform((value) => {
+    if (value === undefined || value === '') {
+      return false;
+    }
+    const normalized = value.trim().toLowerCase();
+    return normalized === '1' || normalized === 'true' || normalized === 'yes';
+  });
+
+export const ApiEnvSchema = z.object({
+  NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
+  PORT: z.coerce.number().int().positive().default(3001),
+  DATABASE_URL_API: z.string().min(1).optional(),
+  WEB_ORIGIN: z.string().optional(),
+  API_PUBLIC_URL: z.string().optional(),
+  /** Bearer token for early-beta admin CSV export. Required in production when exporting. */
+  ADMIN_TOKEN: z.string().min(1).optional(),
+  /** When false (default), waitlist confirmation email is a no-op stub. */
+  WAITLIST_EMAIL_ENABLED: boolish,
+});
+
+export type ApiEnv = z.infer<typeof ApiEnvSchema>;
+
+export function loadApiEnv(source: NodeJS.ProcessEnv = process.env): ApiEnv {
+  return loadEnv(ApiEnvSchema, source);
+}

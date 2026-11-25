@@ -1,3 +1,4 @@
+import { sql } from 'drizzle-orm';
 import {
   customType,
   date,
@@ -133,12 +134,18 @@ export const waitlist = appSchema.table(
   'waitlist',
   {
     id: serial('id').primaryKey(),
+    /** Stored normalized as lower(trim(email)). */
     email: text('email').notNull(),
+    name: text('name'),
     regionSlug: text('region_slug'),
+    role: text('role'),
+    platform: text('platform'),
+    favouriteSpecies: text('favourite_species'),
+    consentAt: timestamp('consent_at', { withTimezone: true }).notNull(),
     source: text('source'),
     createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
   },
-  (table) => [uniqueIndex('waitlist_email_uidx').on(table.email)],
+  (table) => [uniqueIndex('waitlist_email_lower_uidx').using('btree', sql`lower(${table.email})`)],
 );
 
 export const auditLog = appSchema.table('audit_log', {

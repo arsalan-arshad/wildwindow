@@ -379,10 +379,11 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Do: `DELETE /v1/me` (soft delete now, then a worker command `purge-deleted` hard-deletes after 30 days, including photos); `POST /v1/me/export` (JSON + signed photo links).
   - Acceptance test: after the purge, no rows or files remain for the user; the export has every user-owned record.
 
-- [ ] **T5.15 Attributions and waitlist**
+- [~] **T5.15 Attributions and waitlist**
   - Depends on: T3.8, T5.2
   - Do: `GET /v1/attributions` (datasets, DOIs, weather and tide credits) and `POST /v1/waitlist`.
   - Acceptance test: e2e tests; a duplicate email returns 200 without creating a duplicate row.
+  - Notes: **Waitlist slice landed with T7.1** — `POST /v1/waitlist` + `GET /v1/admin/waitlist/export` (`ADMIN_TOKEN`), extended `app.waitlist`, shared Zod + client. `GET /v1/attributions` and full T5.2 foundations still open; keep this task open until attributions land.
 
 ## Phase 6: Mobile app (`apps/mobile`)
 
@@ -454,15 +455,17 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
 
 ## Phase 7: Web (`apps/web`)
 
-- [ ] **T7.1 Landing page and waitlist (W-01)**
+- [x] **T7.1 Landing page and waitlist (W-01)**
   - Depends on: T0.7, T5.15
   - Do: hero, the three hooks (Window, Same Species Different Countries, No-Pin Promise), the waitlist form, and an "open source" section.
   - Acceptance test: a Vitest component test, plus a submit to a mocked API.
+  - Done: 2026-11-25 — Landing `/` + `/landing-page`, `/waitlist`, draft `/privacy`; Nest waitlist API slice; Fraunces + Source Sans 3; sample Window score 82/100 High. Depends-on note: waitlist API shipped here ahead of full T5.15 attributions.
 
 - [ ] **T7.2 Pledge and legal pages (W-02, W-06)**
   - Depends on: T7.1
   - Do: the No-Pin Promise page, privacy, terms and attributions (data from `/v1/attributions`). The privacy and terms texts are marked **DRAFT – needs legal review**.
   - Acceptance test: pages build statically; the attributions list renders from a fixture.
+  - Notes: Draft `/privacy` shipped with T7.1 (banner + waitlist fields). Dedicated No-Pin pledge page, terms, and attributions UI remain.
 
 - [ ] **T7.3 Species pages (W-03)**
   - Depends on: T5.4
