@@ -5,6 +5,7 @@ import { runGbifFetch } from './gbif/fetch.js';
 import { runGbifLoad } from './gbif/load.js';
 import { runGbifRequest } from './gbif/request.js';
 import { defaultBetaSpeciesPath, defaultDownloadDir } from './paths.js';
+import { runScoreRefs } from './score-refs/run.js';
 
 import type { IngestKind, IngestRegion } from './gbif/predicate.js';
 
@@ -123,6 +124,25 @@ export function createProgram(): Command {
           cellWeekRows: result.cellWeekRows,
           regionWeekRows: result.regionWeekRows,
           hourProfileRows: result.hourProfileRows,
+        }),
+      );
+    });
+
+  program
+    .command('score:refs')
+    .description('Compute pub.taxon_score_ref.rr_ref (P95 reporting rate) for a region')
+    .requiredOption('--region <slug>', 'scotland|sindh')
+    .action(async (opts: { region: string }) => {
+      const result = await runScoreRefs({
+        region: parseRegion(opts.region),
+      });
+      console.log(
+        JSON.stringify({
+          regionId: result.regionId,
+          regionSlug: result.regionSlug,
+          taxaProcessed: result.taxaProcessed,
+          taxaSkipped: result.taxaSkipped,
+          refsWritten: result.refsWritten,
         }),
       );
     });

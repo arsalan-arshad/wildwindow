@@ -238,10 +238,11 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Acceptance test: an integration test with seeded raw rows checks that a `protected` species only ever produces cells at res ≤ 5, cells under the minimums are merged or suppressed, records younger than 30 days are excluded, and no `pub` row exists for a `no_forecast` taxon.
   - Done: 2026-11-25, PR #19 — `aggregate --region` rebuilds pub taxon tables in one txn; delay + `suppressAndMerge`; skips `no_forecast`.
 
-- [ ] **T3.7 `score:refs` command**
+- [~] **T3.7 `score:refs` command**
   - Depends on: T3.6, T4.3
   - Do: work out `rr_ref` (P95) per taxon and region using the §4.2 formula, reusing `reportingRate()` from `packages/scoring` (T4.3).
   - Acceptance test: an integration test with known counts gives the expected `rr_ref`.
+  - In progress: 2026-11-25 — `score:refs --region` on `cursor/t3-7-score-refs-0379`.
 
 - [ ] **T3.8 Dataset attribution**
   - Depends on: T3.5
@@ -266,11 +267,11 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Do: `light.ts` using `suncalc`: civil dawn and dusk, golden hour (−4°…+6°), blue hour (−6°…−4°), and candidate 2-hour blocks, all in the region's time zone. Export a light-only entry point (`@wildwindow/scoring/light`) for mobile and web.
   - Acceptance test: Glasgow and Karachi on fixed dates (a solstice and an equinox) match reference times within ±1 minute (write down where the reference values come from in the test); polar edge cases don't throw.
 
-- [~] **T4.3 Factor H and reporting rate**
+- [x] **T4.3 Factor H and reporting rate**
   - Depends on: T4.1
   - Do: `reportingRate()` and `factorH()` following §4.2, with circular weeks and the zero-effort rule.
   - Acceptance test: the §4.6 numbers give `H ≈ 0.68`; the week 1 and week 52 wrap works; zero effort → 0.
-  - In progress: 2026-11-25 — minimal `reportingRate`/`factorH`/`weeksAround`/`p95` for T3.7 (WPO-16).
+  - Done: 2026-11-25, PR #20 — minimal `reportingRate`/`factorH`/`weeksAround`/`p95` (+ `SCORING_V1` stub). Full T4.1 §7 I/O types still TODO.
 
 - [ ] **T4.4 Factor T**
   - Depends on: T4.2
