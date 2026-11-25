@@ -75,12 +75,21 @@ importers:
       '@wildwindow/db':
         specifier: workspace:^
         version: link:../../packages/db
+      '@wildwindow/geoprivacy':
+        specifier: workspace:^
+        version: link:../../packages/geoprivacy
+      '@wildwindow/scoring':
+        specifier: workspace:^
+        version: link:../../packages/scoring
       '@wildwindow/shared':
         specifier: workspace:*
         version: link:../../packages/shared
       drizzle-orm:
         specifier: ^0.45.4
         version: 0.45.4(@types/pg@8.23.1)(pg@8.23.1)
+      h3-js:
+        specifier: ^4.1.0
+        version: 4.5.0
       helmet:
         specifier: ^8.3.0
         version: 8.3.0
@@ -127,6 +136,9 @@ importers:
       '@wildwindow/config':
         specifier: workspace:*
         version: link:../../packages/config
+      msw:
+        specifier: 2.7.3
+        version: 2.7.3(@types/node@22.20.5)(typescript@5.8.3)
       supertest:
         specifier: ^7.1.0
         version: 7.3.2

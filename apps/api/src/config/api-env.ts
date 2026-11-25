@@ -34,6 +34,13 @@ export const ApiEnvSchema = z.object({
       return normalized === '' ? 'none' : normalized;
     })
     .pipe(z.literal('none')),
+  /**
+   * Weather provider switch (ARCHITECTURE §3.4 / T4.7).
+   * Empty → `metno` in production, `openmeteo` otherwise. `mock` for offline tests.
+   */
+  WEATHER_PROVIDER: z.string().optional(),
+  /** Identifying User-Agent required by MET Norway (T4.7). */
+  WEATHER_USER_AGENT: z.string().optional(),
 });
 
 export type ApiEnv = z.infer<typeof ApiEnvSchema>;
