@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: WildWindow product and architecture docs
+    url: https://github.com/arsalan-arshad/wildwindow/blob/main/docs/PRD.md
+    about: Read the product notes before opening an issue. Bugs, features, and location-leak reports use the forms.

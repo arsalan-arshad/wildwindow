@@ -9,7 +9,7 @@ You are working on **WildWindow** (working name), a wildlife **photo forecast** 
 
 ### Current status / handoff
 
-Pick the **first unchecked** task in [docs/TASKS.md](docs/TASKS.md) whose dependencies are done. After each landed task: tick that row in `docs/TASKS.md`, and if you are in the Cursor Project autopilot, also update the Project store `docs/project-context.md`. One PR per task.
+Check open **P0** issues first (§7). A privacy or location-leak issue is always P0. Then pick the **first unchecked** task in [docs/TASKS.md](docs/TASKS.md) whose dependencies are done. After each landed task: tick that row in `docs/TASKS.md`, and if you are in the Cursor Project autopilot, also update the Project store `docs/project-context.md`. One PR per task. Name the GitHub issue in the commit and the pull request (`Fixes #123` or `Refs #123`).
 
 ## 1. Project overview
 
@@ -115,7 +115,7 @@ Break any of these and the PR is rejected.
 
 ## 6. How to pick and finish a task (TASKS.md workflow)
 
-1. Open `docs/TASKS.md`. Pick the **first unchecked task (`- [ ]`), in file order, whose `Depends on` tasks are all `[x]`**. Skip tasks that are blocked (`[!]`) or whose dependencies aren't done.
+1. Check open GitHub issues labelled `P0` (`gh issue list --label P0 --state open`) and fix those first (§7). Then open `docs/TASKS.md`. Pick the **first unchecked task (`- [ ]`), in file order, whose `Depends on` tasks are all `[x]`**. Skip tasks that are blocked (`[!]`) or whose dependencies aren't done.
 2. Mark it `- [~]` with a note such as `In progress: <date>`.
 3. Read the sections it references (`§`, `US-xx`, `S-xx`). If the docs conflict or the task is unclear, write down your assumption in the PR or task notes and choose the safer option (more privacy, a stricter licence).
 4. Do **only that task**. If it is too big for one run, split it into `T<x>.<y>a`, `b` and so on in TASKS.md, finish the first part, and leave the rest unchecked.
@@ -130,3 +130,23 @@ Break any of these and the PR is rejected.
 - Lint, typecheck and tests are green, and no new warnings appear in `geoprivacy` or `scoring`.
 - No coordinates, secrets or unlicensed data were added.
 - TASKS.md (and the docs, if needed) are updated.
+
+## 7. Bugs and issues
+
+GitHub Issues is the bug tracker. Forms live in `.github/ISSUE_TEMPLATE/` (blank issues are off). Labels are declared in `.github/labels.yml`. `.github/workflows/sync-labels.yml` creates and updates them on `main`, and you can dry-run the same sync with `node .github/scripts/sync-labels.mjs --dry-run`. The sync does not delete extra labels; `--prune` does, and only when you mean it.
+
+1. **P0 before the task queue.** Before a task from `docs/TASKS.md`, look for open issues labelled `P0`. Fix the oldest open P0 you can reproduce before you pick up a task. If you cannot fix it in this run, say so in the handoff and do not start a lower-priority task in its place.
+2. **Privacy issues are always P0.** A location leak, an exact coordinate in a public output, a pin on a sensitive species, or GPS left in a photo is `privacy` and `P0`. Do not downgrade it. File it with `.github/ISSUE_TEMPLATE/privacy_report.yml`. That form tells the reporter the issue is public and not to post exact coordinates. Describe the screen and the region in words.
+3. **Reference the issue.** Commits and pull requests name the issue (`Fixes #123` when the pull request closes it, `Refs #123` when it does not). Keep the task ID as well: `feat(api): forecast endpoint (T5.6, Fixes #123)`.
+4. **A bug outside the task.** When you find a bug you cannot fix inside the current task, open an issue with the bug form (`.github/ISSUE_TEMPLATE/bug_report.yml`): steps to reproduce, expected behaviour, actual behaviour, platform (`iOS`, `Android`, `web`, or `api`), app version, device and OS, and severity (`P0`, `P1`, or `P2`). Use `gh issue create --template bug_report.yml` when you have permission. If you cannot open the issue, paste those same fields in the pull request. Leave coordinates, map pins, GPS EXIF, and raw lat/lng out of the issue and the pull request. Labels: `bug`, `needs-triage`, the platform (`mobile` for iOS and Android, otherwise `web` or `api`), and the severity.
+5. **In-app reports.** The beta entry point that files an issue without putting a token on the device is T9.11. Until that lands, open the issue yourself.
+
+The form applies `bug`, `feature`, or `privacy`, plus `needs-triage`. The privacy form also applies `P0`. `.github/workflows/issue-labels.yml` adds the platform and severity from the form body. It only adds labels, and it does not print the body.
+
+| Label | When                                                                   |
+| ----- | ---------------------------------------------------------------------- |
+| `P0`  | Crash, data loss, the beta is blocked, or any privacy or location leak |
+| `P1`  | A major function is broken and a workaround may exist                  |
+| `P2`  | Minor, cosmetic, or a rough edge                                       |
+
+`needs-triage` stays until someone has confirmed the severity and the platform.

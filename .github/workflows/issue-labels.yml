@@ -1,0 +1,24 @@
+name: Issue form labels
+
+on:
+  issues:
+    types: [opened, edited]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  apply:
+    name: apply
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Adds mobile/web/api from the Platform field, and P0/P1/P2 from Severity.
+      # A privacy report is always P0. The script does not print the issue body.
+      - name: Apply platform and severity labels
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node .github/scripts/apply-issue-labels.mjs

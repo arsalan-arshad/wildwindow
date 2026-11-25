@@ -1,0 +1,49 @@
+name: Feature request
+description: Suggest a change to WildWindow.
+title: 'feature: '
+labels: ['feature', 'needs-triage']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Describe the problem and the outcome you want. This issue is public.
+
+        Do not include exact coordinates, a map pin, GPS EXIF, or a precise sighting.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What is hard or missing today?
+    validations:
+      required: true
+
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Outcome you want
+      description: What should a photographer be able to do afterwards?
+    validations:
+      required: true
+
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      description: Where this would show up. iOS and Android are both triaged as mobile.
+      options:
+        - iOS
+        - Android
+        - web
+        - api
+        - not sure
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: no-pin
+    attributes:
+      label: No-Pin check
+      options:
+        - label: I have not included exact coordinates, a map pin, GPS EXIF, or a precise sighting location.
+          required: true

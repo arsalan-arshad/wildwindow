@@ -27,6 +27,14 @@
     },
     "test": {
       "dependsOn": ["^build"],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "$TURBO_ROOT$/.github/labels.yml",
+        "$TURBO_ROOT$/.github/ISSUE_TEMPLATE/**",
+        "$TURBO_ROOT$/.github/scripts/**",
+        "$TURBO_ROOT$/.github/workflows/sync-labels.yml",
+        "$TURBO_ROOT$/.github/workflows/issue-labels.yml"
+      ],
       "passThroughEnv": [
         "DATABASE_URL",
         "DATABASE_URL_API",
