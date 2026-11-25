@@ -50,4 +50,31 @@ describe('formatBacktestReport', () => {
     expect(md).toContain('## Summary');
     expect(md).toContain('## Per species');
   });
+
+  it('escapes backslashes before pipes in markdown table cells', () => {
+    const md = formatBacktestReport({
+      regionSlug: 'scotland',
+      window: { holdoutYear: 2023, trainFromYear: 2014, trainToYear: 2022 },
+      scoringVersion: '1.0',
+      generatedAt: new Date('2026-11-25T12:00:00.000Z'),
+      results: [
+        {
+          taxonId: 1,
+          scientificName: 'Foo\\bar|baz',
+          commonName: 'pipe|name',
+          tier: 'open',
+          status: 'insufficient',
+          topMeanRr: null,
+          bottomMeanRr: null,
+          ratio: null,
+          confidence: 'low',
+          weeksEvaluated: 0,
+          note: 'path\\with|pipe',
+        },
+      ],
+    });
+    expect(md).toContain('Foo\\\\bar\\|baz');
+    expect(md).toContain('pipe\\|name');
+    expect(md).toContain('path\\\\with\\|pipe');
+  });
 });

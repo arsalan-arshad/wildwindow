@@ -34,7 +34,8 @@ function fmtRatio(value: number | null): string {
 }
 
 function escapeCell(value: string): string {
-  return value.replace(/\|/g, '\\|');
+  // Escape backslashes first so a trailing `\` cannot defeat the `|` escape.
+  return value.replace(/\\/g, '\\\\').replace(/\|/g, '\\|');
 }
 
 /**
