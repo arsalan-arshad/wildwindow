@@ -15,3 +15,8 @@ export function defaultBetaSpeciesPath(): string {
 export function defaultDownloadDir(): string {
   return resolve(repoRoot(), 'data', 'downloads');
 }
+
+/** Generated worker reports (backtest, ingest summaries). */
+export function defaultReportsDir(): string {
+  return resolve(repoRoot(), 'reports');
+}
