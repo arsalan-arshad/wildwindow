@@ -278,20 +278,23 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Acceptance test: the §4.6 numbers give `H ≈ 0.68`; the week 1 and week 52 wrap works; zero effort → 0.
   - Done: 2026-11-25, PR #20 — minimal `reportingRate`/`factorH`/`weeksAround`/`p95` (+ `SCORING_V1` stub). §7 I/O types completed in T4.1 (PR #35).
 
-- [ ] **T4.4 Factor T**
+- [x] **T4.4 Factor T**
   - Depends on: T4.2
   - Do: hourly profile smoothing, activity-pattern templates (`diurnal`, `crepuscular`, `nocturnal`, `tidal`) and `factorT(block)`.
   - Acceptance test: a profile with < 30 records uses the template; the best block gets T = 1.
+  - Done: 2026-11-25, PR #37 (WPO-37) — `hourlyShares` / `factorT`; templates for all four activity patterns; <30 records → template; best block T=1.
 
-- [ ] **T4.5 Factors G, Wx and D**
+- [x] **T4.5 Factors G, Wx and D**
   - Depends on: T4.2
   - Do: `factorG`, `factorWx` (including the beyond-horizon 0.85 and the precipProb fallback from the amount), and `factorD` (with `not_used`).
   - Acceptance test: table-driven tests at every boundary (wind 20, 35 and 50 km/h; rain probability 0 and 1).
+  - Done: 2026-11-25, PR #37 (WPO-37) — `factorG` / `factorWx` / `factorD`; precipProb from precipMm; beyond-horizon 0.85; tide `not_used`.
 
-- [ ] **T4.6 `computeForecast`**
+- [x] **T4.6 `computeForecast`**
   - Depends on: T4.3–T4.5, T1.2, T1.3
   - Do: combine everything as in §4.3–§4.5 → `{status, weekScore, bestDay, days[], confidence, range, factors, explanations}`. Explanations come from templates (no LLM).
   - Acceptance test: the §4.6 worked example gives DayScore **69**; lockout, `no_forecast` and not covered give the right status; property test: the score is always an integer from 0 to 100, and raising any factor never lowers the score.
+  - Done: 2026-11-25, PR #37 (WPO-37) — `computeForecast` + template explanations; §4.6 → 69; status overrides; fast-check bounds/monotonicity.
 
 - [ ] **T4.7 Weather providers**
   - Depends on: T4.1, T5.2

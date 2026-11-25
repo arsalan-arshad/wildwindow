@@ -33,3 +33,32 @@ export {
   type LightDay,
   type LightInterval,
 } from './light.js';
+
+export { ACTIVITY_PATTERNS, isActivityPattern, type ActivityPattern } from './activity-pattern.js';
+export { ACTIVITY_TEMPLATES } from './activity-templates.js';
+export {
+  blockMass,
+  factorT,
+  hourlyShares,
+  smoothHourlyCounts,
+  startHourFromHm,
+} from './factor-t.js';
+export { factorG } from './factor-g.js';
+export {
+  factorWx,
+  rainFactor,
+  resolvePrecipProb,
+  windFactor,
+  type FactorWxResult,
+  type HourlyWeatherSample,
+} from './factor-wx.js';
+export { factorD, type FactorDResult, type TideExtremes } from './factor-d.js';
+export { isTidePref, TIDE_PREFS, type TidePref } from './tide-pref.js';
+export { conditionsC, dayScore } from './combine.js';
+export { confidenceLabel, confidenceRange, type ConfidenceInput } from './confidence.js';
+export {
+  computeForecast,
+  type ComputeForecastInput,
+  type DayWeatherInput,
+  type HistoryInput,
+} from './compute-forecast.js';

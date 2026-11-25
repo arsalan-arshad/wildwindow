@@ -29,6 +29,7 @@ describe('SCORING_V1', () => {
     expect(SCORING_V1.light.blueHourHighDeg).toBe(-4);
     expect(SCORING_V1.light.blockHours).toBe(2);
     expect(SCORING_V1.weather.beyondHorizon).toBe(0.85);
+    expect(SCORING_V1.weather.precipMmForCertain).toBe(2);
     expect(SCORING_V1.tide.windowHours).toBe(2);
     expect(SCORING_V1.confidence.rangePad).toBe(15);
   });
