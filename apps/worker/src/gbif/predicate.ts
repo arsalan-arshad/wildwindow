@@ -2,7 +2,10 @@
  * GBIF occurrence download predicate builder (§3.2 step 1).
  *
  * Region geography (ARCHITECTURE):
- * - scotland → COUNTRY = GB
+ * - scotland → GADM_GID = GBR.3_1 (looked up 2026-11-25 via
+ *   GET https://api.gbif.org/v1/geocode/gadm/search?q=Scotland —
+ *   Constituent Country under United Kingdom; not COUNTRY=GB, which pulls
+ *   all of Great Britain and made the T3.9 effort download ~6 GB)
  * - sindh → GADM_GID = PAK.8_1 (looked up 2026-11-24 via
  *   GET https://api.gbif.org/v1/geocode/gadm/search?q=Sindh)
  *
@@ -62,7 +65,7 @@ export function licenseAllowlistValues(): readonly string[] {
 
 function regionGeoPredicate(region: IngestRegion): EqualsPredicate {
   if (region === 'scotland') {
-    return { type: 'equals', key: 'COUNTRY', value: 'GB' };
+    return { type: 'equals', key: 'GADM_GID', value: 'GBR.3_1' };
   }
   return { type: 'equals', key: 'GADM_GID', value: 'PAK.8_1' };
 }

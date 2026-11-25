@@ -103,7 +103,7 @@ flowchart LR
 **Steps** (each one is a worker command; see AGENTS.md for how to run them):
 
 1. `gbif:request --region scotland|sindh --kind target|effort`. Builds the predicate:
-   - `target`: `TAXON_KEY in [beta species keys]`, plus a `GEOMETRY` (region WKT, simplified) or `COUNTRY` (GB) / `GADM_GID` (Sindh), `LICENSE in [CC0_1_0, CC_BY_4_0]`, `HAS_COORDINATE=true`, `HAS_GEOSPATIAL_ISSUE=false`, the `BASIS_OF_RECORD` set and `YEAR >= 2005`.
+   - `target`: `TAXON_KEY in [beta species keys]`, plus `GADM_GID` for the region (`GBR.3_1` Scotland, looked up 2026-11-25; `PAK.8_1` Sindh, looked up 2026-11-24), `LICENSE in [CC0_1_0, CC_BY_4_0]`, `HAS_COORDINATE=true`, `HAS_GEOSPATIAL_ISSUE=false`, the `BASIS_OF_RECORD` set and `YEAR >= 2005`. (Do not use `COUNTRY=GB` for Scotland — that downloads all of Great Britain.)
    - `effort`: the same filters, but with the **effort group** taxon keys (for example class Aves for birds, class Mammalia for mammals), which are used as the sampling-effort proxy.
    - It saves an `ingest_runs` row with the GBIF download key. Credentials: `GBIF_USER`, `GBIF_PASSWORD`, `GBIF_EMAIL`.
 2. `gbif:fetch --run <id>`. Polls the download status and downloads the zip when it succeeds. Records the DOI and the total record count.

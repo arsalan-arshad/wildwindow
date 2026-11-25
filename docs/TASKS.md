@@ -212,7 +212,7 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Depends on: T3.1, T2.7
   - Do: `buildPredicate({region, kind, taxonKeys})` following §3.2 step 1, **always** including `LICENSE in [CC0_1_0, CC_BY_4_0]`.
   - Acceptance test: snapshot tests; a test fails if the licence predicate is missing or has extra licences.
-  - Done: 2026-11-25, PR #15 — `buildPredicate` in `apps/worker/src/gbif/predicate.ts`: TAXON_KEY + region geo (scotland=`COUNTRY=GB`, sindh=`GADM_GID=PAK.8_1` looked up 2026-11-24) + LICENSE allowlist + coords/issues/basis/year≥2005. Snapshot + licence-guard tests.
+  - Done: 2026-11-25, PR #15 — `buildPredicate` in `apps/worker/src/gbif/predicate.ts`: TAXON_KEY + region geo (originally scotland=`COUNTRY=GB`; now scotland=`GADM_GID=GBR.3_1` looked up 2026-11-25, sindh=`GADM_GID=PAK.8_1` looked up 2026-11-24) + LICENSE allowlist + coords/issues/basis/year≥2005. Snapshot + licence-guard tests.
 
 - [x] **T3.3 `gbif:request` and `gbif:fetch` commands**
   - Depends on: T3.2, T2.4
