@@ -1,12 +1,5 @@
 import { spawnSync } from 'node:child_process';
-import {
-  mkdtempSync,
-  mkdirSync,
-  readFileSync,
-  rmSync,
-  symlinkSync,
-  writeFileSync,
-} from 'node:fs';
+import { mkdtempSync, mkdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -82,10 +75,7 @@ describe('Railway worker image (bundled CLI, no nested workspace resolve)', () =
       writeFileSync(join(root, 'packages/geoprivacy/dist/index.js'), 'export const cell = 1;\n');
 
       // Worker resolves @wildwindow/db (the #27 fix) but db cannot see geoprivacy.
-      symlinkSync(
-        '../../../../packages/db',
-        join(root, 'apps/worker/node_modules/@wildwindow/db'),
-      );
+      symlinkSync('../../../../packages/db', join(root, 'apps/worker/node_modules/@wildwindow/db'));
 
       writeFileSync(
         join(root, 'apps/worker/dist/cli.js'),
@@ -113,7 +103,7 @@ describe('Railway worker image (bundled CLI, no nested workspace resolve)', () =
         join(root, 'apps/worker/dist/cli.js'),
         [
           "import { Command } from 'commander';",
-          "const program = new Command();",
+          'const program = new Command();',
           "program.name('worker').command('hello').action(() => console.log('ok'));",
           'await program.parseAsync(process.argv);',
           '',
