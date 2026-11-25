@@ -29,7 +29,10 @@ WORKDIR /app
 ENV NODE_ENV=production
 RUN groupadd --system --gid 1001 ww \
   && useradd --system --uid 1001 --gid ww ww
+# Hoisted linker: third-party deps live in root node_modules; workspace
+# packages (@wildwindow/*) are linked from apps/worker/node_modules.
 COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/apps/worker/node_modules ./apps/worker/node_modules
 COPY --from=build /app/packages/shared/dist ./packages/shared/dist
 COPY --from=build /app/packages/shared/package.json ./packages/shared/package.json
 COPY --from=build /app/packages/geoprivacy/dist ./packages/geoprivacy/dist

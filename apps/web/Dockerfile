@@ -22,11 +22,15 @@ ENV NEXT_TELEMETRY_DISABLED=1
 RUN groupadd --system --gid 1001 ww \
   && useradd --system --uid 1001 --gid ww ww
 # standalone output includes server.js + minimal node_modules.
+# With outputFileTracingRoot = monorepo root, standalone also copies the
+# root package.json (type:module). server.js is CommonJS `require`.
 COPY --from=build /app/apps/web/public ./apps/web/public
 COPY --from=build /app/apps/web/.next/standalone ./
 COPY --from=build /app/apps/web/.next/static ./apps/web/.next/static
+# Pin CJS next to server.js so Node does not inherit root type:module.
+RUN printf '%s\n' '{"type":"commonjs"}' > ./apps/web/package.json
 USER ww
 WORKDIR /app/apps/web
 EXPOSE 3000
-# Railway sets PORT; Next reads it.
+# Railway sets PORT; Next reads it. Healthcheck path is `/`.
 CMD ["node", "server.js"]

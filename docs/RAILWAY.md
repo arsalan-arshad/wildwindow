@@ -105,7 +105,7 @@ Legend: **R** = required for that service to start / do its job · **O** = optio
 | Variable                        | Kind       | `migrate`        | `api`                    | `web` | `worker` | Notes                                                                                                |
 | ------------------------------- | ---------- | ---------------- | ------------------------ | ----- | -------- | ---------------------------------------------------------------------------------------------------- |
 | `NODE_ENV`                      | Public     | R (`production`) | R                        | R     | R        |                                                                                                      |
-| `PORT`                          | Public     | —                | O                        | O     | —        | Railway injects automatically for web/api                                                            |
+| `PORT`                          | Public     | —                | **R\*** (`3001`)         | O     | —        | \*Api listens on `PORT` (Dockerfile `EXPOSE 3001`, code default `3001`). If the Railway domain / proxy targets **3001**, set `PORT=3001` on `api` — Railway’s injected `PORT` can differ. Web uses whatever Railway injects (Next reads `PORT`). |
 | `DATABASE_URL`                  | **Secret** | **R** (owner)    | —                        | —     | O*       | Owner/migrations only on migrate. *Worker may fall back to it in code; prefer `DATABASE_URL_WORKER`. |
 | `DATABASE_URL_API`              | **Secret** | —                | **R** (when API uses DB) | —     | —        | `ww_api` URL                                                                                         |
 | `DATABASE_URL_WORKER`           | **Secret** | —                | —                        | —     | **R**    | `ww_worker` URL                                                                                      |
@@ -145,11 +145,18 @@ Legend: **R** = required for that service to start / do its job · **O** = optio
 
 **`migrate`:** `NODE_ENV`, `DATABASE_URL`, `WW_API_DB_PASSWORD`, `WW_WORKER_DB_PASSWORD`, optional `RUN_SEED=1`.
 
-**`api`:** `NODE_ENV`, `DATABASE_URL_API` (when DB wiring exists), `API_PUBLIC_URL`, `WEB_ORIGIN`.
+**`api`:** `NODE_ENV`, `PORT=3001` (when the public domain targets 3001), `DATABASE_URL_API` (when DB wiring exists), `API_PUBLIC_URL`, `WEB_ORIGIN`.
 
 **`web`:** `NODE_ENV`, `NEXT_PUBLIC_API_URL` (api public URL).
 
 **`worker`:** `NODE_ENV`, `DATABASE_URL_WORKER`. Leave all `GBIF_*` unset.
+
+---
+
+## Image layout notes (runtime crashes we already fixed)
+
+- **`web`:** Monorepo root `package.json` has `"type":"module"`. Next standalone `server.js` is CommonJS. The web Dockerfile writes `apps/web/package.json` with `"type":"commonjs"` next to `server.js` so Node does not inherit root ESM. Healthcheck remains `/`; user remains non-root `ww`.
+- **`worker`:** With `node-linker=hoisted`, `@wildwindow/*` links live under `apps/worker/node_modules` (not only root `node_modules`). The worker Dockerfile copies that tree plus built `packages/*/dist` so `node dist/cli.js` can resolve `@wildwindow/db` and friends. Default CMD stays `hello`.
 
 ---
 
