@@ -307,11 +307,11 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Acceptance test: with `TIDE_PROVIDER=none`, the forecast for a coastal species shows `tide: "not_used"`.
   - Done: 2026-11-25 — `TideProvider` / `NoTideProvider` / `createTideProvider` (+ env parse) in `@wildwindow/scoring`; `TIDE_PROVIDER=none` on api-env; coastal forecast acceptance → `tide: "not_used"`.
 
-- [~] **T4.9 Backtest command**
+- [x] **T4.9 Backtest command**
   - Depends on: T4.6, T3.9
   - Do: `pnpm worker backtest --region <slug> --holdout <year>` following §4.7; write `reports/backtest-<region>-<year>.md` with pass or fail per species.
   - Acceptance test: it runs on the fixture data and produces a report with a summary table.
-  - In progress: 2026-11-25 (WPO-42)
+  - Done: 2026-11-25, PR #40 (`df5a361`) — weekly H from train Y−10…Y−2 vs holdout Y−1; ≥2× quartile pass rule; Markdown summary table; CodeQL cell escaping.
 
 ## Phase 5: API (`apps/api`)
 
