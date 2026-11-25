@@ -22,6 +22,18 @@ export const ApiEnvSchema = z.object({
   ADMIN_TOKEN: z.string().min(1).optional(),
   /** When false (default), waitlist confirmation email is a no-op stub. */
   WAITLIST_EMAIL_ENABLED: boolish,
+  /**
+   * Tide provider switch (ARCHITECTURE §3.5 / T4.8). MVP: `none` only → factor D is
+   * `not_used`. Real providers are added later after licence checks (P3.1).
+   */
+  TIDE_PROVIDER: z
+    .string()
+    .optional()
+    .transform((value) => {
+      const normalized = (value ?? '').trim().toLowerCase();
+      return normalized === '' ? 'none' : normalized;
+    })
+    .pipe(z.literal('none')),
 });
 
 export type ApiEnv = z.infer<typeof ApiEnvSchema>;

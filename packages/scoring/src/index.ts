@@ -54,6 +54,17 @@ export {
 } from './factor-wx.js';
 export { factorD, type FactorDResult, type TideExtremes } from './factor-d.js';
 export { isTidePref, TIDE_PREFS, type TidePref } from './tide-pref.js';
+export {
+  createTideProvider,
+  createTideProviderFromEnv,
+  NoTideProvider,
+  parseTideProviderId,
+  TIDE_PROVIDER_NONE,
+  toTideExtremes,
+  type TideExtreme,
+  type TideProvider,
+  type TideProviderId,
+} from './tide-provider.js';
 export { conditionsC, dayScore } from './combine.js';
 export { confidenceLabel, confidenceRange, type ConfidenceInput } from './confidence.js';
 export {

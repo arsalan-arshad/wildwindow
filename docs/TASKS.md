@@ -301,10 +301,11 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Do: `apps/api/src/providers/weather/` with `MetNoProvider` (identifying User-Agent from `WEATHER_USER_AGENT`, honouring `Expires`), `OpenMeteoProvider` (dev only; it logs a warning when `NODE_ENV=production`), and `MockProvider`. Cache in `pub.weather_cache` keyed by the res-5 cell.
   - Acceptance test: unit tests with recorded fixtures; a test checks that the provider is called with the **cell centre**, not the input point.
 
-- [ ] **T4.8 Tide provider interface**
+- [x] **T4.8 Tide provider interface**
   - Depends on: T4.1
   - Do: `TideProvider` and `NoTideProvider` (§3.5), plus a config switch.
   - Acceptance test: with `TIDE_PROVIDER=none`, the forecast for a coastal species shows `tide: "not_used"`.
+  - Done: 2026-11-25 — `TideProvider` / `NoTideProvider` / `createTideProvider` (+ env parse) in `@wildwindow/scoring`; `TIDE_PROVIDER=none` on api-env; coastal forecast acceptance → `tide: "not_used"`.
 
 - [ ] **T4.9 Backtest command**
   - Depends on: T4.6, T3.9
