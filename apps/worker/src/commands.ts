@@ -1,6 +1,7 @@
 import { Command } from 'commander';
 
 import { runAggregate } from './aggregate/run.js';
+import { runBacktest } from './backtest/run.js';
 import { runGbifFetch } from './gbif/fetch.js';
 import { runGbifLoad } from './gbif/load.js';
 import { runGbifRequest } from './gbif/request.js';
@@ -143,6 +144,35 @@ export function createProgram(): Command {
           taxaProcessed: result.taxaProcessed,
           taxaSkipped: result.taxaSkipped,
           refsWritten: result.refsWritten,
+        }),
+      );
+    });
+
+  program
+    .command('backtest')
+    .description('Holdout-year validation report (§4.7) → reports/backtest-<region>-<year>.md')
+    .requiredOption('--region <slug>', 'scotland|sindh')
+    .requiredOption('--holdout <year>', 'held-out year Y−1', (v) => Number.parseInt(v, 10))
+    .option('--out <path>', 'output markdown path (default reports/backtest-<region>-<year>.md)')
+    .action(async (opts: { region: string; holdout: number; out?: string }) => {
+      if (!Number.isInteger(opts.holdout)) {
+        throw new Error(`--holdout must be an integer year (got ${String(opts.holdout)})`);
+      }
+      const result = await runBacktest({
+        region: parseRegion(opts.region),
+        holdoutYear: opts.holdout,
+        ...(opts.out === undefined ? {} : { outPath: opts.out }),
+      });
+      console.log(
+        JSON.stringify({
+          regionId: result.regionId,
+          regionSlug: result.regionSlug,
+          holdoutYear: result.holdoutYear,
+          outPath: result.outPath,
+          passed: result.passed,
+          failed: result.failed,
+          insufficient: result.insufficient,
+          skipped: result.skipped,
         }),
       );
     });
