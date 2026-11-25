@@ -1,4 +1,5 @@
 # Multi-stage worker CLI image (non-root). Build context = monorepo root.
+# Runtime is a tsup-bundled CLI — no workspace package layout needed.
 FROM node:22-bookworm-slim AS deps
 WORKDIR /app
 RUN corepack enable && corepack prepare pnpm@9.15.9 --activate
@@ -29,19 +30,8 @@ WORKDIR /app
 ENV NODE_ENV=production
 RUN groupadd --system --gid 1001 ww \
   && useradd --system --uid 1001 --gid ww ww
-# Hoisted linker: third-party deps live in root node_modules; workspace
-# packages (@wildwindow/*) are linked from apps/worker/node_modules.
+# Bundled dist inlines @wildwindow/*; only npm deps (pg, drizzle-orm, …) need node_modules.
 COPY --from=build /app/node_modules ./node_modules
-COPY --from=build /app/apps/worker/node_modules ./apps/worker/node_modules
-COPY --from=build /app/packages/shared/dist ./packages/shared/dist
-COPY --from=build /app/packages/shared/package.json ./packages/shared/package.json
-COPY --from=build /app/packages/geoprivacy/dist ./packages/geoprivacy/dist
-COPY --from=build /app/packages/geoprivacy/package.json ./packages/geoprivacy/package.json
-COPY --from=build /app/packages/scoring/dist ./packages/scoring/dist
-COPY --from=build /app/packages/scoring/package.json ./packages/scoring/package.json
-COPY --from=build /app/packages/db/dist ./packages/db/dist
-COPY --from=build /app/packages/db/package.json ./packages/db/package.json
-COPY --from=build /app/packages/db/migrations ./packages/db/migrations
 COPY --from=build /app/apps/worker/dist ./apps/worker/dist
 COPY --from=build /app/apps/worker/package.json ./apps/worker/package.json
 COPY --from=build /app/package.json ./package.json
