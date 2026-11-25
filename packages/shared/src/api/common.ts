@@ -32,7 +32,10 @@ export const LocalHmSchema = z.string().regex(/^\d{2}:\d{2}$/);
 export type LocalHm = z.infer<typeof LocalHmSchema>;
 
 /** H3 cell id (hex string). Public responses never include finer cells than the tier allows. */
-export const H3CellSchema = z.string().regex(/^[0-9a-f]+$/i).min(15);
+export const H3CellSchema = z
+  .string()
+  .regex(/^[0-9a-f]+$/i)
+  .min(15);
 export type H3Cell = z.infer<typeof H3CellSchema>;
 
 /** Taxon wire id (stringified DB id or GBIF key — callers treat as opaque). */

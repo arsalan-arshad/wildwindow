@@ -62,10 +62,7 @@ import {
   SpeciesMapResponseSchema,
 } from './species.js';
 import { PresignUploadRequestSchema, PresignUploadResponseSchema } from './uploads.js';
-import {
-  WaitlistSignupOkSchema,
-  WaitlistSignupRequestSchema,
-} from './waitlist.js';
+import { WaitlistSignupOkSchema, WaitlistSignupRequestSchema } from './waitlist.js';
 
 import type { ZodTypeAny } from 'zod';
 

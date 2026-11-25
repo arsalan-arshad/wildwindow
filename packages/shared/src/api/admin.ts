@@ -40,14 +40,8 @@ export const AdminTaxonRegionSchema = z.object({
 });
 export type AdminTaxonRegion = z.infer<typeof AdminTaxonRegionSchema>;
 
-export const ChallengeEntryModerationStatusSchema = z.enum([
-  'pending',
-  'approved',
-  'rejected',
-]);
-export type ChallengeEntryModerationStatus = z.infer<
-  typeof ChallengeEntryModerationStatusSchema
->;
+export const ChallengeEntryModerationStatusSchema = z.enum(['pending', 'approved', 'rejected']);
+export type ChallengeEntryModerationStatus = z.infer<typeof ChallengeEntryModerationStatusSchema>;
 
 /** GET /v1/admin/challenge-entries */
 export const AdminChallengeEntriesQuerySchema = z.object({

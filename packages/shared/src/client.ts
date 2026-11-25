@@ -1,8 +1,5 @@
 import { AreaResponseSchema, type AreaResponse } from './api/areas.js';
-import {
-  AttributionsResponseSchema,
-  type AttributionsResponse,
-} from './api/attributions.js';
+import { AttributionsResponseSchema, type AttributionsResponse } from './api/attributions.js';
 import {
   ChallengeEntriesQuerySchema,
   ChallengeEntriesResponseSchema,
@@ -288,7 +285,9 @@ export function createApiClient(options: CreateApiClientOptions): ApiClient {
           cell: parsed.cell,
           start: parsed.start,
         });
-        return requestJson('GET', `/v1/forecast${qs}`, (data) => ForecastResponseSchema.parse(data));
+        return requestJson('GET', `/v1/forecast${qs}`, (data) =>
+          ForecastResponseSchema.parse(data),
+        );
       },
     },
     attributions: {
@@ -298,7 +297,12 @@ export function createApiClient(options: CreateApiClientOptions): ApiClient {
     waitlist: {
       async join(body) {
         const parsed = WaitlistSignupRequestSchema.parse(body);
-        return requestJson('POST', '/v1/waitlist', (data) => WaitlistSignupOkSchema.parse(data), parsed);
+        return requestJson(
+          'POST',
+          '/v1/waitlist',
+          (data) => WaitlistSignupOkSchema.parse(data),
+          parsed,
+        );
       },
     },
     me: {
@@ -321,8 +325,7 @@ export function createApiClient(options: CreateApiClientOptions): ApiClient {
             parsed,
           );
         },
-        remove: (id) =>
-          requestJson('DELETE', `/v1/me/watchlist/${encodeURIComponent(id)}`, null),
+        remove: (id) => requestJson('DELETE', `/v1/me/watchlist/${encodeURIComponent(id)}`, null),
       },
       logbook: {
         list: () =>
@@ -349,8 +352,7 @@ export function createApiClient(options: CreateApiClientOptions): ApiClient {
             parsed,
           );
         },
-        remove: (id) =>
-          requestJson('DELETE', `/v1/me/logbook/${encodeURIComponent(id)}`, null),
+        remove: (id) => requestJson('DELETE', `/v1/me/logbook/${encodeURIComponent(id)}`, null),
       },
     },
     uploads: {
