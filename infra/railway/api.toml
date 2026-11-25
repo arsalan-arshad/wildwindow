@@ -1,0 +1,16 @@
+# Copy these settings into the Railway "api" service
+# (Settings → Build / Deploy), or:
+#   railway service link  # then place as railway.toml at repo root for that service
+#
+# Root Directory: / (monorepo root)
+# Builder: Dockerfile
+
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "apps/api/Dockerfile"
+watchPatterns = ["apps/api/**", "packages/shared/**", "packages/config/**", "pnpm-lock.yaml"]
+
+[deploy]
+healthcheckPath = "/v1/health"
+healthcheckTimeout = 30
+restartPolicyType = "ON_FAILURE"

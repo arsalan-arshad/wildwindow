@@ -1,0 +1,22 @@
+# Railway "worker" service settings (Root Directory = monorepo root).
+# Default CMD is `hello` (smoke). Override start command / use Cron for real jobs.
+# Do NOT enable GBIF until T3.9 + credentials are ready.
+
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "apps/worker/Dockerfile"
+watchPatterns = [
+  "apps/worker/**",
+  "packages/db/**",
+  "packages/geoprivacy/**",
+  "packages/scoring/**",
+  "packages/shared/**",
+  "packages/config/**",
+  "data/**",
+  "pnpm-lock.yaml",
+]
+
+[deploy]
+# Smoke only — keeps the service green without starting live ingest.
+startCommand = "node dist/cli.js hello"
+restartPolicyType = "ON_FAILURE"
