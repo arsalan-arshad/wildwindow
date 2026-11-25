@@ -12,6 +12,7 @@ import request from 'supertest';
 import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { AppModule } from '../app.module.js';
+import { apiNestOptions } from '../bootstrap.js';
 
 import { WaitlistService } from './waitlist.service.js';
 
@@ -63,7 +64,7 @@ describe('POST /v1/waitlist + admin export', () => {
       imports: [AppModule],
     }).compile();
 
-    app = moduleRef.createNestApplication();
+    app = moduleRef.createNestApplication(apiNestOptions());
     await app.init();
   });
 

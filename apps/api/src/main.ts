@@ -3,16 +3,14 @@ import 'reflect-metadata';
 import { NestFactory } from '@nestjs/core';
 
 import { AppModule } from './app.module.js';
-import { corsOptionsFromWebOrigin } from './cors.js';
+import { apiNestOptions, configureApiApp } from './bootstrap.js';
+import { loadApiEnv } from './config/api-env.js';
 
 async function bootstrap(): Promise<void> {
-  const app = await NestFactory.create(AppModule);
-  const cors = corsOptionsFromWebOrigin(process.env['WEB_ORIGIN']);
-  if (cors !== undefined) {
-    app.enableCors(cors);
-  }
-  const port = Number(process.env['PORT'] ?? 3001);
-  await app.listen(port);
+  const env = loadApiEnv();
+  const app = await NestFactory.create(AppModule, apiNestOptions());
+  configureApiApp(app);
+  await app.listen(env.PORT);
 }
 
 void bootstrap();
