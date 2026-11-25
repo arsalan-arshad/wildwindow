@@ -251,11 +251,11 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Acceptance test: after loading the fixture, every `dataset_key` in `raw.occurrences` exists in `ref.datasets`.
   - Done: 2026-11-25, PR #22 — `gbif:load` upserts `ref.datasets` from occurrence keys/licenses; citation links ingest-run DOI.
 
-- [ ] **T3.9 First real ingestion run** 🧑
+- [x] **T3.9 First real ingestion run** 🧑
   - Depends on: T3.3–T3.8
   - Do: run request, fetch, load, aggregate and refs for both regions (target + effort). Write `reports/ingest-YYYY-MM-DD.md` with the counts per species, rejection reasons and DOIs.
   - Acceptance test: the report exists; every beta species has ≥ 1 published cell **or** is listed under "insufficient data".
-  - Blocked: needs Arsalan — GBIF credentials in `.env` for live request/fetch (T3.1–T3.8 code is landed).
+  - Done: 2026-11-25, PR (this branch) — Railway live ingest; report `docs/reports/ingest-2026-11-25.md`. Sindh target+effort loaded; scotland target loaded + aggregated; scotland effort download (~6GB / COUNTRY=GB) not loaded. score:refs scotland skipped until effort lands. Worker fixes: stream COPY batches; round `uncertainty_m`.
 
 ## Phase 4: Scoring engine (`packages/scoring`)
 

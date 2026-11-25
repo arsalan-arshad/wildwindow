@@ -174,7 +174,8 @@ function parseUncertaintyM(raw: string | undefined): number | undefined {
   if (!Number.isFinite(n) || n < 0) {
     return undefined;
   }
-  return n;
+  // raw.occurrences.uncertainty_m is integer metres (round fractional GBIF values).
+  return Math.round(n);
 }
 
 /**

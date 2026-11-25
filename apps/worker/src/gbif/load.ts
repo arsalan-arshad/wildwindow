@@ -275,64 +275,83 @@ export async function runGbifLoad(options: GbifLoadOptions): Promise<GbifLoadRes
       const isInsideRegion = (lat: number, lng: number): boolean =>
         pointInRegionGeometry(lat, lng, geometry);
 
+      // Stream target COPY in chunks so multi-million GBIF zips do not OOM
+      // (T3.9 Railway live ingest). Effort still aggregates in-memory.
+      const copyFlushSize = 2000;
       const copyLines: string[] = [];
       const effortCounts = new Map<string, number>();
-      const datasetRows: { datasetKey: string; license: string }[] = [];
+      /** First license per dataset key (avoid retaining one entry per occurrence). */
+      const datasetLicenseByKey = new Map<string, string>();
 
-      for await (const row of iterateOccurrenceRows(options.zipPath)) {
-        counters.total += 1;
-        const result = validateRow(row, {
-          observerHashSalt: env.OBSERVER_HASH_SALT,
-          isInsideRegion,
-        });
-        if (!result.ok) {
-          bumpReject(counters, result.reason);
-          continue;
+      const flushCopyLines = async (): Promise<void> => {
+        if (copyLines.length === 0) {
+          return;
         }
-
-        if (run.kind === 'target') {
-          const taxon = taxonMap.get(result.record.taxonKey);
-          if (taxon === undefined) {
-            counters.rejectedOther += 1;
-            continue;
-          }
-          copyLines.push(occurrenceCopyLine(result.record, taxon.id, run.regionId, options.runId));
-          datasetRows.push({
-            datasetKey: result.record.datasetKey,
-            license: result.record.license,
-          });
-        } else {
-          const group =
-            effortGroupFromClass(row['class']) ?? taxonMap.get(result.record.taxonKey)?.effortGroup;
-          if (group === undefined) {
-            counters.rejectedOther += 1;
-            continue;
-          }
-          const resolutions: readonly number[] = result.record.maxRes === 7 ? [7, 5, 4] : [5, 4];
-          for (const res of resolutions) {
-            const cell = snapToCell(result.record.lat, result.record.lng, res);
-            const key = `${group}\t${String(res)}\t${cell}\t${String(result.record.week)}`;
-            effortCounts.set(key, (effortCounts.get(key) ?? 0) + 1);
-          }
-        }
-      }
+        counters.loaded += await copyTargetOccurrences(client, copyLines);
+        copyLines.length = 0;
+      };
 
       await client.query('BEGIN');
       try {
-        if (run.kind === 'target') {
-          const chunkSize = 2000;
-          for (let i = 0; i < copyLines.length; i += chunkSize) {
-            counters.loaded += await copyTargetOccurrences(
-              client,
-              copyLines.slice(i, i + chunkSize),
-            );
-          }
-          const attributions = collectDatasetAttributions(datasetRows);
-          await upsertDatasets(client, attributions, run.doi);
-        } else {
+        if (run.kind === 'effort') {
           await client.query(`DELETE FROM pub.effort_cell_week WHERE region_id = $1`, [
             run.regionId,
           ]);
+        }
+
+        for await (const row of iterateOccurrenceRows(options.zipPath)) {
+          counters.total += 1;
+          const result = validateRow(row, {
+            observerHashSalt: env.OBSERVER_HASH_SALT,
+            isInsideRegion,
+          });
+          if (!result.ok) {
+            bumpReject(counters, result.reason);
+            continue;
+          }
+
+          if (run.kind === 'target') {
+            const taxon = taxonMap.get(result.record.taxonKey);
+            if (taxon === undefined) {
+              counters.rejectedOther += 1;
+              continue;
+            }
+            copyLines.push(
+              occurrenceCopyLine(result.record, taxon.id, run.regionId, options.runId),
+            );
+            if (!datasetLicenseByKey.has(result.record.datasetKey)) {
+              datasetLicenseByKey.set(result.record.datasetKey, result.record.license);
+            }
+            if (copyLines.length >= copyFlushSize) {
+              await flushCopyLines();
+            }
+          } else {
+            const group =
+              effortGroupFromClass(row['class']) ??
+              taxonMap.get(result.record.taxonKey)?.effortGroup;
+            if (group === undefined) {
+              counters.rejectedOther += 1;
+              continue;
+            }
+            const resolutions: readonly number[] = result.record.maxRes === 7 ? [7, 5, 4] : [5, 4];
+            for (const res of resolutions) {
+              const cell = snapToCell(result.record.lat, result.record.lng, res);
+              const key = `${group}\t${String(res)}\t${cell}\t${String(result.record.week)}`;
+              effortCounts.set(key, (effortCounts.get(key) ?? 0) + 1);
+            }
+          }
+        }
+
+        if (run.kind === 'target') {
+          await flushCopyLines();
+          const attributions = collectDatasetAttributions(
+            [...datasetLicenseByKey.entries()].map(([datasetKey, license]) => ({
+              datasetKey,
+              license,
+            })),
+          );
+          await upsertDatasets(client, attributions, run.doi);
+        } else {
           counters.loaded += await upsertEffortCounts(client, run.regionId, effortCounts);
         }
 
