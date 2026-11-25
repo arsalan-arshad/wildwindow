@@ -334,11 +334,11 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Acceptance test: a test controller returning `{lat:1}` gets 500 with a `GeoPrivacyViolation` log entry; the same response with `@OwnerLocation()` and the owner's authentication goes through.
   - Done: 2026-11-25 — Global `PublicGeoInterceptor` (`APP_INTERCEPTOR`) runs `assertPublicSafe` on every response (H3 ceiling = open res-7). `@OwnerLocation()` + authenticated `req.user.id` sets `allowOwnerLocation`. Violations → 500 `INTERNAL_ERROR` + pino `GeoPrivacyViolation` log. E2e covers dirty public 500+log and owner-auth pass-through.
 
-- [~] **T5.4 Regions, species and seasonality endpoints**
+- [x] **T5.4 Regions, species and seasonality endpoints**
   - Depends on: T5.3, T2.7
   - Do: `GET /v1/regions`, `/v1/regions/:slug/species`, `/v1/species/:taxonId` (only `reviewed` cards), `/v1/species/:taxonId/seasonality`.
   - Acceptance test: e2e tests against the seeded database; search matches the English name, Urdu name and scientific name; seasonality has 52 values in [0, 1].
-  - In progress: 2026-11-25
+  - Done: 2026-11-25, PR #45 (`ac9e6c1`) — CatalogueModule: regions list (no geom), region species search (en/ur/scientific + group), species detail (reviewed cards only), seasonality 52 relative rates in [0,1] from `pub.taxon_region_week`; e2e + assertPublicSafe; api vitest `fileParallelism: false`.
 
 - [ ] **T5.5 Places and areas endpoints**
   - Depends on: T5.3, T2.8, T2.9
