@@ -12,9 +12,9 @@ exports[`buildPredicate > builds a scotland target predicate (snapshot) 1`] = `
       ],
     },
     {
-      "key": "COUNTRY",
+      "key": "GADM_GID",
       "type": "equals",
-      "value": "GB",
+      "value": "GBR.3_1",
     },
     {
       "key": "LICENSE",

@@ -212,7 +212,7 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Depends on: T3.1, T2.7
   - Do: `buildPredicate({region, kind, taxonKeys})` following §3.2 step 1, **always** including `LICENSE in [CC0_1_0, CC_BY_4_0]`.
   - Acceptance test: snapshot tests; a test fails if the licence predicate is missing or has extra licences.
-  - Done: 2026-11-25, PR #15 — `buildPredicate` in `apps/worker/src/gbif/predicate.ts`: TAXON_KEY + region geo (scotland=`COUNTRY=GB`, sindh=`GADM_GID=PAK.8_1` looked up 2026-11-24) + LICENSE allowlist + coords/issues/basis/year≥2005. Snapshot + licence-guard tests.
+  - Done: 2026-11-25, PR #15 — `buildPredicate` in `apps/worker/src/gbif/predicate.ts`: TAXON_KEY + region geo (originally scotland=`COUNTRY=GB`; now scotland=`GADM_GID=GBR.3_1` looked up 2026-11-25, sindh=`GADM_GID=PAK.8_1` looked up 2026-11-24) + LICENSE allowlist + coords/issues/basis/year≥2005. Snapshot + licence-guard tests.
 
 - [x] **T3.3 `gbif:request` and `gbif:fetch` commands**
   - Depends on: T3.2, T2.4
@@ -255,7 +255,8 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Depends on: T3.3–T3.8
   - Do: run request, fetch, load, aggregate and refs for both regions (target + effort). Write `reports/ingest-YYYY-MM-DD.md` with the counts per species, rejection reasons and DOIs.
   - Acceptance test: the report exists; every beta species has ≥ 1 published cell **or** is listed under "insufficient data".
-  - Done: 2026-11-25, PR (this branch) — Railway live ingest; report `docs/reports/ingest-2026-11-25.md`. Sindh target+effort loaded; scotland target loaded + aggregated; scotland effort download (~6GB / COUNTRY=GB) not loaded. score:refs scotland skipped until effort lands. Worker fixes: stream COPY batches; round `uncertainty_m`.
+  - Done: 2026-11-25, PR #33 — Railway live ingest; report `docs/reports/ingest-2026-11-25.md`. Sindh target+effort loaded; scotland target loaded + aggregated. First scotland effort (`COUNTRY=GB`, ~6GB) not loaded.
+  - Follow-up **WPO-34** (2026-11-25, PR #34): scotland geo → `GADM_GID=GBR.3_1`; new effort run `#8` key `0017147` DOI `10.15468/dl.j5kh6v` loaded; aggregate + score:refs wrote **25** refs. See amended ingest report.
 
 ## Phase 4: Scoring engine (`packages/scoring`)
 

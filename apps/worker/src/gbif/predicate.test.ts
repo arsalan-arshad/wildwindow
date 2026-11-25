@@ -31,7 +31,7 @@ describe('buildPredicate', () => {
     expect(predicate).toMatchSnapshot();
   });
 
-  it('uses COUNTRY=GB for scotland and GADM_GID=PAK.8_1 for sindh', () => {
+  it('uses GADM_GID=GBR.3_1 for scotland and GADM_GID=PAK.8_1 for sindh', () => {
     const scotland = buildPredicate({
       region: 'scotland',
       kind: 'target',
@@ -44,7 +44,7 @@ describe('buildPredicate', () => {
     });
 
     expect(scotland.predicates).toEqual(
-      expect.arrayContaining([{ type: 'equals', key: 'COUNTRY', value: 'GB' }]),
+      expect.arrayContaining([{ type: 'equals', key: 'GADM_GID', value: 'GBR.3_1' }]),
     );
     expect(sindh.predicates).toEqual(
       expect.arrayContaining([{ type: 'equals', key: 'GADM_GID', value: 'PAK.8_1' }]),
