@@ -11,21 +11,44 @@ const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '../../..');
 /** Minimal CommonJS file that uses require (like Next standalone server.js). */
 const cjsServerSource = "const path = require('node:path');\nconsole.log(path.basename('.'));\n";
 
+function stripComments(stage: string): string {
+  return stage
+    .split('\n')
+    .filter((line) => !/^\s*#/.test(line))
+    .join('\n');
+}
+
 describe('Railway web image (standalone server.js is CommonJS)', () => {
   it('runner pins a non-ESM package.json next to server.js', () => {
     const dockerfile = readFileSync(resolve(repoRoot, 'apps/web/Dockerfile'), 'utf8');
     const runnerStage = dockerfile.split('AS runner')[1];
     expect(runnerStage).toBeDefined();
-    const runnerCode = (runnerStage ?? '')
-      .split('\n')
-      .filter((line) => !/^\s*#/.test(line))
-      .join('\n');
+    const runnerCode = stripComments(runnerStage ?? '');
 
     // Must write a local package.json so root type:module does not apply.
     expect(runnerCode).toMatch(/apps\/web\/package\.json/);
     expect(runnerCode).toMatch(/"type"\s*:\s*"commonjs"/);
     expect(runnerCode).toMatch(/USER ww/);
     expect(runnerCode).toMatch(/CMD\s*\[\s*"node",\s*"server\.js"\s*\]/);
+  });
+
+  it('runner forces HOSTNAME=0.0.0.0 so Next listens for Railway healthchecks', () => {
+    const dockerfile = readFileSync(resolve(repoRoot, 'apps/web/Dockerfile'), 'utf8');
+    const runnerStage = dockerfile.split('AS runner')[1];
+    expect(runnerStage).toBeDefined();
+    const runnerCode = stripComments(runnerStage ?? '');
+    expect(runnerCode).toMatch(/ENV\s+HOSTNAME=0\.0\.0\.0/);
+  });
+
+  it('build stage wires NEXT_PUBLIC_* as ARG/ENV for next build inlining', () => {
+    const dockerfile = readFileSync(resolve(repoRoot, 'apps/web/Dockerfile'), 'utf8');
+    const buildStage = dockerfile.split('AS build')[1]?.split('AS runner')[0];
+    expect(buildStage).toBeDefined();
+    const buildCode = stripComments(buildStage ?? '');
+    expect(buildCode).toMatch(/ARG\s+NEXT_PUBLIC_API_URL/);
+    expect(buildCode).toMatch(/ENV\s+NEXT_PUBLIC_API_URL=/);
+    expect(buildCode).toMatch(/ARG\s+NEXT_PUBLIC_FIREBASE_CONFIG/);
+    expect(buildCode).toMatch(/ENV\s+NEXT_PUBLIC_FIREBASE_CONFIG=/);
   });
 
   it('root package.json still declares type module (the bug we guard against)', () => {

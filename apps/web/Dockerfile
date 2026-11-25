@@ -13,12 +13,21 @@ COPY apps/web apps/web
 # Next standalone needs the app directory as cwd for correct tracing.
 WORKDIR /app/apps/web
 ENV NEXT_TELEMETRY_DISABLED=1
+# NEXT_PUBLIC_* are inlined at `next build`. Railway Variables are ENV during
+# build; ARG also lets `docker build --build-arg` inject them locally.
+ARG NEXT_PUBLIC_API_URL
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+ARG NEXT_PUBLIC_FIREBASE_CONFIG
+ENV NEXT_PUBLIC_FIREBASE_CONFIG=$NEXT_PUBLIC_FIREBASE_CONFIG
 RUN pnpm --filter web build
 
 FROM node:22-bookworm-slim AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
+# Railway sets HOSTNAME to the container hostname; Next binds to it and the
+# healthcheck fails. Force all-interfaces like a normal container listen.
+ENV HOSTNAME=0.0.0.0
 RUN groupadd --system --gid 1001 ww \
   && useradd --system --uid 1001 --gid ww ww
 # standalone output includes server.js + minimal node_modules.
