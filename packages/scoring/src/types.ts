@@ -116,7 +116,4 @@ export type ForecastNotCovered = ForecastBase & {
 };
 
 export type ForecastResponse =
-  | ForecastOk
-  | ForecastUnavailable
-  | ForecastLockout
-  | ForecastNotCovered;
+  ForecastOk | ForecastUnavailable | ForecastLockout | ForecastNotCovered;

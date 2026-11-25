@@ -60,11 +60,7 @@ export function offsetMsAt(at: Date, timeZone: string): number {
 /**
  * Instant corresponding to local calendar `YYYY-MM-DD` + `HH:MM` in `timeZone`.
  */
-export function zonedLocalDateTime(
-  dateYmd: string,
-  hm: string,
-  timeZone: string,
-): Date {
+export function zonedLocalDateTime(dateYmd: string, hm: string, timeZone: string): Date {
   const dm = /^(\d{4})-(\d{2})-(\d{2})$/.exec(dateYmd);
   const tm = /^(\d{2}):(\d{2})$/.exec(hm);
   if (dm === null || tm === null) {
@@ -105,7 +101,10 @@ export function formatLocalYmd(at: Date, timeZone: string): string {
   return `${y}-${m}-${d}`;
 }
 
-export function localHourMinute(at: Date, timeZone: string): {
+export function localHourMinute(
+  at: Date,
+  timeZone: string,
+): {
   hour: number;
   minute: number;
 } {

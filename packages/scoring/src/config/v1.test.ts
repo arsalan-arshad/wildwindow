@@ -2,12 +2,7 @@ import { describe, expect, expectTypeOf, it } from 'vitest';
 
 import { SCORING_V1 } from './v1.js';
 
-import type {
-  ForecastInput,
-  ForecastOk,
-  ForecastResponse,
-  ForecastStatus,
-} from '../types.js';
+import type { ForecastInput, ForecastOk, ForecastResponse, ForecastStatus } from '../types.js';
 
 describe('SCORING_V1', () => {
   it('is as const with version "1.0"', () => {
@@ -84,12 +79,7 @@ describe('§7 forecast I/O types', () => {
   });
 
   it('covers status overrides with null score fields', () => {
-    const statuses: ForecastStatus[] = [
-      'ok',
-      'unavailable',
-      'lockout',
-      'not_covered',
-    ];
+    const statuses: ForecastStatus[] = ['ok', 'unavailable', 'lockout', 'not_covered'];
     expect(statuses).toHaveLength(4);
 
     const lockout: ForecastResponse = {

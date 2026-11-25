@@ -2,12 +2,7 @@ import * as fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 
 import { SCORING_V1 } from './config/v1.js';
-import {
-  candidateBlocks,
-  lightForDay,
-  sunAltitudeDeg,
-  type LightDay,
-} from './light.js';
+import { candidateBlocks, lightForDay, sunAltitudeDeg, type LightDay } from './light.js';
 import { zonedLocalDateTime } from './tz.js';
 
 /**
@@ -92,18 +87,10 @@ function expectWithinOneMinute(actual: string | null, expected: string): void {
   if (actual === null) {
     return;
   }
-  expect(
-    minutesApart(actual, expected),
-    `${actual} vs ${expected}`,
-  ).toBeLessThanOrEqual(1);
+  expect(minutesApart(actual, expected), `${actual} vs ${expected}`).toBeLessThanOrEqual(1);
 }
 
-function altitudeAtLocal(
-  day: LightDay,
-  hm: string,
-  lat: number,
-  lng: number,
-): number {
+function altitudeAtLocal(day: LightDay, hm: string, lat: number, lng: number): number {
   const at = zonedLocalDateTime(day.date, hm, day.timeZone);
   return sunAltitudeDeg(at, { lat, lng });
 }
@@ -280,9 +267,7 @@ describe('candidateBlocks property', () => {
           );
           const civilDusk = zonedLocalDateTime(
             date,
-            duskH === 24
-              ? '23:59'
-              : `${String(duskH).padStart(2, '0')}:00`,
+            duskH === 24 ? '23:59' : `${String(duskH).padStart(2, '0')}:00`,
             timeZone,
           );
           const blocks = candidateBlocks({

@@ -108,8 +108,7 @@ export function candidateBlocks(params: {
   /** True when altitude stays ≥ civil threshold all day. */
   readonly alwaysDaylight?: boolean;
 }): readonly TimeBlock[] {
-  const { date, timeZone, civilDawn, civilDusk, alwaysDaylight = false } =
-    params;
+  const { date, timeZone, civilDawn, civilDusk, alwaysDaylight = false } = params;
   const blockHours = SCORING_V1.light.blockHours;
   const blocks: TimeBlock[] = [];
 
@@ -132,21 +131,14 @@ export function candidateBlocks(params: {
     const endHm = `${String(endHour).padStart(2, '0')}:00`;
     const startAt = zonedLocalDateTime(date, startHm, timeZone);
     const endAt = zonedLocalDateTime(date, endHm, timeZone);
-    if (
-      startAt.getTime() >= civilDawn.getTime() &&
-      endAt.getTime() <= civilDusk.getTime()
-    ) {
+    if (startAt.getTime() >= civilDawn.getTime() && endAt.getTime() <= civilDusk.getTime()) {
       blocks.push({ start: startHm, end: endHm });
     }
   }
   return blocks;
 }
 
-function sunTimesForCivilDay(
-  dateYmd: string,
-  timeZone: string,
-  loc: LatLng,
-): SunTimes {
+function sunTimesForCivilDay(dateYmd: string, timeZone: string, loc: LatLng): SunTimes {
   const localNoon = zonedLocalDateTime(dateYmd, '12:00', timeZone);
   const utcOffsetMinutes = offsetMsAt(localNoon, timeZone) / 60_000;
   return getTimes(localNoon, loc.lat, loc.lng, 0, utcOffsetMinutes);
@@ -189,8 +181,7 @@ export function lightForDay(params: {
   if (continuousCivil && !alwaysDaylight) {
     const noon = asDate(times.solarNoon);
     if (noon !== null) {
-      alwaysCivilDay =
-        sunAltitudeDeg(noon, loc) >= SCORING_V1.light.civilAltitudeDeg;
+      alwaysCivilDay = sunAltitudeDeg(noon, loc) >= SCORING_V1.light.civilAltitudeDeg;
     } else {
       alwaysCivilDay = false;
     }
