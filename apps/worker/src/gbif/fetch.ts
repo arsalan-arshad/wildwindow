@@ -9,7 +9,8 @@ import { createGbifClient, type GbifClient } from './client.js';
 import { INGEST_STATUS } from './ingest-status.js';
 
 const fetchEnvSchema = z.object({
-  DATABASE_URL: z.string().min(1),
+  DATABASE_URL: z.string().min(1).optional(),
+  DATABASE_URL_WORKER: z.string().min(1).optional(),
   GBIF_USER: z.string().min(1),
   GBIF_PASSWORD: z.string().min(1),
   GBIF_EMAIL: z.string().email(),
@@ -26,7 +27,7 @@ export type GbifFetchOptions = {
   readonly env?: z.infer<typeof fetchEnvSchema>;
   /** Poll interval (ms). Default 2000. */
   readonly pollIntervalMs?: number;
-  /** Max status polls before giving up. Default 90. */
+  /** Max status polls before giving up. Default 1800 (~1h at 2s). */
   readonly maxPolls?: number;
   readonly sleep?: (ms: number) => Promise<void>;
 };
@@ -53,7 +54,7 @@ export async function runGbifFetch(options: GbifFetchOptions): Promise<GbifFetch
   const env = options.env ?? loadEnv(fetchEnvSchema);
   const now = options.now ?? new Date();
   const pollIntervalMs = options.pollIntervalMs ?? 2000;
-  const maxPolls = options.maxPolls ?? 90;
+  const maxPolls = options.maxPolls ?? 1800;
   const sleep = options.sleep ?? defaultSleep;
 
   const client =
@@ -66,11 +67,16 @@ export async function runGbifFetch(options: GbifFetchOptions): Promise<GbifFetch
       },
     });
 
+  const connectionString = env.DATABASE_URL_WORKER ?? env.DATABASE_URL;
+  if (connectionString === undefined || connectionString.length === 0) {
+    throw new Error('DATABASE_URL_WORKER or DATABASE_URL is required for gbif:fetch');
+  }
+
   const owned = options.db === undefined;
   const { db, pool } =
     options.db !== undefined
       ? { db: options.db, pool: undefined }
-      : createDb({ connectionString: env.DATABASE_URL });
+      : createDb({ connectionString });
 
   try {
     const rows = await db

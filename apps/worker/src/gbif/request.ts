@@ -9,7 +9,8 @@ import { buildPredicate, type IngestKind, type IngestRegion } from './predicate.
 import { resolveTaxonKeysForRequest } from './taxon-keys.js';
 
 const requestEnvSchema = z.object({
-  DATABASE_URL: z.string().min(1),
+  DATABASE_URL: z.string().min(1).optional(),
+  DATABASE_URL_WORKER: z.string().min(1).optional(),
   GBIF_USER: z.string().min(1),
   GBIF_PASSWORD: z.string().min(1),
   GBIF_EMAIL: z.string().email(),
@@ -78,11 +79,16 @@ export async function runGbifRequest(options: GbifRequestOptions): Promise<GbifR
 
   const downloadKey = await client.requestDownload({ predicate });
 
+  const connectionString = env.DATABASE_URL_WORKER ?? env.DATABASE_URL;
+  if (connectionString === undefined || connectionString.length === 0) {
+    throw new Error('DATABASE_URL_WORKER or DATABASE_URL is required for gbif:request');
+  }
+
   const owned = options.db === undefined;
   const { db, pool } =
     options.db !== undefined
       ? { db: options.db, pool: undefined }
-      : createDb({ connectionString: env.DATABASE_URL });
+      : createDb({ connectionString });
 
   try {
     const regionId = await resolveRegionId(db, options.region);
