@@ -1,0 +1,73 @@
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [-4.25, 55.86]
+  },
+  "properties": {
+    "meta": {
+      "updated_at": "2026-11-25T12:00:00Z",
+      "units": {
+        "wind_speed": "m/s",
+        "cloud_area_fraction": "%",
+        "precipitation_amount": "mm",
+        "probability_of_precipitation": "%"
+      }
+    },
+    "timeseries": [
+      {
+        "time": "2026-11-25T12:00:00Z",
+        "data": {
+          "instant": {
+            "details": {
+              "wind_speed": 5.0,
+              "cloud_area_fraction": 40.0
+            }
+          },
+          "next_1_hours": {
+            "summary": { "symbol_code": "partlycloudy_day" },
+            "details": {
+              "precipitation_amount": 0.0,
+              "probability_of_precipitation": 10
+            }
+          }
+        }
+      },
+      {
+        "time": "2026-11-25T13:00:00Z",
+        "data": {
+          "instant": {
+            "details": {
+              "wind_speed": 8.0,
+              "cloud_area_fraction": 70.0
+            }
+          },
+          "next_1_hours": {
+            "summary": { "symbol_code": "rain" },
+            "details": {
+              "precipitation_amount": 1.5
+            }
+          }
+        }
+      },
+      {
+        "time": "2026-11-25T14:00:00Z",
+        "data": {
+          "instant": {
+            "details": {
+              "wind_speed": 3.0,
+              "cloud_area_fraction": 20.0
+            }
+          },
+          "next_1_hours": {
+            "summary": { "symbol_code": "fair_day" },
+            "details": {
+              "precipitation_amount": 0.0,
+              "probability_of_precipitation": 5
+            }
+          }
+        }
+      }
+    ]
+  }
+}

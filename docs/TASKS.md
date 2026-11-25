@@ -296,10 +296,11 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Acceptance test: the §4.6 worked example gives DayScore **69**; lockout, `no_forecast` and not covered give the right status; property test: the score is always an integer from 0 to 100, and raising any factor never lowers the score.
   - Done: 2026-11-25, PR #37 (WPO-37) — `computeForecast` + template explanations; §4.6 → 69; status overrides; fast-check bounds/monotonicity.
 
-- [ ] **T4.7 Weather providers**
+- [x] **T4.7 Weather providers**
   - Depends on: T4.1, T5.2
   - Do: `apps/api/src/providers/weather/` with `MetNoProvider` (identifying User-Agent from `WEATHER_USER_AGENT`, honouring `Expires`), `OpenMeteoProvider` (dev only; it logs a warning when `NODE_ENV=production`), and `MockProvider`. Cache in `pub.weather_cache` keyed by the res-5 cell.
   - Acceptance test: unit tests with recorded fixtures; a test checks that the provider is called with the **cell centre**, not the input point.
+  - Done: 2026-11-25 — `MetNoProvider` / `OpenMeteoProvider` / `MockProvider` + `WeatherService` (res-5 centre, `pub.weather_cache`); precipProb fallback via scoring `precipMmForCertain`; msw fixtures; cell-centre assertion; env `WEATHER_PROVIDER` / `WEATHER_USER_AGENT`.
 
 - [x] **T4.8 Tide provider interface**
   - Depends on: T4.1

@@ -8,6 +8,7 @@ import { DbModule } from './db/db.module.js';
 import { HealthController } from './health.controller.js';
 import { ThrottlerExceptionFilter } from './http/throttler-exception.filter.js';
 import { ApiLoggerModule } from './logging/logger.module.js';
+import { WeatherModule } from './providers/weather/weather.module.js';
 import { WaitlistModule } from './waitlist/waitlist.module.js';
 
 @Module({
@@ -24,6 +25,7 @@ import { WaitlistModule } from './waitlist/waitlist.module.js';
       },
     ]),
     DbModule,
+    WeatherModule,
     WaitlistModule,
   ],
   controllers: [HealthController],
