@@ -346,10 +346,11 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Acceptance test: "glasg" finds Glasgow; a cell outside both regions → `covered:false`; an invalid cell → 400.
   - Done: 2026-11-26, PR #47 (`a5009ae`) — `GET /v1/places?q=&region=` trigram (`name % q` + similarity order); `GET /v1/areas/:cellR7` label via `areaLabelFor`, coverage via ST_Covers on cell centre; invalid/non-res-7 → 400; uncovered → `covered:false` + "Not covered yet". E2e acceptance.
 
-- [ ] **T5.6 Forecast endpoint**
+- [x] **T5.6 Forecast endpoint**
   - Depends on: T4.6, T4.7, T4.8, T5.4, T3.7
   - Do: `GET /v1/forecast` following §5.5: tier lookup → display cell → status overrides → cache → load aggregates → compute → `assertPublicSafe`. Cache in `pub.forecast_cache` (1 h TTL, invalidated when the tier changes).
   - Acceptance test: e2e tests where (a) two different res-7 cells under the same res-5 parent get **identical** responses for a `protected` species, (b) a lockout date gives `status:"lockout"`, (c) p95 < 400 ms over 100 warm requests locally.
+  - Done: 2026-11-25 — `GET /v1/forecast`; displayCell + status overrides; `pub.forecast_cache` 1h TTL (tier mismatch misses); e2e (a)(b)(c).
 
 - [ ] **T5.7 Species map endpoint**
   - Depends on: T5.4, T1.5

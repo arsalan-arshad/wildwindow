@@ -6,6 +6,7 @@ import { ZodValidationPipe } from 'nestjs-zod';
 import { CatalogueModule } from './catalogue/catalogue.module.js';
 import { ApiConfigModule } from './config/api-config.module.js';
 import { DbModule } from './db/db.module.js';
+import { ForecastModule } from './forecast/forecast.module.js';
 import { PublicGeoInterceptor } from './geoprivacy/public-geo.interceptor.js';
 import { HealthController } from './health.controller.js';
 import { ThrottlerExceptionFilter } from './http/throttler-exception.filter.js';
@@ -30,6 +31,7 @@ import { WaitlistModule } from './waitlist/waitlist.module.js';
     WeatherModule,
     WaitlistModule,
     CatalogueModule,
+    ForecastModule,
   ],
   controllers: [HealthController],
   providers: [
