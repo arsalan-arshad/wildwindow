@@ -26,9 +26,9 @@ describe('Railway worker image (bundled CLI, no nested workspace resolve)', () =
   });
 
   it('worker package.json pins commander ≥9 (requiredOption API)', () => {
-    const pkg = JSON.parse(
-      readFileSync(resolve(repoRoot, 'apps/worker/package.json'), 'utf8'),
-    ) as { dependencies: { commander: string } };
+    const pkg = JSON.parse(readFileSync(resolve(repoRoot, 'apps/worker/package.json'), 'utf8')) as {
+      dependencies: { commander: string };
+    };
     const range = pkg.dependencies.commander;
     expect(range).toMatch(/\^?13\.|>=\s*9|>=9/);
   });
