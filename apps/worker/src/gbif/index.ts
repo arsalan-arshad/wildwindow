@@ -42,6 +42,11 @@ export { resolveTaxonKeysForRequest, type ResolveTaxonKeysInput } from './taxon-
 export { runGbifRequest, type GbifRequestOptions, type GbifRequestResult } from './request.js';
 export { runGbifFetch, type GbifFetchOptions, type GbifFetchResult } from './fetch.js';
 export { runGbifLoad, type GbifLoadOptions, type GbifLoadResult } from './load.js';
+export {
+  collectDatasetAttributions,
+  upsertDatasets,
+  type DatasetAttribution,
+} from './upsert-datasets.js';
 export { effortGroupFromClass } from './effort-group-from-class.js';
 export {
   pointInRegionGeometry,

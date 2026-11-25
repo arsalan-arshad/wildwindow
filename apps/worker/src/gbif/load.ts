@@ -13,6 +13,7 @@ import { effortGroupFromClass } from './effort-group-from-class.js';
 import { INGEST_SOURCE_GBIF, INGEST_STATUS } from './ingest-status.js';
 import { pointInRegionGeometry, type RegionGeometry } from './point-in-polygon.js';
 import { iterateOccurrenceRows } from './stream-occurrence-tsv.js';
+import { collectDatasetAttributions, upsertDatasets } from './upsert-datasets.js';
 import {
   validateRow,
   type ValidatedOccurrence,
@@ -254,6 +255,7 @@ export async function runGbifLoad(options: GbifLoadOptions): Promise<GbifLoadRes
         kind: ingestRuns.kind,
         regionId: ingestRuns.regionId,
         status: ingestRuns.status,
+        doi: ingestRuns.doi,
       })
       .from(ingestRuns)
       .where(eq(ingestRuns.id, options.runId))
@@ -275,6 +277,7 @@ export async function runGbifLoad(options: GbifLoadOptions): Promise<GbifLoadRes
 
       const copyLines: string[] = [];
       const effortCounts = new Map<string, number>();
+      const datasetRows: { datasetKey: string; license: string }[] = [];
 
       for await (const row of iterateOccurrenceRows(options.zipPath)) {
         counters.total += 1;
@@ -294,6 +297,10 @@ export async function runGbifLoad(options: GbifLoadOptions): Promise<GbifLoadRes
             continue;
           }
           copyLines.push(occurrenceCopyLine(result.record, taxon.id, run.regionId, options.runId));
+          datasetRows.push({
+            datasetKey: result.record.datasetKey,
+            license: result.record.license,
+          });
         } else {
           const group =
             effortGroupFromClass(row['class']) ?? taxonMap.get(result.record.taxonKey)?.effortGroup;
@@ -320,6 +327,8 @@ export async function runGbifLoad(options: GbifLoadOptions): Promise<GbifLoadRes
               copyLines.slice(i, i + chunkSize),
             );
           }
+          const attributions = collectDatasetAttributions(datasetRows);
+          await upsertDatasets(client, attributions, run.doi);
         } else {
           await client.query(`DELETE FROM pub.effort_cell_week WHERE region_id = $1`, [
             run.regionId,

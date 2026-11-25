@@ -137,6 +137,7 @@ describe('T3.5 gbif:load streaming', () => {
         regionId,
         kind: 'target',
         gbifDownloadKey: 'fixture-load-key',
+        doi: '10.15468/dl.fixture',
         status: INGEST_STATUS.requested,
         startedAt: new Date('2026-11-24T12:00:00.000Z'),
       })
@@ -206,5 +207,26 @@ describe('T3.5 gbif:load streaming', () => {
       [runId],
     );
     expect(Number(countAfterSecond.rows[0]?.count)).toBe(ROW_COUNT);
+
+    // T3.8: every dataset_key in raw.occurrences exists in ref.datasets.
+    const missing = await ownerPool.query<{ dataset_key: string }>(
+      `
+      SELECT DISTINCT o.dataset_key
+      FROM raw.occurrences o
+      WHERE o.ingest_run_id = $1
+        AND NOT EXISTS (
+          SELECT 1 FROM ref.datasets d WHERE d.gbif_dataset_key = o.dataset_key
+        )
+      `,
+      [runId],
+    );
+    expect(missing.rows).toEqual([]);
+
+    const dataset = await ownerPool.query<{
+      license: string;
+      citation: string;
+    }>(`SELECT license, citation FROM ref.datasets WHERE gbif_dataset_key = 'ds-fixture'`);
+    expect(dataset.rows[0]?.license).toBe('CC0_1_0');
+    expect(dataset.rows[0]?.citation).toBe('https://doi.org/10.15468/dl.fixture');
   }, 120_000);
 });
