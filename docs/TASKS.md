@@ -238,16 +238,17 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Acceptance test: an integration test with seeded raw rows checks that a `protected` species only ever produces cells at res ≤ 5, cells under the minimums are merged or suppressed, records younger than 30 days are excluded, and no `pub` row exists for a `no_forecast` taxon.
   - Done: 2026-11-25, PR #19 — `aggregate --region` rebuilds pub taxon tables in one txn; delay + `suppressAndMerge`; skips `no_forecast`.
 
-- [~] **T3.7 `score:refs` command**
+- [x] **T3.7 `score:refs` command**
   - Depends on: T3.6, T4.3
   - Do: work out `rr_ref` (P95) per taxon and region using the §4.2 formula, reusing `reportingRate()` from `packages/scoring` (T4.3).
   - Acceptance test: an integration test with known counts gives the expected `rr_ref`.
-  - In progress: 2026-11-25 — `score:refs --region` on `cursor/t3-7-score-refs-0379`.
+  - Done: 2026-11-25, PR #21 — `score:refs --region` writes `pub.taxon_score_ref` via `reportingRate`/`p95`; skips `no_forecast` / empty aggregates.
 
-- [ ] **T3.8 Dataset attribution**
+- [~] **T3.8 Dataset attribution**
   - Depends on: T3.5
   - Do: during load, upsert `ref.datasets` (key, title, publisher, licence) from the download's metadata or the GBIF dataset API; link the run's DOI.
   - Acceptance test: after loading the fixture, every `dataset_key` in `raw.occurrences` exists in `ref.datasets`.
+  - In progress: 2026-11-25 — upsert during `gbif:load` on `cursor/t3-8-dataset-attribution-0379`.
 
 - [ ] **T3.9 First real ingestion run** 🧑
   - Depends on: T3.3–T3.8
