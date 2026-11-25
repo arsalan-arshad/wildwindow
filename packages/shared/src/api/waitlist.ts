@@ -1,5 +1,10 @@
 import { z } from 'zod';
 
+import { ApiErrorBodySchema } from './common.js';
+
+export { ApiErrorBodySchema };
+export type { ApiErrorBody } from './common.js';
+
 /** Region choices on the marketing waitlist form (not beta region IDs only). */
 export const WaitlistRegionSlugSchema = z.enum(['scotland', 'sindh', 'both', 'other']);
 export type WaitlistRegionSlug = z.infer<typeof WaitlistRegionSlugSchema>;
@@ -45,13 +50,8 @@ export type WaitlistSignupOk = z.infer<typeof WaitlistSignupOkSchema>;
 export const WaitlistErrorCodeSchema = z.enum([
   'WAITLIST_DUPLICATE',
   'WAITLIST_RATE_LIMIT',
+  'RATE_LIMIT',
   'VALIDATION_ERROR',
   'UNAUTHORIZED',
 ]);
 export type WaitlistErrorCode = z.infer<typeof WaitlistErrorCodeSchema>;
-
-export const ApiErrorBodySchema = z.object({
-  code: z.string(),
-  message: z.string(),
-});
-export type ApiErrorBody = z.infer<typeof ApiErrorBodySchema>;
