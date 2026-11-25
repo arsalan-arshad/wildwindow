@@ -255,7 +255,8 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Depends on: T3.3–T3.8
   - Do: run request, fetch, load, aggregate and refs for both regions (target + effort). Write `reports/ingest-YYYY-MM-DD.md` with the counts per species, rejection reasons and DOIs.
   - Acceptance test: the report exists; every beta species has ≥ 1 published cell **or** is listed under "insufficient data".
-  - Done: 2026-11-25, PR (this branch) — Railway live ingest; report `docs/reports/ingest-2026-11-25.md`. Sindh target+effort loaded; scotland target loaded + aggregated; scotland effort download (~6GB / COUNTRY=GB) not loaded. score:refs scotland skipped until effort lands. Worker fixes: stream COPY batches; round `uncertainty_m`.
+  - Done: 2026-11-25, PR #33 — Railway live ingest; report `docs/reports/ingest-2026-11-25.md`. Sindh target+effort loaded; scotland target loaded + aggregated. First scotland effort (`COUNTRY=GB`, ~6GB) not loaded.
+  - Follow-up **WPO-34** (2026-11-25, PR #34): scotland geo → `GADM_GID=GBR.3_1`; new effort run `#8` key `0017147` DOI `10.15468/dl.j5kh6v` loaded; aggregate + score:refs wrote **25** refs. See amended ingest report.
 
 ## Phase 4: Scoring engine (`packages/scoring`)
 
