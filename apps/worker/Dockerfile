@@ -30,8 +30,11 @@ WORKDIR /app
 ENV NODE_ENV=production
 RUN groupadd --system --gid 1001 ww \
   && useradd --system --uid 1001 --gid ww ww
-# Bundled dist inlines @wildwindow/*; only npm deps (pg, drizzle-orm, …) need node_modules.
+# Bundled dist inlines @wildwindow/*; npm deps (pg, drizzle-orm, …) need node_modules.
+# Also ship apps/worker/node_modules/commander: root node_modules often has
+# commander@2 (terser/vitest) without requiredOption; worker pins commander ≥9.
 COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/apps/worker/node_modules/commander ./apps/worker/node_modules/commander
 COPY --from=build /app/apps/worker/dist ./apps/worker/dist
 COPY --from=build /app/apps/worker/package.json ./apps/worker/package.json
 COPY --from=build /app/package.json ./package.json

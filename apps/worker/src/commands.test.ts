@@ -3,6 +3,12 @@ import { describe, expect, it } from 'vitest';
 import { createProgram, listCommands } from './commands.js';
 
 describe('worker command registry', () => {
+  it('createProgram succeeds (commander must expose requiredOption)', () => {
+    // Railway post-#28 crash: root-hoisted commander@2 has no requiredOption,
+    // so createProgram throws TypeError during command registration.
+    expect(() => createProgram()).not.toThrow();
+  });
+
   it('registers hello, gbif commands and aggregate', () => {
     const program = createProgram();
     const names = listCommands(program);
