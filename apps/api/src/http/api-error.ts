@@ -18,6 +18,13 @@ export function validationError(message: string): ApiHttpException {
   });
 }
 
+export function notFoundError(message = 'Not found'): ApiHttpException {
+  return new ApiHttpException(HttpStatus.NOT_FOUND, {
+    code: 'NOT_FOUND',
+    message,
+  });
+}
+
 export function unauthorizedError(message = 'Unauthorized'): ApiHttpException {
   return new ApiHttpException(HttpStatus.UNAUTHORIZED, {
     code: 'UNAUTHORIZED',
