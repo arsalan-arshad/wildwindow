@@ -45,12 +45,12 @@ For **each** of `api`, `web`, `worker`, `migrate`:
 4. Apply watch patterns / healthchecks from `infra/railway/*.toml` (copy into the UI, or `railway.toml` when linking one service at a time).
 5. **Generate domain** for `api` and `web` (Settings → Networking).
 
-| Service   | Dockerfile                    | Role                                      |
-| --------- | ----------------------------- | ----------------------------------------- |
-| `api`     | `apps/api/Dockerfile`         | NestJS `/v1` (health: `/v1/health`)       |
-| `web`     | `apps/web/Dockerfile`         | Next.js App Router                        |
-| `worker`  | `apps/worker/Dockerfile`      | CLI; default `hello` smoke (no live GBIF) |
-| `migrate` | `apps/migrate/Dockerfile`     | One-off: migrations + optional seed       |
+| Service   | Dockerfile                | Role                                      |
+| --------- | ------------------------- | ----------------------------------------- |
+| `api`     | `apps/api/Dockerfile`     | NestJS `/v1` (health: `/v1/health`)       |
+| `web`     | `apps/web/Dockerfile`     | Next.js App Router                        |
+| `worker`  | `apps/worker/Dockerfile`  | CLI; default `hello` smoke (no live GBIF) |
+| `migrate` | `apps/migrate/Dockerfile` | One-off: migrations + optional seed       |
 
 ### D. First migrate, then smoke
 
@@ -74,13 +74,13 @@ To let a **new** Cursor cloud agent create/configure Railway for you:
 
 From ARCHITECTURE §6.3:
 
-| Role / URL              | Who uses it                         | Privileges                                      |
-| ----------------------- | ----------------------------------- | ----------------------------------------------- |
-| `DATABASE_URL`          | Owner / migrations (`migrate` job)  | Owns objects; runs Drizzle migrations           |
-| `DATABASE_URL_API`      | `api` service                       | Connect as **`ww_api`** — **no** `raw` schema   |
-| `DATABASE_URL_WORKER`   | `worker` service                    | Connect as **`ww_worker`** — may use `raw`      |
-| `WW_API_DB_PASSWORD`    | `migrate` (and local `db:migrate`)  | Creates/updates role `ww_api`                   |
-| `WW_WORKER_DB_PASSWORD` | `migrate` (and local `db:migrate`)  | Creates/updates role `ww_worker`                |
+| Role / URL              | Who uses it                        | Privileges                                    |
+| ----------------------- | ---------------------------------- | --------------------------------------------- |
+| `DATABASE_URL`          | Owner / migrations (`migrate` job) | Owns objects; runs Drizzle migrations         |
+| `DATABASE_URL_API`      | `api` service                      | Connect as **`ww_api`** — **no** `raw` schema |
+| `DATABASE_URL_WORKER`   | `worker` service                   | Connect as **`ww_worker`** — may use `raw`    |
+| `WW_API_DB_PASSWORD`    | `migrate` (and local `db:migrate`) | Creates/updates role `ww_api`                 |
+| `WW_WORKER_DB_PASSWORD` | `migrate` (and local `db:migrate`) | Creates/updates role `ww_worker`              |
 
 **Flow:**
 
@@ -102,44 +102,44 @@ Blank “needed?” means not required for that service on Railway beta.
 
 Legend: **R** = required for that service to start / do its job · **O** = optional later · **—** = do not set on this service.
 
-| Variable | Kind | `migrate` | `api` | `web` | `worker` | Notes |
-| -------- | ---- | --------- | ----- | ----- | -------- | ----- |
-| `NODE_ENV` | Public | R (`production`) | R | R | R | |
-| `PORT` | Public | — | O | O | — | Railway injects automatically for web/api |
-| `DATABASE_URL` | **Secret** | **R** (owner) | — | — | O* | Owner/migrations only on migrate. *Worker may fall back to it in code; prefer `DATABASE_URL_WORKER`. |
-| `DATABASE_URL_API` | **Secret** | — | **R** (when API uses DB) | — | — | `ww_api` URL |
-| `DATABASE_URL_WORKER` | **Secret** | — | — | — | **R** | `ww_worker` URL |
-| `WW_API_DB_PASSWORD` | **Secret** | **R** | — | — | — | Used only while applying roles |
-| `WW_WORKER_DB_PASSWORD` | **Secret** | **R** | — | — | — | Used only while applying roles |
-| `RUN_SEED` | Public | O (`1` to seed) | — | — | — | Migrate image only |
-| `GBIF_USER` | **Secret** | — | — | — | O | **Do not set until T3.9** |
-| `GBIF_PASSWORD` | **Secret** | — | — | — | O | **Do not set until T3.9** |
-| `GBIF_EMAIL` | Public | — | — | — | O | **Do not set until T3.9** |
-| `GBIF_ENABLED` | Public | — | — | — | O | Keep unset/`false` until T3.9 |
-| `INAT_DIRECT_ENABLED` | Public | — | O | — | O | MVP: leave unset/false |
-| `EBIRD_ENABLED` | Public | — | O | — | O | Must stay off without written permission |
-| `EBIRD_PERMISSION_REF` | Public | — | O | — | O | Required only if eBird ever enabled |
-| `WEATHER_PROVIDER` | Public | — | O | — | — | Later forecast tasks |
-| `WEATHER_USER_AGENT` | Public | — | O | — | — | |
-| `TIDE_PROVIDER` | Public | — | O | — | — | |
-| `OBSERVER_HASH_SALT` | **Secret** | — | O | — | O | When logbook/ingest hashing lands |
-| `LOGBOOK_ENC_KEY` | **Secret** | — | O | — | — | AES key for logbook points |
-| `FIREBASE_PROJECT_ID` | Public | — | O | O | — | When auth lands |
-| `FIREBASE_SERVICE_ACCOUNT_JSON` | **Secret** | — | O | — | — | API only; never to web |
-| `STORAGE_DRIVER` | Public | — | O | — | O | |
-| `S3_BUCKET` | Public | — | O | — | O | |
-| `CLOUDFRONT_KEY_PAIR_ID` | Public | — | O | — | — | |
-| `CLOUDFRONT_PRIVATE_KEY` | **Secret** | — | O | — | — | |
-| `WATCHLIST_LIMIT_FREE` | Public | — | O | — | — | |
-| `API_PUBLIC_URL` | Public | — | O | — | — | Public https URL of `api` |
-| `WEB_ORIGIN` | Public | — | O | — | — | CORS / links to `web` |
-| `EXPO_PUBLIC_API_URL` | Public | — | — | — | — | Mobile only (EAS / local) |
-| `EXPO_PUBLIC_FIREBASE_CONFIG` | Public | — | — | — | — | Mobile only |
-| `NEXT_PUBLIC_API_URL` | Public | — | — | O | — | Browser → API |
-| `NEXT_PUBLIC_FIREBASE_CONFIG` | Public | — | — | O | — | |
-| `SENTRY_DSN` | **Secret** | — | O | O | O | |
-| `POSTHOG_KEY` | **Secret** | — | O | O | — | |
-| `POSTHOG_HOST` | Public | — | O | O | — | |
+| Variable                        | Kind       | `migrate`        | `api`                    | `web` | `worker` | Notes                                                                                                |
+| ------------------------------- | ---------- | ---------------- | ------------------------ | ----- | -------- | ---------------------------------------------------------------------------------------------------- |
+| `NODE_ENV`                      | Public     | R (`production`) | R                        | R     | R        |                                                                                                      |
+| `PORT`                          | Public     | —                | O                        | O     | —        | Railway injects automatically for web/api                                                            |
+| `DATABASE_URL`                  | **Secret** | **R** (owner)    | —                        | —     | O*       | Owner/migrations only on migrate. *Worker may fall back to it in code; prefer `DATABASE_URL_WORKER`. |
+| `DATABASE_URL_API`              | **Secret** | —                | **R** (when API uses DB) | —     | —        | `ww_api` URL                                                                                         |
+| `DATABASE_URL_WORKER`           | **Secret** | —                | —                        | —     | **R**    | `ww_worker` URL                                                                                      |
+| `WW_API_DB_PASSWORD`            | **Secret** | **R**            | —                        | —     | —        | Used only while applying roles                                                                       |
+| `WW_WORKER_DB_PASSWORD`         | **Secret** | **R**            | —                        | —     | —        | Used only while applying roles                                                                       |
+| `RUN_SEED`                      | Public     | O (`1` to seed)  | —                        | —     | —        | Migrate image only                                                                                   |
+| `GBIF_USER`                     | **Secret** | —                | —                        | —     | O        | **Do not set until T3.9**                                                                            |
+| `GBIF_PASSWORD`                 | **Secret** | —                | —                        | —     | O        | **Do not set until T3.9**                                                                            |
+| `GBIF_EMAIL`                    | Public     | —                | —                        | —     | O        | **Do not set until T3.9**                                                                            |
+| `GBIF_ENABLED`                  | Public     | —                | —                        | —     | O        | Keep unset/`false` until T3.9                                                                        |
+| `INAT_DIRECT_ENABLED`           | Public     | —                | O                        | —     | O        | MVP: leave unset/false                                                                               |
+| `EBIRD_ENABLED`                 | Public     | —                | O                        | —     | O        | Must stay off without written permission                                                             |
+| `EBIRD_PERMISSION_REF`          | Public     | —                | O                        | —     | O        | Required only if eBird ever enabled                                                                  |
+| `WEATHER_PROVIDER`              | Public     | —                | O                        | —     | —        | Later forecast tasks                                                                                 |
+| `WEATHER_USER_AGENT`            | Public     | —                | O                        | —     | —        |                                                                                                      |
+| `TIDE_PROVIDER`                 | Public     | —                | O                        | —     | —        |                                                                                                      |
+| `OBSERVER_HASH_SALT`            | **Secret** | —                | O                        | —     | O        | When logbook/ingest hashing lands                                                                    |
+| `LOGBOOK_ENC_KEY`               | **Secret** | —                | O                        | —     | —        | AES key for logbook points                                                                           |
+| `FIREBASE_PROJECT_ID`           | Public     | —                | O                        | O     | —        | When auth lands                                                                                      |
+| `FIREBASE_SERVICE_ACCOUNT_JSON` | **Secret** | —                | O                        | —     | —        | API only; never to web                                                                               |
+| `STORAGE_DRIVER`                | Public     | —                | O                        | —     | O        |                                                                                                      |
+| `S3_BUCKET`                     | Public     | —                | O                        | —     | O        |                                                                                                      |
+| `CLOUDFRONT_KEY_PAIR_ID`        | Public     | —                | O                        | —     | —        |                                                                                                      |
+| `CLOUDFRONT_PRIVATE_KEY`        | **Secret** | —                | O                        | —     | —        |                                                                                                      |
+| `WATCHLIST_LIMIT_FREE`          | Public     | —                | O                        | —     | —        |                                                                                                      |
+| `API_PUBLIC_URL`                | Public     | —                | O                        | —     | —        | Public https URL of `api`                                                                            |
+| `WEB_ORIGIN`                    | Public     | —                | O                        | —     | —        | CORS / links to `web`                                                                                |
+| `EXPO_PUBLIC_API_URL`           | Public     | —                | —                        | —     | —        | Mobile only (EAS / local)                                                                            |
+| `EXPO_PUBLIC_FIREBASE_CONFIG`   | Public     | —                | —                        | —     | —        | Mobile only                                                                                          |
+| `NEXT_PUBLIC_API_URL`           | Public     | —                | —                        | O     | —        | Browser → API                                                                                        |
+| `NEXT_PUBLIC_FIREBASE_CONFIG`   | Public     | —                | —                        | O     | —        |                                                                                                      |
+| `SENTRY_DSN`                    | **Secret** | —                | O                        | O     | O        |                                                                                                      |
+| `POSTHOG_KEY`                   | **Secret** | —                | O                        | O     | —        |                                                                                                      |
+| `POSTHOG_HOST`                  | Public     | —                | O                        | O     | —        |                                                                                                      |
 
 ### Minimal paste set for first smoke
 
@@ -180,9 +180,9 @@ Prefer constructing these in the Variables UI (secret values) rather than commit
 
 ## Local vs Railway
 
-| Concern        | Local                         | Railway                                      |
-| -------------- | ----------------------------- | -------------------------------------------- |
-| PostGIS        | `pnpm db:up` (`18-3.7`)       | PostGIS template `18-3.7`                    |
-| Migrate / seed | `pnpm db:migrate` / `db:seed` | `migrate` service one-off                    |
-| API / web      | `pnpm --filter …`             | Dockerfile services                          |
-| Worker         | `pnpm worker <cmd>`           | Service smoke + one-off/cron overrides       |
+| Concern        | Local                         | Railway                                |
+| -------------- | ----------------------------- | -------------------------------------- |
+| PostGIS        | `pnpm db:up` (`18-3.7`)       | PostGIS template `18-3.7`              |
+| Migrate / seed | `pnpm db:migrate` / `db:seed` | `migrate` service one-off              |
+| API / web      | `pnpm --filter …`             | Dockerfile services                    |
+| Worker         | `pnpm worker <cmd>`           | Service smoke + one-off/cron overrides |
