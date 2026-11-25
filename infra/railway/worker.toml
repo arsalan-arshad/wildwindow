@@ -17,6 +17,8 @@ watchPatterns = [
 ]
 
 [deploy]
-# Smoke only — keeps the service green without starting live ingest.
+# Smoke only — hello exits 0. Restart must be Never (or one-off); ON_FAILURE
+# is wrong here because a successful exit would still loop if misconfigured as
+# always-restart, and hello is not a long-running process.
 startCommand = "node dist/cli.js hello"
-restartPolicyType = "ON_FAILURE"
+restartPolicyType = "NEVER"

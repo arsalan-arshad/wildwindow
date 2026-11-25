@@ -58,7 +58,7 @@ For **each** of `api`, `web`, `worker`, `migrate`:
 2. Deploy **`migrate` once** (restart policy **never**). Set `RUN_SEED=1` on that run if you want seeds.
 3. Deploy `api` → open `https://<api-domain>/v1/health` → expect `{ "status": "ok" }` (DB check may arrive in a later task; today health is liveness).
 4. Deploy `web` → open the public URL → landing page.
-5. Deploy `worker` → logs should show the `hello` / `ok` smoke (no GBIF).
+5. Deploy `worker` → logs should show the `hello` / `ok` smoke (no GBIF). Set the worker **restart policy to Never** (or run as a one-off): `hello` exits 0, so an always-on / restart-on-exit policy loops forever. `ON_FAILURE` is fine only for processes that stay up; not for this smoke.
 
 ### E. Optional: CLI token for agents
 
@@ -157,7 +157,7 @@ Legend: **R** = required for that service to start / do its job · **O** = optio
 ## Image layout notes (runtime crashes we already fixed)
 
 - **`web`:** Monorepo root `package.json` has `"type":"module"`. Next standalone `server.js` is CommonJS. The web Dockerfile writes `apps/web/package.json` with `"type":"commonjs"` next to `server.js` so Node does not inherit root ESM. It also sets `HOSTNAME=0.0.0.0` (Railway’s container hostname otherwise makes Next bind only there and fail the `/` healthcheck). `NEXT_PUBLIC_API_URL` / `NEXT_PUBLIC_FIREBASE_CONFIG` are declared as build `ARG`/`ENV` so they are inlined by `next build`. Healthcheck remains `/`; user remains non-root `ww`.
-- **`worker`:** The CLI is **bundled with tsup** (`noExternal: /^@wildwindow\//`). The runner copies only `apps/worker/dist` + root `node_modules` + `data/` — not `packages/*/dist` or `apps/worker/node_modules`. That avoids the nested resolve crash where `@wildwindow/db` loaded but `packages/db/dist` could not find `@wildwindow/geoprivacy`. Default CMD stays `hello` (no GBIF).
+- **`worker`:** The CLI is **bundled with tsup** (`noExternal: /^@wildwindow\//`; `commander` stays external). The runner copies `apps/worker/dist` + root `node_modules` + **`apps/worker/node_modules/commander`** + `data/` — not `packages/*/dist`. That avoids (1) the nested resolve crash where `@wildwindow/db` loaded but `packages/db/dist` could not find `@wildwindow/geoprivacy`, and (2) resolving root-hoisted `commander@2` (from vitest/terser) which lacks `requiredOption` (worker pins commander `^13.1.0` / ≥9; do not bundle commander into the ESM CLI — it breaks Node builtins). Default CMD stays `hello` (no GBIF). **Restart policy: Never** for the hello smoke — see §D step 5.
 
 ---
 

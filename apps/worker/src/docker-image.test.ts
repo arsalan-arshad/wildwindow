@@ -16,13 +16,30 @@ function stripComments(dockerfileStage: string): string {
 }
 
 describe('Railway worker image (bundled CLI, no nested workspace resolve)', () => {
-  it('tsup inlines @wildwindow/* so packages/db nesting cannot break the runner', () => {
+  it('tsup inlines @wildwindow/* and keeps commander external', () => {
     const tsup = readFileSync(resolve(repoRoot, 'apps/worker/tsup.config.ts'), 'utf8');
     expect(tsup).toMatch(/noExternal:\s*\[\s*\/\^@wildwindow\\\//);
+    expect(tsup).toMatch(/external:\s*\[[^\]]*['"]commander['"]/);
     expect(tsup).toMatch(/splitting:\s*false/);
+    // Must not force-bundle commander (breaks Node builtins in ESM).
+    expect(tsup).not.toMatch(/noExternal:\s*\[[^\]]*['"]commander['"]/);
   });
 
-  it('Dockerfile runner ships only bundled dist + root node_modules (not packages/*)', () => {
+  it('worker package.json pins commander ≥9 (requiredOption API)', () => {
+    const pkg = JSON.parse(
+      readFileSync(resolve(repoRoot, 'apps/worker/package.json'), 'utf8'),
+    ) as { dependencies: { commander: string } };
+    const range = pkg.dependencies.commander;
+    expect(range).toMatch(/\^?13\.|>=\s*9|>=9/);
+  });
+
+  it('Railway worker.toml uses NEVER restart for hello smoke (exits 0)', () => {
+    const toml = readFileSync(resolve(repoRoot, 'infra/railway/worker.toml'), 'utf8');
+    expect(toml).toMatch(/restartPolicyType\s*=\s*"NEVER"/);
+    expect(toml).toMatch(/hello/);
+  });
+
+  it('Dockerfile runner ships bundled dist + root node_modules + worker commander', () => {
     const dockerfile = readFileSync(resolve(repoRoot, 'apps/worker/Dockerfile'), 'utf8');
     const runnerStage = dockerfile.split('AS runner')[1];
     expect(runnerStage).toBeDefined();
@@ -32,8 +49,11 @@ describe('Railway worker image (bundled CLI, no nested workspace resolve)', () =
       /COPY --from=build\s+\/app\/apps\/worker\/dist\s+\.\/apps\/worker\/dist/,
     );
     expect(runnerCode).toMatch(/COPY --from=build\s+\/app\/node_modules\s+\.\/node_modules/);
+    // Ship worker-local commander@≥9 so root-hoisted commander@2 is not resolved.
+    expect(runnerCode).toMatch(
+      /COPY --from=build\s+\/app\/apps\/worker\/node_modules\/commander\s+\.\/apps\/worker\/node_modules\/commander/,
+    );
     // Must not revive the #27 layout that still failed on packages/db → geoprivacy.
-    expect(runnerCode).not.toMatch(/apps\/worker\/node_modules/);
     expect(runnerCode).not.toMatch(/packages\/db\/dist/);
     expect(runnerCode).not.toMatch(/packages\/geoprivacy/);
     expect(runnerCode).not.toMatch(/packages\/shared\/dist/);
@@ -94,17 +114,71 @@ describe('Railway worker image (bundled CLI, no nested workspace resolve)', () =
     }
   });
 
-  it('bundled cli.js runs without any @wildwindow package on disk', () => {
-    const root = mkdtempSync(join(tmpdir(), 'ww-worker-bundled-'));
+  it('external commander@2 (root hoist) makes requiredOption crash — the #28 Railway bug', () => {
+    const root = mkdtempSync(join(tmpdir(), 'ww-worker-cmd2-'));
     try {
       mkdirSync(join(root, 'apps/worker/dist'), { recursive: true });
-      // Mimic tsup output: workspace code inlined; only a plain npm dep left external.
+      writeFileSync(
+        join(root, 'apps/worker/dist/cli.js'),
+        [
+          "import { Command } from 'commander';",
+          'const program = new Command();',
+          "program.command('gbif:request').description('x').requiredOption('--region <slug>', 'r');",
+          '',
+        ].join('\n'),
+      );
+      writeFileSync(
+        join(root, 'apps/worker/package.json'),
+        JSON.stringify({ name: 'worker', type: 'module' }),
+      );
+
+      // Mimic Docker runner: only root node_modules, with terser-era commander@2.
+      mkdirSync(join(root, 'node_modules/commander'), { recursive: true });
+      writeFileSync(
+        join(root, 'node_modules/commander/package.json'),
+        JSON.stringify({
+          name: 'commander',
+          version: '2.20.3',
+          type: 'module',
+          main: './index.js',
+        }),
+      );
+      writeFileSync(
+        join(root, 'node_modules/commander/index.js'),
+        [
+          'export class Command {',
+          '  command() { return this; }',
+          '  description() { return this; }',
+          '  // deliberately no requiredOption — commander@2',
+          '}',
+          '',
+        ].join('\n'),
+      );
+
+      const result = spawnSync(process.execPath, ['dist/cli.js'], {
+        cwd: join(root, 'apps/worker'),
+        encoding: 'utf8',
+        env: { ...process.env, NODE_ENV: 'test' },
+      });
+      expect(result.status).not.toBe(0);
+      expect(result.stderr).toMatch(/requiredOption is not a function/);
+    } finally {
+      rmSync(root, { recursive: true, force: true });
+    }
+  });
+
+  it('worker-local commander@≥9 wins over root commander@2 (Dockerfile layout)', () => {
+    const root = mkdtempSync(join(tmpdir(), 'ww-worker-cmd13-'));
+    try {
+      mkdirSync(join(root, 'apps/worker/dist'), { recursive: true });
+      mkdirSync(join(root, 'apps/worker/node_modules/commander'), { recursive: true });
       writeFileSync(
         join(root, 'apps/worker/dist/cli.js'),
         [
           "import { Command } from 'commander';",
           'const program = new Command();',
           "program.name('worker').command('hello').action(() => console.log('ok'));",
+          "program.command('gbif:request').description('x').requiredOption('--region <slug>', 'r');",
           'await program.parseAsync(process.argv);',
           '',
         ].join('\n'),
@@ -114,18 +188,40 @@ describe('Railway worker image (bundled CLI, no nested workspace resolve)', () =
         JSON.stringify({ name: 'worker', type: 'module' }),
       );
 
-      // Root-hoisted third-party dep only — no packages/*, no apps/worker/node_modules.
+      // Poison root hoist (what Docker would copy from monorepo root).
       mkdirSync(join(root, 'node_modules/commander'), { recursive: true });
       writeFileSync(
         join(root, 'node_modules/commander/package.json'),
-        JSON.stringify({ name: 'commander', type: 'module', main: './index.js' }),
+        JSON.stringify({
+          name: 'commander',
+          version: '2.20.3',
+          type: 'module',
+          main: './index.js',
+        }),
       );
       writeFileSync(
         join(root, 'node_modules/commander/index.js'),
+        'throw new Error("root commander@2 must not load when worker-local exists");\n',
+      );
+
+      // Ship worker-local commander with requiredOption (Dockerfile COPY target).
+      writeFileSync(
+        join(root, 'apps/worker/node_modules/commander/package.json'),
+        JSON.stringify({
+          name: 'commander',
+          version: '13.1.0',
+          type: 'module',
+          main: './index.js',
+        }),
+      );
+      writeFileSync(
+        join(root, 'apps/worker/node_modules/commander/index.js'),
         [
           'export class Command {',
           '  name() { return this; }',
           '  command() { return this; }',
+          '  description() { return this; }',
+          '  requiredOption() { return this; }',
           '  action(fn) { this._fn = fn; return this; }',
           '  async parseAsync(argv) { if (argv.includes("hello")) this._fn(); }',
           '}',
@@ -141,6 +237,7 @@ describe('Railway worker image (bundled CLI, no nested workspace resolve)', () =
       expect(result.status).toBe(0);
       expect(result.stdout).toContain('ok');
       expect(result.stderr).not.toMatch(/Cannot find package '@wildwindow/);
+      expect(result.stderr).not.toMatch(/requiredOption is not a function/);
     } finally {
       rmSync(root, { recursive: true, force: true });
     }
