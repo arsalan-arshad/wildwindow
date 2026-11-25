@@ -9,6 +9,11 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
+    },
+    "./light": {
+      "types": "./dist/light.d.ts",
+      "import": "./dist/light.js",
+      "require": "./dist/light.cjs"
     }
   },
   "files": [
@@ -21,10 +26,14 @@
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run --config ./vitest.config.ts"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@wildwindow/geoprivacy": "workspace:^",
+    "suncalc": "^2.1.4"
+  },
   "devDependencies": {
     "@types/node": "^22.13.10",
     "@wildwindow/config": "workspace:*",
+    "fast-check": "^4.0.0",
     "tsup": "^8.4.0",
     "typescript": "~5.8.3",
     "vitest": "^3.0.9"

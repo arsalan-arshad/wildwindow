@@ -260,16 +260,17 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
 
 ## Phase 4: Scoring engine (`packages/scoring`)
 
-- [ ] **T4.1 Scaffold and config**
+- [x] **T4.1 Scaffold and config**
   - Depends on: T1.1
   - Do: the package, `SCORING_V1` config (every constant from §4), and input and output types that mirror the §7 response.
   - Acceptance test: a typecheck test that the config is `as const` and that the version string is `"1.0"`.
-  - Notes: package + `SCORING_V1` stub landed with T4.3 (WPO-16); full §7 I/O types still TODO.
+  - Done: 2026-11-25, PR pending — completed §4 light/tide constants + §7 `ForecastResponse` / `ForecastInput` types (package stub was from T4.3).
 
-- [ ] **T4.2 Light helpers**
+- [x] **T4.2 Light helpers**
   - Depends on: T4.1
   - Do: `light.ts` using `suncalc`: civil dawn and dusk, golden hour (−4°…+6°), blue hour (−6°…−4°), and candidate 2-hour blocks, all in the region's time zone. Export a light-only entry point (`@wildwindow/scoring/light`) for mobile and web.
   - Acceptance test: Glasgow and Karachi on fixed dates (a solstice and an equinox) match reference times within ±1 minute (write down where the reference values come from in the test); polar edge cases don't throw.
+  - Done: 2026-11-25, PR pending — `suncalc` v2 + `@wildwindow/scoring/light`; civil dawn/dusk vs timeanddate.com ±1 min; polar night/day safe.
 
 - [x] **T4.3 Factor H and reporting rate**
   - Depends on: T4.1

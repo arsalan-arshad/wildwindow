@@ -8,3 +8,28 @@ export {
   type ReportingRateInput,
 } from './reporting-rate.js';
 export { weeksAround } from './weeks.js';
+export type {
+  Confidence,
+  DayFactors,
+  DayLightWindows,
+  ForecastDay,
+  ForecastInput,
+  ForecastLockout,
+  ForecastNotCovered,
+  ForecastOk,
+  ForecastResponse,
+  ForecastStatus,
+  ForecastUnavailable,
+  LocalHm,
+  TimeBlock,
+} from './types.js';
+// Light helpers also available via `@wildwindow/scoring/light` for mobile/web.
+export {
+  candidateBlocks,
+  goldenFraction,
+  lightForDay,
+  sunAltitudeDeg,
+  type LatLng,
+  type LightDay,
+  type LightInterval,
+} from './light.js';

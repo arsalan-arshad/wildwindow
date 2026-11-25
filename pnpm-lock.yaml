@@ -455,6 +455,13 @@ importers:
         version: 3.2.7(@types/debug@4.1.13)(@types/node@22.20.5)(jiti@2.7.0)(jsdom@26.1.0)(lightningcss@1.33.0)(msw@2.7.3(@types/node@22.20.5)(typescript@5.8.3))(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1)
 
   packages/scoring:
+    dependencies:
+      '@wildwindow/geoprivacy':
+        specifier: workspace:^
+        version: link:../geoprivacy
+      suncalc:
+        specifier: ^2.1.4
+        version: 2.1.4
     devDependencies:
       '@types/node':
         specifier: ^22.13.10
@@ -462,6 +469,9 @@ importers:
       '@wildwindow/config':
         specifier: workspace:*
         version: link:../config
+      fast-check:
+        specifier: ^4.0.0
+        version: 4.10.2
       tsup:
         specifier: ^8.4.0
         version: 8.5.1(@swc/core@1.16.22)(jiti@2.7.0)(postcss@8.5.33)(tsx@4.23.15)(typescript@5.8.3)(yaml@2.9.1)
@@ -7033,6 +7043,9 @@ packages:
     resolution: {integrity: sha512-DhuTmvZWux4H1UOnWMB3sk0sbaCVOoQZjv8u1rDoTV0HTdGem9hkAZtl4JZy8P2z4Bg0nT+YMeOFyVr4zcG5Tw==}
     engines: {node: '>=16 || 14 >=14.17'}
     hasBin: true
+
+  suncalc@2.1.4:
+    resolution: {integrity: sha512-V7oSdbSezigEpbqnNWKujDlZaE/QA/0w5IbP/vXX+eIF+EtiE8e9BkSapsOFZc84jJkI3QlklYTWtMqzj9tZQg==}
 
   superagent@10.4.2:
     resolution: {integrity: sha512-u+PFV+VKiAKKzJqnCvveNya3N+pR/8jUZs/ek6jRfE41fpSCNdFY61L7NYmSgB6I9TTFM50ywoPXRKgw2k3wKw==}
@@ -15186,6 +15199,8 @@ snapshots:
       pirates: 4.0.7
       tinyglobby: 0.2.17
       ts-interface-checker: 0.1.13
+
+  suncalc@2.1.4: {}
 
   superagent@10.4.2:
     dependencies:
