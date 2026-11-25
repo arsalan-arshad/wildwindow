@@ -8,10 +8,7 @@ const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '../../..');
 
 describe('Railway migrate image (no corepack at runtime)', () => {
   it('entrypoint runs compiled migrate/seed via node', () => {
-    const entrypoint = readFileSync(
-      resolve(repoRoot, 'apps/migrate/docker-entrypoint.sh'),
-      'utf8',
-    );
+    const entrypoint = readFileSync(resolve(repoRoot, 'apps/migrate/docker-entrypoint.sh'), 'utf8');
     expect(entrypoint).toContain('node packages/db/dist/migrate.js');
     expect(entrypoint).toContain('node packages/db/dist/seed.js');
     // No pnpm invocations (comments mentioning pnpm are fine).
