@@ -264,19 +264,19 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Depends on: T1.1
   - Do: the package, `SCORING_V1` config (every constant from §4), and input and output types that mirror the §7 response.
   - Acceptance test: a typecheck test that the config is `as const` and that the version string is `"1.0"`.
-  - Done: 2026-11-25, PR pending — completed §4 light/tide constants + §7 `ForecastResponse` / `ForecastInput` types (package stub was from T4.3).
+  - Done: 2026-11-25, PR #35 (`846e696`) — completed §4 light/tide constants + §7 `ForecastResponse` / `ForecastInput` types (package stub was from T4.3).
 
 - [x] **T4.2 Light helpers**
   - Depends on: T4.1
   - Do: `light.ts` using `suncalc`: civil dawn and dusk, golden hour (−4°…+6°), blue hour (−6°…−4°), and candidate 2-hour blocks, all in the region's time zone. Export a light-only entry point (`@wildwindow/scoring/light`) for mobile and web.
   - Acceptance test: Glasgow and Karachi on fixed dates (a solstice and an equinox) match reference times within ±1 minute (write down where the reference values come from in the test); polar edge cases don't throw.
-  - Done: 2026-11-25, PR pending — `suncalc` v2 + `@wildwindow/scoring/light`; civil dawn/dusk vs timeanddate.com ±1 min; polar night/day safe.
+  - Done: 2026-11-25, PR #35 (`846e696`) — `suncalc` v2 + `@wildwindow/scoring/light`; civil dawn/dusk vs timeanddate.com ±1 min; polar night/day safe.
 
 - [x] **T4.3 Factor H and reporting rate**
   - Depends on: T4.1
   - Do: `reportingRate()` and `factorH()` following §4.2, with circular weeks and the zero-effort rule.
   - Acceptance test: the §4.6 numbers give `H ≈ 0.68`; the week 1 and week 52 wrap works; zero effort → 0.
-  - Done: 2026-11-25, PR #20 — minimal `reportingRate`/`factorH`/`weeksAround`/`p95` (+ `SCORING_V1` stub). Full T4.1 §7 I/O types still TODO.
+  - Done: 2026-11-25, PR #20 — minimal `reportingRate`/`factorH`/`weeksAround`/`p95` (+ `SCORING_V1` stub). §7 I/O types completed in T4.1 (PR #35).
 
 - [ ] **T4.4 Factor T**
   - Depends on: T4.2
