@@ -328,10 +328,11 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Acceptance test: an e2e test where a request whose query includes `lat=` has it redacted in the captured logs; a 61st request in a minute gets 429.
   - Done: 2026-11-25 — `ApiConfigModule` + `API_ENV`; DbModule via `DATABASE_URL_API` (`ww_api`); nestjs-pino with redact + URL scrub; Helmet; CORS; global Throttler 60/min (`RATE_LIMIT`); `ZodValidationPipe`; OpenAPI at `/docs` when not production. Foundations e2e covers lat redaction and 61st→429.
 
-- [ ] **T5.3 `PublicGeoInterceptor` and `@OwnerLocation()`**
+- [x] **T5.3 `PublicGeoInterceptor` and `@OwnerLocation()`**
   - Depends on: T5.2, T1.6
   - Do: a global interceptor that runs `assertPublicSafe` on every response; the decorator lets owner routes opt out.
   - Acceptance test: a test controller returning `{lat:1}` gets 500 with a `GeoPrivacyViolation` log entry; the same response with `@OwnerLocation()` and the owner's authentication goes through.
+  - Done: 2026-11-25 — Global `PublicGeoInterceptor` (`APP_INTERCEPTOR`) runs `assertPublicSafe` on every response (H3 ceiling = open res-7). `@OwnerLocation()` + authenticated `req.user.id` sets `allowOwnerLocation`. Violations → 500 `INTERNAL_ERROR` + pino `GeoPrivacyViolation` log. E2e covers dirty public 500+log and owner-auth pass-through.
 
 - [ ] **T5.4 Regions, species and seasonality endpoints**
   - Depends on: T5.3, T2.7
