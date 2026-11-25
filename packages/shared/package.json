@@ -17,6 +17,10 @@
       "types": "./dist/client.d.ts",
       "import": "./dist/client.js"
     },
+    "./api": {
+      "types": "./dist/api/index.d.ts",
+      "import": "./dist/api/index.js"
+    },
     "./api/waitlist": {
       "types": "./dist/api/waitlist.d.ts",
       "import": "./dist/api/waitlist.js"
@@ -35,6 +39,7 @@
     "resolve-taxa": "tsx scripts/resolve-taxa.ts"
   },
   "dependencies": {
+    "@wildwindow/geoprivacy": "workspace:^",
     "yaml": "^2.7.0",
     "zod": "^3.24.2"
   },
@@ -42,8 +47,8 @@
     "@types/node": "^22.13.10",
     "@wildwindow/config": "workspace:*",
     "tsup": "^8.4.0",
+    "tsx": "^4.19.3",
     "typescript": "~5.8.3",
-    "vitest": "^3.0.9",
-    "tsx": "^4.19.3"
+    "vitest": "^3.0.9"
   }
 }

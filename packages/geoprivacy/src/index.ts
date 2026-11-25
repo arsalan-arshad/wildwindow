@@ -1,4 +1,8 @@
-export { assertPublicSafe, type AssertPublicSafeOptions } from './assert-public-safe.js';
+export {
+  assertPublicSafe,
+  FORBIDDEN_PUBLIC_KEYS,
+  type AssertPublicSafeOptions,
+} from './assert-public-safe.js';
 export { bucketise, type BucketLevel } from './bucketise.js';
 export { displayCellFor, snapToCell } from './cells.js';
 export { GeoPrivacyError, GeoPrivacyViolation } from './errors.js';

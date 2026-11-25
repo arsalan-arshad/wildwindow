@@ -16,5 +16,6 @@ All notable changes to `@wildwindow/geoprivacy` are documented in this file.
 - `suppressAndMerge`
 - `bucketise` (map levels 1–5)
 - `assertPublicSafe` / `GeoPrivacyViolation`
+- `FORBIDDEN_PUBLIC_KEYS` — exported key list for public API schema guards (T5.1)
 
 Not published to npm yet (human-gated; see T10.1).
