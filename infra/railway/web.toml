@@ -1,0 +1,11 @@
+# Railway "web" service settings (Root Directory = monorepo root).
+
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "apps/web/Dockerfile"
+watchPatterns = ["apps/web/**", "packages/config/**", "pnpm-lock.yaml"]
+
+[deploy]
+healthcheckPath = "/"
+healthcheckTimeout = 30
+restartPolicyType = "ON_FAILURE"

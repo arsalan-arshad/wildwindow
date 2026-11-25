@@ -514,6 +514,8 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
 
 ## Phase 9: Beta hardening and deploy
 
+> **Railway interim (pre–Milestone H):** scaffolding for PostGIS + api/web/worker/migrate Docker deploy lives in `docs/RAILWAY.md` and `infra/railway/`. This does **not** complete T9.2–T9.5 (AWS CDK / Vercel). Prefer Railway over Mac Docker until CDK cutover.
+
 - [ ] **T9.1 Observability**
   - Depends on: T5.2, T6.1, T7.1
   - Do: Sentry in api, web and mobile (scrub PII and location); PostHog EU with an event allowlist (`forecast_viewed {taxonId, tier, region}` and so on, **no cells or coordinates**).

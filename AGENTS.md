@@ -5,6 +5,7 @@ You are working on **WildWindow** (working name), a wildlife **photo forecast** 
 - Product: [docs/PRD.md](docs/PRD.md)
 - Technical source of truth: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) (sections are cited as `§`)
 - Work queue: [docs/TASKS.md](docs/TASKS.md)
+- Railway beta host (PostGIS + api/web/worker): [docs/RAILWAY.md](docs/RAILWAY.md)
 
 ### Current status / handoff
 

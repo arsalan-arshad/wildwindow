@@ -1,0 +1,10 @@
+# Railway "migrate" one-off service (Root Directory = monorepo root).
+# Deploy manually after PostGIS is up; set restart to never / remove after success.
+
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "apps/migrate/Dockerfile"
+watchPatterns = ["apps/migrate/**", "packages/db/**", "packages/shared/**", "packages/geoprivacy/**", "data/**", "pnpm-lock.yaml"]
+
+[deploy]
+restartPolicyType = "NEVER"
