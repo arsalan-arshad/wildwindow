@@ -244,16 +244,17 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Acceptance test: an integration test with known counts gives the expected `rr_ref`.
   - Done: 2026-11-25, PR #21 — `score:refs --region` writes `pub.taxon_score_ref` via `reportingRate`/`p95`; skips `no_forecast` / empty aggregates.
 
-- [~] **T3.8 Dataset attribution**
+- [x] **T3.8 Dataset attribution**
   - Depends on: T3.5
   - Do: during load, upsert `ref.datasets` (key, title, publisher, licence) from the download's metadata or the GBIF dataset API; link the run's DOI.
   - Acceptance test: after loading the fixture, every `dataset_key` in `raw.occurrences` exists in `ref.datasets`.
-  - In progress: 2026-11-25 — upsert during `gbif:load` on `cursor/t3-8-dataset-attribution-0379`.
+  - Done: 2026-11-25, PR #22 — `gbif:load` upserts `ref.datasets` from occurrence keys/licenses; citation links ingest-run DOI.
 
 - [ ] **T3.9 First real ingestion run** 🧑
   - Depends on: T3.3–T3.8
   - Do: run request, fetch, load, aggregate and refs for both regions (target + effort). Write `reports/ingest-YYYY-MM-DD.md` with the counts per species, rejection reasons and DOIs.
   - Acceptance test: the report exists; every beta species has ≥ 1 published cell **or** is listed under "insufficient data".
+  - Blocked: needs Arsalan — GBIF credentials in `.env` for live request/fetch (T3.1–T3.8 code is landed).
 
 ## Phase 4: Scoring engine (`packages/scoring`)
 
