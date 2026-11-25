@@ -29,9 +29,9 @@ describe('Railway web image (standalone server.js is CommonJS)', () => {
   });
 
   it('root package.json still declares type module (the bug we guard against)', () => {
-    const rootPkg = JSON.parse(
-      readFileSync(resolve(repoRoot, 'package.json'), 'utf8'),
-    ) as { type?: string };
+    const rootPkg = JSON.parse(readFileSync(resolve(repoRoot, 'package.json'), 'utf8')) as {
+      type?: string;
+    };
     expect(rootPkg.type).toBe('module');
   });
 

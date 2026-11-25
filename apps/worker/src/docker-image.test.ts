@@ -72,10 +72,7 @@ describe('Railway worker image (workspace package resolution)', () => {
       mkdirSync(join(root, 'apps/worker/node_modules/@wildwindow'), { recursive: true });
       writeFakeDbPackage(root);
       // Same relative link pnpm creates under apps/worker/node_modules/@wildwindow.
-      symlinkSync(
-        '../../../../packages/db',
-        join(root, 'apps/worker/node_modules/@wildwindow/db'),
-      );
+      symlinkSync('../../../../packages/db', join(root, 'apps/worker/node_modules/@wildwindow/db'));
 
       const result = tryImportDbFromWorkerDist(root);
       expect(result.status).toBe(0);
