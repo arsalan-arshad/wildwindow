@@ -1,0 +1,96 @@
+name: Bug report
+description: Something in the iOS app, Android app, website, or API behaved wrongly.
+title: 'bug: '
+labels: ['bug', 'needs-triage']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report. This issue is public.
+
+        Do not include exact coordinates, a map pin, GPS EXIF, or a precise sighting. A place name or a region (Scotland or Sindh) is enough. A location leak belongs on the privacy form, and is always P0.
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: What you did, in order.
+      placeholder: |
+        1. Open Explore
+        2. Choose a species and an area
+        3. Open the forecast
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behaviour
+      description: What you expected to happen.
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behaviour
+      description: What happened instead. Leave out coordinates.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      description: iOS and Android are both triaged as mobile.
+      options:
+        - iOS
+        - Android
+        - web
+        - api
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: App version
+      description: From Profile, or the site or API release. Write "unknown" if you cannot tell.
+      placeholder: 1.0.0 (42)
+    validations:
+      required: true
+
+  - type: input
+    id: device
+    attributes:
+      label: Device and OS
+      description: For example "iPhone 15, iOS 18" or "Chrome 131 on macOS".
+      placeholder: Pixel 8, Android 15
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: Drag images here. Crop out any map pin or coordinate readout first.
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      description: P0 is a crash, data loss, or an unusable app. P1 is a major function broken. P2 is minor or cosmetic. Triage may change this.
+      options:
+        - P0
+        - P1
+        - P2
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: no-pin
+    attributes:
+      label: No-Pin check
+      options:
+        - label: I have not included exact coordinates, a map pin, GPS EXIF, or a precise sighting location.
+          required: true

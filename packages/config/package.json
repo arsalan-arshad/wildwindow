@@ -12,7 +12,7 @@
   "scripts": {
     "lint": "eslint --config ./eslint/index.js ./test-fixture.ts ./identity.test.ts",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "vitest run --config ./vitest.config.ts"
+    "test": "vitest run --config ./vitest.config.ts && node --test ../../.github/scripts/labels.test.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^9.22.0",

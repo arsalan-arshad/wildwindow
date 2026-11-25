@@ -1,0 +1,45 @@
+# GitHub labels for WildWindow. This file is the source of truth.
+# Apply it with: node .github/scripts/sync-labels.mjs
+# .github/workflows/sync-labels.yml runs that on main (and on workflow_dispatch).
+# The sync creates and updates these labels. It does not delete others.
+# Pass --prune only when labels missing from this file should be deleted.
+
+- name: bug
+  color: d73a4a
+  description: Something is broken or behaves wrongly
+
+- name: feature
+  color: '0e8a16'
+  description: A new behaviour or product change
+
+- name: privacy
+  color: 6f42c1
+  description: Location leak or No-Pin breach. Always P0.
+
+- name: P0
+  color: b60205
+  description: Crash, data loss, beta blocked, or a privacy incident
+
+- name: P1
+  color: d93f0b
+  description: A major function is broken. A workaround may exist.
+
+- name: P2
+  color: fbca04
+  description: Minor, cosmetic, or a rough edge
+
+- name: needs-triage
+  color: f9d0c4
+  description: Not yet confirmed. Check severity and platform.
+
+- name: mobile
+  color: '0052cc'
+  description: iOS or Android app
+
+- name: web
+  color: '5319e7'
+  description: Next.js site, share cards, or admin
+
+- name: api
+  color: '006b75'
+  description: NestJS API or its contract

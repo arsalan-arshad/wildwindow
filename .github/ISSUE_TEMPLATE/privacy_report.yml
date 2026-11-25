@@ -1,0 +1,79 @@
+name: Privacy or location leak
+description: High priority. A possible No-Pin or location leak. Do not post exact coordinates.
+title: 'privacy: '
+labels: ['privacy', 'P0', 'needs-triage']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **High priority.** This report is a P0 privacy issue.
+
+        This issue is public. Do not post exact coordinates, a map pin, GPS EXIF, a screenshot of a coordinate readout, or a precise sighting. Those details would spread the leak. Describe the screen in words, and name a region (Scotland or Sindh) or a town only if you need to.
+
+        If you must share evidence, say so and wait for a maintainer to contact you. Do not put coordinates in this issue, in a comment, or in an email to a public list. If you already posted any, edit them out of the issue and out of every screenshot.
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What happened
+      options:
+        - The app or site showed an exact point or pin
+        - An API response included coordinates or a too-fine cell
+        - A photo, share card, or log still had a location
+        - Something else
+    validations:
+      required: true
+
+  - type: textarea
+    id: what
+    attributes:
+      label: What you saw
+      description: No coordinates. Name the screen, and the species only if you are sure it is not sensitive.
+      placeholder: The forecast map dropped a pin instead of showing a coarse area.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      description: iOS and Android are both triaged as mobile.
+      options:
+        - iOS
+        - Android
+        - web
+        - api
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: App version
+      description: From Profile, or the site or API release. Write "unknown" if you cannot tell.
+      placeholder: 1.0.0 (42)
+    validations:
+      required: true
+
+  - type: input
+    id: device
+    attributes:
+      label: Device and OS
+      description: For example "iPhone 15, iOS 18" or "Chrome 131 on macOS".
+      placeholder: Pixel 8, Android 15
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: Optional. Crop out any map pin or coordinate readout before you attach a picture. If you cannot crop it, do not attach it.
+
+  - type: checkboxes
+    id: no-pin
+    attributes:
+      label: No-Pin check
+      options:
+        - label: I have not included exact coordinates, a map pin, GPS EXIF, a coordinate screenshot, or a precise sighting location.
+          required: true

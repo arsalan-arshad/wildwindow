@@ -1,0 +1,31 @@
+name: Sync labels
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/labels.yml
+      - .github/scripts/labels.mjs
+      - .github/scripts/sync-labels.mjs
+      - .github/workflows/sync-labels.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  sync:
+    name: sync
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Creates and updates labels from .github/labels.yml.
+      # Does not delete labels that are missing from the file.
+      # To prune: node .github/scripts/sync-labels.mjs --prune
+      - name: Sync labels
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node .github/scripts/sync-labels.mjs
