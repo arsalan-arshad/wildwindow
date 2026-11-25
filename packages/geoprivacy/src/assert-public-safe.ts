@@ -3,12 +3,24 @@ import { getResolution, isValidCell } from 'h3-js';
 import { GeoPrivacyViolation } from './errors.js';
 import { type Tier } from './tiers.js';
 
-/** Forbidden coordinate / geometry keys (any case) — ARCHITECTURE §5.3 (+ lon/long aliases). */
-const FORBIDDEN_KEYS = new Set(
-  ['lat', 'lng', 'lon', 'long', 'latitude', 'longitude', 'coordinates', 'geom', 'point', 'wkt'].map(
-    (key) => key.toLowerCase(),
-  ),
-);
+/**
+ * Forbidden coordinate / geometry keys (any case) — ARCHITECTURE §5.3 (+ lon/long aliases).
+ * Shared by `assertPublicSafe` and the T5.1 public-schema guard in `@wildwindow/shared`.
+ */
+export const FORBIDDEN_PUBLIC_KEYS = [
+  'lat',
+  'lng',
+  'lon',
+  'long',
+  'latitude',
+  'longitude',
+  'coordinates',
+  'geom',
+  'point',
+  'wkt',
+] as const;
+
+const FORBIDDEN_KEYS = new Set(FORBIDDEN_PUBLIC_KEYS.map((key) => key.toLowerCase()));
 
 export type AssertPublicSafeOptions = {
   /** Maximum allowed H3 resolution for each tier present in the payload context. */

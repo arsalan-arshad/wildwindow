@@ -315,10 +315,11 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
 
 ## Phase 5: API (`apps/api`)
 
-- [ ] **T5.1 Shared API schemas and client**
+- [x] **T5.1 Shared API schemas and client**
   - Depends on: T0.5, T1.1
   - Do: Zod schemas for every §7 endpoint in `packages/shared/src/api/`, **with no coordinate fields** in public schemas, and a typed `createApiClient(baseUrl, getToken)`.
   - Acceptance test: a schema test fails if any public schema has a forbidden key (it reuses the `assertPublicSafe` key list).
+  - Done: 2026-11-25 — Zod schemas for all ARCHITECTURE §7 endpoints under `packages/shared/src/api/`; public registry guard reuses `FORBIDDEN_PUBLIC_KEYS` from geoprivacy; owner logbook schemas excluded; typed `createApiClient` covers health/regions/species/places/areas/forecast/attributions/waitlist/me/watchlist/logbook/uploads/challenges.
 
 - [ ] **T5.2 API foundations**
   - Depends on: T0.6, T2.5
