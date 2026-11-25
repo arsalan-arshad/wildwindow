@@ -7,6 +7,8 @@ export default defineConfig({
   sourcemap: true,
   clean: true,
   splitting: false,
+  // Inline workspace packages so the Railway runner need not copy packages/*/dist.
+  noExternal: [/^@wildwindow\//],
   banner: {
     js: "import 'reflect-metadata';",
   },

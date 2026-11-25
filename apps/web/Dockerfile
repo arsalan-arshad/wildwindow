@@ -5,11 +5,14 @@ RUN corepack enable && corepack prepare pnpm@9.15.9 --activate
 COPY package.json pnpm-workspace.yaml pnpm-lock.yaml .npmrc ./
 COPY apps/web/package.json apps/web/
 COPY packages/config/package.json packages/config/
+COPY packages/shared/package.json packages/shared/
 RUN pnpm install --frozen-lockfile --filter web...
 
 FROM deps AS build
 COPY packages/config packages/config
+COPY packages/shared packages/shared
 COPY apps/web apps/web
+RUN pnpm --filter @wildwindow/shared build
 # Next standalone needs the app directory as cwd for correct tracing.
 WORKDIR /app/apps/web
 ENV NEXT_TELEMETRY_DISABLED=1
@@ -17,6 +20,8 @@ ENV NEXT_TELEMETRY_DISABLED=1
 # build; ARG also lets `docker build --build-arg` inject them locally.
 ARG NEXT_PUBLIC_API_URL
 ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+ARG NEXT_PUBLIC_SITE_URL
+ENV NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL
 ARG NEXT_PUBLIC_FIREBASE_CONFIG
 ENV NEXT_PUBLIC_FIREBASE_CONFIG=$NEXT_PUBLIC_FIREBASE_CONFIG
 RUN pnpm --filter web build

@@ -47,6 +47,8 @@ describe('Railway web image (standalone server.js is CommonJS)', () => {
     const buildCode = stripComments(buildStage ?? '');
     expect(buildCode).toMatch(/ARG\s+NEXT_PUBLIC_API_URL/);
     expect(buildCode).toMatch(/ENV\s+NEXT_PUBLIC_API_URL=/);
+    expect(buildCode).toMatch(/ARG\s+NEXT_PUBLIC_SITE_URL/);
+    expect(buildCode).toMatch(/ENV\s+NEXT_PUBLIC_SITE_URL=/);
     expect(buildCode).toMatch(/ARG\s+NEXT_PUBLIC_FIREBASE_CONFIG/);
     expect(buildCode).toMatch(/ENV\s+NEXT_PUBLIC_FIREBASE_CONFIG=/);
   });

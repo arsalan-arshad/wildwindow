@@ -430,7 +430,9 @@ app.challenge_entries  id, challenge_id, user_id, logbook_entry_id, country_code
                        pledge_accepted_at, status ('pending'|'approved'|'rejected'), reject_reason,
                        publish_after (submitted + 7 days), created_at
 app.entitlements       user_id, entitlement ('pro'), source ('revenuecat'|'stripe'), expires_at   -- post-MVP
-app.waitlist           id, email UNIQUE, region_slug NULL, source, created_at          -- W-01 landing page
+app.waitlist           id, email (unique on lower(email)), name NULL, region_slug NULL,
+                       role NULL, platform NULL, favourite_species NULL, consent_at,
+                       source, created_at          -- W-01 landing page / waitlist
 app.audit_log          id, actor_user_id, action, entity, entity_id, before jsonb, after jsonb, created_at
 ```
 
@@ -461,32 +463,33 @@ erDiagram
 
 All request and response schemas are Zod schemas in `packages/shared/src/api/*`. A typed client in `packages/shared/src/client` is used by mobile and web through TanStack Query.
 
-| Method    | Path                                                                     | Auth         | Description                                                                               |
-| --------- | ------------------------------------------------------------------------ | ------------ | ----------------------------------------------------------------------------------------- |
-| GET       | `/v1/health`                                                             | -            | Liveness and DB check                                                                     |
-| GET       | `/v1/regions`                                                            | -            | Beta regions (no geometry)                                                                |
-| GET       | `/v1/regions/:slug/species?q=&group=`                                    | -            | Species list with tier badge                                                              |
-| GET       | `/v1/species/:taxonId?region=`                                           | -            | Species detail and the reviewed card                                                      |
-| GET       | `/v1/species/:taxonId/seasonality?region=`                               | -            | 52 values in [0, 1] (region level, effort-normalised)                                     |
-| GET       | `/v1/species/:taxonId/map?region=`                                       | -            | Public cells at the tier's resolution with level 1–5. Returns `[]` when `mapCells=false`. |
-| GET       | `/v1/places?q=&region=`                                                  | -            | Place search, returning `{id, name, regionSlug, cellR7}`                                  |
-| GET       | `/v1/areas/:cellR7`                                                      | -            | Area label, region, coverage status                                                       |
-| GET       | `/v1/forecast?taxonId=&cell=&start=`                                     | -            | 7-day forecast (§4), with status overrides                                                |
-| GET       | `/v1/attributions`                                                       | -            | Datasets, DOIs, providers                                                                 |
-| POST      | `/v1/waitlist`                                                           | -            | Join the waitlist `{email, regionSlug?}` (rate-limited, double opt-in later)              |
-| GET       | `/v1/me` · PATCH `/v1/me`                                                | user         | Profile and settings                                                                      |
-| DELETE    | `/v1/me`                                                                 | user         | Account deletion (queued; full deletion within 30 days)                                   |
-| POST      | `/v1/me/export`                                                          | user         | Data export job, returns a signed link                                                    |
-| GET/POST  | `/v1/me/watchlist` · DELETE `/v1/me/watchlist/:id`                       | user         | Max 3 entries (`WATCHLIST_LIMIT_FREE=3`)                                                  |
-| POST      | `/v1/uploads/presign`                                                    | user         | Presigned PUT for a photo (JPEG/HEIC/WebP, max 15 MB)                                     |
-| GET/POST  | `/v1/me/logbook` · GET/PATCH/DELETE `/v1/me/logbook/:id`                 | user (owner) | `@OwnerLocation()` routes                                                                 |
-| GET       | `/v1/challenges/current` · `/v1/challenges/:slug`                        | -            | Challenge details and counts per country                                                  |
-| GET       | `/v1/challenges/:slug/entries?country=&cursor=`                          | -            | Approved entries past `publish_after`                                                     |
-| POST      | `/v1/challenges/:slug/entries`                                           | user         | Submit from a logbook entry, with the pledge                                              |
-| GET/PATCH | `/v1/admin/species/:taxonId` · `/v1/admin/taxon-region/:taxonId/:region` | admin        | Edit cards and tiers (audit-logged)                                                       |
-| GET/PATCH | `/v1/admin/challenge-entries?status=` · `/:id`                           | admin        | Moderation                                                                                |
-| GET       | `/v1/admin/ingest-runs`                                                  | admin        | Ingestion status                                                                          |
-| POST      | `/v1/webhooks/revenuecat` · `/v1/webhooks/stripe`                        | signature    | **Post-MVP**                                                                              |
+| Method    | Path                                                                     | Auth         | Description                                                                                                                                            |
+| --------- | ------------------------------------------------------------------------ | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| GET       | `/v1/health`                                                             | -            | Liveness and DB check                                                                                                                                  |
+| GET       | `/v1/regions`                                                            | -            | Beta regions (no geometry)                                                                                                                             |
+| GET       | `/v1/regions/:slug/species?q=&group=`                                    | -            | Species list with tier badge                                                                                                                           |
+| GET       | `/v1/species/:taxonId?region=`                                           | -            | Species detail and the reviewed card                                                                                                                   |
+| GET       | `/v1/species/:taxonId/seasonality?region=`                               | -            | 52 values in [0, 1] (region level, effort-normalised)                                                                                                  |
+| GET       | `/v1/species/:taxonId/map?region=`                                       | -            | Public cells at the tier's resolution with level 1–5. Returns `[]` when `mapCells=false`.                                                              |
+| GET       | `/v1/places?q=&region=`                                                  | -            | Place search, returning `{id, name, regionSlug, cellR7}`                                                                                               |
+| GET       | `/v1/areas/:cellR7`                                                      | -            | Area label, region, coverage status                                                                                                                    |
+| GET       | `/v1/forecast?taxonId=&cell=&start=`                                     | -            | 7-day forecast (§4), with status overrides                                                                                                             |
+| GET       | `/v1/attributions`                                                       | -            | Datasets, DOIs, providers                                                                                                                              |
+| POST      | `/v1/waitlist`                                                           | -            | Join the waitlist (email + consent required; region/role/platform optional; rate-limited; honeypot; double opt-in later when `WAITLIST_EMAIL_ENABLED`) |
+| GET       | `/v1/admin/waitlist/export`                                              | admin token  | CSV export of waitlist (`ADMIN_TOKEN` bearer / `X-Admin-Token`; early beta until T7.6)                                                                 |
+| GET       | `/v1/me` · PATCH `/v1/me`                                                | user         | Profile and settings                                                                                                                                   |
+| DELETE    | `/v1/me`                                                                 | user         | Account deletion (queued; full deletion within 30 days)                                                                                                |
+| POST      | `/v1/me/export`                                                          | user         | Data export job, returns a signed link                                                                                                                 |
+| GET/POST  | `/v1/me/watchlist` · DELETE `/v1/me/watchlist/:id`                       | user         | Max 3 entries (`WATCHLIST_LIMIT_FREE=3`)                                                                                                               |
+| POST      | `/v1/uploads/presign`                                                    | user         | Presigned PUT for a photo (JPEG/HEIC/WebP, max 15 MB)                                                                                                  |
+| GET/POST  | `/v1/me/logbook` · GET/PATCH/DELETE `/v1/me/logbook/:id`                 | user (owner) | `@OwnerLocation()` routes                                                                                                                              |
+| GET       | `/v1/challenges/current` · `/v1/challenges/:slug`                        | -            | Challenge details and counts per country                                                                                                               |
+| GET       | `/v1/challenges/:slug/entries?country=&cursor=`                          | -            | Approved entries past `publish_after`                                                                                                                  |
+| POST      | `/v1/challenges/:slug/entries`                                           | user         | Submit from a logbook entry, with the pledge                                                                                                           |
+| GET/PATCH | `/v1/admin/species/:taxonId` · `/v1/admin/taxon-region/:taxonId/:region` | admin        | Edit cards and tiers (audit-logged)                                                                                                                    |
+| GET/PATCH | `/v1/admin/challenge-entries?status=` · `/:id`                           | admin        | Moderation                                                                                                                                             |
+| GET       | `/v1/admin/ingest-runs`                                                  | admin        | Ingestion status                                                                                                                                       |
+| POST      | `/v1/webhooks/revenuecat` · `/v1/webhooks/stripe`                        | signature    | **Post-MVP**                                                                                                                                           |
 
 Example forecast response (`status: ok`):
 
