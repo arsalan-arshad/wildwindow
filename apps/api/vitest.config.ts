@@ -7,6 +7,9 @@ export default defineConfig({
     include: ['src/**/*.{test,spec}.ts'],
     environment: 'node',
     globals: false,
+    // E2e suites all call applyRoles / migrate against the same PostGIS;
+    // parallel files race on CREATE/ALTER ROLE ("tuple concurrently updated").
+    fileParallelism: false,
   },
   plugins: [
     swc.vite({
