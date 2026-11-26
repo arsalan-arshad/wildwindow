@@ -22,13 +22,14 @@ export type CreateStorageServiceOptions = {
 };
 
 /**
- * Resolve `STORAGE_DRIVER`: empty → `local` outside production, `r2` in production
- * (Railway beta uses Cloudflare R2; AWS S3 remains available via `STORAGE_DRIVER=s3`).
+ * Resolve `STORAGE_DRIVER`: empty/unset → `local` in every environment.
+ * Opt in to Cloudflare R2 with `STORAGE_DRIVER=r2` (and R2_* secrets);
+ * AWS S3 remains available via `STORAGE_DRIVER=s3`.
  */
-export function resolveStorageDriverId(raw: string | undefined, nodeEnv: string): StorageDriverId {
+export function resolveStorageDriverId(raw: string | undefined, _nodeEnv: string): StorageDriverId {
   const normalized = (raw ?? '').trim().toLowerCase();
   if (normalized === '') {
-    return nodeEnv === 'production' ? 'r2' : 'local';
+    return 'local';
   }
   if (normalized === 'local' || normalized === 's3' || normalized === 'r2') {
     return normalized;

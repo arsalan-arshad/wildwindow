@@ -52,7 +52,7 @@ export const ApiEnvSchema = z.object({
   WEATHER_USER_AGENT: z.string().optional(),
   /**
    * Object storage driver (ARCHITECTURE §2 / T5.10).
-   * Empty → `local` outside production, `r2` in production (Railway beta).
+   * Empty/unset → `local` in every environment. Opt in with `r2` (Railway) or `s3`.
    * Values: `local` | `r2` | `s3`.
    */
   STORAGE_DRIVER: z.string().optional(),
