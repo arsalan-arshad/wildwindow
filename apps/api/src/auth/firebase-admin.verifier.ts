@@ -7,7 +7,9 @@ import { serviceUnavailable } from '../http/api-error.js';
 
 import type { FirebaseTokenVerifier, VerifiedIdToken } from './token-verifier.js';
 
-function isServiceAccount(value: Record<string, unknown>): value is ServiceAccount & Record<string, unknown> {
+function isServiceAccount(
+  value: Record<string, unknown>,
+): value is ServiceAccount & Record<string, unknown> {
   return typeof value['project_id'] === 'string' || typeof value['client_email'] === 'string';
 }
 

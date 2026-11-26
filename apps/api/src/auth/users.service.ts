@@ -147,8 +147,7 @@ export class UsersService {
     }
 
     const slug = row.regionSlug;
-    const homeRegionSlug: RegionId | null =
-      slug === 'scotland' || slug === 'sindh' ? slug : null;
+    const homeRegionSlug: RegionId | null = slug === 'scotland' || slug === 'sindh' ? slug : null;
 
     return {
       id: row.id,

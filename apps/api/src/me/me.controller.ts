@@ -33,10 +33,7 @@ export class MeController {
   @Patch()
   @ApiOperation({ summary: 'Update profile settings' })
   @ApiOkResponse({ type: MeProfileDto })
-  async patch(
-    @Req() req: RequestWithOptionalUser,
-    @Body() body: unknown,
-  ): Promise<MeProfile> {
+  async patch(@Req() req: RequestWithOptionalUser, @Body() body: unknown): Promise<MeProfile> {
     const userId = requireUserId(req);
     const parsed = MePatchRequestSchema.safeParse(body);
     if (!parsed.success) {

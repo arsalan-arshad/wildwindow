@@ -232,10 +232,7 @@ describe('T5.8 Firebase auth + /v1/me + admin role', () => {
       connectionString: roleConnectionUrl(DATABASE_URL, 'ww_api', API_PASSWORD),
     });
     try {
-      await db
-        .update(users)
-        .set({ role: 'admin' })
-        .where(eq(users.firebaseUid, MOCK_UID_ADMIN));
+      await db.update(users).set({ role: 'admin' }).where(eq(users.firebaseUid, MOCK_UID_ADMIN));
     } finally {
       await pool.end();
     }
