@@ -416,10 +416,11 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Acceptance test: a jest-expo snapshot of each tab; switching to `ur` flips the layout direction.
   - Done: 2026-11-26, PR pending — light/dark theme tokens; i18next `en`+`ur` scaffold with `setAppLanguage` → RTL; TanStack Query + `createMobileApiClient` (`@wildwindow/shared`); ErrorBoundary; Sentry placeholder (full SDK = T9.1). jest-expo tab snapshots + RTL tests green.
 
-- [ ] **T6.2 Onboarding and the No-Pin Promise (S-01, S-09)**
+- [x] **T6.2 Onboarding and the No-Pin Promise (S-01, S-09)**
   - Depends on: T6.1
   - Do: 3 onboarding cards, region choice (saved locally) and the No-Pin Promise screen (PRD §9.1 text and the tier table in plain words).
   - Acceptance test: Testing Library: onboarding ends on Home and the region is saved.
+  - Done: 2026-11-26, PR pending — Expo Router `/onboarding` (3 cards: what / No-Pin / region) + `/no-pin` (PRD §9.1 pledge + plain-words tiers matching TIER_POLICY); region + completion in AsyncStorage; Profile link to No-Pin. jest-expo acceptance: finishes on Home with region saved.
 
 - [ ] **T6.3 Species browse and detail (S-04, S-05)**
   - Depends on: T6.1, T5.4
