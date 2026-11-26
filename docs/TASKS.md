@@ -605,6 +605,7 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Depends on: T6.7
   - Do: `eas.json` profiles `development`, `preview` and `production`; app icons and splash placeholders; EAS Update channels.
   - Acceptance test: `eas build --profile preview` succeeds for both platforms (Arsalan runs it if credentials are needed).
+  - Notes: 2026-11-26 — `eas init` failed because `app.config.ts` listed `expo-image-manipulator` under `plugins` (no `app.plugin.js`); removed so `expo config --json` / `eas init` work without secrets. Firebase iOS/Android id remains `studio.arsalandev.wildwindow`. Still needs Arsalan for `eas.json` + credentials builds.
 
 - [x] **T9.7 End-to-end geoprivacy audit**
   - Depends on: T5.6, T5.7, T5.12
