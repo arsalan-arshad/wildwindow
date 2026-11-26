@@ -93,3 +93,21 @@ export const SensitiveSpeciesFileSchema = z.object({
   species: z.array(SensitiveSpeciesEntrySchema).min(1),
 });
 export type SensitiveSpeciesFile = z.infer<typeof SensitiveSpeciesFileSchema>;
+
+/**
+ * YAML front-matter for `data/species-cards/<region>/<slug>.md` (ARCHITECTURE §3.3 / T8.1).
+ * Region comes from the parent directory; markdown body becomes `body_md`.
+ * `status` is derived: both `reviewedBy` and `reviewedAt` required for `reviewed`, else `draft`.
+ */
+export const SpeciesCardFrontMatterSchema = z.object({
+  scientificName: z.string().min(1),
+  settings: z.record(z.unknown()).default({}),
+  ethicsMd: z.string().optional(),
+  legalMd: z.string().optional(),
+  reviewedBy: z.string().min(1).optional(),
+  reviewedAt: z.string().datetime().optional(),
+});
+export type SpeciesCardFrontMatter = z.infer<typeof SpeciesCardFrontMatterSchema>;
+
+export const SpeciesCardStatusSchema = z.enum(['draft', 'reviewed']);
+export type SpeciesCardStatus = z.infer<typeof SpeciesCardStatusSchema>;

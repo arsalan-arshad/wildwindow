@@ -130,7 +130,7 @@ flowchart LR
 - `data/beta-species.yaml`: about 40–60 species across both regions. Each entry has the scientific name, common names (en, ur), group, `gbifTaxonKey` (filled in by a script), `regions`, `coastal`, `tidePref`, `activityPattern` (`diurnal|crepuscular|nocturnal|tidal`), and `challengeEligible`.
 - `data/sensitive-species.yaml`: tier per `(taxon, region)`, breeding lockout months, the reviewer and the review date. **Default rule:** a species missing from the file is `open` only if it is on the beta list, has no IUCN threatened status recorded in our seed, and is not on Scotland's Schedule 1. Otherwise it is `protected`. When in doubt, choose the higher tier.
 - Starting tiers must match the PRD §9.2 examples (for example Capercaillie is `no_forecast` in Scotland; Osprey and white-tailed eagle are `highly_protected` with breeding lockout; Eurasian otter and mountain hare are `protected`; green turtle in Sindh is `highly_protected` with a nesting lockout; Indus river dolphin and smooth-coated otter are `protected`).
-- `data/species-cards/<region>/<slug>.md`: curated field cards with front-matter (`reviewedBy`, `reviewedAt`). These are loaded into `ref.species_cards`.
+- `data/species-cards/<region>/<slug>.md`: curated field cards with YAML front-matter (`scientificName`, `settings`, optional `ethicsMd` / `legalMd`, optional `reviewedBy` / `reviewedAt`). The Markdown body becomes `body_md`. Missing `reviewedBy` or `reviewedAt` loads as `status: draft`. `pnpm data:cards` upserts into `ref.species_cards` (T8.1).
 
 ### 3.4 Weather provider
 

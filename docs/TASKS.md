@@ -530,10 +530,11 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
 
 ## Phase 8: Content and ethics
 
-- [ ] **T8.1 Card loader**
+- [x] **T8.1 Card loader**
   - Depends on: T2.2
   - Do: `pnpm data:cards` loads `data/species-cards/**.md` (front-matter validated with Zod) into `ref.species_cards`.
   - Acceptance test: a card with `reviewedBy` missing loads as `draft`.
+  - Done: 2026-11-26 — Zod front-matter + `parseSpeciesCardMarkdown` / `loadSpeciesCardsFromDir` in shared; `pnpm data:cards` upserts `ref.species_cards` (draft when `reviewedBy` or `reviewedAt` missing). Fixtures + unit/integration tests.
 
 - [ ] **T8.2 Draft field cards** 🧑
   - Depends on: T8.1, T2.7

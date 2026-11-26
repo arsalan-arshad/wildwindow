@@ -26,6 +26,14 @@ export {
   type SeedPlacesResult,
 } from './seed-places.js';
 export {
+  seedSpeciesCards,
+  seedSpeciesCardsFromDir,
+  seedSpeciesCardsFromFixture,
+  speciesCardsFixtureFolder,
+  speciesCardsFolder,
+  type SeedCardsResult,
+} from './seed-cards.js';
+export {
   isKeptGeonameFeature,
   parseGeonameLine,
   placeKindFor,
