@@ -1,10 +1,6 @@
 import { snapToCell } from '@wildwindow/geoprivacy';
 
-import {
-  AREA_PREF_KEYS,
-  loadSelectedCellR7,
-  saveSelectedCellR7,
-} from '@/lib/area-selection';
+import { AREA_PREF_KEYS, loadSelectedCellR7, saveSelectedCellR7 } from '@/lib/area-selection';
 import { resolveMyLocationCell } from '@/lib/my-location';
 import { createMemoryPreferenceStorage } from '@/lib/preferences';
 

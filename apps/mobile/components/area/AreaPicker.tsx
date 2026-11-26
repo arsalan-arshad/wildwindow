@@ -186,9 +186,7 @@ export function AreaPicker({
 
       <PrimaryButton
         label={
-          locationStatus === 'pending'
-            ? t('area.picker.locating')
-            : t('area.picker.useMyLocation')
+          locationStatus === 'pending' ? t('area.picker.locating') : t('area.picker.useMyLocation')
         }
         testID="area-use-my-location"
         variant="secondary"
