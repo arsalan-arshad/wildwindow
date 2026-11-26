@@ -1,0 +1,34 @@
+# First monthly challenge seed (T8.4 / PRD Epic E / G3).
+# Upserted into app.challenges by `pnpm db:seed` (seedChallenges).
+version: 1
+slug: kingfisher-month-2026-11
+title: Kingfisher Month
+scientificName: Alcedo atthis
+# Documented beta homes for the challenge (species must be challenge-eligible in both).
+regions:
+  - scotland
+  - sindh
+startsOn: '2026-11-01'
+endsOn: '2026-11-30'
+# ARCHITECTURE §6.2: draft | live | closed (API maps live → active).
+status: live
+rulesMd: |
+  # Kingfisher Month
+
+  **Same Species, Different Countries** — Common kingfisher (*Alcedo atthis*) across
+  **Scotland** (United Kingdom) and **Sindh** (Pakistan).
+
+  ## Rules
+
+  1. Enter one photo from your WildWindow logbook of a common kingfisher taken during the challenge dates.
+  2. Entries show **country and region only** (for example Scotland or Sindh). Exact pins are never published — that is the No-Pin Promise.
+  3. Moderators review every entry. Approved photos appear in the public gallery after a **7-day** delay.
+  4. One logbook photo can be submitted to a challenge only once.
+
+  ## Ethics pledge
+
+  By submitting you pledge that for this photo there was **no baiting**, **no playback**,
+  and **no nest disturbance**.
+
+  Follow the Audubon guide to ethical bird photography: keep your distance, put the animal
+  first, and leave the place as you found it.

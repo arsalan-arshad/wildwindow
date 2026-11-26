@@ -131,6 +131,7 @@ flowchart LR
 - `data/sensitive-species.yaml`: tier per `(taxon, region)`, breeding lockout months, the reviewer and the review date. **Default rule:** a species missing from the file is `open` only if it is on the beta list, has no IUCN threatened status recorded in our seed, and is not on Scotland's Schedule 1. Otherwise it is `protected`. When in doubt, choose the higher tier.
 - Starting tiers must match the PRD §9.2 examples (for example Capercaillie is `no_forecast` in Scotland; Osprey and white-tailed eagle are `highly_protected` with breeding lockout; Eurasian otter and mountain hare are `protected`; green turtle in Sindh is `highly_protected` with a nesting lockout; Indus river dolphin and smooth-coated otter are `protected`).
 - `data/species-cards/<region>/<slug>.md`: curated field cards with YAML front-matter (`scientificName`, `settings`, optional `ethicsMd` / `legalMd`, optional `reviewedBy` / `reviewedAt`). The Markdown body becomes `body_md`. Missing `reviewedBy` or `reviewedAt` loads as `status: draft`. `pnpm data:cards` upserts into `ref.species_cards` (T8.1).
+- `data/challenges/*.yaml`: monthly challenge seeds (slug, title, scientific name, beta `regions`, date window, `status`, `rulesMd` including the ethics pledge). `pnpm db:seed` upserts into `app.challenges` (T8.4). Only `open` / challenge-eligible taxa; Kingfisher Month spans Scotland and Sindh.
 
 ### 3.4 Weather provider
 
@@ -571,6 +572,7 @@ wildwindow/
 ├─ data/
 │  ├─ beta-species.yaml
 │  ├─ sensitive-species.yaml
+│  ├─ challenges/*.yaml
 │  └─ species-cards/{scotland,sindh}/*.md
 ├─ infra/            AWS CDK (TypeScript) – Phase 9
 ├─ reports/          Generated backtest reports

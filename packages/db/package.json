@@ -28,6 +28,7 @@
     "seed": "tsx src/seed.ts",
     "places": "tsx src/seed-places.ts",
     "cards": "tsx src/seed-cards.ts",
+    "challenges": "tsx src/seed-challenges.ts",
     "generate": "drizzle-kit generate"
   },
   "dependencies": {

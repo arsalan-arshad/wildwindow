@@ -3,6 +3,8 @@ export {
   ActivityPatternSchema,
   BetaSpeciesEntrySchema,
   BetaSpeciesFileSchema,
+  ChallengeSeedSchema,
+  ChallengeSeedStatusSchema,
   RegionIdSchema,
   SensitiveSpeciesEntrySchema,
   SensitiveSpeciesFileSchema,
@@ -16,6 +18,8 @@ export type {
   ActivityPattern,
   BetaSpeciesEntry,
   BetaSpeciesFile,
+  ChallengeSeed,
+  ChallengeSeedStatus,
   RegionId,
   SensitiveSpeciesEntry,
   SensitiveSpeciesFile,
@@ -41,3 +45,9 @@ export {
   splitMarkdownFrontMatter,
 } from './species-cards.js';
 export type { ParsedSpeciesCard, SpeciesCardParseMeta } from './species-cards.js';
+export {
+  loadChallengeSeedFile,
+  loadChallengeSeedsFromDir,
+  parseChallengeSeedYaml,
+} from './challenges-seed.js';
+export type { LoadedChallengeSeed } from './challenges-seed.js';
