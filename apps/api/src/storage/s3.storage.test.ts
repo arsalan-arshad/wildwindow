@@ -1,11 +1,11 @@
-import { PutObjectCommand, type S3Client } from '@aws-sdk/client-s3';
+import { GetObjectCommand, PutObjectCommand, type S3Client } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { describe, expect, it, vi } from 'vitest';
 
 import { S3Storage } from './s3.storage.js';
 
 vi.mock('@aws-sdk/s3-request-presigner', () => ({
-  getSignedUrl: vi.fn(() => Promise.resolve('https://s3.example/presigned-put')),
+  getSignedUrl: vi.fn(() => Promise.resolve('https://s3.example/presigned-url')),
 }));
 
 describe('S3Storage', () => {
@@ -18,6 +18,7 @@ describe('S3Storage', () => {
       client,
     });
 
+    vi.mocked(getSignedUrl).mockClear();
     const result = await storage.createPresignedPut({
       key: 'uploads/u1/a.jpg',
       mimeType: 'image/jpeg',
@@ -25,7 +26,7 @@ describe('S3Storage', () => {
       expiresInSeconds: 900,
     });
 
-    expect(result.uploadUrl).toBe('https://s3.example/presigned-put');
+    expect(result.uploadUrl).toBe('https://s3.example/presigned-url');
     expect(result.headers).toEqual({
       'Content-Type': 'image/jpeg',
       'Content-Length': '2048',
@@ -40,6 +41,34 @@ describe('S3Storage', () => {
     const [, command, opts] = first;
     expect(command).toBeInstanceOf(PutObjectCommand);
     expect(opts).toEqual({ expiresIn: 900 });
+  });
+
+  it('creates a presigned GET URL', async () => {
+    const send = vi.fn();
+    const client = { send } as unknown as S3Client;
+    const storage = new S3Storage({
+      bucket: 'ww-photos',
+      region: 'eu-west-2',
+      client,
+    });
+
+    vi.mocked(getSignedUrl).mockClear();
+    const result = await storage.createPresignedGet({
+      key: 'uploads/u1/a.jpg',
+      expiresInSeconds: 600,
+    });
+
+    expect(result.url).toBe('https://s3.example/presigned-url');
+    expect(getSignedUrl).toHaveBeenCalledOnce();
+    const calls = vi.mocked(getSignedUrl).mock.calls;
+    const first = calls[0];
+    expect(first).toBeDefined();
+    if (first === undefined) {
+      throw new Error('expected getSignedUrl call');
+    }
+    const [, command, opts] = first;
+    expect(command).toBeInstanceOf(GetObjectCommand);
+    expect(opts).toEqual({ expiresIn: 600 });
   });
 
   it('put/get/delete delegate to the S3 client', async () => {

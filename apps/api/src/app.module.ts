@@ -6,6 +6,7 @@ import { ZodValidationPipe } from 'nestjs-zod';
 import { AttributionsModule } from './attributions/attributions.module.js';
 import { AuthModule } from './auth/auth.module.js';
 import { CatalogueModule } from './catalogue/catalogue.module.js';
+import { ChallengesModule } from './challenges/challenges.module.js';
 import { ApiConfigModule } from './config/api-config.module.js';
 import { DbModule } from './db/db.module.js';
 import { ForecastModule } from './forecast/forecast.module.js';
@@ -36,6 +37,7 @@ import { WaitlistModule } from './waitlist/waitlist.module.js';
     WeatherModule,
     UploadsModule,
     LogbookModule,
+    ChallengesModule,
     WaitlistModule,
     AttributionsModule,
     CatalogueModule,

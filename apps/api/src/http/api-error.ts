@@ -53,3 +53,8 @@ export function watchlistLimitError(limit: number): ApiHttpException {
     message: `Watchlist limit of ${String(limit)} reached`,
   });
 }
+
+/** Generic conflict (e.g. duplicate challenge entry from the same logbook photo). */
+export function conflictError(code: string, message: string): ApiHttpException {
+  return new ApiHttpException(HttpStatus.CONFLICT, { code, message });
+}

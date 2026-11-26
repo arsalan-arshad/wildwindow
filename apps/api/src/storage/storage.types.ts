@@ -16,14 +16,27 @@ export type PresignPutResult = {
   readonly expiresAt: Date;
 };
 
+export type PresignGetInput = {
+  readonly key: string;
+  readonly expiresInSeconds: number;
+};
+
+export type PresignGetResult = {
+  readonly url: string;
+  readonly expiresAt: Date;
+};
+
 /**
  * Private object storage for logbook / challenge photos (ARCHITECTURE §2 / T5.10).
  * Clients upload via `createPresignedPut`; the API never stores exact coordinates.
+ * Public challenge gallery uses `createPresignedGet` (S3 signed GET / local token GET).
  */
 export interface StorageService {
   readonly driver: StorageDriverId;
 
   createPresignedPut(input: PresignPutInput): Promise<PresignPutResult>;
+
+  createPresignedGet(input: PresignGetInput): Promise<PresignGetResult>;
 
   putObject(key: string, body: Buffer, contentType: string): Promise<void>;
 
