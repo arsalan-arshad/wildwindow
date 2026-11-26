@@ -22,6 +22,8 @@
     "data:resolve-taxa": "pnpm --filter @wildwindow/shared resolve-taxa",
     "data:places": "pnpm --filter @wildwindow/geoprivacy build && pnpm --filter @wildwindow/shared build && pnpm --filter @wildwindow/db places",
     "data:cards": "pnpm --filter @wildwindow/shared build && pnpm --filter @wildwindow/db cards",
+    "data:cards:check": "pnpm --filter @wildwindow/shared build && pnpm --filter @wildwindow/db exec tsx src/seed-cards.ts --check",
+    "data:cards:draft": "pnpm --filter @wildwindow/shared list-draft-cards",
     "db:up": "docker compose up -d --wait db",
     "db:down": "docker compose down",
     "db:migrate": "pnpm --filter @wildwindow/shared build && pnpm --filter @wildwindow/db migrate",

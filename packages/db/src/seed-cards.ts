@@ -194,9 +194,36 @@ export async function seedSpeciesCardsFromFixture(
 }
 
 async function main(): Promise<void> {
-  const env = loadEnv(cardsEnvSchema);
   const useFixture = process.argv.includes('--fixture');
+  const checkOnly = process.argv.includes('--check');
   const cardsDir = useFixture ? speciesCardsFixtureFolder() : speciesCardsFolder();
+
+  // T8.2: parse/validate Markdown without a database (CI / agents without PostGIS).
+  if (checkOnly) {
+    const cards = await loadSpeciesCardsFromDir(cardsDir);
+    let draft = 0;
+    let reviewed = 0;
+    const byRegion: Record<string, number> = { scotland: 0, sindh: 0 };
+    for (const card of cards) {
+      if (card.status === 'draft') {
+        draft += 1;
+      } else {
+        reviewed += 1;
+      }
+      byRegion[card.region] = (byRegion[card.region] ?? 0) + 1;
+    }
+    // eslint-disable-next-line no-console -- CLI progress
+    console.log(
+      `Checked ${String(cards.length)} species cards` +
+        ` (draft=${String(draft)}, reviewed=${String(reviewed)};` +
+        ` scotland=${String(byRegion['scotland'] ?? 0)},` +
+        ` sindh=${String(byRegion['sindh'] ?? 0)})` +
+        ` from ${cardsDir}`,
+    );
+    return;
+  }
+
+  const env = loadEnv(cardsEnvSchema);
 
   // Regions must exist for FK; taxa come from `pnpm db:seed` (tests insert fixtures).
   if (useFixture) {

@@ -36,7 +36,9 @@
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run --config ./vitest.config.ts",
     "validate-data": "tsx scripts/validate-data.ts",
-    "resolve-taxa": "tsx scripts/resolve-taxa.ts"
+    "resolve-taxa": "tsx scripts/resolve-taxa.ts",
+    "generate-draft-cards": "tsx scripts/generate-draft-cards.ts",
+    "list-draft-cards": "tsx scripts/list-draft-cards.ts"
   },
   "dependencies": {
     "@wildwindow/geoprivacy": "workspace:^",
