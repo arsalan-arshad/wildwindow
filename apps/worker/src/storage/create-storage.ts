@@ -24,9 +24,7 @@ export type PurgeStorage = {
   deleteUserExportPrefix(userId: string): Promise<number>;
 };
 
-export function loadPurgeStorageEnv(
-  source: NodeJS.ProcessEnv = process.env,
-): PurgeStorageEnv {
+export function loadPurgeStorageEnv(source: NodeJS.ProcessEnv = process.env): PurgeStorageEnv {
   return loadEnv(purgeStorageEnvSchema, source);
 }
 

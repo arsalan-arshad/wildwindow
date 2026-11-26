@@ -62,8 +62,7 @@ export async function runPurgeDeleted(
   const cutoff = new Date(now.getTime() - retentionDays * 24 * 60 * 60 * 1000);
 
   const storage =
-    options.storage ??
-    createPurgeStorage(options.storageEnv ?? loadPurgeStorageEnv());
+    options.storage ?? createPurgeStorage(options.storageEnv ?? loadPurgeStorageEnv());
 
   const { db, pool } = createDb({ connectionString: env.DATABASE_URL });
   try {
@@ -123,10 +122,7 @@ async function purgeOneUser(db: Db, storage: PurgeStorage, userId: string): Prom
   await db.delete(logbookEntries).where(eq(logbookEntries.userId, userId));
   await db.delete(watchlist).where(eq(watchlist.userId, userId));
   await db.delete(entitlements).where(eq(entitlements.userId, userId));
-  await db
-    .update(auditLog)
-    .set({ actorUserId: null })
-    .where(eq(auditLog.actorUserId, userId));
+  await db.update(auditLog).set({ actorUserId: null }).where(eq(auditLog.actorUserId, userId));
 
   const deleted = await db.delete(users).where(eq(users.id, userId)).returning({ id: users.id });
   if (deleted[0] === undefined) {

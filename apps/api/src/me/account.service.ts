@@ -7,11 +7,7 @@ import {
   watchlist,
   type Database,
 } from '@wildwindow/db';
-import {
-  type MeDeleteOk,
-  type MeExportOk,
-  type OwnerExactLocation,
-} from '@wildwindow/shared';
+import { type MeDeleteOk, type MeExportOk, type OwnerExactLocation } from '@wildwindow/shared';
 import { and, asc, eq, isNull } from 'drizzle-orm';
 
 import { API_ENV, type ApiEnv } from '../config/api-env.js';
