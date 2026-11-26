@@ -30,8 +30,8 @@ export class WeatherService {
   ) {}
 
   /**
-   * Hourly forecast for an H3 cell. Input may be res-7 (or any res ≥ 5);
-   * the network call always uses the res-5 parent centre.
+   * Hourly forecast for an H3 cell (user res-7 or a display cell at any
+   * public tier resolution). The network call always uses a res-5 centre.
    */
   async hourlyForCell(
     cell: string,

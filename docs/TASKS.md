@@ -604,10 +604,11 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Do: `eas.json` profiles `development`, `preview` and `production`; app icons and splash placeholders; EAS Update channels.
   - Acceptance test: `eas build --profile preview` succeeds for both platforms (Arsalan runs it if credentials are needed).
 
-- [ ] **T9.7 End-to-end geoprivacy audit**
+- [x] **T9.7 End-to-end geoprivacy audit**
   - Depends on: T5.6, T5.7, T5.12
   - Do: an e2e test that walks every public endpoint for every seeded taxon over a grid of res-7 cells in both regions, runs `assertPublicSafe` on everything, and checks that responses are identical across the siblings of a display cell.
   - Acceptance test: it runs in CI and is green. Any failure blocks the release.
+  - Done: 2026-11-26 — `apps/api/src/geoprivacy/geoprivacy-audit.e2e.test.ts` walks public GETs × every seeded taxon×region × res-7 grid in Scotland/Sindh with `assertPublicSafe`, plus sibling display-cell forecast identity. Fix: `weatherCellCentre` accepts coarser highly_protected display cells via a deterministic res-5 child (sibling weather key).
 
 - [ ] **T9.8 Performance check**
   - Depends on: T5.6
