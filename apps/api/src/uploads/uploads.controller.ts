@@ -110,6 +110,9 @@ export class UploadsController {
 
 function contentTypeForKey(key: string): string {
   const lower = key.toLowerCase();
+  if (lower.endsWith('.json')) {
+    return 'application/json';
+  }
   if (lower.endsWith('.webp')) {
     return 'image/webp';
   }

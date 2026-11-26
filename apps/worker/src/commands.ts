@@ -7,6 +7,7 @@ import { runGbifLoad } from './gbif/load.js';
 import { runGbifRequest } from './gbif/request.js';
 import { runMakeAdmin } from './make-admin.js';
 import { defaultBetaSpeciesPath, defaultDownloadDir } from './paths.js';
+import { runPurgeDeleted } from './purge-deleted.js';
 import { runScoreRefs } from './score-refs/run.js';
 
 import type { IngestKind, IngestRegion } from './gbif/predicate.js';
@@ -190,6 +191,33 @@ export function createProgram(): Command {
           email: result.email,
           role: result.role,
           alreadyAdmin: result.alreadyAdmin,
+        }),
+      );
+    });
+
+  program
+    .command('purge-deleted')
+    .description(
+      'Hard-delete soft-deleted accounts older than 30 days, including photos (T5.14; uses DATABASE_URL)',
+    )
+    .option(
+      '--retention-days <n>',
+      'days after soft-delete before hard purge (default 30)',
+      (v) => Number.parseInt(v, 10),
+      30,
+    )
+    .action(async (opts: { retentionDays: number }) => {
+      if (!Number.isInteger(opts.retentionDays) || opts.retentionDays < 0) {
+        throw new Error(
+          `--retention-days must be a non-negative integer (got ${String(opts.retentionDays)})`,
+        );
+      }
+      const result = await runPurgeDeleted({ retentionDays: opts.retentionDays });
+      console.log(
+        JSON.stringify({
+          purgedUsers: result.purgedUsers,
+          deletedObjects: result.deletedObjects,
+          userIds: result.userIds,
         }),
       );
     });
