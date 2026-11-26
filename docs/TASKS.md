@@ -358,11 +358,12 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Acceptance test: the response has no counts; no cell is finer than the tier allows (an automated check over every seeded taxon).
   - Done: 2026-11-26, PR #51 (`f34cff3`) — `GET /v1/species/:taxonId/map`; `bucketise` levels 1–5 from `pub.taxon_cell_week`; `[]` when `mapCells=false`; e2e over every seeded taxon (no counts, tier resolution).
 
-- [ ] **T5.8 Firebase auth guard and `/v1/me`** 🧑
+- [~] **T5.8 Firebase auth guard and `/v1/me`** 🧑
   - Depends on: T5.2
   - Do: `FirebaseAuthGuard` (firebase-admin), user upsert, `GET/PATCH /v1/me`, an admin role from the database, and the CLI `pnpm worker make-admin <email>`.
   - Acceptance test: e2e with a mocked token verifier; no token → 401 on `/v1/me`; a non-admin → 403 on `/v1/admin/*`.
   - 🧑 Arsalan creates the Firebase project and service account (put the credentials in env, never in the repo).
+  - Notes: In progress — code + mocked e2e; real Firebase project/credentials still needed for deploy.
 
 - [ ] **T5.9 Watchlist**
   - Depends on: T5.8

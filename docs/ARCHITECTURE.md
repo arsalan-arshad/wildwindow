@@ -420,8 +420,9 @@ pub.taxon_hour_profile taxon_id, region_id, hour 0..23, n_records
 pub.taxon_score_ref    taxon_id, region_id, rr_ref, computed_at, scoring_version
 pub.weather_cache      provider, cell_r5, fetched_at, expires_at, payload jsonb
 pub.forecast_cache     taxon_id, display_cell, start_date, scoring_version, payload jsonb, expires_at
-app.users              id uuid, firebase_uid UNIQUE, display_name, home_region_id, locale, role ('user'|'admin'),
-                       created_at, deleted_at
+app.users              id uuid, firebase_uid UNIQUE, email NULL UNIQUE(lower), display_name, home_region_id,
+                       locale, role ('user'|'admin'), created_at, deleted_at
+                       -- email stored on first auth upsert for `pnpm worker make-admin <email>` (not in /v1/me)
 app.watchlist          id, user_id, taxon_id, cell_r7, created_at   UNIQUE(user_id, taxon_id, cell_r7)
 app.logbook_entries    id, user_id, taxon_id NULL, taken_at, cell_r7 NULL, exact_point_enc bytea NULL,
                        photo_key, thumb_key, exif jsonb (no GPS), notes, created_at, updated_at
@@ -533,7 +534,8 @@ Cross-cutting: `ThrottlerGuard` (for example 60 requests/min per IP for public r
 ## 8. Auth
 
 - Firebase Authentication with Apple, Google and email-link providers. On mobile use the Firebase JS SDK with `expo-apple-authentication` and `@react-native-google-signin/google-signin` (needs an EAS development build). Note: Firebase Dynamic Links shut down in 2025, so email-link sign-in on mobile must use the newer Firebase Hosting link setup. If that holds up the MVP, ship Apple + Google first.
-- The API's `FirebaseAuthGuard` checks the `Authorization: Bearer <idToken>` header with `firebase-admin` and creates or updates `app.users` on first sight. The admin role comes from `app.users.role` (set by a seed or CLI command), not from client claims.
+- The API's `FirebaseAuthGuard` checks the `Authorization: Bearer <idToken>` header with `firebase-admin` and creates or updates `app.users` on first sight (stores normalized `email` from the token for ops). The admin role comes from `app.users.role` (set by `pnpm worker make-admin <email>` or a seed), not from client claims. `AdminRoleGuard` protects `/v1/admin/*` Firebase-auth routes; the early-beta waitlist CSV export still uses `ADMIN_TOKEN`.
+- Env: `FIREBASE_PROJECT_ID` + `FIREBASE_SERVICE_ACCOUNT_JSON` (JSON string, never committed). Public routes boot without them; authenticated routes return 503 until configured.
 - Anonymous users can call all public `GET` endpoints.
 
 ## 9. Payments (post-MVP, designed now)

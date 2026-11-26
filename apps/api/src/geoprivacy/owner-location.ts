@@ -17,9 +17,18 @@ export const OWNER_LOCATION_KEY = 'wildwindow:ownerLocation' as const;
 export const OwnerLocation = (): MethodDecorator & ClassDecorator =>
   SetMetadata(OWNER_LOCATION_KEY, true);
 
-/** Minimal shape FirebaseAuthGuard (T5.8) will attach to `req.user`. */
+/**
+ * Authenticated user on the request (T5.8 FirebaseAuthGuard).
+ * `id` is required for `@OwnerLocation()`; other fields are set by the auth guard.
+ */
 export type RequestUser = {
   readonly id: string;
+  readonly firebaseUid?: string;
+  readonly role?: 'user' | 'admin';
+  readonly email?: string | null;
+  readonly displayName?: string | null;
+  readonly homeRegionId?: number | null;
+  readonly locale?: string;
 };
 
 export type RequestWithOptionalUser = {

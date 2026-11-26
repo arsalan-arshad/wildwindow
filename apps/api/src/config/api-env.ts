@@ -18,6 +18,13 @@ export const ApiEnvSchema = z.object({
   DATABASE_URL_API: z.string().min(1).optional(),
   WEB_ORIGIN: z.string().optional(),
   API_PUBLIC_URL: z.string().optional(),
+  /** Firebase project id for firebase-admin (T5.8). Optional so public routes boot without auth. */
+  FIREBASE_PROJECT_ID: z.string().min(1).optional(),
+  /**
+   * Service account JSON string (not a path). Optional; when unset, real token verification
+   * is unavailable — inject a mock verifier in tests.
+   */
+  FIREBASE_SERVICE_ACCOUNT_JSON: z.string().min(1).optional(),
   /** Bearer token for early-beta admin CSV export. Required in production when exporting. */
   ADMIN_TOKEN: z.string().min(1).optional(),
   /** When false (default), waitlist confirmation email is a no-op stub. */
