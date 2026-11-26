@@ -64,6 +64,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   },
   extra: {
     apiUrl: process.env['EXPO_PUBLIC_API_URL'] ?? 'http://localhost:3001',
+    // Public web origin for `/api/og/...` share cards (T6.11).
+    siteUrl: process.env['EXPO_PUBLIC_SITE_URL'] ?? 'https://wildwindow.arsalandev.studio',
     // Public web-app JSON (EXPO_PUBLIC_FIREBASE_CONFIG). Empty when unset.
     firebaseConfig: process.env['EXPO_PUBLIC_FIREBASE_CONFIG'] ?? '',
   },

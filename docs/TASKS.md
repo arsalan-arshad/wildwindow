@@ -472,10 +472,11 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Acceptance test: component tests: the submit button is disabled until the pledge is ticked; wrong-species entries can't be picked.
   - Done: 2026-11-26 — Expo Challenge tab (S-13): current challenge, rules Markdown, ethics pledge copy, per-country counts, gallery (country filter + pagination). Submit flow (S-14): `/challenge/submit` picks matching logbook entries only, pledge checkbox required, country+region from home region (No-Pin). jest-expo: submit disabled until pledge; wrong-species rows not pickable. Rebased onto main after T6.9 (#73).
 
-- [ ] **T6.11 Share cards (S-15)**
+- [x] **T6.11 Share cards (S-15)**
   - Depends on: T7.4
   - Do: preview the image from the web `/api/og/...` and share it with `expo-sharing`.
   - Acceptance test: component test; the card URL has no coordinates.
+  - Done: 2026-11-26 — Expo S-15 share preview (`/share`): loads web `/api/og/forecast` or `/api/og/challenge/:entryId` image, shares PNG via `expo-sharing` (download to cache first). Entry points from forecast detail and challenge gallery. jest-expo: card URL has no lat/lng; share helper downloads then `shareAsync`.
 
 - [ ] **T6.12 Profile, settings, attributions, delete and export (S-16, S-17)**
   - Depends on: T6.7, T5.14, T5.15

@@ -1,4 +1,5 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
+import { useRouter } from 'expo-router';
 import { useMemo, useState } from 'react';
 import {
   ActivityIndicator,
@@ -23,6 +24,7 @@ type CountryFilter = 'all' | string;
 
 export function ChallengeGallery({ slug, countryCounts }: ChallengeGalleryProps) {
   const { t } = useTranslation();
+  const router = useRouter();
   const api = useApiClient();
   const muted = useThemeColor({}, 'textMuted');
   const tint = useThemeColor({}, 'tint');
@@ -82,6 +84,19 @@ export function ChallengeGallery({ slug, countryCounts }: ChallengeGalleryProps)
         {item.regionLabel}
       </Text>
       <Text style={[styles.country, { color: muted }]}>{item.countryCode}</Text>
+      <Pressable
+        accessibilityRole="button"
+        testID={`challenge-gallery-share-${item.id}`}
+        onPress={() => {
+          router.push({
+            pathname: '/share',
+            params: { kind: 'challenge', entryId: item.id, slug },
+          });
+        }}
+        style={styles.shareBtn}
+      >
+        <Text style={[styles.shareLabel, { color: tint }]}>{t('share.openChallenge')}</Text>
+      </Pressable>
     </View>
   );
 
@@ -227,8 +242,16 @@ const styles = StyleSheet.create({
   country: {
     fontSize: 12,
     paddingHorizontal: 10,
-    paddingBottom: 10,
     paddingTop: 2,
+  },
+  shareBtn: {
+    paddingHorizontal: 10,
+    paddingTop: 6,
+    paddingBottom: 10,
+  },
+  shareLabel: {
+    fontSize: 13,
+    fontWeight: '700',
   },
   centered: {
     paddingVertical: 24,

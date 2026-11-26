@@ -385,6 +385,21 @@
       }
     }
   },
+  "share": {
+    "title": "Share card",
+    "forecastTitle": "Share this week's Window",
+    "challengeTitle": "Share this entry",
+    "subtitle": "Preview the card image, then share it to Instagram, WhatsApp or another app. Exact locations never appear on the card.",
+    "cta": "Share image",
+    "working": "Preparing…",
+    "unavailable": "Sharing is not available on this device.",
+    "error": "Could not prepare the share card. Try again.",
+    "imageError": "Could not load the share card image.",
+    "noPinHint": "Cards show area or country labels only — never coordinates or a pin.",
+    "missing": "Pick a forecast or challenge entry to share.",
+    "openForecast": "Share card",
+    "openChallenge": "Share"
+  },
   "challenge": {
     "home": {
       "title": "Challenge",
