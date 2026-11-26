@@ -23,6 +23,7 @@ export default tseslint.config(
       '**/.turbo/**',
       '**/coverage/**',
       '**/node_modules/**',
+      '**/cdk.out/**',
       '**/pnpm-lock.yaml',
       'eslint.config.js',
       '.prettierrc.js',

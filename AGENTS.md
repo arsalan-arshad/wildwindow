@@ -33,7 +33,7 @@ packages/scoring     Window score v1 + light (suncalc) + provider interfaces
 packages/config      tsconfig / eslint / prettier presets
 data/                beta-species.yaml, sensitive-species.yaml, species-cards/, boundaries/
 docs/                PRD, ARCHITECTURE, TASKS (+ reports/ for generated reports)
-infra/               AWS CDK (Phase 9)
+infra/               AWS CDK (Phase 9) + railway/ interim host config
 ```
 
 Dependency rules (§10): `geoprivacy` imports nothing internal. **Only `apps/worker` may touch the `raw` schema.** Mobile and web import only `shared`, `geoprivacy` (`snapToCell`) and `@wildwindow/scoring/light`.
@@ -56,6 +56,7 @@ These exist once Phase 0 is done. If one you need is missing, adding it is part 
 | `pnpm data:cards:check` · `pnpm data:cards:draft`                 | Parse cards without DB; list cards still `draft` (T8.2)                                                                     |
 | `pnpm data:sensitivity-review`                                    | Write `reports/sensitivity-review-<region>.md` for reviewers (T8.3 / PRD E6)                                                |
 | `pnpm worker <cmd>`                                               | Worker CLI: `gbif:request`, `gbif:fetch`, `gbif:load`, `aggregate`, `score:refs`, `backtest`, `purge-deleted`, `make-admin` |
+| `pnpm --filter @wildwindow/infra synth` · `test`                  | AWS CDK synth + infra snapshot tests (T9.2+; no `cdk deploy` from agents)                                                   |
 | `pnpm --filter <pkg> test -- <pattern>`                           | Run one package's tests                                                                                                     |
 
 Environment keys (put them in `.env.example` with **no values**; load them with `loadEnv` from `packages/shared`):

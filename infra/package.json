@@ -1,0 +1,27 @@
+{
+  "name": "@wildwindow/infra",
+  "version": "0.0.0",
+  "private": true,
+  "description": "AWS CDK (TypeScript) — VPC, RDS, ECR, ECS Fargate API, Secrets Manager (Milestone H)",
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "lint": "eslint bin lib test --max-warnings=0",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run --config ./vitest.config.ts",
+    "synth": "cdk synth --quiet",
+    "cdk": "cdk"
+  },
+  "dependencies": {
+    "aws-cdk-lib": "^2.278.0",
+    "constructs": "^10.8.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "@wildwindow/config": "workspace:*",
+    "aws-cdk": "^2.1149.0",
+    "tsx": "^4.19.3",
+    "typescript": "~5.8.3",
+    "vitest": "^3.0.9"
+  }
+}

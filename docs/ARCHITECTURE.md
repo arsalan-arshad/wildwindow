@@ -580,7 +580,7 @@ wildwindow/
 │  ├─ sensitive-species.yaml
 │  ├─ challenges/*.yaml
 │  └─ species-cards/{scotland,sindh}/*.md
-├─ infra/            AWS CDK (TypeScript) – Phase 9
+├─ infra/            AWS CDK (TypeScript) – Phase 9; `infra/railway/` interim beta host
 ├─ reports/          Generated backtest reports
 ├─ docs/             PRD, ARCHITECTURE, TASKS
 ├─ docker-compose.yml  PostGIS for local dev
@@ -628,7 +628,7 @@ flowchart TB
 | Staging/beta | **Railway (preferred before Milestone H):** PostGIS template `postgis/postgis:18-3.7` + Docker services for `api`, `web`, `worker`, and a one-off `migrate` job. See [RAILWAY.md](./RAILWAY.md). Secrets only in Railway Variables. Avoid Mac Docker Desktop when Railway is available. Alternate later: the AWS stack below at its smallest size; web preview on Vercel; EAS internal / TestFlight.                 |
 | Production   | AWS stack (Phase 9 CDK). Turn on RDS automated backups and point-in-time recovery, run 2 API tasks, add alarms. Railway may remain a beta host until cutover.                                                                                                                                                                                                                                                        |
 
-**Railway beta flow:** connect GitHub → PostGIS template → set Variables per [RAILWAY.md](./RAILWAY.md) → run `migrate` → deploy `api` / `web` / `worker`. **AWS deploy flow (Phase 9):** merging to `main` builds the API and worker Docker images and pushes them to ECR, CDK deploys to staging, and a manual approval promotes to prod. Mobile JS-only changes ship with EAS Update; native changes need a new store build.
+**Railway beta flow:** connect GitHub → PostGIS template → set Variables per [RAILWAY.md](./RAILWAY.md) → run `migrate` → deploy `api` / `web` / `worker`. **AWS deploy flow (Phase 9 / Milestone H):** CDK app in [`infra/`](../infra/) (`pnpm --filter @wildwindow/infra synth`). T9.2 covers VPC + RDS Postgres (PostGIS via migration) + ECR + ECS Fargate API behind ALB + Secrets Manager shells. Merging to `main` will later build/push images to ECR (T9.4); manual approval for prod. Railway remains the preferred staging host until cutover. Mobile JS-only changes ship with EAS Update; native changes need a new store build.
 
 ## 12. Security checklist (MVP)
 

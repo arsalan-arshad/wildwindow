@@ -575,11 +575,12 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Acceptance test: a unit test makes the analytics wrapper drop the forbidden keys (reusing the geoprivacy key list).
   - Done: 2026-11-26, PR #87 — `@wildwindow/shared` analytics allowlist + geoprivacy scrubber; Sentry `beforeSend` scrub (api/web/mobile); PostHog EU (`POSTHOG_HOST` default `https://eu.i.posthog.com`); env keys in `.env.example` without values. No deploy/secrets.
 
-- [ ] **T9.2 Infra: network, database and API** 🧑
+- [!] **T9.2 Infra: network, database and API** 🧑
   - Depends on: T0.6
   - Do: `infra/` with AWS CDK (TypeScript): VPC, RDS PostgreSQL (PostGIS enabled by migration), ECR, ECS Fargate API behind an ALB, and Secrets Manager entries (with no values).
   - Acceptance test: `cdk synth` passes in CI; the infra snapshot test passes.
-  - 🧑 Arsalan provides the AWS account, picks the region (default eu-west-2) and approves `cdk deploy`.
+  - Agent work done: 2026-11-26 — `@wildwindow/infra` CDK app (VPC, RDS Postgres 16 encrypted `db.t4g.micro`, ECR, ECS Fargate API + ALB HTTP→`/v1/health`, empty Secrets Manager shells); snapshot + resource tests; CI `infra` job runs lint/typecheck/test/`cdk synth`. Railway interim remains staging host (`docs/RAILWAY.md`); this is the Milestone H CDK path — **no `cdk deploy`**.
+  - [!] Blocked: needs Arsalan – AWS account, region (default eu-west-2), approve `cdk bootstrap` / `cdk deploy`, then populate Secrets Manager shells and push an API image to ECR.
 
 - [ ] **T9.3 Infra: worker schedule and storage**
   - Depends on: T9.2

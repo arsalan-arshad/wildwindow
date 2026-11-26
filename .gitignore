@@ -12,6 +12,10 @@ out/
 expo-env.d.ts
 *.tsbuildinfo
 
+# AWS CDK
+**/cdk.out/
+cdk.context.json
+
 # Env and secrets
 .env
 .env.*

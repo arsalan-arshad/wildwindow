@@ -7,10 +7,12 @@
     ".prettierrc.js",
     "apps/api/**/*.ts",
     "eslint.config.js",
+    "infra/**/*.ts",
+    "infra/**/*.js",
     "packages/config/**/*.js",
     "packages/config/**/*.ts",
     "packages/shared/**/*.ts",
     "vitest.config.ts"
   ],
-  "exclude": ["node_modules", "dist", "build", ".next", "coverage"]
+  "exclude": ["node_modules", "dist", "build", ".next", "coverage", "**/cdk.out"]
 }
