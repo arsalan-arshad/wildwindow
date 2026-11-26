@@ -1,6 +1,8 @@
 import { Global, Module } from '@nestjs/common';
 
 import { MeController } from '../me/me.controller.js';
+import { WatchlistController } from '../me/watchlist.controller.js';
+import { WatchlistService } from '../me/watchlist.service.js';
 
 import { AdminRoleGuard } from './admin-role.guard.js';
 import { AdminStubController } from './admin-stub.controller.js';
@@ -11,9 +13,10 @@ import { UsersService } from './users.service.js';
 
 @Global()
 @Module({
-  controllers: [MeController, AdminStubController],
+  controllers: [MeController, WatchlistController, AdminStubController],
   providers: [
     UsersService,
+    WatchlistService,
     FirebaseAuthGuard,
     AdminRoleGuard,
     {
@@ -21,6 +24,12 @@ import { UsersService } from './users.service.js';
       useClass: FirebaseAdminTokenVerifier,
     },
   ],
-  exports: [UsersService, FirebaseAuthGuard, AdminRoleGuard, FIREBASE_TOKEN_VERIFIER],
+  exports: [
+    UsersService,
+    WatchlistService,
+    FirebaseAuthGuard,
+    AdminRoleGuard,
+    FIREBASE_TOKEN_VERIFIER,
+  ],
 })
 export class AuthModule {}

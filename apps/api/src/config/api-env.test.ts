@@ -30,3 +30,17 @@ describe('ApiEnv Firebase (T5.8)', () => {
     expect(env.FIREBASE_SERVICE_ACCOUNT_JSON).toBe('{"type":"service_account"}');
   });
 });
+
+describe('ApiEnv WATCHLIST_LIMIT_FREE (T5.9)', () => {
+  it('defaults to 3 when unset', () => {
+    expect(loadApiEnv({}).WATCHLIST_LIMIT_FREE).toBe(3);
+  });
+
+  it('parses a positive integer', () => {
+    expect(loadApiEnv({ WATCHLIST_LIMIT_FREE: '5' }).WATCHLIST_LIMIT_FREE).toBe(5);
+  });
+
+  it('rejects non-positive values', () => {
+    expect(() => loadApiEnv({ WATCHLIST_LIMIT_FREE: '0' })).toThrow();
+  });
+});

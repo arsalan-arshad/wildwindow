@@ -366,10 +366,11 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Blocked: needs Arsalan – create Firebase project + service account JSON in env
   - Notes: Code + mocked e2e merged 2026-11-26, PR #54 / `0596f2f`. Acceptance met with mocks; real deploy still needs `FIREBASE_PROJECT_ID` + `FIREBASE_SERVICE_ACCOUNT_JSON`.
 
-- [ ] **T5.9 Watchlist**
+- [x] **T5.9 Watchlist**
   - Depends on: T5.8
   - Do: `GET/POST/DELETE /v1/me/watchlist` with `WATCHLIST_LIMIT_FREE=3`.
   - Acceptance test: a 4th item → 409 with code `WATCHLIST_LIMIT`; users can't see each other's items.
+  - Done: 2026-11-26 — `GET/POST/DELETE /v1/me/watchlist`; `WATCHLIST_LIMIT_FREE` (default 3); e2e 4th→409 `WATCHLIST_LIMIT` + cross-user isolation.
 
 - [ ] **T5.10 Uploads and storage**
   - Depends on: T5.8
