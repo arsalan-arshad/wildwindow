@@ -394,11 +394,11 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Do: `DELETE /v1/me` (soft delete now, then a worker command `purge-deleted` hard-deletes after 30 days, including photos); `POST /v1/me/export` (JSON + signed photo links).
   - Acceptance test: after the purge, no rows or files remain for the user; the export has every user-owned record.
 
-- [~] **T5.15 Attributions and waitlist**
+- [x] **T5.15 Attributions and waitlist**
   - Depends on: T3.8, T5.2
   - Do: `GET /v1/attributions` (datasets, DOIs, weather and tide credits) and `POST /v1/waitlist`.
   - Acceptance test: e2e tests; a duplicate email returns 200 without creating a duplicate row.
-  - Notes: **Waitlist slice landed with T7.1** — `POST /v1/waitlist` + `GET /v1/admin/waitlist/export` (`ADMIN_TOKEN`), extended `app.waitlist`, shared Zod + client. `GET /v1/attributions` and full T5.2 foundations still open; keep this task open until attributions land.
+  - Done: 2026-11-26 — `GET /v1/attributions` from `ref.datasets` + weather/tide/GeoNames/Natural Earth/suncalc credits; waitlist (T7.1) duplicate email → 200 without a second row; e2e.
 
 ## Phase 6: Mobile app (`apps/mobile`)
 
