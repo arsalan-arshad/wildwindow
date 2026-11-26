@@ -132,5 +132,25 @@
       "amphibian": "Amphibian",
       "invertebrate": "Invertebrate"
     }
+  },
+  "area": {
+    "picker": {
+      "title": "Choose an area",
+      "subtitle": "Search a place, or use your location. We snap to a coarse cell on this device and never keep exact coordinates.",
+      "searchPlaceholder": "Search places",
+      "useMyLocation": "Use my location",
+      "locating": "Finding your area…",
+      "locationDenied": "Location permission is needed for this. You can still search for a place.",
+      "locationError": "Could not read your location. Try place search instead.",
+      "searchError": "Could not search places. Try again.",
+      "searchEmpty": "No places match that search in this region.",
+      "notCovered": "Not covered yet — this cell is outside the beta regions.",
+      "covered": "In {{region}} · coarse cell only (No-Pin).",
+      "continue": "See this week's Window"
+    },
+    "map": {
+      "empty": "Search a place or use your location to see the coarse area cell.",
+      "invalid": "Map unavailable for this cell."
+    }
   }
 }
