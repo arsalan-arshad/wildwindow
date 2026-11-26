@@ -1,0 +1,26 @@
+import { Global, Module } from '@nestjs/common';
+
+import { MeController } from '../me/me.controller.js';
+
+import { AdminRoleGuard } from './admin-role.guard.js';
+import { AdminStubController } from './admin-stub.controller.js';
+import { FirebaseAdminTokenVerifier } from './firebase-admin.verifier.js';
+import { FirebaseAuthGuard } from './firebase-auth.guard.js';
+import { FIREBASE_TOKEN_VERIFIER } from './token-verifier.js';
+import { UsersService } from './users.service.js';
+
+@Global()
+@Module({
+  controllers: [MeController, AdminStubController],
+  providers: [
+    UsersService,
+    FirebaseAuthGuard,
+    AdminRoleGuard,
+    {
+      provide: FIREBASE_TOKEN_VERIFIER,
+      useClass: FirebaseAdminTokenVerifier,
+    },
+  ],
+  exports: [UsersService, FirebaseAuthGuard, AdminRoleGuard, FIREBASE_TOKEN_VERIFIER],
+})
+export class AuthModule {}

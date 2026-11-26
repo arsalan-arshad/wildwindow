@@ -9,7 +9,7 @@ describe('worker command registry', () => {
     expect(() => createProgram()).not.toThrow();
   });
 
-  it('registers hello, gbif commands, aggregate, score:refs and backtest', () => {
+  it('registers hello, gbif commands, aggregate, score:refs, backtest and make-admin', () => {
     const program = createProgram();
     const names = listCommands(program);
     expect(names).toContain('hello');
@@ -19,5 +19,6 @@ describe('worker command registry', () => {
     expect(names).toContain('aggregate');
     expect(names).toContain('score:refs');
     expect(names).toContain('backtest');
+    expect(names).toContain('make-admin');
   });
 });
