@@ -600,9 +600,7 @@ exports[`tab screens (T6.1 snapshots) matches Logbook snapshot 1`] = `
       },
       [
         {
-          "alignItems": "center",
           "flex": 1,
-          "justifyContent": "center",
           "padding": 24,
         },
         {
@@ -611,7 +609,7 @@ exports[`tab screens (T6.1 snapshots) matches Logbook snapshot 1`] = `
       ],
     ]
   }
-  testID="tab-logbook"
+  testID="logbook-signed-out"
 >
   <Text
     style={
@@ -634,33 +632,95 @@ exports[`tab screens (T6.1 snapshots) matches Logbook snapshot 1`] = `
         {
           "color": "#14201a",
         },
-        {
-          "fontSize": 16,
-          "marginTop": 8,
-          "opacity": 0.65,
-        },
+        [
+          {
+            "fontSize": 15,
+            "lineHeight": 22,
+            "marginTop": 8,
+          },
+          {
+            "color": "#4a5c52",
+          },
+        ],
       ]
     }
   >
-    WildWindow placeholder
+    Sign in to keep a private logbook of your wildlife photos.
   </Text>
-  <Text
+  <View
+    accessibilityRole="button"
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": false,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
     style={
       [
         {
-          "color": "#14201a",
+          "alignItems": "center",
+          "borderRadius": 10,
+          "justifyContent": "center",
+          "minHeight": 48,
+          "paddingHorizontal": 18,
+          "paddingVertical": 12,
         },
         {
-          "fontSize": 14,
-          "letterSpacing": 0.4,
+          "backgroundColor": "#1a4030",
+          "opacity": 1,
+        },
+        {
+          "alignSelf": "stretch",
           "marginTop": 16,
-          "opacity": 0.45,
         },
       ]
     }
+    testID="logbook-sign-in"
   >
-    WildWindow
-  </Text>
+    <Text
+      style={
+        [
+          {
+            "color": "#14201a",
+          },
+          [
+            {
+              "fontSize": 16,
+              "fontWeight": "600",
+            },
+            {
+              "color": "#ffffff",
+            },
+          ],
+        ]
+      }
+    >
+      Sign in
+    </Text>
+  </View>
 </View>
 `;
 

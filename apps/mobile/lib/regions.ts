@@ -22,3 +22,16 @@ export const BETA_REGIONS = [
     blurbKey: 'regions.sindh.blurb',
   },
 ] as const;
+
+/** IANA zones for beta regions (ARCHITECTURE §4 — store UTC, show regional). */
+export const REGION_TIME_ZONES: Record<RegionId, string> = {
+  scotland: 'Europe/London',
+  sindh: 'Asia/Karachi',
+};
+
+export function regionTimeZone(region: RegionId | null | undefined): string {
+  if (region === null || region === undefined) {
+    return REGION_TIME_ZONES.scotland;
+  }
+  return REGION_TIME_ZONES[region];
+}

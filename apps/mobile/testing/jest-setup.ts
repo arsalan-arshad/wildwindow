@@ -4,6 +4,8 @@ jest.mock('@react-native-async-storage/async-storage', () => mockAsyncStorage);
 
 jest.mock('expo-router');
 jest.mock('expo-location');
+jest.mock('expo-image-picker');
+jest.mock('expo-image-manipulator');
 jest.mock('react-native-maps');
 
 // Keep Jest off the real Firebase network; screens inject AuthClient mocks.

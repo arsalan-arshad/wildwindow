@@ -1,5 +1,5 @@
-import { TabPlaceholder } from '@/components/TabPlaceholder';
+import { LogbookList } from '@/components/logbook/LogbookList';
 
 export default function LogbookScreen() {
-  return <TabPlaceholder titleKey="tabs.logbook" testID="tab-logbook" />;
+  return <LogbookList />;
 }

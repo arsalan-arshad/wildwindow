@@ -300,5 +300,52 @@
       "title": "Not covered yet",
       "body": "This area is outside the Scotland and Sindh beta regions."
     }
+  },
+  "logbook": {
+    "list": {
+      "title": "Logbook",
+      "subtitle": "Private photos with camera settings. GPS is stripped before upload.",
+      "add": "Add entry",
+      "empty": "No entries yet. Add a photo to start your logbook.",
+      "error": "Could not load your logbook. Try again.",
+      "signInBody": "Sign in to keep a private logbook of your wildlife photos.",
+      "taxon": "Taxon {{id}}",
+      "noSpecies": "Species not set"
+    },
+    "form": {
+      "title": "New log entry",
+      "subtitle": "We read camera settings from the photo, then re-encode it on this device so GPS EXIF never leaves your phone.",
+      "pickPhoto": "Choose photo",
+      "changePhoto": "Choose a different photo",
+      "picking": "Preparing photo…",
+      "permissionDenied": "Photo library permission is needed to add an entry.",
+      "previewA11y": "Selected photo preview",
+      "prepareError": "Could not prepare that photo. Try another image.",
+      "saveError": "Could not save this entry. Try again.",
+      "species": "Species (optional)",
+      "noSpecies": "None",
+      "notes": "Notes",
+      "notesPlaceholder": "Field notes (optional)",
+      "keepExactTitle": "Keep exact point for me",
+      "keepExactBody": "Stores the photo's location encrypted for you only. Off by default. Never published.",
+      "save": "Save entry",
+      "saving": "Saving…"
+    },
+    "detail": {
+      "title": "Log entry",
+      "missing": "This entry could not be found.",
+      "error": "Could not load this entry.",
+      "cell": "Coarse cell {{cell}}",
+      "exactKept": "Exact point kept for you (encrypted, owner only).",
+      "exactOff": "Exact point not stored — coarse cell only (or none).",
+      "noNotes": "No notes.",
+      "edit": "Edit notes",
+      "saveEdits": "Save notes",
+      "cancelEdit": "Cancel",
+      "delete": "Delete entry",
+      "deleting": "Deleting…",
+      "deleteError": "Could not delete this entry.",
+      "privacyNote": "Deleting an entry also deletes its photo from storage. Exact locations are never shown publicly."
+    }
   }
 }

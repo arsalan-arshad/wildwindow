@@ -1,5 +1,14 @@
 import type { ApiClient } from '@wildwindow/shared/client';
-import type { AreaResponse, PlaceSummary } from '@wildwindow/shared';
+import type {
+  AreaResponse,
+  LogbookCreateRequest,
+  LogbookEntryOwner,
+  LogbookEntryPublic,
+  LogbookPatchRequest,
+  PlaceSummary,
+  PresignUploadRequest,
+  PresignUploadResponse,
+} from '@wildwindow/shared';
 
 import type { ForecastResponse } from '@/lib/forecast';
 import type { SeasonalityResponse, SpeciesDetail, SpeciesListItem } from '@/lib/species';
@@ -24,6 +33,15 @@ export type MockForecastApi = {
   }) => Promise<ForecastResponse>;
 };
 
+export type MockLogbookApi = {
+  readonly items?: LogbookEntryPublic[];
+  readonly byId?: Readonly<Record<string, LogbookEntryOwner>>;
+  readonly create?: (body: LogbookCreateRequest) => Promise<LogbookEntryOwner>;
+  readonly patch?: (id: string, body: LogbookPatchRequest) => Promise<LogbookEntryOwner>;
+  readonly remove?: (id: string) => Promise<void>;
+  readonly presign?: (body: PresignUploadRequest) => Promise<PresignUploadResponse>;
+};
+
 const EMPTY_WEEKS = Array.from({ length: 52 }, () => 0);
 
 export function forecastFixtureKey(taxonId: string, cell: string, start: string): string {
@@ -34,10 +52,15 @@ export function createMockSpeciesApiClient(
   fixtures: MockSpeciesApi,
   placesFixtures: MockPlacesApi = {},
   forecastFixtures: MockForecastApi = {},
+  logbookFixtures: MockLogbookApi = {},
 ): ApiClient {
   const places = placesFixtures.places ?? [];
   const areasByCell = placesFixtures.areasByCell ?? {};
   const forecastByKey = forecastFixtures.byKey ?? {};
+  let logbookItems = [...(logbookFixtures.items ?? [])];
+  const logbookById: Record<string, LogbookEntryOwner> = {
+    ...(logbookFixtures.byId ?? {}),
+  };
 
   return {
     health: { get: async () => ({ status: 'ok' as const }) },
@@ -129,6 +152,113 @@ export function createMockSpeciesApiClient(
           }
           throw new Error(`missing forecast ${key}`);
         }),
+    },
+    me: {
+      get: async () => ({
+        id: '00000000-0000-4000-8000-000000000001',
+        displayName: null,
+        homeRegionSlug: 'scotland' as const,
+        locale: 'en' as const,
+        role: 'user' as const,
+      }),
+      patch: async () => {
+        throw new Error('not implemented in mock');
+      },
+      delete: async () => ({ ok: true as const, purgeAfterDays: 30 as const }),
+      export: async () => ({
+        status: 'ready' as const,
+        downloadUrl: 'https://example.test/export.json',
+      }),
+      watchlist: {
+        list: async () => ({ items: [] }),
+        add: async () => {
+          throw new Error('not implemented in mock');
+        },
+        remove: async () => undefined,
+      },
+      logbook: {
+        list: async () => ({ items: logbookItems }),
+        create:
+          logbookFixtures.create ??
+          (async (body: LogbookCreateRequest) => {
+            const id = `lb-${String(logbookItems.length + 1)}`;
+            const now = '2026-11-26T12:00:00.000Z';
+            const entry: LogbookEntryOwner = {
+              id,
+              taxonId: body.taxonId ?? null,
+              takenAt: body.takenAt,
+              cellR7: body.cellR7 ?? null,
+              photoKey: body.photoKey,
+              thumbKey: body.thumbKey ?? null,
+              exif: body.exif ?? {},
+              notes: body.notes ?? null,
+              createdAt: now,
+              updatedAt: now,
+              exactLocation: body.exactLocation ?? null,
+            };
+            logbookById[id] = entry;
+            const { exactLocation: _exact, ...publicRow } = entry;
+            logbookItems = [...logbookItems, publicRow];
+            return entry;
+          }),
+        get: async (id: string) => {
+          const hit = logbookById[id];
+          if (hit === undefined) {
+            throw new Error(`missing logbook ${id}`);
+          }
+          return hit;
+        },
+        patch:
+          logbookFixtures.patch ??
+          (async (id: string, body: LogbookPatchRequest) => {
+            const hit = logbookById[id];
+            if (hit === undefined) {
+              throw new Error(`missing logbook ${id}`);
+            }
+            const next: LogbookEntryOwner = {
+              ...hit,
+              ...(body.taxonId !== undefined ? { taxonId: body.taxonId } : {}),
+              ...(body.notes !== undefined ? { notes: body.notes } : {}),
+              ...(body.cellR7 !== undefined ? { cellR7: body.cellR7 } : {}),
+              ...(body.exactLocation !== undefined ? { exactLocation: body.exactLocation } : {}),
+              updatedAt: '2026-11-26T13:00:00.000Z',
+            };
+            logbookById[id] = next;
+            logbookItems = logbookItems.map((item) =>
+              item.id === id
+                ? {
+                    id: next.id,
+                    taxonId: next.taxonId,
+                    takenAt: next.takenAt,
+                    cellR7: next.cellR7,
+                    photoKey: next.photoKey,
+                    thumbKey: next.thumbKey,
+                    exif: next.exif,
+                    notes: next.notes,
+                    createdAt: next.createdAt,
+                    updatedAt: next.updatedAt,
+                  }
+                : item,
+            );
+            return next;
+          }),
+        remove:
+          logbookFixtures.remove ??
+          (async (id: string) => {
+            delete logbookById[id];
+            logbookItems = logbookItems.filter((item) => item.id !== id);
+          }),
+      },
+    },
+    uploads: {
+      presign:
+        logbookFixtures.presign ??
+        (async (body: PresignUploadRequest) => ({
+          uploadUrl: 'https://example.test/upload',
+          photoKey: `uploads/user-1/${String(body.byteSize)}.jpg`,
+          headers: { 'content-type': body.mimeType },
+          expiresAt: '2026-11-26T13:00:00.000Z',
+        })),
     },
   } as unknown as ApiClient;
 }
