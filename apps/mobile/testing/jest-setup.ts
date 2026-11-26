@@ -2,6 +2,18 @@ import mockAsyncStorage from '@react-native-async-storage/async-storage/jest';
 
 jest.mock('@react-native-async-storage/async-storage', () => mockAsyncStorage);
 
+jest.mock('@react-native-community/netinfo', () => ({
+  __esModule: true,
+  default: {
+    addEventListener: jest.fn(() => jest.fn()),
+    fetch: jest.fn(async () => ({
+      isConnected: true,
+      isInternetReachable: true,
+      type: 'wifi',
+    })),
+  },
+}));
+
 jest.mock('expo-router');
 jest.mock('expo-location');
 jest.mock('expo-image-picker');

@@ -1,27 +1,24 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { type ReactNode, useState } from 'react';
+import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
+import { type ReactNode, useEffect, useState } from 'react';
 import { I18nextProvider } from 'react-i18next';
 
 import { ApiClientProvider } from '@/lib/api-context';
 import { AuthProvider, useAuth } from '@/lib/auth/auth-context';
 import type { AuthClient } from '@/lib/auth/types';
 import { i18n, initI18n } from '@/lib/i18n';
+import { setupOnlineManager } from '@/lib/online';
 import { PreferencesProvider } from '@/lib/preferences-context';
 import type { AppPreferences, PreferenceStorage } from '@/lib/preferences';
+import {
+  createAppQueryClient,
+  QUERY_CACHE_MAX_AGE_MS,
+  shouldPersistQuery,
+} from '@/lib/query-client';
+import { createQueryPersister } from '@/lib/query-persist';
 import type { ApiClient } from '@wildwindow/shared/client';
 
 initI18n();
-
-function createQueryClient(): QueryClient {
-  return new QueryClient({
-    defaultOptions: {
-      queries: {
-        staleTime: 60_000,
-        retry: 1,
-      },
-    },
-  });
-}
 
 export type AppProvidersProps = {
   readonly children: ReactNode;
@@ -61,8 +58,14 @@ export function AppProviders({
   preferenceStorage,
   initialPreferences,
 }: AppProvidersProps) {
-  const [ownedClient] = useState(createQueryClient);
+  const [ownedClient] = useState(createAppQueryClient);
+  const [persister] = useState(() => createQueryPersister());
   const client = queryClient ?? ownedClient;
+  const persistEnabled = queryClient === undefined;
+
+  useEffect(() => {
+    setupOnlineManager();
+  }, []);
 
   const apiTree =
     apiClient !== undefined ? (
@@ -97,9 +100,22 @@ export function AppProviders({
     preferencesTree = <PreferencesProvider>{authTree}</PreferencesProvider>;
   }
 
-  return (
-    <I18nextProvider i18n={i18n}>
-      <QueryClientProvider client={client}>{preferencesTree}</QueryClientProvider>
-    </I18nextProvider>
+  const queryTree = persistEnabled ? (
+    <PersistQueryClientProvider
+      client={client}
+      persistOptions={{
+        persister,
+        maxAge: QUERY_CACHE_MAX_AGE_MS,
+        dehydrateOptions: {
+          shouldDehydrateQuery: shouldPersistQuery,
+        },
+      }}
+    >
+      {preferencesTree}
+    </PersistQueryClientProvider>
+  ) : (
+    <QueryClientProvider client={client}>{preferencesTree}</QueryClientProvider>
   );
+
+  return <I18nextProvider i18n={i18n}>{queryTree}</I18nextProvider>;
 }

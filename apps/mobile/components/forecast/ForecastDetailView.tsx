@@ -3,6 +3,7 @@ import { useMemo, useState } from 'react';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
+import { LastUpdated } from '@/components/LastUpdated';
 import { WatchlistSaveButton } from '@/components/home/WatchlistSaveButton';
 import { Text, View, useThemeColor } from '@/components/Themed';
 import { useApiClient } from '@/lib/api-context';
@@ -24,6 +25,7 @@ import {
   weekdayShort,
 } from '@/lib/forecast';
 import { getLayoutDirection } from '@/lib/i18n';
+import { useIsOnline } from '@/lib/online';
 import { displayCommonName, type SpeciesDetail } from '@/lib/species';
 import type { RegionId } from '@/lib/regions';
 
@@ -65,6 +67,7 @@ export function ForecastDetailView({
 }: ForecastDetailViewProps) {
   const { t, i18n } = useTranslation();
   const api = useApiClient();
+  const isOnline = useIsOnline();
   const direction = getLayoutDirection();
   const muted = useThemeColor({}, 'textMuted');
   const tint = useThemeColor({}, 'tint');
@@ -112,7 +115,7 @@ export function ForecastDetailView({
     });
   }, [forecast, activeDate, lightForCell]);
 
-  if (forecastQuery.isLoading) {
+  if (forecastQuery.isLoading && forecast === undefined) {
     return (
       <View style={styles.centered} testID="forecast-loading">
         <ActivityIndicator color={tint} />
@@ -120,10 +123,12 @@ export function ForecastDetailView({
     );
   }
 
-  if (forecastQuery.isError || forecast === undefined) {
+  if (forecast === undefined) {
     return (
-      <View style={styles.centered} testID="forecast-error">
-        <Text style={{ color: muted }}>{t('forecast.error')}</Text>
+      <View style={styles.centered} testID={isOnline ? 'forecast-error' : 'forecast-offline-empty'}>
+        <Text style={{ color: muted }}>
+          {isOnline ? t('forecast.error') : t('offline.unavailable')}
+        </Text>
       </View>
     );
   }
@@ -144,6 +149,7 @@ export function ForecastDetailView({
         {forecast.areaLabel !== null ? (
           <Text style={[styles.areaLabel, { color: muted }]}>{forecast.areaLabel}</Text>
         ) : null}
+        <LastUpdated dataUpdatedAt={forecastQuery.dataUpdatedAt} />
         <View
           style={[styles.callout, { backgroundColor: surface, borderColor: border }]}
           testID="forecast-status-callout"
@@ -186,6 +192,7 @@ export function ForecastDetailView({
       activeDate={activeDate ?? forecast.bestDay}
       activeDay={activeDay}
       deviceLight={deviceLight}
+      dataUpdatedAt={forecastQuery.dataUpdatedAt}
       muted={muted}
       tint={tint}
       surface={surface}
@@ -206,6 +213,7 @@ type OkForecastProps = {
   readonly activeDate: string;
   readonly activeDay: ForecastDay | undefined;
   readonly deviceLight: ReturnType<typeof lightForDisplayCell>;
+  readonly dataUpdatedAt: number;
   readonly muted: string;
   readonly tint: string;
   readonly surface: string;
@@ -224,6 +232,7 @@ function OkForecast({
   activeDate,
   activeDay,
   deviceLight,
+  dataUpdatedAt,
   muted,
   tint,
   surface,
@@ -252,6 +261,8 @@ function OkForecast({
       <Text style={[styles.areaLabel, { color: muted }]} testID="forecast-area-label">
         {forecast.areaLabel}
       </Text>
+
+      <LastUpdated dataUpdatedAt={dataUpdatedAt} />
 
       <WatchlistSaveButton taxonId={taxonId} cellR7={cell} />
 

@@ -2,11 +2,13 @@ import { useQuery } from '@tanstack/react-query';
 import { ActivityIndicator, ScrollView, StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
+import { LastUpdated } from '@/components/LastUpdated';
 import { MarkdownBody } from '@/components/markdown/MarkdownBody';
 import { Text, View, useThemeColor } from '@/components/Themed';
 import { useApiClient } from '@/lib/api-context';
 import { isReviewedCard, parseCardSettings } from '@/lib/field-card';
 import { getLayoutDirection } from '@/lib/i18n';
+import { useIsOnline } from '@/lib/online';
 import type { RegionId } from '@/lib/regions';
 import { displayCommonName, formatReviewedAt, type SpeciesDetail } from '@/lib/species';
 
@@ -18,6 +20,7 @@ export type FieldCardViewProps = {
 export function FieldCardView({ taxonId, region }: FieldCardViewProps) {
   const { t, i18n } = useTranslation();
   const api = useApiClient();
+  const isOnline = useIsOnline();
   const direction = getLayoutDirection();
   const muted = useThemeColor({}, 'textMuted');
   const tint = useThemeColor({}, 'tint');
@@ -32,7 +35,7 @@ export function FieldCardView({ taxonId, region }: FieldCardViewProps) {
     },
   });
 
-  if (detailQuery.isLoading) {
+  if (detailQuery.isLoading && detailQuery.data === undefined) {
     return (
       <View style={styles.centered} testID="field-card-loading">
         <ActivityIndicator color={tint} />
@@ -40,10 +43,15 @@ export function FieldCardView({ taxonId, region }: FieldCardViewProps) {
     );
   }
 
-  if (detailQuery.isError || detailQuery.data === undefined) {
+  if (detailQuery.data === undefined) {
     return (
-      <View style={styles.centered} testID="field-card-error">
-        <Text style={{ color: muted }}>{t('species.fieldCard.error')}</Text>
+      <View
+        style={styles.centered}
+        testID={isOnline ? 'field-card-error' : 'field-card-offline-empty'}
+      >
+        <Text style={{ color: muted }}>
+          {isOnline ? t('species.fieldCard.error') : t('offline.unavailable')}
+        </Text>
       </View>
     );
   }
@@ -62,6 +70,7 @@ export function FieldCardView({ taxonId, region }: FieldCardViewProps) {
       >
         <Text style={styles.title}>{common}</Text>
         <Text style={[styles.scientific, { color: muted }]}>{detail.scientificName}</Text>
+        <LastUpdated dataUpdatedAt={detailQuery.dataUpdatedAt} />
         <View
           style={[styles.section, { backgroundColor: surface, borderColor: border }]}
           testID="field-card-unpublished"
@@ -95,6 +104,8 @@ export function FieldCardView({ taxonId, region }: FieldCardViewProps) {
           date: formatReviewedAt(card.reviewedAt, i18n.language),
         })}
       </Text>
+
+      <LastUpdated dataUpdatedAt={detailQuery.dataUpdatedAt} />
 
       {hasSettings ? (
         <View
