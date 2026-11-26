@@ -35,13 +35,16 @@ export function loadPurgeStorageEnv(source: NodeJS.ProcessEnv = process.env): Pu
   return loadEnv(purgeStorageEnvSchema, source);
 }
 
+/**
+ * Empty/unset → `local` in every environment. Opt in with `STORAGE_DRIVER=r2` or `s3`.
+ */
 export function resolvePurgeStorageDriver(
   raw: string | undefined,
-  nodeEnv: string,
+  _nodeEnv: string,
 ): PurgeStorageDriverId {
   const normalized = (raw ?? '').trim().toLowerCase();
   if (normalized === '') {
-    return nodeEnv === 'production' ? 'r2' : 'local';
+    return 'local';
   }
   if (normalized === 'local' || normalized === 's3' || normalized === 'r2') {
     return normalized;

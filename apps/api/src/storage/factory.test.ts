@@ -9,13 +9,15 @@ import { LocalStorage } from './local.storage.js';
 import { S3Storage } from './s3.storage.js';
 
 describe('storage factory (T5.10)', () => {
-  it('defaults to local outside production and r2 in production', () => {
+  it('defaults empty/unset to local in every environment; r2 is explicit opt-in', () => {
     expect(resolveStorageDriverId(undefined, 'development')).toBe('local');
     expect(resolveStorageDriverId('', 'test')).toBe('local');
-    expect(resolveStorageDriverId(undefined, 'production')).toBe('r2');
+    expect(resolveStorageDriverId(undefined, 'production')).toBe('local');
+    expect(resolveStorageDriverId('  ', 'production')).toBe('local');
     expect(resolveStorageDriverId('LOCAL', 'production')).toBe('local');
     expect(resolveStorageDriverId('s3', 'development')).toBe('s3');
     expect(resolveStorageDriverId('r2', 'development')).toBe('r2');
+    expect(resolveStorageDriverId('r2', 'production')).toBe('r2');
   });
 
   it('creates LocalStorage, S3Storage, and R2 (S3-compatible) storage', async () => {

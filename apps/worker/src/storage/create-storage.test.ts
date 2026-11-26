@@ -32,12 +32,14 @@ vi.mock('@aws-sdk/client-s3', () => {
 });
 
 describe('purge storage (R2)', () => {
-  it('defaults to local outside production and r2 in production', () => {
+  it('defaults empty/unset to local in every environment; r2 is explicit opt-in', () => {
     expect(resolvePurgeStorageDriver(undefined, 'development')).toBe('local');
     expect(resolvePurgeStorageDriver('', 'test')).toBe('local');
-    expect(resolvePurgeStorageDriver(undefined, 'production')).toBe('r2');
+    expect(resolvePurgeStorageDriver(undefined, 'production')).toBe('local');
+    expect(resolvePurgeStorageDriver('  ', 'production')).toBe('local');
     expect(resolvePurgeStorageDriver('s3', 'production')).toBe('s3');
     expect(resolvePurgeStorageDriver('r2', 'development')).toBe('r2');
+    expect(resolvePurgeStorageDriver('r2', 'production')).toBe('r2');
   });
 
   it('builds R2 endpoint from account id', () => {
