@@ -122,6 +122,8 @@ See [`assets/README.md`](assets/README.md) for sizes and replacement notes. Do n
 | [docs/PRD.md](docs/PRD.md)                   | Product requirements: problem, personas, MVP scope, user stories, screens, metrics, ethics |
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Stack, data pipeline, scoring v1, location protection, schema, API, infra                  |
 | [docs/TASKS.md](docs/TASKS.md)               | Phased build tasks, each small enough for one AI agent run                                 |
+| [docs/RAILWAY.md](docs/RAILWAY.md)           | Railway beta host (PostGIS + api/web/worker)                                               |
+| [docs/VERCEL.md](docs/VERCEL.md)             | Vercel web + PR preview deploy (T9.5); no secrets                                          |
 | [AGENTS.md](AGENTS.md)                       | Rules and conventions for AI coding agents working in this repo                            |
 | [CURSOR_PROMPT.md](CURSOR_PROMPT.md)         | Copy-paste prompts to start and continue work with a Cursor agent                          |
 
