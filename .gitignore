@@ -54,5 +54,17 @@ temp/
 apps/mobile/ios/
 apps/mobile/android/
 
+# Firebase native config — never commit real downloads (docs/EAS.md).
+# Cover repo-root and nested paths; GoogleService-Info*.plist catches Dev/Release variants.
+# *.example placeholders stay tracked via negation below.
+google-services.json
+**/google-services.json
+GoogleService-Info.plist
+**/GoogleService-Info.plist
+GoogleService-Info*.plist
+**/GoogleService-Info*.plist
+!**/google-services.json.example
+!**/GoogleService-Info.plist.example
+
 # Reports generated locally
 reports/*.local.*

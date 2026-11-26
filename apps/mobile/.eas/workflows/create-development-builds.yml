@@ -1,0 +1,21 @@
+# Internal development-client builds (Google/Apple Sign-In need a native binary).
+# Credentials: Apple Developer + Android keystore via `eas credentials` (see docs/EAS.md).
+# Manual: cd apps/mobile && eas workflow:run .eas/workflows/create-development-builds.yml
+name: Create development builds
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  build_android:
+    name: Build Android development
+    type: build
+    params:
+      platform: android
+      profile: development
+  build_ios:
+    name: Build iOS development
+    type: build
+    params:
+      platform: ios
+      profile: development

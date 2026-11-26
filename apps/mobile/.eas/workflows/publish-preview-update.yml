@@ -1,0 +1,17 @@
+# OTA update to the preview channel (JS/asset-only; no new store binary).
+# Manual only — do not auto-run on PR branches (needs Expo Update configured;
+# auto push was failing Protect-main with "Publish preview OTA" before EXPO_TOKEN).
+# Manual: cd apps/mobile && eas workflow:run .eas/workflows/publish-preview-update.yml
+name: Publish preview update
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  update_preview:
+    name: Publish preview OTA
+    type: update
+    environment: preview
+    params:
+      channel: preview
+      platform: all
