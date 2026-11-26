@@ -543,11 +543,13 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Acceptance test: a card with `reviewedBy` missing loads as `draft`.
   - Done: 2026-11-26 — Zod front-matter + `parseSpeciesCardMarkdown` / `loadSpeciesCardsFromDir` in shared; `pnpm data:cards` upserts `ref.species_cards` (draft when `reviewedBy` or `reviewedAt` missing). Fixtures + unit/integration tests.
 
-- [ ] **T8.2 Draft field cards** 🧑
+- [!] **T8.2 Draft field cards** 🧑
   - Depends on: T8.1, T2.7
   - Do: draft cards for every beta species (settings for perched, flight and low light; fieldcraft; ethics following the Audubon guide; legal notes per region). Every card is `status: draft` and lists its sources at the bottom.
   - Acceptance test: `pnpm data:cards` loads all of them; a script lists the cards still `draft`.
   - 🧑 Arsalan and an expert photographer review them and mark them reviewed.
+  - Agent progress: 2026-11-26 — 52 draft Markdown cards under `data/species-cards/{scotland,sindh}/` (26+26, every beta taxon×region); settings for perched/flight/lowLight; Audubon ethics; Scotland/Sindh legal drafts; sources footer. `pnpm data:cards:check` parses all as draft; `pnpm data:cards:draft` lists still-draft cards; shared Vitest coverage. Upsert via `pnpm data:cards` still needs `DATABASE_URL` (PostGIS).
+  - Blocked: needs Arsalan – expert photographer review of every draft card, then mark reviewed (`reviewedBy` / `reviewedAt`) so public field cards and web species pages can publish.
 
 - [ ] **T8.3 Sensitivity review pack** 🧑
   - Depends on: T2.7
