@@ -12,29 +12,47 @@ import {
   type PresignGetResult,
   type PresignPutInput,
   type PresignPutResult,
+  type StorageDriverId,
   type StorageService,
 } from './storage.types.js';
+
+export type S3CompatibleDriverId = Extract<StorageDriverId, 's3' | 'r2'>;
 
 export type S3StorageOptions = {
   readonly bucket: string;
   readonly region: string;
-  /** Injected in tests; production uses the default credential chain. */
+  /** Defaults to `s3`. Use `r2` for Cloudflare R2 (S3-compatible). */
+  readonly driver?: S3CompatibleDriverId;
+  /**
+   * Optional public base URL (custom domain / r2.dev). When set, GET URLs are
+   * `${publicBaseUrl}/${key}` instead of signed S3/R2 API URLs. PUT always uses
+   * signed URLs against the API endpoint.
+   */
+  readonly publicBaseUrl?: string;
+  /** Injected in tests; production uses the default credential chain (or R2 keys). */
   readonly client?: S3Client;
   readonly clientConfig?: S3ClientConfig;
 };
 
 /**
- * Private S3 bucket driver with presigned PUT/GET URLs (ARCHITECTURE §2 / T5.10).
- * CloudFront signed URLs (CLOUDFRONT_*) land with the AWS cutover (T9.x).
+ * Private S3-compatible bucket driver with presigned PUT/GET URLs (ARCHITECTURE §2 / T5.10).
+ * Used for AWS S3 and Cloudflare R2. CloudFront signed URLs (CLOUDFRONT_*) remain for the
+ * optional AWS cutover (T9.x); Railway beta uses R2 (`STORAGE_DRIVER=r2`).
  */
 export class S3Storage implements StorageService {
-  readonly driver = 's3' as const;
+  readonly driver: S3CompatibleDriverId;
 
   private readonly bucket: string;
   private readonly client: S3Client;
+  private readonly publicBaseUrl: string | undefined;
 
   constructor(options: S3StorageOptions) {
+    this.driver = options.driver ?? 's3';
     this.bucket = options.bucket;
+    this.publicBaseUrl =
+      options.publicBaseUrl !== undefined && options.publicBaseUrl.trim().length > 0
+        ? options.publicBaseUrl.trim().replace(/\/$/, '')
+        : undefined;
     this.client =
       options.client ??
       new S3Client({
@@ -65,6 +83,13 @@ export class S3Storage implements StorageService {
   }
 
   async createPresignedGet(input: PresignGetInput): Promise<PresignGetResult> {
+    const expiresAt = new Date(Date.now() + input.expiresInSeconds * 1000);
+    if (this.publicBaseUrl !== undefined) {
+      return {
+        url: `${this.publicBaseUrl}/${input.key}`,
+        expiresAt,
+      };
+    }
     const command = new GetObjectCommand({
       Bucket: this.bucket,
       Key: input.key,
@@ -72,7 +97,6 @@ export class S3Storage implements StorageService {
     const url = await getSignedUrl(this.client, command, {
       expiresIn: input.expiresInSeconds,
     });
-    const expiresAt = new Date(Date.now() + input.expiresInSeconds * 1000);
     return { url, expiresAt };
   }
 

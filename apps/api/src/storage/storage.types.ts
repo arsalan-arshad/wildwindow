@@ -1,7 +1,7 @@
 /** Nest DI token for the object storage driver (T5.10). */
 export const STORAGE_SERVICE = Symbol('WW_STORAGE_SERVICE');
 
-export type StorageDriverId = 'local' | 's3';
+export type StorageDriverId = 'local' | 's3' | 'r2';
 
 export type PresignPutInput = {
   readonly key: string;
@@ -29,7 +29,7 @@ export type PresignGetResult = {
 /**
  * Private object storage for logbook / challenge photos (ARCHITECTURE §2 / T5.10).
  * Clients upload via `createPresignedPut`; the API never stores exact coordinates.
- * Public challenge gallery uses `createPresignedGet` (S3 signed GET / local token GET).
+ * Public challenge gallery uses `createPresignedGet` (S3/R2 signed GET / local token GET).
  */
 export interface StorageService {
   readonly driver: StorageDriverId;

@@ -377,6 +377,7 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Do: a `StorageService` interface with `LocalStorage` (dev) and `S3Storage`; `POST /v1/uploads/presign` (MIME types, 15 MB); a server-side check that uses `exifr` to reject files that still have GPS tags.
   - Acceptance test: a fixture JPEG **with** GPS is rejected; one without GPS is accepted.
   - Done: 2026-11-26 — `StorageService` + Local/S3 drivers; `POST /v1/uploads/presign`; local PUT rejects GPS EXIF via `exifr` (`GPS_EXIF_FORBIDDEN`).
+  - Follow-up: 2026-11-26 — Cloudflare **R2** (`STORAGE_DRIVER=r2`, S3-compatible) for Railway production; `local` remains default/dev; AWS `s3` kept for Milestone H. Env keys + Railway checklist in `.env.example` / `docs/RAILWAY.md` (no secrets, no live Cloudflare resources from agents).
 
 - [x] **T5.11 Logbook**
   - Depends on: T5.10
@@ -586,6 +587,7 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Depends on: T9.2
   - Do: an EventBridge Scheduler monthly ingestion task, a daily `purge-deleted`, an S3 private bucket and CloudFront with signed URLs, and a KMS key for the logbook.
   - Acceptance test: `cdk synth` and snapshot test.
+  - Note: Railway beta object storage is **Cloudflare R2** via `STORAGE_DRIVER=r2` (app code + `docs/RAILWAY.md`). This task remains the optional AWS CDK cutover (S3 + CloudFront), not a prerequisite for beta uploads.
 
 - [ ] **T9.4 CD pipeline**
   - Depends on: T9.2, T0.10
