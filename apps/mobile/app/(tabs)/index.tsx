@@ -1,5 +1,5 @@
-import { TabPlaceholder } from '@/components/TabPlaceholder';
+import { HomeWatchlist } from '@/components/home/HomeWatchlist';
 
 export default function HomeScreen() {
-  return <TabPlaceholder titleKey="tabs.home" testID="tab-home" />;
+  return <HomeWatchlist />;
 }

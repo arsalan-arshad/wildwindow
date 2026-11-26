@@ -106,7 +106,7 @@ export function createApiClient(options: {
       delete: emptyAsync({ ok: true }),
       export: emptyAsync({ ok: true }),
       watchlist: {
-        list: emptyAsync({ items: [] }),
+        list: emptyAsync({ items: [], limit: 3 }),
         add: emptyAsync({}),
         remove: emptyAsync(undefined),
       },

@@ -3,6 +3,7 @@ import { useMemo, useState } from 'react';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
+import { WatchlistSaveButton } from '@/components/home/WatchlistSaveButton';
 import { Text, View, useThemeColor } from '@/components/Themed';
 import { useApiClient } from '@/lib/api-context';
 import {
@@ -171,6 +172,7 @@ export function ForecastDetailView({
             ))}
           </View>
         ) : null}
+        <WatchlistSaveButton taxonId={taxonId} cellR7={cell} />
       </ScrollView>
     );
   }
@@ -178,6 +180,8 @@ export function ForecastDetailView({
   return (
     <OkForecast
       forecast={forecast}
+      taxonId={taxonId}
+      cell={cell}
       commonName={common}
       activeDate={activeDate ?? forecast.bestDay}
       activeDay={activeDay}
@@ -196,6 +200,8 @@ export function ForecastDetailView({
 
 type OkForecastProps = {
   readonly forecast: ForecastOk;
+  readonly taxonId: string;
+  readonly cell: string;
   readonly commonName: string | null;
   readonly activeDate: string;
   readonly activeDay: ForecastDay | undefined;
@@ -212,6 +218,8 @@ type OkForecastProps = {
 
 function OkForecast({
   forecast,
+  taxonId,
+  cell,
   commonName,
   activeDate,
   activeDay,
@@ -244,6 +252,8 @@ function OkForecast({
       <Text style={[styles.areaLabel, { color: muted }]} testID="forecast-area-label">
         {forecast.areaLabel}
       </Text>
+
+      <WatchlistSaveButton taxonId={taxonId} cellR7={cell} />
 
       <View style={styles.scoreBlock} testID="forecast-week-score">
         <Text
