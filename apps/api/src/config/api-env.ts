@@ -50,6 +50,22 @@ export const ApiEnvSchema = z.object({
   WEATHER_PROVIDER: z.string().optional(),
   /** Identifying User-Agent required by MET Norway (T4.7). */
   WEATHER_USER_AGENT: z.string().optional(),
+  /**
+   * Object storage driver (ARCHITECTURE §2 / T5.10).
+   * Empty → `local` outside production, `s3` in production.
+   */
+  STORAGE_DRIVER: z.string().optional(),
+  /** Private S3 bucket name when `STORAGE_DRIVER=s3`. */
+  S3_BUCKET: z.string().min(1).optional(),
+  /** AWS region for S3 (default eu-west-2). */
+  S3_REGION: z.string().min(1).optional(),
+  /** Filesystem root for `STORAGE_DRIVER=local` (default: os tmpdir). */
+  LOCAL_STORAGE_DIR: z.string().min(1).optional(),
+  /**
+   * HMAC secret for local presigned PUT tokens.
+   * Required when `STORAGE_DRIVER=local` in production; a fixed dev default otherwise.
+   */
+  STORAGE_SIGNING_SECRET: z.string().min(1).optional(),
 });
 
 export type ApiEnv = z.infer<typeof ApiEnvSchema>;

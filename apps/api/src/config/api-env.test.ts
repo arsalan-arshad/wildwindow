@@ -44,3 +44,27 @@ describe('ApiEnv WATCHLIST_LIMIT_FREE (T5.9)', () => {
     expect(() => loadApiEnv({ WATCHLIST_LIMIT_FREE: '0' })).toThrow();
   });
 });
+
+describe('ApiEnv storage (T5.10)', () => {
+  it('allows missing storage keys (resolved at driver factory)', () => {
+    const env = loadApiEnv({});
+    expect(env.STORAGE_DRIVER).toBeUndefined();
+    expect(env.S3_BUCKET).toBeUndefined();
+    expect(env.LOCAL_STORAGE_DIR).toBeUndefined();
+  });
+
+  it('passes through storage keys when set', () => {
+    const env = loadApiEnv({
+      STORAGE_DRIVER: 'local',
+      S3_BUCKET: 'ww-photos',
+      S3_REGION: 'eu-west-2',
+      LOCAL_STORAGE_DIR: '/tmp/ww',
+      STORAGE_SIGNING_SECRET: 'test-secret',
+    });
+    expect(env.STORAGE_DRIVER).toBe('local');
+    expect(env.S3_BUCKET).toBe('ww-photos');
+    expect(env.S3_REGION).toBe('eu-west-2');
+    expect(env.LOCAL_STORAGE_DIR).toBe('/tmp/ww');
+    expect(env.STORAGE_SIGNING_SECRET).toBe('test-secret');
+  });
+});
