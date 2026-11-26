@@ -465,10 +465,11 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Acceptance test: a unit test shows that the upload payload has no GPS; a manual check that the uploaded file has no GPS EXIF (written down in the PR).
   - Done: 2026-11-26 — Expo logbook list / add / detail (S-10..S-12); `expo-image-picker` (`exif:true`) → camera EXIF extract → `expo-image-manipulator` JPEG re-encode (strips metadata) → presign PUT → `POST /v1/me/logbook`; optional owner-only exact point (off by default). jest-expo: upload/create payload has no GPS keys; form save omits `exactLocation` unless toggled.
 
-- [ ] **T6.10 Challenge (S-13, S-14)**
+- [x] **T6.10 Challenge (S-13, S-14)**
   - Depends on: T6.9, T5.12
   - Do: challenge home with counts per country, a gallery, and a submit flow from a logbook entry with the pledge.
   - Acceptance test: component tests: the submit button is disabled until the pledge is ticked; wrong-species entries can't be picked.
+  - Done: 2026-11-26 — Expo Challenge tab (S-13): current challenge, rules Markdown, ethics pledge copy, per-country counts, gallery (country filter + pagination). Submit flow (S-14): `/challenge/submit` picks matching logbook entries only, pledge checkbox required, country+region from home region (No-Pin). jest-expo: submit disabled until pledge; wrong-species rows not pickable. Rebased onto main after T6.9 (#73).
 
 - [ ] **T6.11 Share cards (S-15)**
   - Depends on: T7.4

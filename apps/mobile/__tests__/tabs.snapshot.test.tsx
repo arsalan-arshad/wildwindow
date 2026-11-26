@@ -38,8 +38,14 @@ describe('tab screens (T6.1 snapshots)', () => {
   });
 
   it('matches Challenge snapshot', async () => {
-    const tree = (await renderWithProviders(<ChallengeScreen />)).toJSON();
-    expect(tree).toMatchSnapshot();
+    const view = await renderWithProviders(<ChallengeScreen />, {
+      apiClient: emptySpeciesClient,
+      initialPreferences: { region: 'scotland', onboardingComplete: true },
+    });
+    await waitFor(() => {
+      expect(view.getByTestId('challenge-home-empty')).toBeTruthy();
+    });
+    expect(view.toJSON()).toMatchSnapshot();
   });
 
   it('matches Profile snapshot', async () => {
