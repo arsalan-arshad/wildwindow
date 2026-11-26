@@ -52,6 +52,7 @@ These exist once Phase 0 is done. If one you need is missing, adding it is part 
 | `pnpm format` / `pnpm format:check`                               | Prettier                                                                                                                    |
 | `pnpm db:up` / `pnpm db:down`                                     | Start or stop local PostGIS (Docker)                                                                                        |
 | `pnpm db:migrate` · `pnpm db:seed`                                | Run migrations and seeds                                                                                                    |
+| `pnpm perf:forecast` · `pnpm perf:forecast:smoke`                 | T9.8 autocannon `/v1/forecast` (full local p95 gate; CI smoke skips without data)                                           |
 | `pnpm data:validate`                                              | Validate the YAML config in `data/`                                                                                         |
 | `pnpm data:resolve-taxa` · `pnpm data:places` · `pnpm data:cards` | Data scripts (T2.7, T2.8, T8.1)                                                                                             |
 | `pnpm data:cards:check` · `pnpm data:cards:draft`                 | Parse cards without DB; list cards still `draft` (T8.2)                                                                     |

@@ -28,7 +28,9 @@
     "db:up": "docker compose up -d --wait db",
     "db:down": "docker compose down",
     "db:migrate": "pnpm --filter @wildwindow/shared build && pnpm --filter @wildwindow/db migrate",
-    "db:seed": "pnpm --filter @wildwindow/shared build && pnpm --filter @wildwindow/db seed"
+    "db:seed": "pnpm --filter @wildwindow/shared build && pnpm --filter @wildwindow/db seed",
+    "perf:forecast": "pnpm --filter api exec tsx scripts/perf-forecast.ts --full",
+    "perf:forecast:smoke": "pnpm --filter api exec tsx scripts/perf-forecast.ts --smoke"
   },
   "devDependencies": {
     "@eslint/js": "^9.22.0",

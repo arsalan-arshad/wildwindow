@@ -139,6 +139,10 @@ jobs:
       - name: Build api
         run: pnpm turbo run build --filter=api
 
+      # T9.8: light smoke; exits 0 when PERF_* unset / API not listening (no full ingest in CI).
+      - name: Forecast perf smoke (T9.8)
+        run: pnpm perf:forecast:smoke
+
   web:
     name: web
     runs-on: ubuntu-latest

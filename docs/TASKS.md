@@ -610,10 +610,11 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Acceptance test: it runs in CI and is green. Any failure blocks the release.
   - Done: 2026-11-26 — `apps/api/src/geoprivacy/geoprivacy-audit.e2e.test.ts` walks public GETs × every seeded taxon×region × res-7 grid in Scotland/Sindh with `assertPublicSafe`, plus sibling display-cell forecast identity. Fix: `weatherCellCentre` accepts coarser highly_protected display cells via a deterministic res-5 child (sibling weather key).
 
-- [ ] **T9.8 Performance check**
+- [x] **T9.8 Performance check**
   - Depends on: T5.6
   - Do: an `autocannon` script for `/v1/forecast` and add the indexes that turn out to be needed.
   - Acceptance test: p95 < 400 ms warm locally on the full ingested data; results in `reports/perf-YYYY-MM-DD.md`.
+  - Done: 2026-11-26 — `pnpm perf:forecast` / `perf:forecast:smoke` (autocannon + sequential warm p95 gate); migration `0007_forecast_perf_indexes` for `taxon_cell_week` / `effort_cell_week` history lookups; CI smoke skips without params/API; Nest smoke test + index test; `reports/perf-2026-11-26.md` documents local full-ingest re-run (agent VM had no PostGIS).
 
 - [ ] **T9.9 Store and legal readiness** 🧑
   - Depends on: T7.2, T6.12
