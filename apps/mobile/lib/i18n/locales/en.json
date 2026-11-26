@@ -114,8 +114,32 @@
       "fieldCardTitle": "Field card",
       "fieldCardReady": "Starting camera settings, fieldcraft, ethics and legal notes are ready for this species.",
       "fieldCardMissing": "A reviewed field card is not published for this species yet.",
+      "openFieldCard": "Open field card",
       "reviewedBy": "Reviewed by {{name}}, {{date}}",
       "getForecast": "Get this week's Window"
+    },
+    "fieldCard": {
+      "title": "Field card",
+      "missing": "Pick a species to open its field card.",
+      "error": "Could not load this field card.",
+      "unpublishedTitle": "Not published yet",
+      "unpublishedBody": "A reviewed field card is not available for this species. WildWindow only shows cards after an admin marks them reviewed.",
+      "settingsTitle": "Starting camera settings",
+      "fieldcraftTitle": "Fieldcraft",
+      "ethicsTitle": "Ethics",
+      "legalTitle": "Legal notes",
+      "settingsKeys": {
+        "shutter": "Shutter",
+        "aperture": "Aperture",
+        "iso": "ISO",
+        "focusMode": "Focus mode",
+        "driveMode": "Drive mode"
+      },
+      "scenes": {
+        "perched": "Perched",
+        "flight": "In flight",
+        "lowLight": "Low light"
+      }
     },
     "seasonality": {
       "title": "Seasonality",

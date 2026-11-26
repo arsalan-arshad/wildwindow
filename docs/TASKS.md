@@ -440,10 +440,11 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Acceptance test: component tests for the `ok`, `lockout`, `unavailable`, `not_covered` and low-confidence states; nowhere does the text say "% chance".
   - Done: 2026-11-26 — Expo `/forecast` (S-07): week Window score + confidence, 7-day strip, best 2h block, on-device light (`@wildwindow/scoring/light` from display-cell centre), weather/tide rows, why-this-score factor breakdown + scoringVersion, low-confidence range ("Limited data…"); lockout / unavailable / not_covered callouts. Never "% chance". jest-expo acceptance for all five states.
 
-- [ ] **T6.6 Field card (S-08)**
+- [x] **T6.6 Field card (S-08)**
   - Depends on: T6.3
   - Do: render the card's Markdown (settings, fieldcraft, ethics, legal) and show "Reviewed by".
   - Acceptance test: component test; a card without review status isn't shown.
+  - Done: 2026-11-26 — Expo `/field-card` (S-08): settings scenes, Markdown fieldcraft/ethics/legal via lightweight parser, "Reviewed by"; unpublished/null review hides all card body. Species detail opens card only when reviewed. jest-expo acceptance.
 
 - [ ] **T6.7 Sign in (S-02)** 🧑
   - Depends on: T6.1, T5.8

@@ -114,8 +114,32 @@
       "fieldCardTitle": "فیلڈ کارڈ",
       "fieldCardReady": "کیمرہ سیٹنگز، فیلڈ کرافٹ، اخلاقیات اور قانونی نوٹس تیار ہیں۔",
       "fieldCardMissing": "اس نوع کا جائزہ شدہ فیلڈ کارڈ ابھی شائع نہیں ہوا۔",
+      "openFieldCard": "فیلڈ کارڈ کھولیں",
       "reviewedBy": "جائزہ: {{name}}، {{date}}",
       "getForecast": "اس ہفتے کا ونڈو حاصل کریں"
+    },
+    "fieldCard": {
+      "title": "فیلڈ کارڈ",
+      "missing": "فیلڈ کارڈ کھولنے کے لیے ایک نوع منتخب کریں۔",
+      "error": "یہ فیلڈ کارڈ لوڈ نہیں ہو سکا۔",
+      "unpublishedTitle": "ابھی شائع نہیں ہوا",
+      "unpublishedBody": "اس نوع کا جائزہ شدہ فیلڈ کارڈ دستیاب نہیں۔ وائلڈ ونڈو صرف ایڈمن کے جائزے کے بعد کارڈ دکھاتا ہے۔",
+      "settingsTitle": "ابتدائی کیمرہ سیٹنگز",
+      "fieldcraftTitle": "فیلڈ کرافٹ",
+      "ethicsTitle": "اخلاقیات",
+      "legalTitle": "قانونی نوٹس",
+      "settingsKeys": {
+        "shutter": "شٹر",
+        "aperture": "اپرچر",
+        "iso": "آئی ایس او",
+        "focusMode": "فوکس موڈ",
+        "driveMode": "ڈرائیو موڈ"
+      },
+      "scenes": {
+        "perched": "بیٹھا ہوا",
+        "flight": "اڑان میں",
+        "lowLight": "کم روشنی"
+      }
     },
     "seasonality": {
       "title": "موسمی رجحان",

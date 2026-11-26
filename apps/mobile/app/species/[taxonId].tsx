@@ -40,6 +40,9 @@ export default function SpeciesDetailScreen() {
           // Area picker (T6.4) owns the next step; pass taxon through for now.
           router.push(`/area?taxonId=${encodeURIComponent(id)}` as never);
         }}
+        onOpenFieldCard={(id) => {
+          router.push(`/field-card?taxonId=${encodeURIComponent(id)}` as never);
+        }}
       />
     </>
   );
