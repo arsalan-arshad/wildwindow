@@ -26,6 +26,14 @@ import { UploadsService } from './uploads.service.js';
             : {}),
           ...(env.S3_BUCKET !== undefined ? { s3Bucket: env.S3_BUCKET } : {}),
           ...(env.S3_REGION !== undefined ? { s3Region: env.S3_REGION } : {}),
+          ...(env.R2_BUCKET !== undefined ? { r2Bucket: env.R2_BUCKET } : {}),
+          ...(env.R2_ENDPOINT !== undefined ? { r2Endpoint: env.R2_ENDPOINT } : {}),
+          ...(env.R2_ACCOUNT_ID !== undefined ? { r2AccountId: env.R2_ACCOUNT_ID } : {}),
+          ...(env.R2_ACCESS_KEY_ID !== undefined ? { r2AccessKeyId: env.R2_ACCESS_KEY_ID } : {}),
+          ...(env.R2_SECRET_ACCESS_KEY !== undefined
+            ? { r2SecretAccessKey: env.R2_SECRET_ACCESS_KEY }
+            : {}),
+          ...(env.R2_PUBLIC_URL !== undefined ? { r2PublicUrl: env.R2_PUBLIC_URL } : {}),
         });
       },
     },

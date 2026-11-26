@@ -52,13 +52,32 @@ export const ApiEnvSchema = z.object({
   WEATHER_USER_AGENT: z.string().optional(),
   /**
    * Object storage driver (ARCHITECTURE §2 / T5.10).
-   * Empty → `local` outside production, `s3` in production.
+   * Empty → `local` outside production, `r2` in production (Railway beta).
+   * Values: `local` | `r2` | `s3`.
    */
   STORAGE_DRIVER: z.string().optional(),
   /** Private S3 bucket name when `STORAGE_DRIVER=s3`. */
   S3_BUCKET: z.string().min(1).optional(),
   /** AWS region for S3 (default eu-west-2). */
   S3_REGION: z.string().min(1).optional(),
+  /** Cloudflare R2 bucket when `STORAGE_DRIVER=r2`. */
+  R2_BUCKET: z.string().min(1).optional(),
+  /**
+   * Full S3 API endpoint for R2, e.g. `https://<accountid>.r2.cloudflarestorage.com`.
+   * Optional when `R2_ACCOUNT_ID` is set (endpoint is derived).
+   */
+  R2_ENDPOINT: z.string().min(1).optional(),
+  /** Cloudflare account id used to build the R2 endpoint when `R2_ENDPOINT` is unset. */
+  R2_ACCOUNT_ID: z.string().min(1).optional(),
+  /** R2 S3 API access key id (Railway secret). */
+  R2_ACCESS_KEY_ID: z.string().min(1).optional(),
+  /** R2 S3 API secret access key (Railway secret). */
+  R2_SECRET_ACCESS_KEY: z.string().min(1).optional(),
+  /**
+   * Optional public base URL (custom domain or `*.r2.dev`). When set, gallery/export
+   * GET URLs use this host instead of signed R2 API URLs. Leave unset for private-only.
+   */
+  R2_PUBLIC_URL: z.string().min(1).optional(),
   /** Filesystem root for `STORAGE_DRIVER=local` (default: os tmpdir). */
   LOCAL_STORAGE_DIR: z.string().min(1).optional(),
   /**

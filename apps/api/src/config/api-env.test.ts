@@ -67,6 +67,25 @@ describe('ApiEnv storage (T5.10)', () => {
     expect(env.LOCAL_STORAGE_DIR).toBe('/tmp/ww');
     expect(env.STORAGE_SIGNING_SECRET).toBe('test-secret');
   });
+
+  it('passes through R2 storage keys when set', () => {
+    const env = loadApiEnv({
+      STORAGE_DRIVER: 'r2',
+      R2_BUCKET: 'ww-r2',
+      R2_ENDPOINT: 'https://acct.r2.cloudflarestorage.com',
+      R2_ACCOUNT_ID: 'acct',
+      R2_ACCESS_KEY_ID: 'key',
+      R2_SECRET_ACCESS_KEY: 'secret',
+      R2_PUBLIC_URL: 'https://media.example.test',
+    });
+    expect(env.STORAGE_DRIVER).toBe('r2');
+    expect(env.R2_BUCKET).toBe('ww-r2');
+    expect(env.R2_ENDPOINT).toBe('https://acct.r2.cloudflarestorage.com');
+    expect(env.R2_ACCOUNT_ID).toBe('acct');
+    expect(env.R2_ACCESS_KEY_ID).toBe('key');
+    expect(env.R2_SECRET_ACCESS_KEY).toBe('secret');
+    expect(env.R2_PUBLIC_URL).toBe('https://media.example.test');
+  });
 });
 
 describe('ApiEnv LOGBOOK_ENC_KEY (T5.11)', () => {

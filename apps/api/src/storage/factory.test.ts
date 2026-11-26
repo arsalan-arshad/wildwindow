@@ -4,20 +4,21 @@ import { join } from 'node:path';
 
 import { describe, expect, it } from 'vitest';
 
-import { createStorageService, resolveStorageDriverId } from './factory.js';
+import { createStorageService, resolveR2Endpoint, resolveStorageDriverId } from './factory.js';
 import { LocalStorage } from './local.storage.js';
 import { S3Storage } from './s3.storage.js';
 
 describe('storage factory (T5.10)', () => {
-  it('defaults to local outside production and s3 in production', () => {
+  it('defaults to local outside production and r2 in production', () => {
     expect(resolveStorageDriverId(undefined, 'development')).toBe('local');
     expect(resolveStorageDriverId('', 'test')).toBe('local');
-    expect(resolveStorageDriverId(undefined, 'production')).toBe('s3');
+    expect(resolveStorageDriverId(undefined, 'production')).toBe('r2');
     expect(resolveStorageDriverId('LOCAL', 'production')).toBe('local');
     expect(resolveStorageDriverId('s3', 'development')).toBe('s3');
+    expect(resolveStorageDriverId('r2', 'development')).toBe('r2');
   });
 
-  it('creates LocalStorage and S3Storage', async () => {
+  it('creates LocalStorage, S3Storage, and R2 (S3-compatible) storage', async () => {
     const root = await mkdtemp(join(tmpdir(), 'ww-storage-'));
     try {
       const local = createStorageService({
@@ -38,6 +39,17 @@ describe('storage factory (T5.10)', () => {
       });
       expect(s3).toBeInstanceOf(S3Storage);
       expect(s3.driver).toBe('s3');
+
+      const r2 = createStorageService({
+        driver: 'r2',
+        nodeEnv: 'test',
+        r2Bucket: 'ww-r2-bucket',
+        r2Endpoint: 'https://abc123.r2.cloudflarestorage.com',
+        r2AccessKeyId: 'r2-key',
+        r2SecretAccessKey: 'r2-secret',
+      });
+      expect(r2).toBeInstanceOf(S3Storage);
+      expect(r2.driver).toBe('r2');
     } finally {
       await rm(root, { recursive: true, force: true });
     }
@@ -50,5 +62,54 @@ describe('storage factory (T5.10)', () => {
         nodeEnv: 'test',
       }),
     ).toThrow(/S3_BUCKET/);
+  });
+
+  it('requires R2 bucket, endpoint/account, and credentials', () => {
+    expect(() =>
+      createStorageService({
+        driver: 'r2',
+        nodeEnv: 'test',
+        r2Endpoint: 'https://abc.r2.cloudflarestorage.com',
+        r2AccessKeyId: 'k',
+        r2SecretAccessKey: 's',
+      }),
+    ).toThrow(/R2_BUCKET/);
+
+    expect(() =>
+      createStorageService({
+        driver: 'r2',
+        nodeEnv: 'test',
+        r2Bucket: 'b',
+        r2AccessKeyId: 'k',
+        r2SecretAccessKey: 's',
+      }),
+    ).toThrow(/R2_ENDPOINT or R2_ACCOUNT_ID/);
+
+    expect(() =>
+      createStorageService({
+        driver: 'r2',
+        nodeEnv: 'test',
+        r2Bucket: 'b',
+        r2AccountId: 'acct',
+        r2SecretAccessKey: 's',
+      }),
+    ).toThrow(/R2_ACCESS_KEY_ID/);
+
+    expect(() =>
+      createStorageService({
+        driver: 'r2',
+        nodeEnv: 'test',
+        r2Bucket: 'b',
+        r2AccountId: 'acct',
+        r2AccessKeyId: 'k',
+      }),
+    ).toThrow(/R2_SECRET_ACCESS_KEY/);
+  });
+
+  it('builds R2 endpoint from account id when endpoint unset', () => {
+    expect(resolveR2Endpoint(undefined, 'acct123')).toBe(
+      'https://acct123.r2.cloudflarestorage.com',
+    );
+    expect(resolveR2Endpoint('https://custom.example/', undefined)).toBe('https://custom.example');
   });
 });

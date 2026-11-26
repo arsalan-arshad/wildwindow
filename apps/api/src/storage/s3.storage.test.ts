@@ -71,6 +71,42 @@ describe('S3Storage', () => {
     expect(opts).toEqual({ expiresIn: 600 });
   });
 
+  it('R2 driver uses signed PUT and optional public GET base URL', async () => {
+    const send = vi.fn();
+    const client = { send } as unknown as S3Client;
+    const storage = new S3Storage({
+      driver: 'r2',
+      bucket: 'ww-r2',
+      region: 'auto',
+      publicBaseUrl: 'https://media.example.test/',
+      client,
+    });
+
+    expect(storage.driver).toBe('r2');
+
+    vi.mocked(getSignedUrl).mockClear();
+    vi.mocked(getSignedUrl).mockResolvedValueOnce(
+      'https://acct.r2.cloudflarestorage.com/ww-r2/uploads/u1/a.jpg?X-Amz-Signature=test',
+    );
+
+    const put = await storage.createPresignedPut({
+      key: 'uploads/u1/a.jpg',
+      mimeType: 'image/webp',
+      byteSize: 100,
+      expiresInSeconds: 300,
+    });
+    expect(put.uploadUrl).toContain('r2.cloudflarestorage.com');
+    expect(getSignedUrl).toHaveBeenCalledOnce();
+
+    const get = await storage.createPresignedGet({
+      key: 'uploads/u1/a.jpg',
+      expiresInSeconds: 300,
+    });
+    expect(get.url).toBe('https://media.example.test/uploads/u1/a.jpg');
+    // Public base skips signing for GET.
+    expect(getSignedUrl).toHaveBeenCalledOnce();
+  });
+
   it('put/get/delete delegate to the S3 client', async () => {
     const send = vi
       .fn()
