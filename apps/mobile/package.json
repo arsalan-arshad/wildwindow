@@ -17,6 +17,7 @@
     "@expo/vector-icons": "^15.1.1",
     "@react-native-async-storage/async-storage": "^3.1.1",
     "@react-native-community/netinfo": "11.4.1",
+    "@sentry/react-native": "^8.36.0",
     "@tanstack/query-async-storage-persister": "5.108.4",
     "@tanstack/react-query": "^5.108.4",
     "@tanstack/react-query-persist-client": "5.108.4",
@@ -41,6 +42,7 @@
     "firebase": "^12",
     "h3-js": "^4.1.0",
     "i18next": "^27.2.9",
+    "posthog-react-native": "^4.87.3",
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "react-i18next": "^18.0.3",
@@ -80,10 +82,14 @@
       "^expo-image-manipulator$": "<rootDir>/__mocks__/expo-image-manipulator.ts",
       "^expo-sharing$": "<rootDir>/__mocks__/expo-sharing.ts",
       "^expo-file-system/legacy$": "<rootDir>/__mocks__/expo-file-system-legacy.ts",
-      "^react-native-maps$": "<rootDir>/__mocks__/react-native-maps.tsx"
+      "^react-native-maps$": "<rootDir>/__mocks__/react-native-maps.tsx",
+      "^@sentry/react-native$": "<rootDir>/__mocks__/@sentry/react-native.ts",
+      "^posthog-react-native$": "<rootDir>/__mocks__/posthog-react-native.ts",
+      "^@wildwindow/shared/analytics$": "<rootDir>/../../packages/shared/src/analytics.ts",
+      "^@wildwindow/shared/sentry-scrub$": "<rootDir>/../../packages/shared/src/sentry-scrub.ts"
     },
     "transformIgnorePatterns": [
-      "node_modules/(?!((jest-)?react-native|@react-native(-community)?|@react-native-async-storage/async-storage)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@sentry/react-native|native-base|react-native-svg|react-native-maps|@tanstack/.*|i18next|react-i18next|h3-js|suncalc|firebase|@firebase/.*|zod|@wildwindow/geoprivacy|@wildwindow/scoring)"
+      "node_modules/(?!((jest-)?react-native|@react-native(-community)?|@react-native-async-storage/async-storage)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@sentry/react-native|posthog-react-native|native-base|react-native-svg|react-native-maps|@tanstack/.*|i18next|react-i18next|h3-js|suncalc|firebase|@firebase/.*|zod|@wildwindow/geoprivacy|@wildwindow/scoring|@wildwindow/shared)"
     ],
     "setupFiles": [
       "<rootDir>/testing/jest-setup.ts"

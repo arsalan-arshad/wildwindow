@@ -36,7 +36,7 @@ fix one of them in the same pull request. Section numbers (§) are referenced fr
 | Storage          | **S3** (private bucket) + CloudFront signed URLs; a local filesystem driver in dev                                                                                                      | Photos for the logbook and challenge                                                                              |
 | Payments (later) | **RevenueCat** (iOS/Android in-app purchases) + **Stripe** (web), one `pro` entitlement                                                                                                 | §9                                                                                                                |
 | Hosting          | **AWS eu-west-2 (London)**: ECS Fargate (API, scheduled worker), RDS PostgreSQL, S3, CloudFront. **Vercel** for Next.js. **EAS** for mobile.                                            | Close to the UK paying market and fits UK GDPR. Founder knows AWS and Docker.                                     |
-| Observability    | Sentry (errors), PostHog EU (product analytics with no location properties), CloudWatch logs                                                                                            |                                                                                                                   |
+| Observability    | Sentry (errors), PostHog EU (product analytics with no location properties), CloudWatch logs                                                                                            | §2.3                                                                                                              |
 | Testing          | **Vitest** (packages, api, worker, web), **jest-expo** + React Native Testing Library (mobile), **fast-check** property tests (geoprivacy, scoring), Playwright (web smoke tests later) |                                                                                                                   |
 | Lint and format  | ESLint (flat config, `typescript-eslint` strict), Prettier                                                                                                                              |                                                                                                                   |
 
@@ -54,6 +54,11 @@ fix one of them in the same pull request. Section numbers (§) are referenced fr
 | Vendor lock-in                                                     | Low (Docker + Postgres run anywhere)                        | High                                                                 |
 
 Firebase would be faster for the first CRUD screens, but the core of this product (geo aggregation and provable privacy) is relational and spatial. Using Firebase Auth alone keeps the fast sign-in setup without that trade-off.
+
+### 2.3 Observability (T9.1)
+
+- **Sentry** in `apps/api`, `apps/web`, and `apps/mobile`. DSNs are optional (`SENTRY_DSN` / `NEXT_PUBLIC_SENTRY_DSN` / `EXPO_PUBLIC_SENTRY_DSN`). `beforeSend` runs `scrubSentryEvent` from `@wildwindow/shared` (drops `FORBIDDEN_PUBLIC_KEYS` + cell aliases; censors email/IP/auth). No session replay in the MVP; traces sampled lightly.
+- **PostHog EU** (`POSTHOG_HOST` / public mirrors default to `https://eu.i.posthog.com`). Every product event goes through `createAnalytics` / `sanitizeAnalyticsEvent`: unknown event names are dropped; properties are allowlisted per event (for example `forecast_viewed` → `{ taxonId, tier, region }` only); geoprivacy forbidden keys and cell fields are stripped even if a caller passes them. Never send coordinates or H3 cells to analytics.
 
 ## 3. Data sources and ingestion
 

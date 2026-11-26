@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { SentryGlobalFilter, SentryModule } from '@sentry/nestjs/setup';
 import { ZodValidationPipe } from 'nestjs-zod';
 
 import { AdminModule } from './admin/admin.module.js';
@@ -22,6 +23,7 @@ import { WaitlistModule } from './waitlist/waitlist.module.js';
 
 @Module({
   imports: [
+    SentryModule.forRoot(),
     ApiConfigModule,
     ApiLoggerModule.forRoot(),
     ThrottlerModule.forRoot([
@@ -47,6 +49,10 @@ import { WaitlistModule } from './waitlist/waitlist.module.js';
   ],
   controllers: [HealthController],
   providers: [
+    {
+      provide: APP_FILTER,
+      useClass: SentryGlobalFilter,
+    },
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard,

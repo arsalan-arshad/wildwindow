@@ -9,6 +9,7 @@ import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { useColorScheme } from '@/components/useColorScheme';
 import { View } from '@/components/Themed';
 import Colors from '@/constants/Colors';
+import { initAnalytics } from '@/lib/analytics';
 import { initSentry } from '@/lib/sentry';
 import { usePreferences } from '@/lib/preferences-context';
 import { AppProviders } from '@/providers/app-providers';
@@ -21,6 +22,7 @@ export const unstable_settings = {
 
 SplashScreen.preventAutoHideAsync();
 initSentry();
+initAnalytics();
 
 const LightNavTheme = {
   ...DefaultTheme,

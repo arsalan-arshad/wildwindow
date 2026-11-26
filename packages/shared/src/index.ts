@@ -63,3 +63,25 @@ export type {
   SensitivityReviewRow,
   WriteSensitivityReviewOptions,
 } from './sensitivity-review.js';
+export {
+  ANALYTICS_EVENT_ALLOWLIST,
+  ANALYTICS_FORBIDDEN_KEYS,
+  createAnalytics,
+  POSTHOG_EU_HOST,
+  sanitizeAnalyticsEvent,
+  scrubAnalyticsProperties,
+} from './analytics.js';
+export type {
+  AnalyticsEventName,
+  AnalyticsProperties,
+  AnalyticsTransport,
+  SanitizedAnalyticsEvent,
+} from './analytics.js';
+export {
+  scrubSentryEvent,
+  scrubSentryQueryString,
+  scrubSentryValue,
+  SENTRY_LOCATION_KEYS,
+  SENTRY_PII_KEYS,
+  SENTRY_REDACT_CENSOR,
+} from './sentry-scrub.js';

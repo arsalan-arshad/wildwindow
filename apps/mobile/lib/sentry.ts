@@ -1,23 +1,39 @@
 /**
- * Sentry placeholder for the mobile shell (T6.1).
- * Full SDK wiring (DSN, PII/location scrub) is T9.1 — do not add @sentry/* here yet.
+ * Sentry for the mobile shell (T9.1).
+ * Scrubs PII and location via `@wildwindow/shared/sentry-scrub` before send.
  */
+import * as Sentry from '@sentry/react-native';
+import { scrubSentryEvent } from '@wildwindow/shared/sentry-scrub';
 
 export type SentryLikeError = Error | string | unknown;
 
 let enabled = false;
 
+function readDsn(): string | undefined {
+  const dsn = process.env['EXPO_PUBLIC_SENTRY_DSN']?.trim();
+  return dsn !== undefined && dsn.length > 0 ? dsn : undefined;
+}
+
 /**
- * No-op until `EXPO_PUBLIC_SENTRY_DSN` (or T9.1 config) is present.
- * Safe to call from the root layout on every launch.
+ * Init when `EXPO_PUBLIC_SENTRY_DSN` is present. Safe to call from the root layout.
  */
 export function initSentry(): void {
-  const dsn = process.env['EXPO_PUBLIC_SENTRY_DSN'];
-  enabled = typeof dsn === 'string' && dsn.trim().length > 0;
-  if (!enabled) {
+  const dsn = readDsn();
+  enabled = dsn !== undefined;
+  if (!enabled || dsn === undefined) {
     return;
   }
-  // T9.1: Sentry.init({ dsn, ...scrubbers })
+
+  Sentry.init({
+    dsn,
+    environment: process.env['NODE_ENV'] ?? 'development',
+    tracesSampleRate: 0.1,
+    beforeSend(event) {
+      return scrubSentryEvent(
+        event as unknown as Record<string, unknown>,
+      ) as unknown as typeof event;
+    },
+  });
 }
 
 export function isSentryEnabled(): boolean {
@@ -29,11 +45,11 @@ export function isSentryEnabled(): boolean {
  */
 export function captureException(error: SentryLikeError, context?: Record<string, unknown>): void {
   if (enabled) {
-    // T9.1: Sentry.captureException(error, { extra: context })
+    Sentry.captureException(error, context !== undefined ? { extra: context } : undefined);
     return;
   }
   if (process.env['NODE_ENV'] !== 'production') {
     const message = error instanceof Error ? error.message : String(error);
-    console.warn('[sentry:placeholder]', message, context ?? {});
+    console.warn('[sentry]', message, context ?? {});
   }
 }

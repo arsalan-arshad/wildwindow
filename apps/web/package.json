@@ -11,9 +11,13 @@
     "test": "vitest run --config ./vitest.config.ts"
   },
   "dependencies": {
+    "@sentry/nextjs": "^11.18.0",
+    "@sentry/react": "^11.18.0",
+    "@wildwindow/geoprivacy": "workspace:^",
     "@wildwindow/shared": "workspace:^",
     "firebase": "^12",
     "next": "15.2.8",
+    "posthog-js": "^1.455.2",
     "react": "19.3.0",
     "react-dom": "19.3.0"
   },

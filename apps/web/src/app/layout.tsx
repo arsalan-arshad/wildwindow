@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Fraunces, Source_Sans_3 } from 'next/font/google';
 
+import { ObservabilityProvider } from '@/components/observability-provider';
 import { SiteFooter } from '@/components/site-footer';
 import { SiteHeader } from '@/components/site-header';
 
@@ -47,9 +48,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${fraunces.variable} ${sourceSans.variable} antialiased`}>
-        <SiteHeader />
-        {children}
-        <SiteFooter />
+        <ObservabilityProvider>
+          <SiteHeader />
+          {children}
+          <SiteFooter />
+        </ObservabilityProvider>
       </body>
     </html>
   );

@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'expo-router';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
@@ -8,6 +8,7 @@ import { LastUpdated } from '@/components/LastUpdated';
 import { WatchlistSaveButton } from '@/components/home/WatchlistSaveButton';
 import { PrimaryButton } from '@/components/PrimaryButton';
 import { Text, View, useThemeColor } from '@/components/Themed';
+import { trackEvent } from '@/lib/analytics';
 import { useApiClient } from '@/lib/api-context';
 import {
   FACTOR_KEYS,
@@ -98,6 +99,24 @@ export function ForecastDetailView({
 
   const forecast = forecastQuery.data;
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const trackedForecastKey = useRef<string | null>(null);
+
+  useEffect(() => {
+    if (forecast?.status !== 'ok' || speciesQuery.data === undefined) {
+      return;
+    }
+    const key = `${taxonId}:${region}:${speciesQuery.data.tier}`;
+    if (trackedForecastKey.current === key) {
+      return;
+    }
+    trackedForecastKey.current = key;
+    // Allowlisted props only — never cell / coordinates (T9.1).
+    trackEvent('forecast_viewed', {
+      taxonId,
+      tier: speciesQuery.data.tier,
+      region,
+    });
+  }, [forecast, speciesQuery.data, taxonId, region]);
 
   const activeDate = forecast?.status === 'ok' ? (selectedDate ?? forecast.bestDay) : null;
 
