@@ -1,6 +1,7 @@
 import {
   date,
   doublePrecision,
+  index,
   integer,
   jsonb,
   primaryKey,
@@ -30,7 +31,16 @@ export const taxonCellWeek = pubSchema.table(
     yearsCovered: integer('years_covered').notNull(),
     updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
   },
-  (table) => [primaryKey({ columns: [table.taxonId, table.res, table.cell, table.week] })],
+  (table) => [
+    primaryKey({ columns: [table.taxonId, table.res, table.cell, table.week] }),
+    // Forecast history: taxon + region + week window + neighbourhood cells (T9.8).
+    index('taxon_cell_week_taxon_region_week_cell_idx').on(
+      table.taxonId,
+      table.regionId,
+      table.week,
+      table.cell,
+    ),
+  ],
 );
 
 export const taxonRegionWeek = pubSchema.table(
@@ -65,6 +75,13 @@ export const effortCellWeek = pubSchema.table(
     primaryKey({
       columns: [table.effortGroup, table.res, table.cell, table.week],
     }),
+    // Forecast history effort sum: group + region + week window + cells (T9.8).
+    index('effort_cell_week_group_region_week_cell_idx').on(
+      table.effortGroup,
+      table.regionId,
+      table.week,
+      table.cell,
+    ),
   ],
 );
 

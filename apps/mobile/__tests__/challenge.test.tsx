@@ -92,7 +92,10 @@ describe('Challenge home (T6.10 S-13)', () => {
     });
 
     expect(view.getByText('Kingfisher Month')).toBeTruthy();
-    expect(view.getByTestId('challenge-home-species').props.children).toContain('kingfisher');
+    // Species label resolves asynchronously from the species query (fallback is "Taxon <id>").
+    await waitFor(() => {
+      expect(view.getByTestId('challenge-home-species').props.children).toContain('kingfisher');
+    });
     expect(view.getByTestId('challenge-count-GB')).toBeTruthy();
     expect(view.getByTestId('challenge-count-PK')).toBeTruthy();
     expect(view.getByTestId('challenge-home-rules')).toBeTruthy();

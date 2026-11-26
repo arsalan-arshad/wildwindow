@@ -420,8 +420,10 @@ app.ingest_runs        id, source, region_id, kind ('target'|'effort'), gbif_dow
                        total, loaded, rejected_licence, rejected_coords, rejected_other, started_at, finished_at
 pub.taxon_cell_week    taxon_id, region_id, res, cell, week, n_records, n_observers, years_covered, updated_at
                        PK(taxon_id, res, cell, week)
+                       INDEX (taxon_id, region_id, week, cell)  -- forecast history (T9.8)
 pub.taxon_region_week  taxon_id, region_id, week, n_records, n_effort
 pub.effort_cell_week   effort_group, region_id, res, cell, week, n_records  PK(effort_group, res, cell, week)
+                       INDEX (effort_group, region_id, week, cell)  -- forecast history (T9.8)
 pub.taxon_hour_profile taxon_id, region_id, hour 0..23, n_records
 pub.taxon_score_ref    taxon_id, region_id, rr_ref, computed_at, scoring_version
 pub.weather_cache      provider, cell_r5, fetched_at, expires_at, payload jsonb
