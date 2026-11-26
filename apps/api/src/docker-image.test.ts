@@ -47,10 +47,10 @@ describe('Railway api image includes @wildwindow/scoring', () => {
     expect(toml).toMatch(/packages\/scoring\/\*\*/);
   });
 
-  it('tsup keeps yaml external (bundling it crashes ESM with Dynamic require of process)', () => {
+  it('tsup skips node_modules bundle so CJS express/yaml/debug stay external', () => {
     const tsup = readFileSync(resolve(repoRoot, 'apps/api/tsup.config.ts'), 'utf8');
+    expect(tsup).toMatch(/skipNodeModulesBundle:\s*true/);
     expect(tsup).toMatch(/noExternal:\s*\[\s*\/\^@wildwindow\\\//);
-    expect(tsup).toMatch(/external:\s*\[[^\]]*['"]yaml['"]/);
   });
 
   it('api package.json depends on yaml for the externalised runtime import', () => {
@@ -58,5 +58,12 @@ describe('Railway api image includes @wildwindow/scoring', () => {
       dependencies: Record<string, string>;
     };
     expect(pkg.dependencies.yaml).toMatch(/\^?2\./);
+  });
+
+  it('api package.json depends on express (value import; bundling it crashes ESM with Dynamic require of tty)', () => {
+    const pkg = JSON.parse(readFileSync(resolve(repoRoot, 'apps/api/package.json'), 'utf8')) as {
+      dependencies: Record<string, string>;
+    };
+    expect(pkg.dependencies.express).toMatch(/\^?5\./);
   });
 });
