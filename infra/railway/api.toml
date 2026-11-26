@@ -8,7 +8,15 @@
 [build]
 builder = "DOCKERFILE"
 dockerfilePath = "apps/api/Dockerfile"
-watchPatterns = ["apps/api/**", "packages/shared/**", "packages/config/**", "pnpm-lock.yaml"]
+watchPatterns = [
+  "apps/api/**",
+  "packages/shared/**",
+  "packages/config/**",
+  "packages/geoprivacy/**",
+  "packages/scoring/**",
+  "packages/db/**",
+  "pnpm-lock.yaml",
+]
 
 [deploy]
 healthcheckPath = "/v1/health"
