@@ -1,0 +1,160 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 240" width="960" height="240">
+  <style>
+    .brand-title {
+      font-family: 'Charter', 'Georgia', 'Baskerville', serif;
+      font-weight: 700;
+      font-size: 58px;
+      letter-spacing: -0.5px;
+      fill: #F4F7F5;
+    }
+    .brand-accent {
+      fill: #D97B3A;
+    }
+    .brand-tagline {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Avenir Next', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      letter-spacing: 2.8px;
+      text-transform: uppercase;
+      fill: #A2BAC3;
+    }
+    .brand-promise {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Avenir Next', sans-serif;
+      font-weight: 500;
+      font-size: 17px;
+      fill: #A2BAC3;
+    }
+  </style>
+
+  <!-- Left: Icon Mark -->
+  <g transform="translate(24, 24)">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="192" height="192">
+  <defs>
+    <clipPath id="windowClip_dark">
+      <rect x="52" y="52" width="408" height="408" rx="100" ry="100" />
+    </clipPath>
+    <linearGradient id="skyGrad_dark" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#172B32" />
+      <stop offset="60%" stop-color="#1A333B" />
+      <stop offset="100%" stop-color="#1F3C45" />
+    </linearGradient>
+    <linearGradient id="wingGrad_dark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#14A0B2" />
+      <stop offset="50%" stop-color="#216D7D" />
+      <stop offset="100%" stop-color="#143B45" />
+    </linearGradient>
+    <linearGradient id="chestGrad_dark" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0%" stop-color="#E88842" />
+      <stop offset="100%" stop-color="#BF5D1D" />
+    </linearGradient>
+    <linearGradient id="frameGrad_dark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4F8D9E" />
+      <stop offset="100%" stop-color="#213E47" />
+    </linearGradient>
+    <radialGradient id="sunGlowGrad_dark" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#D97B3A" stop-opacity="0.4" />
+      <stop offset="50%" stop-color="#D97B3A" stop-opacity="0.1" />
+      <stop offset="100%" stop-color="#D97B3A" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <rect width="512" height="512" rx="112" fill="#122026" />
+
+  <g >
+    <g clip-path="url(#windowClip_dark)">
+      <!-- Sky Background -->
+      <rect x="52" y="52" width="408" height="408" fill="url(#skyGrad_dark)" />
+
+      <!-- Golden Hour Sun / Dawn Horizon -->
+      <circle cx="346" cy="176" r="95" fill="url(#sunGlowGrad_dark)" />
+      <circle cx="346" cy="176" r="38" fill="#E59253" />
+      <circle cx="346" cy="176" r="50" fill="none" stroke="#D97B3A" stroke-width="1.5" stroke-dasharray="3 5" opacity="0.45" />
+
+      <!-- Spatial Hex Mesh (No-Pin Geoprivacy cues: 12km2 cell grids) -->
+      <g stroke="rgba(70, 122, 136, 0.25)" stroke-width="1.5" fill="none">
+        <polygon points="256,92 296,115 296,161 256,184 216,161 216,115" />
+        <polygon points="336,138 376,161 376,207 336,230 296,207 296,161" />
+        <polygon points="176,138 216,161 216,207 176,230 136,207 136,161" />
+        <polygon points="256,184 296,207 296,253 256,276 216,253 216,207" />
+        <polygon points="336,230 376,253 376,299 336,322 296,299 296,253" />
+        <polygon points="176,230 216,253 216,299 176,322 136,299 136,253" />
+        <polygon points="256,276 296,299 296,345 256,368 216,345 216,299" />
+      </g>
+
+      <!-- Water Levels / Tide Baseline -->
+      <path d="M 52 396 C 130 382, 210 410, 290 400 C 370 390, 410 402, 460 395 L 460 460 L 52 460 Z" fill="#1C3E47" opacity="0.6" />
+      <path d="M 52 418 C 150 410, 240 426, 340 418 C 400 412, 430 422, 460 417 L 460 460 L 52 460 Z" fill="#234C57" opacity="0.8" />
+
+      <!-- River Reed Perch -->
+      <path d="M 115 448 Q 200 392 284 316" fill="none" stroke="#7FA385" stroke-width="7.5" stroke-linecap="round" />
+      <path d="M 160 426 Q 186 376 182 334" fill="none" stroke="#7FA385" stroke-width="3.5" stroke-linecap="round" opacity="0.75" />
+      <path d="M 230 355 Q 262 332 292 342" fill="none" stroke="#7FA385" stroke-width="2.5" stroke-linecap="round" opacity="0.6" />
+
+      <!-- KINGFISHER SILHOUETTE & ANATOMY -->
+      <g transform="translate(4, -6)">
+        <!-- Tail Feathers -->
+        <path d="M 216 342 L 192 388 L 212 383 L 230 345 Z" fill="#13282E" />
+
+        <!-- Back Wing (Teal / Iridescent Emerald) -->
+        <path d="M 252 236 C 240 252, 220 286, 222 338 C 235 344, 252 332, 266 312 C 280 292, 286 262, 276 244 Z" 
+              fill="url(#wingGrad_dark)" />
+        
+        <!-- Wing secondary feather detail -->
+        <path d="M 242 262 C 234 286, 235 316, 245 334 C 254 322, 268 296, 267 276 Z" fill="#0F2127" opacity="0.4" />
+        <path d="M 254 245 C 268 266, 270 294, 260 320" fill="none" stroke="#25B9CC" stroke-width="2.5" stroke-linecap="round" opacity="0.85" />
+
+        <!-- Chest and Belly (Rich Copper-Orange) -->
+        <path d="M 268 239 C 296 253, 306 284, 292 318 C 282 336, 264 340, 245 338 C 264 327, 276 306, 272 279 C 270 261, 265 249, 256 239 Z"
+              fill="url(#chestGrad_dark)" />
+
+        <!-- Crisp White Throat/Neck Patch -->
+        <path d="M 266 237 C 273 233, 282 239, 284 247 C 276 251, 269 249, 266 237 Z" fill="#FFFFFF" opacity="0.95" />
+
+        <!-- Head & Crown -->
+        <path d="M 248 235 C 242 226, 248 202, 268 198 C 288 195, 300 208, 296 226 C 292 237, 280 243, 268 239 Z"
+              fill="#266573" />
+        
+        <!-- Crown plumage barred bars -->
+        <path d="M 256 205 Q 268 201 283 203" fill="none" stroke="#25B9CC" stroke-width="2" stroke-linecap="round" />
+        <path d="M 258 213 Q 272 209 288 212" fill="none" stroke="#25B9CC" stroke-width="2" stroke-linecap="round" />
+
+        <!-- Distinctive Kingfisher Dagger Bill (slight natural 2.5° alert hunting droop) -->
+        <path d="M 295 214 L 372 224 L 293 228 Z" fill="#F4F7F5" />
+
+        <!-- Eye & Catchlight -->
+        <circle cx="282" cy="217" r="4.5" fill="#0C171A" />
+        <circle cx="283.5" cy="215.5" r="1.5" fill="#FFFFFF" />
+
+        <!-- Perching Claws on Reed -->
+        <ellipse cx="258" cy="338" rx="6" ry="3.5" fill="#BF5D1D" transform="rotate(-15 258 338)" />
+      </g>
+
+      <!-- Viewfinder Optical Reticle & Aperture Ring -->
+      <circle cx="256" cy="256" r="176" fill="none" stroke="#467A88" stroke-width="1.5" stroke-dasharray="6 8" opacity="0.45" />
+      
+      <!-- Viewfinder Cross-Ticks -->
+      <line x1="256" y1="64" x2="256" y2="78" stroke="#467A88" stroke-width="2.5" stroke-linecap="round" opacity="0.7" />
+      <line x1="256" y1="434" x2="256" y2="448" stroke="#467A88" stroke-width="2.5" stroke-linecap="round" opacity="0.7" />
+      <line x1="64" y1="256" x2="78" y2="256" stroke="#467A88" stroke-width="2.5" stroke-linecap="round" opacity="0.7" />
+      <line x1="434" y1="256" x2="448" y2="256" stroke="#467A88" stroke-width="2.5" stroke-linecap="round" opacity="0.7" />
+
+      <!-- Squircle Frame Border -->
+      <rect x="52" y="52" width="408" height="408" rx="100" ry="100" fill="none" stroke="url(#frameGrad_dark)" stroke-width="6.5" />
+      <rect x="60" y="60" width="392" height="392" rx="92" ry="92" fill="none" stroke="#538D9E" stroke-width="1.5" opacity="0.25" />
+    </g>
+  </g>
+</svg>
+  </g>
+
+  <!-- Right: Typography Hierarchy -->
+  <g transform="translate(244, 92)">
+    <text class="brand-title">Wild<tspan class="brand-accent">Window</tspan></text>
+    <text y="42" class="brand-tagline">Wildlife Photo Forecast</text>
+    
+    <g transform="translate(0, 78)">
+      <rect x="0" y="-18" width="138" height="26" rx="6" fill="#2A4E58" opacity="0.4" />
+      <text x="12" y="0" font-family="-apple-system, sans-serif" font-weight="600" font-size="12" fill="#98CFDC" letter-spacing="0.5">NO-PIN PROMISE</text>
+      <text x="150" y="0" class="brand-promise">Fieldcraft, weather &amp; tides — without exposing pins.</text>
+    </g>
+  </g>
+</svg>

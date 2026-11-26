@@ -60,7 +60,11 @@ describe('app.config (eas init / expo config)', () => {
       slug: string;
       owner?: string;
       ios?: { bundleIdentifier?: string; googleServicesFile?: string };
-      android?: { package?: string; googleServicesFile?: string };
+      android?: {
+        package?: string;
+        googleServicesFile?: string;
+        adaptiveIcon?: { backgroundColor?: string };
+      };
       updates?: { url?: string };
       runtimeVersion?: string | { policy?: string };
       extra?: { eas?: { projectId?: string } };
@@ -75,6 +79,8 @@ describe('app.config (eas init / expo config)', () => {
     expect(parsed.extra?.eas?.projectId).toBe('36e6ca10-4761-4338-b057-bee2208b142b');
     expect(parsed.updates?.url).toBe('https://u.expo.dev/36e6ca10-4761-4338-b057-bee2208b142b');
     expect(parsed.runtimeVersion).toEqual({ policy: 'appVersion' });
+    // Light-forward brand canvas (cream-mist); must not regress to forest splash.
+    expect(parsed.android?.adaptiveIcon?.backgroundColor?.toUpperCase()).toBe('#F4F7F5');
   }, 30_000);
 
   it('ships eas.json with development, preview, and production profiles', () => {
