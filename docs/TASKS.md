@@ -510,10 +510,11 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Done: 2026-11-26 — `/[region]/[species]` ISR (`revalidate=3600`); `generateStaticParams` from reviewed cards via API; seasonality chart (relative reporting rate); reviewed field card + Markdown; Schema.org JSON-LD; Vitest catalog + no-map static gates. Empty static set when API unset (CI); on-demand ISR when cards land.
   - Notes: Live API currently has no reviewed cards (T8.1/T8.2); pages appear as cards are marked reviewed.
 
-- [ ] **T7.4 Share card images (W-05)**
+- [x] **T7.4 Share card images (W-05)**
   - Depends on: T7.1, T5.6, T5.12
   - Do: `/api/og/forecast?taxonId&cell&start` and `/api/og/challenge/:entryId` with `next/og` at 1080×1920 and 1080×1080, with edge caching.
   - Acceptance test: route tests return PNGs at the right size; the forecast card shows `areaLabel`, never a cell or coordinates, and the label says "Window score".
+  - Done: 2026-11-26 — `next/og` routes: forecast Story 1080×1920 (`areaLabel` + "Window score", never cell/coords) and challenge square 1080×1080 (photo + species + country/region); `Cache-Control` edge caching; Vitest route + model No-Pin gates.
 
 - [x] **T7.5 Challenge gallery (W-04)**
   - Depends on: T5.12
