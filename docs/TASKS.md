@@ -422,10 +422,11 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Acceptance test: Testing Library: onboarding ends on Home and the region is saved.
   - Done: 2026-11-26, PR #66 — Expo Router `/onboarding` (3 cards: what / No-Pin / region) + `/no-pin` (PRD §9.1 pledge + plain-words tiers matching TIER_POLICY); region + completion in AsyncStorage; Profile link to No-Pin. jest-expo acceptance: finishes on Home with region saved.
 
-- [ ] **T6.3 Species browse and detail (S-04, S-05)**
+- [x] **T6.3 Species browse and detail (S-04, S-05)**
   - Depends on: T6.1, T5.4
   - Do: search with filters, tier badges, and a seasonality chart (`react-native-svg`, labelled "relative reporting rate").
   - Acceptance test: component tests with a mocked API; a `no_forecast` species shows the explanation and no forecast button.
+  - Done: 2026-11-26 — Explore browse (search + bird/mammal/marine filters, tier badges); `/species/[taxonId]` detail with seasonality chart labelled "Relative reporting rate", field-card summary, `no_forecast` explanation and no forecast CTA.
 
 - [ ] **T6.4 Area picker (S-06)**
   - Depends on: T6.1, T5.5, T1.2

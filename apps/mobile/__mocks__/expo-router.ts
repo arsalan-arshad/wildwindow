@@ -9,6 +9,9 @@ export const useRouter = () => ({
 
 export const useSegments = () => [] as string[];
 
+export const useLocalSearchParams = <T extends Record<string, unknown> = Record<string, unknown>>(): T =>
+  ({}) as T;
+
 export const Redirect = ({ href }: { readonly href: string }) =>
   React.createElement('Redirect', { href });
 

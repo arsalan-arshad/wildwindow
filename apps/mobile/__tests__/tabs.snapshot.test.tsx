@@ -1,11 +1,19 @@
 import React from 'react';
+import { waitFor } from '@testing-library/react-native';
 
 import ChallengeScreen from '../app/(tabs)/challenge';
 import ExploreScreen from '../app/(tabs)/explore';
 import HomeScreen from '../app/(tabs)/index';
 import LogbookScreen from '../app/(tabs)/logbook';
 import ProfileScreen from '../app/(tabs)/profile';
+import { createMockSpeciesApiClient } from '../testing/mock-api-client';
 import { renderWithProviders } from '../testing/test-utils';
+
+const emptySpeciesClient = createMockSpeciesApiClient({
+  list: [],
+  detailById: {},
+  seasonalityById: {},
+});
 
 describe('tab screens (T6.1 snapshots)', () => {
   it('matches Home snapshot', async () => {
@@ -14,8 +22,14 @@ describe('tab screens (T6.1 snapshots)', () => {
   });
 
   it('matches Explore snapshot', async () => {
-    const tree = (await renderWithProviders(<ExploreScreen />)).toJSON();
-    expect(tree).toMatchSnapshot();
+    const view = await renderWithProviders(<ExploreScreen />, {
+      apiClient: emptySpeciesClient,
+      initialPreferences: { region: 'scotland', onboardingComplete: true },
+    });
+    await waitFor(() => {
+      expect(view.getByTestId('species-browse-empty')).toBeTruthy();
+    });
+    expect(view.toJSON()).toMatchSnapshot();
   });
 
   it('matches Logbook snapshot', async () => {

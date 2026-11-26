@@ -1,5 +1,5 @@
-import { TabPlaceholder } from '@/components/TabPlaceholder';
+import { SpeciesBrowse } from '@/components/species/SpeciesBrowse';
 
 export default function ExploreScreen() {
-  return <TabPlaceholder titleKey="tabs.explore" testID="tab-explore" />;
+  return <SpeciesBrowse />;
 }
