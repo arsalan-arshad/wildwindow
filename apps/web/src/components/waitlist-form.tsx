@@ -11,6 +11,7 @@ import {
   type WaitlistSource,
 } from '@wildwindow/shared/api/waitlist';
 
+import { trackEvent } from '@/lib/analytics';
 import { getBrowserApiClient } from '@/lib/api';
 
 const REGIONS: { value: WaitlistRegionSlug; label: string }[] = [
@@ -76,6 +77,17 @@ export function WaitlistForm({ source = 'waitlist' }: WaitlistFormProps) {
     try {
       // Duplicates also return 200 `{ ok: true }` (no email enumeration).
       await getBrowserApiClient().waitlist.join(parsed.data);
+      const analyticsProps: Record<string, string> = {};
+      if (parsed.data.source !== undefined) {
+        analyticsProps['source'] = parsed.data.source;
+      }
+      if (parsed.data.role !== undefined) {
+        analyticsProps['role'] = parsed.data.role;
+      }
+      if (parsed.data.platform !== undefined) {
+        analyticsProps['platform'] = parsed.data.platform;
+      }
+      trackEvent('waitlist_submitted', analyticsProps);
       setStatus('success');
       form.reset();
     } catch (error) {

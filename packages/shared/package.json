@@ -24,6 +24,14 @@
     "./api/waitlist": {
       "types": "./dist/api/waitlist.d.ts",
       "import": "./dist/api/waitlist.js"
+    },
+    "./analytics": {
+      "types": "./dist/analytics.d.ts",
+      "import": "./dist/analytics.js"
+    },
+    "./sentry-scrub": {
+      "types": "./dist/sentry-scrub.d.ts",
+      "import": "./dist/sentry-scrub.js"
     }
   },
   "files": [

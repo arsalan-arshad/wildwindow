@@ -33,6 +33,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   plugins: [
     'expo-router',
     'expo-localization',
+    '@sentry/react-native/expo',
     [
       'expo-location',
       {

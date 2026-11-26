@@ -8,6 +8,15 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
+      '@wildwindow/shared/analytics': path.resolve(
+        __dirname,
+        '../../packages/shared/src/analytics.ts',
+      ),
+      '@wildwindow/shared/sentry-scrub': path.resolve(
+        __dirname,
+        '../../packages/shared/src/sentry-scrub.ts',
+      ),
+      '@wildwindow/geoprivacy': path.resolve(__dirname, '../../packages/geoprivacy/src/index.ts'),
     },
   },
   test: {

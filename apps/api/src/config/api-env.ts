@@ -72,6 +72,12 @@ export const ApiEnvSchema = z.object({
    * a fixed non-secret default is used in development/test when unset.
    */
   LOGBOOK_ENC_KEY: z.string().min(1).optional(),
+  /** Optional Sentry DSN (T9.1). When unset, error reporting is a no-op. */
+  SENTRY_DSN: z.string().min(1).optional(),
+  /** Optional PostHog project key (T9.1). When unset, analytics is a no-op. */
+  POSTHOG_KEY: z.string().min(1).optional(),
+  /** PostHog host; defaults to EU (`https://eu.i.posthog.com`) in the analytics module. */
+  POSTHOG_HOST: z.string().min(1).optional(),
 });
 
 export type ApiEnv = z.infer<typeof ApiEnvSchema>;

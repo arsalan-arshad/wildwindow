@@ -79,3 +79,23 @@ describe('ApiEnv LOGBOOK_ENC_KEY (T5.11)', () => {
     expect(loadApiEnv({ LOGBOOK_ENC_KEY: key }).LOGBOOK_ENC_KEY).toBe(key);
   });
 });
+
+describe('ApiEnv observability (T9.1)', () => {
+  it('allows missing Sentry / PostHog keys', () => {
+    const env = loadApiEnv({});
+    expect(env.SENTRY_DSN).toBeUndefined();
+    expect(env.POSTHOG_KEY).toBeUndefined();
+    expect(env.POSTHOG_HOST).toBeUndefined();
+  });
+
+  it('passes through observability keys when set', () => {
+    const env = loadApiEnv({
+      SENTRY_DSN: 'https://example@sentry.invalid/1',
+      POSTHOG_KEY: 'phc_test',
+      POSTHOG_HOST: 'https://eu.i.posthog.com',
+    });
+    expect(env.SENTRY_DSN).toBe('https://example@sentry.invalid/1');
+    expect(env.POSTHOG_KEY).toBe('phc_test');
+    expect(env.POSTHOG_HOST).toBe('https://eu.i.posthog.com');
+  });
+});
