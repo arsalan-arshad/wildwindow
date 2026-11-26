@@ -1,0 +1,366 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`tab screens (T6.1 snapshots) matches Challenge snapshot 1`] = `
+<View
+  style={
+    [
+      {
+        "backgroundColor": "#f7faf8",
+      },
+      [
+        {
+          "alignItems": "center",
+          "flex": 1,
+          "justifyContent": "center",
+          "padding": 24,
+        },
+        {
+          "direction": "ltr",
+        },
+      ],
+    ]
+  }
+  testID="tab-challenge"
+>
+  <Text
+    style={
+      [
+        {
+          "color": "#14201a",
+        },
+        {
+          "fontSize": 28,
+          "fontWeight": "700",
+        },
+      ]
+    }
+  >
+    Challenge
+  </Text>
+  <Text
+    style={
+      [
+        {
+          "color": "#14201a",
+        },
+        {
+          "fontSize": 16,
+          "marginTop": 8,
+          "opacity": 0.65,
+        },
+      ]
+    }
+  >
+    WildWindow placeholder
+  </Text>
+  <Text
+    style={
+      [
+        {
+          "color": "#14201a",
+        },
+        {
+          "fontSize": 14,
+          "letterSpacing": 0.4,
+          "marginTop": 16,
+          "opacity": 0.45,
+        },
+      ]
+    }
+  >
+    WildWindow
+  </Text>
+</View>
+`;
+
+exports[`tab screens (T6.1 snapshots) matches Explore snapshot 1`] = `
+<View
+  style={
+    [
+      {
+        "backgroundColor": "#f7faf8",
+      },
+      [
+        {
+          "alignItems": "center",
+          "flex": 1,
+          "justifyContent": "center",
+          "padding": 24,
+        },
+        {
+          "direction": "ltr",
+        },
+      ],
+    ]
+  }
+  testID="tab-explore"
+>
+  <Text
+    style={
+      [
+        {
+          "color": "#14201a",
+        },
+        {
+          "fontSize": 28,
+          "fontWeight": "700",
+        },
+      ]
+    }
+  >
+    Explore
+  </Text>
+  <Text
+    style={
+      [
+        {
+          "color": "#14201a",
+        },
+        {
+          "fontSize": 16,
+          "marginTop": 8,
+          "opacity": 0.65,
+        },
+      ]
+    }
+  >
+    WildWindow placeholder
+  </Text>
+  <Text
+    style={
+      [
+        {
+          "color": "#14201a",
+        },
+        {
+          "fontSize": 14,
+          "letterSpacing": 0.4,
+          "marginTop": 16,
+          "opacity": 0.45,
+        },
+      ]
+    }
+  >
+    WildWindow
+  </Text>
+</View>
+`;
+
+exports[`tab screens (T6.1 snapshots) matches Home snapshot 1`] = `
+<View
+  style={
+    [
+      {
+        "backgroundColor": "#f7faf8",
+      },
+      [
+        {
+          "alignItems": "center",
+          "flex": 1,
+          "justifyContent": "center",
+          "padding": 24,
+        },
+        {
+          "direction": "ltr",
+        },
+      ],
+    ]
+  }
+  testID="tab-home"
+>
+  <Text
+    style={
+      [
+        {
+          "color": "#14201a",
+        },
+        {
+          "fontSize": 28,
+          "fontWeight": "700",
+        },
+      ]
+    }
+  >
+    Home
+  </Text>
+  <Text
+    style={
+      [
+        {
+          "color": "#14201a",
+        },
+        {
+          "fontSize": 16,
+          "marginTop": 8,
+          "opacity": 0.65,
+        },
+      ]
+    }
+  >
+    WildWindow placeholder
+  </Text>
+  <Text
+    style={
+      [
+        {
+          "color": "#14201a",
+        },
+        {
+          "fontSize": 14,
+          "letterSpacing": 0.4,
+          "marginTop": 16,
+          "opacity": 0.45,
+        },
+      ]
+    }
+  >
+    WildWindow
+  </Text>
+</View>
+`;
+
+exports[`tab screens (T6.1 snapshots) matches Logbook snapshot 1`] = `
+<View
+  style={
+    [
+      {
+        "backgroundColor": "#f7faf8",
+      },
+      [
+        {
+          "alignItems": "center",
+          "flex": 1,
+          "justifyContent": "center",
+          "padding": 24,
+        },
+        {
+          "direction": "ltr",
+        },
+      ],
+    ]
+  }
+  testID="tab-logbook"
+>
+  <Text
+    style={
+      [
+        {
+          "color": "#14201a",
+        },
+        {
+          "fontSize": 28,
+          "fontWeight": "700",
+        },
+      ]
+    }
+  >
+    Logbook
+  </Text>
+  <Text
+    style={
+      [
+        {
+          "color": "#14201a",
+        },
+        {
+          "fontSize": 16,
+          "marginTop": 8,
+          "opacity": 0.65,
+        },
+      ]
+    }
+  >
+    WildWindow placeholder
+  </Text>
+  <Text
+    style={
+      [
+        {
+          "color": "#14201a",
+        },
+        {
+          "fontSize": 14,
+          "letterSpacing": 0.4,
+          "marginTop": 16,
+          "opacity": 0.45,
+        },
+      ]
+    }
+  >
+    WildWindow
+  </Text>
+</View>
+`;
+
+exports[`tab screens (T6.1 snapshots) matches Profile snapshot 1`] = `
+<View
+  style={
+    [
+      {
+        "backgroundColor": "#f7faf8",
+      },
+      [
+        {
+          "alignItems": "center",
+          "flex": 1,
+          "justifyContent": "center",
+          "padding": 24,
+        },
+        {
+          "direction": "ltr",
+        },
+      ],
+    ]
+  }
+  testID="tab-profile"
+>
+  <Text
+    style={
+      [
+        {
+          "color": "#14201a",
+        },
+        {
+          "fontSize": 28,
+          "fontWeight": "700",
+        },
+      ]
+    }
+  >
+    Profile
+  </Text>
+  <Text
+    style={
+      [
+        {
+          "color": "#14201a",
+        },
+        {
+          "fontSize": 16,
+          "marginTop": 8,
+          "opacity": 0.65,
+        },
+      ]
+    }
+  >
+    WildWindow placeholder
+  </Text>
+  <Text
+    style={
+      [
+        {
+          "color": "#14201a",
+        },
+        {
+          "fontSize": 14,
+          "letterSpacing": 0.4,
+          "marginTop": 16,
+          "opacity": 0.45,
+        },
+      ]
+    }
+  >
+    WildWindow
+  </Text>
+</View>
+`;

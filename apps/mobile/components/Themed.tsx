@@ -1,6 +1,5 @@
 /**
- * Learn more about Light and Dark modes:
- * https://docs.expo.io/guides/color-schemes/
+ * Light / dark themed primitives for the app shell.
  */
 import {
   Text as DefaultText,
@@ -11,7 +10,7 @@ import {
 
 import { useColorScheme } from './useColorScheme';
 
-import Colors from '@/constants/Colors';
+import Colors, { type ThemeColors } from '@/constants/Colors';
 
 type ThemeProps = {
   lightColor?: string;
@@ -23,12 +22,12 @@ export type ViewProps = ThemeProps & DefaultViewProps;
 
 export function useThemeColor(
   props: { light?: string; dark?: string },
-  colorName: keyof typeof Colors.light & keyof typeof Colors.dark,
-) {
+  colorName: keyof ThemeColors,
+): string {
   const theme = useColorScheme();
   const colorFromProps = props[theme];
 
-  if (colorFromProps) {
+  if (colorFromProps !== undefined) {
     return colorFromProps;
   }
   return Colors[theme][colorName];

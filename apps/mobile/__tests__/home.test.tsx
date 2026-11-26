@@ -1,11 +1,12 @@
 import React from 'react';
-import { render } from '@testing-library/react-native';
 
 import HomeScreen from '../app/(tabs)/index';
+import { renderWithProviders } from '../testing/test-utils';
 
 describe('HomeScreen', () => {
   it('renders the Home placeholder', async () => {
-    const view = await render(<HomeScreen />);
+    const view = await renderWithProviders(<HomeScreen />);
     expect(view.getByText('Home')).toBeTruthy();
+    expect(view.getByText('WildWindow placeholder')).toBeTruthy();
   });
 });
