@@ -6,13 +6,17 @@ COPY package.json pnpm-workspace.yaml pnpm-lock.yaml .npmrc ./
 COPY apps/web/package.json apps/web/
 COPY packages/config/package.json packages/config/
 COPY packages/shared/package.json packages/shared/
+# shared analytics/sentry-scrub (T9.1) import @wildwindow/geoprivacy
+COPY packages/geoprivacy/package.json packages/geoprivacy/
 RUN pnpm install --frozen-lockfile --filter web...
 
 FROM deps AS build
 COPY packages/config packages/config
+COPY packages/geoprivacy packages/geoprivacy
 COPY packages/shared packages/shared
 COPY apps/web apps/web
-RUN pnpm --filter @wildwindow/shared build
+RUN pnpm --filter @wildwindow/geoprivacy build \
+  && pnpm --filter @wildwindow/shared build
 # Next standalone needs the app directory as cwd for correct tracing.
 WORKDIR /app/apps/web
 ENV NEXT_TELEMETRY_DISABLED=1
