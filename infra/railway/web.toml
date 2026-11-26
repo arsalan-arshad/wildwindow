@@ -3,7 +3,13 @@
 [build]
 builder = "DOCKERFILE"
 dockerfilePath = "apps/web/Dockerfile"
-watchPatterns = ["apps/web/**", "packages/config/**", "pnpm-lock.yaml"]
+watchPatterns = [
+  "apps/web/**",
+  "packages/config/**",
+  "packages/shared/**",
+  "packages/geoprivacy/**",
+  "pnpm-lock.yaml",
+]
 
 [deploy]
 healthcheckPath = "/"
