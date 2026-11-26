@@ -501,10 +501,12 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Done: 2026-11-26 — `/no-pin` (PRD §9.1 + plain-words tiers), expanded draft `/privacy`, draft `/terms`, `/attributions` (client load from `GET /v1/attributions`); Vitest fixture + `force-static` gates; `next build` shows ○ for all four.
   - Notes: Privacy/terms remain DRAFT – needs legal review (🧑 T9.9).
 
-- [ ] **T7.3 Species pages (W-03)**
+- [x] **T7.3 Species pages (W-03)**
   - Depends on: T5.4
   - Do: `/[region]/[species]` with ISR, the seasonality chart, the reviewed field card, JSON-LD and no maps.
   - Acceptance test: the build generates a page for every species with a reviewed card; a test makes sure there is no map component on these pages.
+  - Done: 2026-11-26 — `/[region]/[species]` ISR (`revalidate=3600`); `generateStaticParams` from reviewed cards via API; seasonality chart (relative reporting rate); reviewed field card + Markdown; Schema.org JSON-LD; Vitest catalog + no-map static gates. Empty static set when API unset (CI); on-demand ISR when cards land.
+  - Notes: Live API currently has no reviewed cards (T8.1/T8.2); pages appear as cards are marked reviewed.
 
 - [ ] **T7.4 Share card images (W-05)**
   - Depends on: T7.1, T5.6, T5.12
