@@ -1,5 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import {
+  areaLabelFor,
+  places,
   regions,
   speciesCards,
   taxa,
@@ -14,6 +16,9 @@ import {
   SensitivityTierSchema,
   SpeciesGroupSchema,
   TidePrefSchema,
+  type AreaResponse,
+  type PlacesQuery,
+  type PlacesResponse,
   type RegionId,
   type RegionSpeciesQuery,
   type RegionSpeciesResponse,
@@ -23,11 +28,21 @@ import {
   type SpeciesGroup,
 } from '@wildwindow/shared';
 import { and, asc, eq, or, sql, type SQL } from 'drizzle-orm';
+import { cellToLatLng, getResolution, isValidCell } from 'h3-js';
 
+import { API_ENV, type ApiEnv } from '../config/api-env.js';
 import { DB } from '../db/db.module.js';
 import { notFoundError, serviceUnavailable, validationError } from '../http/api-error.js';
 
 import { relativeSeasonalityWeeks } from './seasonality.js';
+
+/** Public copy when the cell sits outside beta region polygons (PRD US-02). */
+const NOT_COVERED_LABEL = 'Not covered yet';
+
+/** Fallback when a covered cell has no zone/place label yet. */
+const COVERED_FALLBACK_LABEL = 'Covered area';
+
+const PLACES_SEARCH_LIMIT = 20;
 
 function escapeIlikePattern(raw: string): string {
   // Escape LIKE metacharacters so user input is matched literally.
@@ -68,13 +83,24 @@ function parseCommonNames(value: unknown): { en: string; ur?: string } {
 
 @Injectable()
 export class CatalogueService {
-  constructor(@Inject(DB) private readonly db: Database | null) {}
+  constructor(
+    @Inject(DB) private readonly db: Database | null,
+    @Inject(API_ENV) private readonly env: ApiEnv,
+  ) {}
 
   private requireDb(): Database {
     if (this.db === null) {
       throw serviceUnavailable('Catalogue is temporarily unavailable');
     }
     return this.db;
+  }
+
+  private requireApiDbUrl(): string {
+    const url = this.env.DATABASE_URL_API;
+    if (url === undefined || url.length === 0) {
+      throw serviceUnavailable('Catalogue is temporarily unavailable');
+    }
+    return url;
   }
 
   async listRegions(): Promise<RegionsResponse> {
@@ -310,6 +336,109 @@ export class CatalogueService {
       taxonId: String(taxonId),
       regionSlug: slug,
       weeks: [...weeks],
+    };
+  }
+
+  async searchPlaces(query: PlacesQuery): Promise<PlacesResponse> {
+    const db = this.requireDb();
+    const q = query.q.trim();
+    if (q.length === 0) {
+      throw validationError('q must be a non-empty search string');
+    }
+
+    const filters: SQL[] = [
+      // pg_trgm similarity operator (GIN on places.name — T2.3 / T5.5).
+      sql`${places.name} % ${q}`,
+    ];
+
+    if (query.region !== undefined) {
+      filters.push(eq(regions.slug, query.region));
+    }
+
+    const rows = await db
+      .select({
+        id: places.id,
+        name: places.name,
+        regionSlug: regions.slug,
+        cellR7: places.cellR7,
+      })
+      .from(places)
+      .innerJoin(regions, eq(places.regionId, regions.id))
+      .where(and(...filters))
+      .orderBy(sql`similarity(${places.name}, ${q}) DESC`, asc(places.name))
+      .limit(PLACES_SEARCH_LIMIT);
+
+    const list = rows.flatMap((row) => {
+      const regionSlug = RegionIdSchema.safeParse(row.regionSlug);
+      if (!regionSlug.success) {
+        return [];
+      }
+      return [
+        {
+          id: String(row.id),
+          name: row.name,
+          regionSlug: regionSlug.data,
+          cellR7: row.cellR7,
+        },
+      ];
+    });
+
+    return { places: list };
+  }
+
+  async getArea(cellR7Raw: string): Promise<AreaResponse> {
+    const db = this.requireDb();
+    const cell = cellR7Raw.trim();
+    if (cell.length === 0 || !isValidCell(cell) || getResolution(cell) !== 7) {
+      throw validationError('cellR7 must be a valid H3 resolution-7 cell');
+    }
+
+    // Coverage uses the cell centre against beta region polygons (never returned).
+    const [lat, lng] = cellToLatLng(cell);
+    const coverage = await db.execute<{ slug: string }>(sql`
+      SELECT r.slug
+      FROM ref.regions r
+      WHERE r.slug IN ('scotland', 'sindh')
+        AND ST_Covers(
+          r.geom,
+          ST_SetSRID(ST_MakePoint(${lng}, ${lat}), 4326)
+        )
+      LIMIT 1
+    `);
+    const coveredRow = coverage.rows[0];
+    if (coveredRow === undefined) {
+      return {
+        cellR7: cell,
+        label: NOT_COVERED_LABEL,
+        regionSlug: null,
+        covered: false,
+      };
+    }
+
+    const lookup = await areaLabelFor(this.requireApiDbUrl(), cell);
+    const regionFromCoverage = RegionIdSchema.safeParse(coveredRow.slug);
+    const regionFromLabel =
+      lookup?.regionSlug !== undefined && lookup.regionSlug !== null
+        ? RegionIdSchema.safeParse(lookup.regionSlug)
+        : null;
+
+    let regionSlug: RegionId | null = null;
+    if (regionFromLabel?.success) {
+      regionSlug = regionFromLabel.data;
+    } else if (regionFromCoverage.success) {
+      regionSlug = regionFromCoverage.data;
+    }
+
+    const label =
+      lookup?.label !== undefined && lookup.label.length > 0
+        ? lookup.label
+        : COVERED_FALLBACK_LABEL;
+
+    return {
+      cellR7: cell,
+      label,
+      regionSlug,
+      covered: true,
     };
   }
 }

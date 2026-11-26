@@ -340,10 +340,11 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Acceptance test: e2e tests against the seeded database; search matches the English name, Urdu name and scientific name; seasonality has 52 values in [0, 1].
   - Done: 2026-11-25, PR #45 (`ac9e6c1`) — CatalogueModule: regions list (no geom), region species search (en/ur/scientific + group), species detail (reviewed cards only), seasonality 52 relative rates in [0,1] from `pub.taxon_region_week`; e2e + assertPublicSafe; api vitest `fileParallelism: false`.
 
-- [ ] **T5.5 Places and areas endpoints**
+- [x] **T5.5 Places and areas endpoints**
   - Depends on: T5.3, T2.8, T2.9
   - Do: `GET /v1/places?q=` (trigram) and `GET /v1/areas/:cellR7` (label, region, `covered`).
   - Acceptance test: "glasg" finds Glasgow; a cell outside both regions → `covered:false`; an invalid cell → 400.
+  - Done: 2026-11-25 — `GET /v1/places?q=&region=` trigram (`name % q` + similarity order); `GET /v1/areas/:cellR7` label via `areaLabelFor`, coverage via ST_Covers on cell centre; invalid/non-res-7 → 400; uncovered → `covered:false` + "Not covered yet". E2e acceptance.
 
 - [ ] **T5.6 Forecast endpoint**
   - Depends on: T4.6, T4.7, T4.8, T5.4, T3.7
