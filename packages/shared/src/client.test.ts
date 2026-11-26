@@ -42,6 +42,38 @@ describe('createApiClient', () => {
     expect(init.headers).toMatchObject({ authorization: 'Bearer token-abc' });
   });
 
+  it('GETs /v1/admin/session with bearer token (T7.6)', async () => {
+    const fetchMock = vi.fn().mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          ok: true,
+          role: 'admin',
+          userId: '11111111-1111-4111-8111-111111111111',
+        }),
+        {
+          status: 200,
+          headers: { 'content-type': 'application/json' },
+        },
+      ),
+    );
+
+    const client = createApiClient({
+      baseUrl: 'https://api.example.test',
+      getToken: () => 'admin-token',
+      fetch: fetchMock,
+    });
+
+    await expect(client.admin.session()).resolves.toEqual({
+      ok: true,
+      role: 'admin',
+      userId: '11111111-1111-4111-8111-111111111111',
+    });
+    expect(fetchMock).toHaveBeenCalledWith(
+      'https://api.example.test/v1/admin/session',
+      expect.objectContaining({ method: 'GET' }),
+    );
+  });
+
   it('throws ApiClientError on non-OK responses', async () => {
     const fetchMock = vi.fn().mockResolvedValue(
       new Response(JSON.stringify({ code: 'WATCHLIST_LIMIT', message: 'Limit reached' }), {

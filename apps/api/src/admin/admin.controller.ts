@@ -6,6 +6,7 @@ import {
   AdminChallengeEntryPatchSchema,
   AdminChallengeEntrySchema,
   AdminIngestRunsResponseSchema,
+  AdminSessionSchema,
   AdminSpeciesCardPatchSchema,
   AdminSpeciesQuerySchema,
   AdminSpeciesResponseSchema,
@@ -16,6 +17,7 @@ import {
   type AdminChallengeEntry,
   type AdminChallengeEntryPatch,
   type AdminIngestRunsResponse,
+  type AdminSession,
   type AdminSpeciesCardPatch,
   type AdminSpeciesResponse,
   type AdminTaxonRegion,
@@ -30,12 +32,6 @@ import { type RequestWithOptionalUser } from '../geoprivacy/owner-location.js';
 import { unauthorizedError, validationError } from '../http/api-error.js';
 
 import { AdminService } from './admin.service.js';
-
-const AdminSessionSchema = z.object({
-  ok: z.literal(true),
-  role: z.literal('admin'),
-  userId: z.string().uuid(),
-});
 
 class AdminSessionDto extends createZodDto(AdminSessionSchema) {}
 class AdminSpeciesResponseDto extends createZodDto(AdminSpeciesResponseSchema) {}
@@ -58,7 +54,7 @@ export class AdminController {
   @Get('session')
   @ApiOperation({ summary: 'Confirm the caller has the database admin role' })
   @ApiOkResponse({ type: AdminSessionDto })
-  session(@Req() req: RequestWithOptionalUser): z.infer<typeof AdminSessionSchema> {
+  session(@Req() req: RequestWithOptionalUser): AdminSession {
     const user = requireUser(req);
     return { ok: true, role: 'admin', userId: user.id };
   }

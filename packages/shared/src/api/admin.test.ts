@@ -2,11 +2,25 @@ import { describe, expect, it } from 'vitest';
 
 import {
   AdminChallengeEntryPatchSchema,
+  AdminSessionSchema,
   AdminSpeciesCardPatchSchema,
   IngestRunStatusSchema,
 } from './admin.js';
 
 describe('admin API schemas (T5.13)', () => {
+  it('parses admin session (T7.6)', () => {
+    const ok = AdminSessionSchema.safeParse({
+      ok: true,
+      role: 'admin',
+      userId: '11111111-1111-4111-8111-111111111111',
+    });
+    expect(ok.success).toBe(true);
+
+    expect(AdminSessionSchema.safeParse({ ok: true, role: 'user', userId: 'x' }).success).toBe(
+      false,
+    );
+  });
+
   it('requires rejectReason when rejecting a challenge entry', () => {
     const bad = AdminChallengeEntryPatchSchema.safeParse({ status: 'rejected' });
     expect(bad.success).toBe(false);

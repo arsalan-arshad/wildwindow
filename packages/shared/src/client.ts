@@ -4,6 +4,7 @@ import {
   AdminChallengeEntryPatchSchema,
   AdminChallengeEntrySchema,
   AdminIngestRunsResponseSchema,
+  AdminSessionSchema,
   AdminSpeciesCardPatchSchema,
   AdminSpeciesQuerySchema,
   AdminSpeciesResponseSchema,
@@ -14,6 +15,7 @@ import {
   type AdminChallengeEntry,
   type AdminChallengeEntryPatch,
   type AdminIngestRunsResponse,
+  type AdminSession,
   type AdminSpeciesCardPatch,
   type AdminSpeciesQuery,
   type AdminSpeciesResponse,
@@ -167,6 +169,7 @@ export type ApiClient = {
     submit: (slug: string, body: ChallengeSubmitRequest) => Promise<ChallengeSubmitOk>;
   };
   readonly admin: {
+    session: () => Promise<AdminSession>;
     species: {
       get: (taxonId: string, query: AdminSpeciesQuery) => Promise<AdminSpeciesResponse>;
       patch: (taxonId: string, body: AdminSpeciesCardPatch) => Promise<AdminSpeciesResponse>;
@@ -437,6 +440,8 @@ export function createApiClient(options: CreateApiClientOptions): ApiClient {
       },
     },
     admin: {
+      session: () =>
+        requestJson('GET', '/v1/admin/session', (data) => AdminSessionSchema.parse(data)),
       species: {
         get: (taxonId, query) => {
           const parsed = AdminSpeciesQuerySchema.parse(query);

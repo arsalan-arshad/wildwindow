@@ -2,6 +2,14 @@ import { z } from 'zod';
 
 import { RegionIdSchema, SensitivityTierSchema, TaxonIdSchema } from './common.js';
 
+/** GET /v1/admin/session — confirms database admin role (T5.13 / T7.6). */
+export const AdminSessionSchema = z.object({
+  ok: z.literal(true),
+  role: z.literal('admin'),
+  userId: z.string().uuid(),
+});
+export type AdminSession = z.infer<typeof AdminSessionSchema>;
+
 /** GET /v1/admin/species/:taxonId query */
 export const AdminSpeciesQuerySchema = z.object({
   region: RegionIdSchema,
