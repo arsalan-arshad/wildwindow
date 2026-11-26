@@ -43,12 +43,12 @@ export function Landing() {
               >
                 Join the waitlist
               </Link>
-              <a
-                href="#no-pin"
+              <Link
+                href="/no-pin"
                 className="text-sm font-medium text-paper/90 underline-offset-4 hover:underline"
               >
                 Read the No-Pin Promise
-              </a>
+              </Link>
             </div>
           </div>
           <SampleForecast />
@@ -128,7 +128,14 @@ export function Landing() {
             so anyone can check it.
           </blockquote>
           <p className="mt-5 text-ink-muted">
-            Sensitive species stay coarse or off during breeding. Read the draft{' '}
+            Sensitive species stay coarse or off during breeding. Read the full{' '}
+            <Link
+              href="/no-pin"
+              className="font-medium text-forest-600 underline-offset-2 hover:underline"
+            >
+              No-Pin Promise
+            </Link>
+            , the draft{' '}
             <Link
               href="/privacy"
               className="font-medium text-forest-600 underline-offset-2 hover:underline"
@@ -205,7 +212,14 @@ export function Landing() {
               <dt className="font-semibold text-ink">Where does the data come from?</dt>
               <dd className="mt-2 text-ink-muted">
                 Historic occurrence records under licences we can use (GBIF CC0 / CC BY first), plus
-                light, weather, and tides where licensed. Full attributions ship with the product.
+                light, weather, and tides where licensed. See the{' '}
+                <Link
+                  href="/attributions"
+                  className="text-forest-600 underline-offset-2 hover:underline"
+                >
+                  attributions
+                </Link>{' '}
+                page.
               </dd>
             </div>
             <div>

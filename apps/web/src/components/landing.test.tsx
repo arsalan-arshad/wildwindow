@@ -25,7 +25,7 @@ describe('Landing', () => {
     expect(waitlistLinks[0]).toHaveAttribute('href', '/waitlist');
     expect(screen.getByRole('link', { name: /read the no-pin promise/i })).toHaveAttribute(
       'href',
-      '#no-pin',
+      '/no-pin',
     );
   });
 });
