@@ -352,10 +352,11 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Acceptance test: e2e tests where (a) two different res-7 cells under the same res-5 parent get **identical** responses for a `protected` species, (b) a lockout date gives `status:"lockout"`, (c) p95 < 400 ms over 100 warm requests locally.
   - Done: 2026-11-26, PR #48 (`2f83683`) — `GET /v1/forecast`; displayCell + status overrides; `pub.forecast_cache` 1h TTL (tier mismatch misses); e2e (a)(b)(c).
 
-- [ ] **T5.7 Species map endpoint**
+- [x] **T5.7 Species map endpoint**
   - Depends on: T5.4, T1.5
   - Do: `GET /v1/species/:taxonId/map` returning `{cell, level}` at the published resolution; `[]` for `highly_protected` and `no_forecast`.
   - Acceptance test: the response has no counts; no cell is finer than the tier allows (an automated check over every seeded taxon).
+  - Done: 2026-11-26 — `GET /v1/species/:taxonId/map`; `bucketise` levels 1–5 from `pub.taxon_cell_week`; `[]` when `mapCells=false`; e2e over every seeded taxon (no counts, tier resolution).
 
 - [ ] **T5.8 Firebase auth guard and `/v1/me`** 🧑
   - Depends on: T5.2
