@@ -18,6 +18,8 @@ jest.mock('expo-router');
 jest.mock('expo-location');
 jest.mock('expo-image-picker');
 jest.mock('expo-image-manipulator');
+jest.mock('expo-sharing');
+jest.mock('expo-file-system/legacy');
 jest.mock('react-native-maps');
 
 // Keep Jest off the real Firebase network; screens inject AuthClient mocks.

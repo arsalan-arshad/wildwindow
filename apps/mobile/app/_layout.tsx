@@ -115,6 +115,7 @@ function RootLayoutNav() {
         <Stack.Screen name="field-card" options={{ presentation: 'card' }} />
         <Stack.Screen name="area" options={{ presentation: 'card' }} />
         <Stack.Screen name="forecast" options={{ presentation: 'card' }} />
+        <Stack.Screen name="share" options={{ presentation: 'card' }} />
         <Stack.Screen name="sign-in" options={{ presentation: 'card', title: 'Sign in' }} />
         <Stack.Screen name="logbook/new" options={{ presentation: 'card' }} />
         <Stack.Screen name="logbook/[id]" options={{ presentation: 'card' }} />

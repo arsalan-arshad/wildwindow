@@ -1,10 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
+import { useRouter } from 'expo-router';
 import { useMemo, useState } from 'react';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 import { LastUpdated } from '@/components/LastUpdated';
 import { WatchlistSaveButton } from '@/components/home/WatchlistSaveButton';
+import { PrimaryButton } from '@/components/PrimaryButton';
 import { Text, View, useThemeColor } from '@/components/Themed';
 import { useApiClient } from '@/lib/api-context';
 import {
@@ -188,6 +190,7 @@ export function ForecastDetailView({
       forecast={forecast}
       taxonId={taxonId}
       cell={cell}
+      start={start}
       commonName={common}
       activeDate={activeDate ?? forecast.bestDay}
       activeDay={activeDay}
@@ -209,6 +212,7 @@ type OkForecastProps = {
   readonly forecast: ForecastOk;
   readonly taxonId: string;
   readonly cell: string;
+  readonly start: string;
   readonly commonName: string | null;
   readonly activeDate: string;
   readonly activeDay: ForecastDay | undefined;
@@ -228,6 +232,7 @@ function OkForecast({
   forecast,
   taxonId,
   cell,
+  start,
   commonName,
   activeDate,
   activeDay,
@@ -243,6 +248,7 @@ function OkForecast({
   onSelectDate,
 }: OkForecastProps) {
   const { t } = useTranslation();
+  const router = useRouter();
   const score = weekScoreDisplay(forecast);
   const bestDay = findDay(forecast.days, forecast.bestDay);
   const dayForFactors = activeDay ?? bestDay;
@@ -265,6 +271,18 @@ function OkForecast({
       <LastUpdated dataUpdatedAt={dataUpdatedAt} />
 
       <WatchlistSaveButton taxonId={taxonId} cellR7={cell} />
+
+      <PrimaryButton
+        label={t('share.openForecast')}
+        variant="secondary"
+        testID="forecast-share-card"
+        onPress={() => {
+          router.push({
+            pathname: '/share',
+            params: { kind: 'forecast', taxonId, cell, start },
+          });
+        }}
+      />
 
       <View style={styles.scoreBlock} testID="forecast-week-score">
         <Text

@@ -25,6 +25,7 @@
     "@wildwindow/shared": "workspace:^",
     "expo": "~58.0.25",
     "expo-constants": "~58.0.16",
+    "expo-file-system": "^58.0.14",
     "expo-font": "~58.0.12",
     "expo-image-manipulator": "~58.0.16",
     "expo-image-picker": "~58.0.10",
@@ -32,6 +33,7 @@
     "expo-localization": "^58.0.5",
     "expo-location": "~58.0.22",
     "expo-router": "~58.0.31",
+    "expo-sharing": "^58.0.23",
     "expo-splash-screen": "~58.0.14",
     "expo-status-bar": "~58.0.5",
     "expo-symbols": "~58.0.5",
@@ -76,6 +78,8 @@
       "^expo-location$": "<rootDir>/__mocks__/expo-location.ts",
       "^expo-image-picker$": "<rootDir>/__mocks__/expo-image-picker.ts",
       "^expo-image-manipulator$": "<rootDir>/__mocks__/expo-image-manipulator.ts",
+      "^expo-sharing$": "<rootDir>/__mocks__/expo-sharing.ts",
+      "^expo-file-system/legacy$": "<rootDir>/__mocks__/expo-file-system-legacy.ts",
       "^react-native-maps$": "<rootDir>/__mocks__/react-native-maps.tsx"
     },
     "transformIgnorePatterns": [
