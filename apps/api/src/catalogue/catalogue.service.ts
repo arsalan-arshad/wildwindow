@@ -5,10 +5,12 @@ import {
   regions,
   speciesCards,
   taxa,
+  taxonCellWeek,
   taxonRegion,
   taxonRegionWeek,
   type Database,
 } from '@wildwindow/db';
+import { type Tier } from '@wildwindow/geoprivacy';
 import {
   ActivityPatternSchema,
   CommonNamesSchema,
@@ -26,6 +28,7 @@ import {
   type SeasonalityResponse,
   type SpeciesDetail,
   type SpeciesGroup,
+  type SpeciesMapResponse,
 } from '@wildwindow/shared';
 import { and, asc, eq, or, sql, type SQL } from 'drizzle-orm';
 import { cellToLatLng, getResolution, isValidCell } from 'h3-js';
@@ -35,6 +38,7 @@ import { DB } from '../db/db.module.js';
 import { notFoundError, serviceUnavailable, validationError } from '../http/api-error.js';
 
 import { relativeSeasonalityWeeks } from './seasonality.js';
+import { publicMapCells } from './species-map.js';
 
 /** Public copy when the cell sits outside beta region polygons (PRD US-02). */
 const NOT_COVERED_LABEL = 'Not covered yet';
@@ -336,6 +340,59 @@ export class CatalogueService {
       taxonId: String(taxonId),
       regionSlug: slug,
       weeks: [...weeks],
+    };
+  }
+
+  async getSpeciesMap(taxonIdRaw: string, regionRaw: string): Promise<SpeciesMapResponse> {
+    const db = this.requireDb();
+    const taxonId = parseTaxonId(taxonIdRaw);
+    const slug = parseRegionSlug(regionRaw);
+
+    const regionRows = await db
+      .select({ id: regions.id, slug: regions.slug })
+      .from(regions)
+      .where(eq(regions.slug, slug))
+      .limit(1);
+    const region = regionRows[0];
+    if (region === undefined) {
+      throw notFoundError(`Unknown region: ${slug}`);
+    }
+
+    const link = await db
+      .select({ tier: taxonRegion.tier })
+      .from(taxonRegion)
+      .where(and(eq(taxonRegion.taxonId, taxonId), eq(taxonRegion.regionId, region.id)))
+      .limit(1);
+    const linkRow = link[0];
+    if (linkRow === undefined) {
+      throw notFoundError(`Species ${String(taxonId)} not found in region ${slug}`);
+    }
+
+    const tier: Tier = SensitivityTierSchema.parse(linkRow.tier);
+
+    // Sum published week rows per cell. Aggregates already went through
+    // suppressAndMerge in the worker; mapCells=false tiers return [].
+    const cellRows = await db
+      .select({
+        cell: taxonCellWeek.cell,
+        nRecords: sql<number>`sum(${taxonCellWeek.nRecords})::int`.mapWith(Number),
+      })
+      .from(taxonCellWeek)
+      .where(and(eq(taxonCellWeek.taxonId, taxonId), eq(taxonCellWeek.regionId, region.id)))
+      .groupBy(taxonCellWeek.cell);
+
+    const cells = publicMapCells(
+      cellRows.map((row) => ({
+        cell: row.cell,
+        nRecords: row.nRecords,
+      })),
+      tier,
+    );
+
+    return {
+      taxonId: String(taxonId),
+      regionSlug: slug,
+      cells,
     };
   }
 
