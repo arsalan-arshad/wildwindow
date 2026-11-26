@@ -153,12 +153,12 @@ EAS Update URL in `app.config.ts`: `https://u.expo.dev/36e6ca10-4761-4338-b057-b
 
 Workflow YAML lives next to `eas.json` under [`apps/mobile/.eas/workflows/`](../apps/mobile/.eas/workflows/):
 
-| Workflow                        | Trigger                                                                                      | What it does                                                           |
-| ------------------------------- | -------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| `create-development-builds.yml` | Manual (`workflow_dispatch`)                                                                 | Android + iOS `development` builds                                     |
-| `build-preview.yml`             | Manual                                                                                       | Android + iOS `preview` builds (no store submit)                       |
+| Workflow                        | Trigger                                                                                     | What it does                                                           |
+| ------------------------------- | ------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| `create-development-builds.yml` | Manual (`workflow_dispatch`)                                                                | Android + iOS `development` builds                                     |
+| `build-preview.yml`             | Manual                                                                                      | Android + iOS `preview` builds (no store submit)                       |
 | `deploy-to-production.yml`      | Manual (push-to-`main` left commented until store credentials + GitHub↔Expo link are ready) | Fingerprint → build+submit if needed, else OTA on `production` channel |
-| `publish-preview-update.yml`    | Manual only (no PR/`cursor/**` push — that was failing checks without Expo Update ready)     | OTA to `preview` channel                                               |
+| `publish-preview-update.yml`    | Manual only (no PR/`cursor/**` push — that was failing checks without Expo Update ready)    | OTA to `preview` channel                                               |
 
 Run from the Expo app root:
 
@@ -172,14 +172,14 @@ eas workflow:run .eas/workflows/publish-preview-update.yml
 
 ### Credentials Arsalan must configure (never commit)
 
-| Need                                 | Where / command                                                                            | Notes                           |
-| ------------------------------------ | ------------------------------------------------------------------------------------------ | ------------------------------- |
-| Expo login / robot token             | `eas login` locally; GitHub secret `EXPO_TOKEN` for Actions                                | No token in git                 |
-| iOS build signing                    | `eas credentials:configure-build -p ios -e production` (and development/preview as needed) | Apple Developer account         |
-| App Store Connect API key (submit)   | `eas credentials --platform ios`                                                           | For Expo Submit                 |
-| Android keystore                     | `eas credentials --platform android`                                                       | EAS can manage                  |
-| Google Play service account (submit) | `eas credentials --platform android`                                                       | Play Console API access         |
-| Firebase native files                | EAS file env `GOOGLE_SERVICES_JSON` / `GOOGLE_SERVICES_PLIST`                              | Or local gitignored paths       |
+| Need                                 | Where / command                                                                            | Notes                                   |
+| ------------------------------------ | ------------------------------------------------------------------------------------------ | --------------------------------------- |
+| Expo login / robot token             | `eas login` locally; GitHub secret `EXPO_TOKEN` for Actions                                | No token in git                         |
+| iOS build signing                    | `eas credentials:configure-build -p ios -e production` (and development/preview as needed) | Apple Developer account                 |
+| App Store Connect API key (submit)   | `eas credentials --platform ios`                                                           | For Expo Submit                         |
+| Android keystore                     | `eas credentials --platform android`                                                       | EAS can manage                          |
+| Google Play service account (submit) | `eas credentials --platform android`                                                       | Play Console API access                 |
+| Firebase native files                | EAS file env `GOOGLE_SERVICES_JSON` / `GOOGLE_SERVICES_PLIST`                              | Or local gitignored paths               |
 | Link GitHub ↔ Expo project           | expo.dev → project → GitHub                                                                | Needed before re-enabling push triggers |
 
 Agents do **not** run `eas build` / `eas submit` / `eas workflow:run` with production credentials.
