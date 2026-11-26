@@ -641,10 +641,11 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Do: a public GitHub repo or subtree split, npm publish, and a README badge; a "Show HN" draft in `docs/launch/`.
   - Acceptance test: `npm view @wildwindow/geoprivacy` shows the version (after Arsalan publishes it).
 
-- [ ] **T10.2 Kingfisher Month go-live**
+- [x] **T10.2 Kingfisher Month go-live**
   - Depends on: T8.4, T7.7
   - Do: the moderation runbook (`docs/runbooks/moderation.md`), share card QA, and the challenge dates set.
   - Acceptance test: a dry run with 5 test entries goes from submitted to approved to visible after 7 days (with a test clock).
+  - Done: 2026-11-26, `8993ecf` — `docs/runbooks/moderation.md`; Kingfisher Month dates locked `2026-11-01`..`2026-11-30` in seed; share card QA (`apps/web/src/lib/og/share-card-qa.test.ts` + mobile URL QA); dry-run e2e with 5 entries + test clock (`kingfisher-month-golive.e2e.test.ts`).
 
 - [ ] **T10.3 Launch gate** 🧑
   - Depends on: T9.10, T10.2

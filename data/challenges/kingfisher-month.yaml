@@ -1,5 +1,7 @@
 # First monthly challenge seed (T8.4 / PRD Epic E / G3).
 # Upserted into app.challenges by `pnpm db:seed` (seedChallenges).
+# T10.2 go-live dates (locked): 2026-11-01 .. 2026-11-30 UTC calendar days.
+# Operator guide: docs/runbooks/moderation.md
 version: 1
 slug: kingfisher-month-2026-11
 title: Kingfisher Month
@@ -8,6 +10,7 @@ scientificName: Alcedo atthis
 regions:
   - scotland
   - sindh
+# Submission window — Kingfisher Month go-live (T10.2).
 startsOn: '2026-11-01'
 endsOn: '2026-11-30'
 # ARCHITECTURE §6.2: draft | live | closed (API maps live → active).
