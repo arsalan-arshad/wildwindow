@@ -432,7 +432,7 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Depends on: T6.1, T5.5, T1.2
   - Do: place search, plus "use my location" (`expo-location`, foreground only) → `snapToCell` on the device → lat/lng thrown away straight away; a coarse cell map (`react-native-maps`, polygons from `h3-js` boundaries).
   - Acceptance test: a unit test shows that the location handler passes only the cell ID onwards (spy on the API client and storage; no lat/lng anywhere).
-  - Done: 2026-11-26, PR pending — Expo `/area` (S-06): place search via `GET /v1/places`, "use my location" (`expo-location` foreground) → `snapToCell` on device → only `cellR7` to storage/`GET /v1/areas`; coarse cell map (`react-native-maps` + `h3-js` boundaries). Privacy unit test spies API + storage (no lat/lng).
+  - Done: 2026-11-26, PR #68 — Expo `/area` (S-06): place search via `GET /v1/places`, "use my location" (`expo-location` foreground) → `snapToCell` on device → only `cellR7` to storage/`GET /v1/areas`; coarse cell map (`react-native-maps` + `h3-js` boundaries). Privacy unit test spies API + storage (no lat/lng).
 
 - [ ] **T6.5 Forecast detail (S-07)**
   - Depends on: T6.4, T5.6, T4.2
