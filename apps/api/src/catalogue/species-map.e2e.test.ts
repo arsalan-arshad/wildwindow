@@ -329,6 +329,9 @@ describe('T5.7 species map endpoint', () => {
       return;
     }
     const server = app.getHttpServer() as Parameters<typeof request>[0];
-    await request(server).get('/v1/species/999999999/map').query({ region: 'scotland' }).expect(404);
+    await request(server)
+      .get('/v1/species/999999999/map')
+      .query({ region: 'scotland' })
+      .expect(404);
   });
 });
