@@ -529,7 +529,7 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Depends on: T7.6
   - Do: a moderation queue (approve or reject with a reason) and an ingestion runs table.
   - Acceptance test: component tests with fixtures.
-  - Done: 2026-11-26 — `/admin` moderation queue (status filter, approve / reject-with-reason via `PATCH /v1/admin/challenge-entries/:id`) and ingestion runs table (`GET /v1/admin/ingest-runs`); place labels + photo keys only (no coordinates). Vitest component tests with MSW fixtures.
+  - Done: 2026-11-26, PR #80 (`517a46c`) — `/admin` moderation queue (status filter, approve / reject-with-reason via `PATCH /v1/admin/challenge-entries/:id`) and ingestion runs table (`GET /v1/admin/ingest-runs`); place labels + photo keys only (no coordinates). Vitest component tests with MSW fixtures.
 
 ## Phase 8: Content and ethics
 
