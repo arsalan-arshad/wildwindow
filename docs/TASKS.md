@@ -523,7 +523,7 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Depends on: T5.13
   - Do: an `/admin` area (Firebase web sign-in, admin role checked through the API), a card editor (Markdown), and a tier and lockout editor with confirmation.
   - Acceptance test: a non-admin is redirected; editing a tier calls the API and shows the audit entry.
-  - Done: 2026-11-26 — `/admin` Firebase email/password sign-in; `GET /v1/admin/session` gate (non-admin → redirect `/`); Markdown species card editor; tier/lockout editor with confirm (extra warning when lowering); audit entry panel after tier PATCH. Vitest acceptance tests. Needs `NEXT_PUBLIC_FIREBASE_CONFIG` build-time + `pnpm worker make-admin <email>`.
+  - Done: 2026-11-26, PR #79 (`8ee1df7`) — `/admin` Firebase email/password sign-in; `GET /v1/admin/session` gate (non-admin → redirect `/`); Markdown species card editor; tier/lockout editor with confirm (extra warning when lowering); audit entry panel after tier PATCH. Vitest acceptance tests. Needs `NEXT_PUBLIC_FIREBASE_CONFIG` build-time + `pnpm worker make-admin <email>`.
 
 - [ ] **T7.7 Admin: moderation and ingestion runs**
   - Depends on: T7.6
