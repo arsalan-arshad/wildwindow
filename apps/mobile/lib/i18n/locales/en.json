@@ -15,6 +15,10 @@
     "notFoundTitle": "This screen doesn't exist.",
     "notFoundLink": "Go to home screen"
   },
+  "offline": {
+    "lastUpdated": "Last updated {{when}}",
+    "unavailable": "You're offline and this isn't cached yet."
+  },
   "regions": {
     "scotland": {
       "name": "Scotland",

@@ -15,6 +15,10 @@
     "notFoundTitle": "یہ اسکرین موجود نہیں۔",
     "notFoundLink": "ہوم اسکرین پر جائیں"
   },
+  "offline": {
+    "lastUpdated": "آخری تازہ کاری {{when}}",
+    "unavailable": "آپ آف لائن ہیں اور یہ ابھی کیش نہیں ہوا۔"
+  },
   "regions": {
     "scotland": {
       "name": "اسکاٹ لینڈ",

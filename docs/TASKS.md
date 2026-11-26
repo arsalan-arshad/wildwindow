@@ -482,10 +482,11 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Do: region, units, language, privacy text, export, delete account (confirmation) and the attributions list.
   - Acceptance test: component tests; deletion calls `DELETE /v1/me` and signs out.
 
-- [ ] **T6.13 Offline cache (should)**
+- [x] **T6.13 Offline cache (should)**
   - Depends on: T6.5
   - Do: persist the TanStack Query cache for the last forecasts and cards; show "Last updated" when offline.
   - Acceptance test: a test with a mocked offline network shows the cached forecast.
+  - Done: 2026-11-26 — Persist TanStack Query (forecast + species/cards) via AsyncStorage; NetInfo → onlineManager; "Last updated" on forecast/field-card when offline. jest-expo: mocked offline shows cached forecast + Last updated; persist filter excludes other keys.
 
 ## Phase 7: Web (`apps/web`)
 
