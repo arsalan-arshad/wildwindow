@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@wildwindow/shared": "workspace:^",
+    "firebase": "^12",
     "next": "15.2.8",
     "react": "19.3.0",
     "react-dom": "19.3.0"
