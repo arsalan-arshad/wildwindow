@@ -139,7 +139,7 @@ describe('T10.2 Kingfisher Month go-live dry run', () => {
     process.env['STORAGE_SIGNING_SECRET'] = 'e2e-t102-golive-signing';
     process.env['API_PUBLIC_URL'] = 'http://127.0.0.1:3001';
     process.env['LOGBOOK_ENC_KEY'] = Buffer.from(
-      'ww-e2e-t102-golive-aes256-gcm!!',
+      'ww-e2e-t102-golive-aes256-gcm!!!',
       'utf8',
     ).toString('base64');
     Reflect.deleteProperty(process.env, 'FIREBASE_PROJECT_ID');
