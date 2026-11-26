@@ -372,10 +372,11 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Acceptance test: a 4th item → 409 with code `WATCHLIST_LIMIT`; users can't see each other's items.
   - Done: 2026-11-26 — `GET/POST/DELETE /v1/me/watchlist`; `WATCHLIST_LIMIT_FREE` (default 3); e2e 4th→409 `WATCHLIST_LIMIT` + cross-user isolation.
 
-- [ ] **T5.10 Uploads and storage**
+- [x] **T5.10 Uploads and storage**
   - Depends on: T5.8
   - Do: a `StorageService` interface with `LocalStorage` (dev) and `S3Storage`; `POST /v1/uploads/presign` (MIME types, 15 MB); a server-side check that uses `exifr` to reject files that still have GPS tags.
   - Acceptance test: a fixture JPEG **with** GPS is rejected; one without GPS is accepted.
+  - Done: 2026-11-26 — `StorageService` + Local/S3 drivers; `POST /v1/uploads/presign`; local PUT rejects GPS EXIF via `exifr` (`GPS_EXIF_FORBIDDEN`).
 
 - [ ] **T5.11 Logbook**
   - Depends on: T5.10
