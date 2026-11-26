@@ -2,6 +2,20 @@
 
 All notable changes to `@wildwindow/geoprivacy` are documented in this file.
 
+## 0.1.0 — pending publish (T10.1)
+
+### Added
+
+- Public-ready package metadata (`repository`, `homepage`, `bugs`, `keywords`, `engines`)
+- README badge placeholders (npm / MIT / CI) and publish links
+- `prepublishOnly` runs build + test before npm publish
+- Launch docs: `docs/launch/geoprivacy-publish.md`, `docs/launch/show-hn-geoprivacy.md`
+
+### Notes
+
+- Still `"private": true` in the monorepo until Arsalan publishes to npm.
+- First public npm tag should be **0.1.0** after flipping `private` and following the publish checklist.
+
 ## 0.0.0 — 2026-11-17
 
 ### Fixed

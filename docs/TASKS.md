@@ -636,10 +636,11 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
 
 ## Phase 10: MVP launch
 
-- [ ] **T10.1 Open-source `@wildwindow/geoprivacy`** 🧑
+- [!] **T10.1 Open-source `@wildwindow/geoprivacy`** 🧑
   - Depends on: T1.7, T9.7
   - Do: a public GitHub repo or subtree split, npm publish, and a README badge; a "Show HN" draft in `docs/launch/`.
   - Acceptance test: `npm view @wildwindow/geoprivacy` shows the version (after Arsalan publishes it).
+  - Blocked: needs Arsalan to publish npm + public repo. Agent prep done — README badges, package metadata `0.1.0` (still `private: true`), `docs/launch/geoprivacy-publish.md` (subtree + monorepo publish checklist), `docs/launch/show-hn-geoprivacy.md`, publish-ready tests. Do **not** `npm publish` or create the external repo from an agent.
 
 - [x] **T10.2 Kingfisher Month go-live**
   - Depends on: T8.4, T7.7
