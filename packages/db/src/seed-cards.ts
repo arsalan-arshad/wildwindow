@@ -66,11 +66,20 @@ export async function seedSpeciesCards(
     }
 
     const taxonResult = await pool.query<{ id: number; scientific_name: string }>(
-      `SELECT id, scientific_name FROM ref.taxa`,
+      `SELECT id, scientific_name FROM ref.taxa ORDER BY id ASC`,
     );
     const taxonLookup = new Map<string, number>();
+    const ambiguousNames = new Set<string>();
     for (const row of taxonResult.rows) {
-      taxonLookup.set(row.scientific_name.toLowerCase(), row.id);
+      const key = row.scientific_name.toLowerCase();
+      if (taxonLookup.has(key)) {
+        ambiguousNames.add(key);
+        continue;
+      }
+      taxonLookup.set(key, row.id);
+    }
+    for (const name of ambiguousNames) {
+      taxonLookup.delete(name);
     }
 
     let upserted = 0;
@@ -83,20 +92,31 @@ export async function seedSpeciesCards(
       if (regionId === undefined) {
         throw new Error(`seedSpeciesCards: unknown region ${card.region}`);
       }
+      const taxonKey = card.scientificName.toLowerCase();
+      if (ambiguousNames.has(taxonKey)) {
+        throw new Error(
+          `${card.filePath}: scientificName "${card.scientificName}" matches multiple ref.taxa rows — keep one canonical taxon`,
+        );
+      }
       const taxonId = requireTaxonId(card.scientificName, taxonLookup, card.filePath);
       const reviewedAt = card.reviewedAt !== null ? new Date(card.reviewedAt) : null;
 
+      // Collapse any duplicate taxon×region rows (no unique index yet), then upsert.
       const existing = await pool.query<{ id: number }>(
         `
         SELECT id FROM ref.species_cards
         WHERE taxon_id = $1 AND region_id = $2
         ORDER BY id ASC
-        LIMIT 1
         `,
         [taxonId, regionId],
       );
+      const keepId = existing.rows[0]?.id;
+      if (existing.rows.length > 1) {
+        const dropIds = existing.rows.slice(1).map((r) => r.id);
+        await pool.query(`DELETE FROM ref.species_cards WHERE id = ANY($1::int[])`, [dropIds]);
+      }
 
-      if (existing.rows[0] !== undefined) {
+      if (keepId !== undefined) {
         await pool.query(
           `
           UPDATE ref.species_cards SET
@@ -110,7 +130,7 @@ export async function seedSpeciesCards(
           WHERE id = $1
           `,
           [
-            existing.rows[0].id,
+            keepId,
             card.bodyMd,
             JSON.stringify(card.settings),
             card.ethicsMd,

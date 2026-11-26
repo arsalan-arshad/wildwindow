@@ -8,6 +8,9 @@ import { seedRegions } from './seed.js';
 const DATABASE_URL =
   process.env['DATABASE_URL'] ?? 'postgresql://postgres:postgres@localhost:5432/wildwindow';
 
+/** Canonical GBIF key for Common kingfisher (data/beta-species.yaml). */
+const KINGFISHER_GBIF_KEY = 2475532;
+
 describe('T8.1 species card loader', () => {
   beforeAll(async () => {
     await runMigrations(DATABASE_URL, migrationsFolder());
@@ -16,6 +19,39 @@ describe('T8.1 species card loader', () => {
     const client = new Client({ connectionString: DATABASE_URL });
     await client.connect();
     try {
+      // Drop polluting same-name taxa from other suite files (e.g. ref.test) so
+      // scientificName resolution stays unambiguous for the fixture load.
+      await client.query(
+        `
+        DELETE FROM ref.species_cards
+        WHERE taxon_id IN (
+          SELECT id FROM ref.taxa
+          WHERE lower(scientific_name) = 'alcedo atthis'
+            AND gbif_taxon_key <> $1
+        )
+        `,
+        [KINGFISHER_GBIF_KEY],
+      );
+      await client.query(
+        `
+        DELETE FROM ref.taxon_region
+        WHERE taxon_id IN (
+          SELECT id FROM ref.taxa
+          WHERE lower(scientific_name) = 'alcedo atthis'
+            AND gbif_taxon_key <> $1
+        )
+        `,
+        [KINGFISHER_GBIF_KEY],
+      );
+      await client.query(
+        `
+        DELETE FROM ref.taxa
+        WHERE lower(scientific_name) = 'alcedo atthis'
+          AND gbif_taxon_key <> $1
+        `,
+        [KINGFISHER_GBIF_KEY],
+      );
+
       await client.query(
         `
         INSERT INTO ref.taxa (
@@ -23,7 +59,7 @@ describe('T8.1 species card loader', () => {
           coastal, tide_pref, activity_pattern, challenge_eligible
         )
         VALUES (
-          2475532,
+          $1,
           'Alcedo atthis',
           '{"en":"Common kingfisher"}'::jsonb,
           'bird',
@@ -37,6 +73,7 @@ describe('T8.1 species card loader', () => {
           scientific_name = EXCLUDED.scientific_name,
           common_names = EXCLUDED.common_names
         `,
+        [KINGFISHER_GBIF_KEY],
       );
     } finally {
       await client.end();
@@ -60,8 +97,9 @@ describe('T8.1 species card loader', () => {
         FROM ref.species_cards c
         JOIN ref.regions r ON r.id = c.region_id
         JOIN ref.taxa t ON t.id = c.taxon_id
-        WHERE t.scientific_name = 'Alcedo atthis' AND r.slug = 'scotland'
+        WHERE t.gbif_taxon_key = $1 AND r.slug = 'scotland'
         `,
+        [KINGFISHER_GBIF_KEY],
       );
       expect(result.rows).toHaveLength(1);
       expect(result.rows[0]?.status).toBe('draft');
@@ -85,8 +123,9 @@ describe('T8.1 species card loader', () => {
         FROM ref.species_cards c
         JOIN ref.regions r ON r.id = c.region_id
         JOIN ref.taxa t ON t.id = c.taxon_id
-        WHERE t.scientific_name = 'Alcedo atthis' AND r.slug = 'sindh'
+        WHERE t.gbif_taxon_key = $1 AND r.slug = 'sindh'
         `,
+        [KINGFISHER_GBIF_KEY],
       );
       expect(result.rows).toHaveLength(1);
       expect(result.rows[0]?.status).toBe('reviewed');
@@ -106,8 +145,11 @@ describe('T8.1 species card loader', () => {
         SELECT count(*)::text AS count
         FROM ref.species_cards c
         JOIN ref.taxa t ON t.id = c.taxon_id
-        WHERE t.scientific_name = 'Alcedo atthis'
+        JOIN ref.regions r ON r.id = c.region_id
+        WHERE t.gbif_taxon_key = $1
+          AND r.slug = ANY($2::text[])
         `,
+        [KINGFISHER_GBIF_KEY, ['scotland', 'sindh']],
       );
       expect(Number(result.rows[0]?.count)).toBe(2);
     } finally {
