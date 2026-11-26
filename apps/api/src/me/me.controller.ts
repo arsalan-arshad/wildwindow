@@ -1,8 +1,22 @@
-import { Body, Controller, Get, Patch, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  Patch,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
+  MeDeleteOkSchema,
+  MeExportOkSchema,
   MePatchRequestSchema,
   MeProfileSchema,
+  type MeDeleteOk,
+  type MeExportOk,
   type MePatchRequest,
   type MeProfile,
 } from '@wildwindow/shared';
@@ -13,14 +27,21 @@ import { UsersService } from '../auth/users.service.js';
 import { type RequestWithOptionalUser } from '../geoprivacy/owner-location.js';
 import { unauthorizedError, validationError } from '../http/api-error.js';
 
+import { AccountService } from './account.service.js';
+
 class MeProfileDto extends createZodDto(MeProfileSchema) {}
+class MeDeleteOkDto extends createZodDto(MeDeleteOkSchema) {}
+class MeExportOkDto extends createZodDto(MeExportOkSchema) {}
 
 @ApiTags('me')
 @ApiBearerAuth()
 @Controller('v1/me')
 @UseGuards(FirebaseAuthGuard)
 export class MeController {
-  constructor(private readonly users: UsersService) {}
+  constructor(
+    private readonly users: UsersService,
+    private readonly account: AccountService,
+  ) {}
 
   @Get()
   @ApiOperation({ summary: 'Current user profile' })
@@ -42,6 +63,23 @@ export class MeController {
     }
     const payload: MePatchRequest = parsed.data;
     return this.users.patchProfile(userId, payload);
+  }
+
+  @Delete()
+  @ApiOperation({ summary: 'Soft-delete account (hard purge after 30 days)' })
+  @ApiOkResponse({ type: MeDeleteOkDto })
+  async remove(@Req() req: RequestWithOptionalUser): Promise<MeDeleteOk> {
+    const userId = requireUserId(req);
+    return this.account.softDelete(userId);
+  }
+
+  @Post('export')
+  @HttpCode(200)
+  @ApiOperation({ summary: 'Export account data as JSON with signed photo links' })
+  @ApiOkResponse({ type: MeExportOkDto })
+  async export(@Req() req: RequestWithOptionalUser): Promise<MeExportOk> {
+    const userId = requireUserId(req);
+    return this.account.exportData(userId);
   }
 }
 

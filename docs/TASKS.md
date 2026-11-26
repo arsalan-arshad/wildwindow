@@ -396,10 +396,11 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Acceptance test: changing a tier writes an audit row and the next forecast reflects the new tier.
   - Done: 2026-11-26 — `GET/PATCH /v1/admin/species/:taxonId`, `taxon-region/:taxonId/:region`, `challenge-entries`, `GET ingest-runs`; every write → `app.audit_log` + `forecast_cache` clear for taxon; `ww_api` UPDATE on cards/tiers; e2e acceptance (tier → audit + forecast).
 
-- [ ] **T5.14 Account deletion and export**
+- [x] **T5.14 Account deletion and export**
   - Depends on: T5.11, T5.12
   - Do: `DELETE /v1/me` (soft delete now, then a worker command `purge-deleted` hard-deletes after 30 days, including photos); `POST /v1/me/export` (JSON + signed photo links).
   - Acceptance test: after the purge, no rows or files remain for the user; the export has every user-owned record.
+  - Done: 2026-11-26 — `DELETE /v1/me` soft-delete (`deleted_at`, `purgeAfterDays: 30`); `POST /v1/me/export` sync JSON + signed photo/export URLs; worker `purge-deleted` hard-deletes rows + photos/exports after 30 days (owner `DATABASE_URL`); e2e + purge tests.
 
 - [x] **T5.15 Attributions and waitlist**
   - Depends on: T3.8, T5.2
