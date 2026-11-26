@@ -27,11 +27,7 @@ export function PrimaryButton({
   const text = useThemeColor({}, 'text');
   const border = useThemeColor({}, 'border');
   const isPrimary = variant === 'primary';
-  const labelColor = isPrimary
-    ? scheme === 'dark'
-      ? Colors.dark.background
-      : '#ffffff'
-    : text;
+  const labelColor = isPrimary ? (scheme === 'dark' ? Colors.dark.background : '#ffffff') : text;
 
   return (
     <Pressable

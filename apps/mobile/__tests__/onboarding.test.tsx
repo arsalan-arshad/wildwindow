@@ -121,8 +121,6 @@ describe('Onboarding (T6.2 S-01)', () => {
     );
 
     const finish = view.getByTestId('onboarding-finish');
-    expect(finish.props.accessibilityState).toEqual(
-      expect.objectContaining({ disabled: true }),
-    );
+    expect(finish.props.accessibilityState).toEqual(expect.objectContaining({ disabled: true }));
   });
 });

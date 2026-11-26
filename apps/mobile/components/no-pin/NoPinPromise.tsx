@@ -8,12 +8,7 @@ import { getLayoutDirection } from '@/lib/i18n';
  * S-09 No-Pin Promise explainer — PRD §9.1 public text + §9.2 tiers in plain words.
  * Tier numbers match ARCHITECTURE §5.1 / packages/geoprivacy TIER_POLICY.
  */
-const TIER_ROWS = [
-  'open',
-  'protected',
-  'highly_protected',
-  'no_forecast',
-] as const;
+const TIER_ROWS = ['open', 'protected', 'highly_protected', 'no_forecast'] as const;
 
 export type NoPinPromiseProps = {
   readonly testID?: string;
@@ -28,11 +23,7 @@ export function NoPinPromise({ testID = 'no-pin-promise' }: NoPinPromiseProps) {
   const accent = useThemeColor({}, 'accent');
 
   return (
-    <ScrollView
-      testID={testID}
-      style={{ direction }}
-      contentContainerStyle={styles.scroll}
-    >
+    <ScrollView testID={testID} style={{ direction }} contentContainerStyle={styles.scroll}>
       <Text style={styles.kicker}>{t('shell.brand')}</Text>
       <Text style={styles.title}>{t('noPin.title')}</Text>
 

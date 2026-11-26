@@ -8,12 +8,8 @@ describe('No-Pin Promise screen (T6.2 S-09)', () => {
     const view = await renderWithProviders(<NoPinPromise />);
 
     expect(view.getByTestId('no-pin-pledge')).toBeTruthy();
-    expect(
-      view.getByText('WildWindow will never put a pin on a wild animal.'),
-    ).toBeTruthy();
-    expect(
-      view.getByText(/never an exact spot/i),
-    ).toBeTruthy();
+    expect(view.getByText('WildWindow will never put a pin on a wild animal.')).toBeTruthy();
+    expect(view.getByText(/never an exact spot/i)).toBeTruthy();
 
     expect(view.getByTestId('tier-row-open')).toBeTruthy();
     expect(view.getByTestId('tier-row-protected')).toBeTruthy();
