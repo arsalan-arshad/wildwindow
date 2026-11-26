@@ -19,9 +19,7 @@ describe('Railway api image includes @wildwindow/scoring', () => {
     const depsStage = dockerfile.split('AS deps')[1]?.split('AS build')[0];
     expect(depsStage).toBeDefined();
     const depsCode = stripComments(depsStage ?? '');
-    expect(depsCode).toMatch(
-      /COPY packages\/scoring\/package\.json packages\/scoring\//,
-    );
+    expect(depsCode).toMatch(/COPY packages\/scoring\/package\.json packages\/scoring\//);
   });
 
   it('Dockerfile build stage copies and builds scoring before api', () => {
