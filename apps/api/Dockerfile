@@ -9,15 +9,19 @@ COPY packages/shared/package.json packages/shared/
 COPY packages/config/package.json packages/config/
 COPY packages/db/package.json packages/db/
 COPY packages/geoprivacy/package.json packages/geoprivacy/
+COPY packages/scoring/package.json packages/scoring/
 RUN pnpm install --frozen-lockfile --filter api...
 
 FROM deps AS build
 COPY packages/config packages/config
 COPY packages/shared packages/shared
 COPY packages/geoprivacy packages/geoprivacy
+COPY packages/scoring packages/scoring
 COPY packages/db packages/db
 COPY apps/api apps/api
+# scoring depends on geoprivacy; api forecast/weather import @wildwindow/scoring
 RUN pnpm --filter @wildwindow/geoprivacy build \
+  && pnpm --filter @wildwindow/scoring build \
   && pnpm --filter @wildwindow/shared build \
   && pnpm --filter @wildwindow/db build \
   && pnpm --filter api build
