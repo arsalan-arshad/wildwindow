@@ -44,7 +44,9 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   android: {
     adaptiveIcon: {
       foregroundImage: './assets/images/android-icon-foreground.png',
-      backgroundColor: '#1a4030',
+      backgroundImage: './assets/images/android-icon-background.png',
+      // Cream-mist brand canvas (assets/README.md); keep in sync with icon PNGs.
+      backgroundColor: '#F4F7F5',
     },
     package: 'studio.arsalandev.wildwindow',
     googleServicesFile: androidGoogleServicesFile,
@@ -81,7 +83,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       'expo-splash-screen',
       {
         image: './assets/images/splash-icon.png',
-        backgroundColor: '#1a4030',
+        // Light-forward outdoor splash (matches assets/splash/splash-light.png).
+        backgroundColor: '#F4F7F5',
         resizeMode: 'contain',
       },
     ],
