@@ -51,3 +51,15 @@ export {
   parseChallengeSeedYaml,
 } from './challenges-seed.js';
 export type { LoadedChallengeSeed } from './challenges-seed.js';
+export {
+  buildSensitivityReview,
+  formatSensitivityReviewMarkdown,
+  sensitivityReviewReportPath,
+  writeSensitivityReviewReports,
+} from './sensitivity-review.js';
+export type {
+  BuildSensitivityReviewOptions,
+  SensitivityReviewReport,
+  SensitivityReviewRow,
+  WriteSensitivityReviewOptions,
+} from './sensitivity-review.js';
