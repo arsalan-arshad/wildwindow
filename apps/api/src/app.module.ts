@@ -3,6 +3,7 @@ import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { ZodValidationPipe } from 'nestjs-zod';
 
+import { AttributionsModule } from './attributions/attributions.module.js';
 import { CatalogueModule } from './catalogue/catalogue.module.js';
 import { ApiConfigModule } from './config/api-config.module.js';
 import { DbModule } from './db/db.module.js';
@@ -30,6 +31,7 @@ import { WaitlistModule } from './waitlist/waitlist.module.js';
     DbModule,
     WeatherModule,
     WaitlistModule,
+    AttributionsModule,
     CatalogueModule,
     ForecastModule,
   ],
