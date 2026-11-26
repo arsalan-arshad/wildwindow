@@ -378,10 +378,11 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Acceptance test: a fixture JPEG **with** GPS is rejected; one without GPS is accepted.
   - Done: 2026-11-26 — `StorageService` + Local/S3 drivers; `POST /v1/uploads/presign`; local PUT rejects GPS EXIF via `exifr` (`GPS_EXIF_FORBIDDEN`).
 
-- [ ] **T5.11 Logbook**
+- [x] **T5.11 Logbook**
   - Depends on: T5.10
   - Do: CRUD at `/v1/me/logbook` with `@OwnerLocation()`; AES-256-GCM for `exact_point_enc`; deleting an entry deletes its photos.
   - Acceptance test: the owner can read their exact point; another user gets 404; the database row stores ciphertext, not plain text.
+  - Done: 2026-11-26 — `GET/POST/PATCH/DELETE /v1/me/logbook` with `@OwnerLocation()`; AES-256-GCM `exact_point_enc` via `LOGBOOK_ENC_KEY`; delete removes photo objects; e2e owner decrypt + cross-user 404 + ciphertext-at-rest.
 
 - [ ] **T5.12 Challenges and entries**
   - Depends on: T5.11

@@ -68,3 +68,14 @@ describe('ApiEnv storage (T5.10)', () => {
     expect(env.STORAGE_SIGNING_SECRET).toBe('test-secret');
   });
 });
+
+describe('ApiEnv LOGBOOK_ENC_KEY (T5.11)', () => {
+  it('allows missing key (resolved in LogbookService)', () => {
+    expect(loadApiEnv({}).LOGBOOK_ENC_KEY).toBeUndefined();
+  });
+
+  it('passes through when set', () => {
+    const key = Buffer.alloc(32, 3).toString('base64');
+    expect(loadApiEnv({ LOGBOOK_ENC_KEY: key }).LOGBOOK_ENC_KEY).toBe(key);
+  });
+});
