@@ -12,6 +12,10 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ios: {
     supportsTablet: true,
     bundleIdentifier: 'studio.arsalandev.wildwindow',
+    infoPlist: {
+      NSLocationWhenInUseUsageDescription:
+        'WildWindow uses your location only to snap to a coarse area cell on this device. Exact coordinates are never stored or sent.',
+    },
   },
   android: {
     adaptiveIcon: {
@@ -19,6 +23,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       backgroundColor: '#1a4030',
     },
     package: 'studio.arsalandev.wildwindow',
+    permissions: ['ACCESS_COARSE_LOCATION', 'ACCESS_FINE_LOCATION'],
   },
   web: {
     bundler: 'metro',
@@ -28,6 +33,15 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   plugins: [
     'expo-router',
     'expo-localization',
+    [
+      'expo-location',
+      {
+        locationWhenInUsePermission:
+          'WildWindow uses your location only to snap to a coarse area cell on this device. Exact coordinates are never stored or sent.',
+        isIosBackgroundLocationEnabled: false,
+        isAndroidBackgroundLocationEnabled: false,
+      },
+    ],
     [
       'expo-splash-screen',
       {

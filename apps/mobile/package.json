@@ -17,22 +17,26 @@
     "@expo/vector-icons": "^15.1.1",
     "@react-native-async-storage/async-storage": "^3.1.1",
     "@tanstack/react-query": "^5.108.4",
+    "@wildwindow/geoprivacy": "workspace:^",
     "@wildwindow/shared": "workspace:^",
     "expo": "~58.0.25",
     "expo-constants": "~58.0.16",
     "expo-font": "~58.0.12",
     "expo-linking": "~58.0.17",
     "expo-localization": "^58.0.5",
+    "expo-location": "~58.0.22",
     "expo-router": "~58.0.31",
     "expo-splash-screen": "~58.0.14",
     "expo-status-bar": "~58.0.5",
     "expo-symbols": "~58.0.5",
     "expo-web-browser": "~58.0.8",
+    "h3-js": "^4.1.0",
     "i18next": "^27.2.9",
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "react-i18next": "^18.0.3",
     "react-native": "0.88.1",
+    "react-native-maps": "1.29.11",
     "react-native-reanimated": "4.7.1",
     "react-native-safe-area-context": "~5.11.1",
     "react-native-screens": "~4.30.1",
@@ -60,10 +64,12 @@
     ],
     "moduleNameMapper": {
       "^@/(.*)$": "<rootDir>/$1",
-      "^@wildwindow/shared/client$": "<rootDir>/__mocks__/@wildwindow/shared/client.ts"
+      "^@wildwindow/shared/client$": "<rootDir>/__mocks__/@wildwindow/shared/client.ts",
+      "^expo-location$": "<rootDir>/__mocks__/expo-location.ts",
+      "^react-native-maps$": "<rootDir>/__mocks__/react-native-maps.tsx"
     },
     "transformIgnorePatterns": [
-      "node_modules/(?!((jest-)?react-native|@react-native(-community)?|@react-native-async-storage/async-storage)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@sentry/react-native|native-base|react-native-svg|@tanstack/.*|i18next|react-i18next)"
+      "node_modules/(?!((jest-)?react-native|@react-native(-community)?|@react-native-async-storage/async-storage)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@sentry/react-native|native-base|react-native-svg|react-native-maps|@tanstack/.*|i18next|react-i18next|h3-js|@wildwindow/geoprivacy)"
     ],
     "setupFiles": [
       "<rootDir>/testing/jest-setup.ts"
