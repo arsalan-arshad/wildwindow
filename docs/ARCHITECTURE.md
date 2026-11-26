@@ -156,7 +156,7 @@ type HourlyWeather = {
 
 - **Default for production: MET Norway Locationforecast (`api.met.no`).** It is global and its data is openly licensed for commercial use with attribution. It requires an identifying `User-Agent` and caching that respects `Expires` / `If-Modified-Since`. **Check the current terms before launch.** Note: MET Norway gives a precipitation amount everywhere but precipitation _probability_ only in some areas. When the probability is missing, derive `precipProb` from the amount (for example `min(1, precipMm / 2)`) and document it.
 - **Open-Meteo:** for development and tests only, unless a commercial plan is bought (the free tier is non-commercial).
-- Always call the provider with the **res-5 cell centre** (never the user's position), and cache in `pub.weather_cache` with a TTL of the provider's `Expires` value or 1 hour.
+- Always call the provider with the **res-5 cell centre** (never the user's position), and cache in `pub.weather_cache` with a TTL of the provider's `Expires` value or 1 hour. When the forecast display cell is coarser than res-5 (`highly_protected` res-4), use a **deterministic res-5 child** of that display cell so every sibling under the same display cell shares one weather key.
 
 ### 3.5 Tide provider
 
