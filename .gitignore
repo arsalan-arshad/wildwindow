@@ -24,6 +24,9 @@ cdk.context.json
 service-account*.json
 *-firebase-adminsdk*.json
 
+# Vercel CLI local link (org/project ids may be force-added later per docs/VERCEL.md)
+.vercel/
+
 # OS / editor
 .DS_Store
 Thumbs.db

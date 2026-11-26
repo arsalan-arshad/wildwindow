@@ -6,6 +6,7 @@ You are working on **WildWindow** (working name), a wildlife **photo forecast** 
 - Technical source of truth: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) (sections are cited as `§`)
 - Work queue: [docs/TASKS.md](docs/TASKS.md)
 - Railway beta host (PostGIS + api/web/worker): [docs/RAILWAY.md](docs/RAILWAY.md)
+- Vercel web + PR previews: [docs/VERCEL.md](docs/VERCEL.md)
 
 ### Current status / handoff
 

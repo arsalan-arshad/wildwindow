@@ -1,0 +1,7 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "nextjs",
+  "installCommand": "cd ../.. && pnpm install --frozen-lockfile --filter web...",
+  "buildCommand": "cd ../.. && pnpm --filter @wildwindow/geoprivacy build && pnpm --filter @wildwindow/shared build && pnpm --filter web build",
+  "regions": ["lhr1"]
+}

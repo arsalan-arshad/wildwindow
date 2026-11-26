@@ -567,7 +567,7 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
 
 ## Phase 9: Beta hardening and deploy
 
-> **Railway interim (pre–Milestone H):** scaffolding for PostGIS + api/web/worker/migrate Docker deploy lives in `docs/RAILWAY.md` and `infra/railway/`. This does **not** complete T9.2–T9.5 (AWS CDK / Vercel). Prefer Railway over Mac Docker until CDK cutover.
+> **Railway interim (pre–Milestone H):** scaffolding for PostGIS + api/web/worker/migrate Docker deploy lives in `docs/RAILWAY.md` and `infra/railway/`. This does **not** complete T9.2–T9.4 (AWS CDK). Vercel web config is T9.5 (`docs/VERCEL.md`); Railway may still serve beta web until Vercel is linked. Prefer Railway over Mac Docker until CDK cutover.
 
 - [x] **T9.1 Observability**
   - Depends on: T5.2, T6.1, T7.1
@@ -592,10 +592,12 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Do: a GitHub Actions deploy workflow: build and push images on `main` → migrate → deploy to staging; a manual approval for prod. Use OIDC to AWS, no long-lived keys.
   - Acceptance test: a dry run in staging (the steps written down in the PR).
 
-- [ ] **T9.5 Web deploy**
+- [!] **T9.5 Web deploy**
   - Depends on: T7.1
   - Do: Vercel project config, env, and preview deploys for pull requests.
   - Acceptance test: the preview URL serves the landing page.
+  - Agent progress: 2026-11-26 — `apps/web/vercel.json` (pnpm monorepo install/build, region `lhr1`); `next.config.ts` skips `output: 'standalone'` when `VERCEL` is set (Railway Docker keeps standalone); `docs/VERCEL.md` documents preview URL → `/` landing (`page.tsx` / Landing) and env keys (no values); Vitest gates in `vercel-config.test.ts`. No Vercel project created, no deploy.
+  - Blocked: needs Arsalan – create Vercel project for `arsalan-arshad/wildwindow`, Root Directory `apps/web`, set Preview/Production env from `.env.example` / `docs/VERCEL.md`, enable PR previews; then confirm a PR preview URL serves the landing page. Optionally commit `.vercel/project.json` after `vercel link`.
 
 - [ ] **T9.6 EAS setup** 🧑
   - Depends on: T6.7
