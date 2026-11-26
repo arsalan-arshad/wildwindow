@@ -45,3 +45,11 @@ export function serviceUnavailable(message: string): ApiHttpException {
     message,
   });
 }
+
+/** Free watchlist capacity reached (ARCHITECTURE §7 / T5.9). */
+export function watchlistLimitError(limit: number): ApiHttpException {
+  return new ApiHttpException(HttpStatus.CONFLICT, {
+    code: 'WATCHLIST_LIMIT',
+    message: `Watchlist limit of ${String(limit)} reached`,
+  });
+}
