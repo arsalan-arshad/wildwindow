@@ -31,7 +31,8 @@ WORKDIR /app
 ENV NODE_ENV=production
 RUN groupadd --system --gid 1001 ww \
   && useradd --system --uid 1001 --gid ww ww
-# Bundled dist inlines @wildwindow/*; npm deps (pg, drizzle-orm, …) need node_modules.
+# Bundled dist inlines @wildwindow/* only (skipNodeModulesBundle). npm deps
+# (express, yaml, pg, …) must resolve from node_modules at runtime.
 COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/apps/api/dist ./apps/api/dist
 COPY --from=build /app/apps/api/package.json ./apps/api/package.json

@@ -7,12 +7,12 @@ export default defineConfig({
   sourcemap: true,
   clean: true,
   splitting: false,
-  // Inline workspace packages so the Railway runner need not copy packages/*/dist.
+  // Inline only workspace packages so the Railway runner need not copy
+  // packages/*/dist. Leave every other npm package external: bundling CJS
+  // (yaml, express → debug, …) into ESM installs a broken dynamic-require
+  // shim that crashes on boot (Railway: Dynamic require of "process" / "tty").
+  skipNodeModulesBundle: true,
   noExternal: [/^@wildwindow\//],
-  // @wildwindow/shared pulls `yaml`. Bundling yaml into ESM wraps CJS with a
-  // dynamic-require shim that crashes on boot: Dynamic require of "process".
-  // Keep yaml (and leave firebase-admin) external — root node_modules ships them.
-  external: ['yaml'],
   banner: {
     js: "import 'reflect-metadata';",
   },
