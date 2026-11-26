@@ -75,4 +75,20 @@ describe('T2.5 ww_api privacy isolation', () => {
       await client.end();
     }
   });
+
+  it('allows ww_api UPDATE on ref.taxon_region (T5.13 admin curate)', async () => {
+    const client = new Client({
+      connectionString: roleConnectionUrl(DATABASE_URL, 'ww_api', API_PASSWORD),
+    });
+    await client.connect();
+    try {
+      // Privilege check only — 0-row UPDATE still requires UPDATE right.
+      const result = await client.query(
+        `UPDATE ref.taxon_region SET reviewer = reviewer WHERE false`,
+      );
+      expect(result.command).toBe('UPDATE');
+    } finally {
+      await client.end();
+    }
+  });
 });

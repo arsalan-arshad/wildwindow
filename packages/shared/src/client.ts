@@ -1,3 +1,25 @@
+import {
+  AdminChallengeEntriesQuerySchema,
+  AdminChallengeEntriesResponseSchema,
+  AdminChallengeEntryPatchSchema,
+  AdminChallengeEntrySchema,
+  AdminIngestRunsResponseSchema,
+  AdminSpeciesCardPatchSchema,
+  AdminSpeciesQuerySchema,
+  AdminSpeciesResponseSchema,
+  AdminTaxonRegionPatchSchema,
+  AdminTaxonRegionSchema,
+  type AdminChallengeEntriesQuery,
+  type AdminChallengeEntriesResponse,
+  type AdminChallengeEntry,
+  type AdminChallengeEntryPatch,
+  type AdminIngestRunsResponse,
+  type AdminSpeciesCardPatch,
+  type AdminSpeciesQuery,
+  type AdminSpeciesResponse,
+  type AdminTaxonRegion,
+  type AdminTaxonRegionPatch,
+} from './api/admin.js';
 import { AreaResponseSchema, type AreaResponse } from './api/areas.js';
 import { AttributionsResponseSchema, type AttributionsResponse } from './api/attributions.js';
 import {
@@ -143,6 +165,28 @@ export type ApiClient = {
     get: (slug: string) => Promise<ChallengeResponse>;
     entries: (slug: string, query?: ChallengeEntriesQuery) => Promise<ChallengeEntriesResponse>;
     submit: (slug: string, body: ChallengeSubmitRequest) => Promise<ChallengeSubmitOk>;
+  };
+  readonly admin: {
+    species: {
+      get: (taxonId: string, query: AdminSpeciesQuery) => Promise<AdminSpeciesResponse>;
+      patch: (taxonId: string, body: AdminSpeciesCardPatch) => Promise<AdminSpeciesResponse>;
+    };
+    taxonRegion: {
+      get: (taxonId: string, region: string) => Promise<AdminTaxonRegion>;
+      patch: (
+        taxonId: string,
+        region: string,
+        body: AdminTaxonRegionPatch,
+      ) => Promise<AdminTaxonRegion>;
+    };
+    challengeEntries: {
+      list: (query?: AdminChallengeEntriesQuery) => Promise<AdminChallengeEntriesResponse>;
+      get: (id: string) => Promise<AdminChallengeEntry>;
+      patch: (id: string, body: AdminChallengeEntryPatch) => Promise<AdminChallengeEntry>;
+    };
+    ingestRuns: {
+      list: () => Promise<AdminIngestRunsResponse>;
+    };
   };
 };
 
@@ -390,6 +434,73 @@ export function createApiClient(options: CreateApiClientOptions): ApiClient {
           (data) => ChallengeSubmitOkSchema.parse(data),
           parsed,
         );
+      },
+    },
+    admin: {
+      species: {
+        get: (taxonId, query) => {
+          const parsed = AdminSpeciesQuerySchema.parse(query);
+          const qs = toSearchParams({ region: parsed.region });
+          return requestJson(
+            'GET',
+            `/v1/admin/species/${encodeURIComponent(taxonId)}${qs}`,
+            (data) => AdminSpeciesResponseSchema.parse(data),
+          );
+        },
+        patch: (taxonId, body) => {
+          const parsed = AdminSpeciesCardPatchSchema.parse(body);
+          return requestJson(
+            'PATCH',
+            `/v1/admin/species/${encodeURIComponent(taxonId)}`,
+            (data) => AdminSpeciesResponseSchema.parse(data),
+            parsed,
+          );
+        },
+      },
+      taxonRegion: {
+        get: (taxonId, region) =>
+          requestJson(
+            'GET',
+            `/v1/admin/taxon-region/${encodeURIComponent(taxonId)}/${encodeURIComponent(region)}`,
+            (data) => AdminTaxonRegionSchema.parse(data),
+          ),
+        patch: (taxonId, region, body) => {
+          const parsed = AdminTaxonRegionPatchSchema.parse(body);
+          return requestJson(
+            'PATCH',
+            `/v1/admin/taxon-region/${encodeURIComponent(taxonId)}/${encodeURIComponent(region)}`,
+            (data) => AdminTaxonRegionSchema.parse(data),
+            parsed,
+          );
+        },
+      },
+      challengeEntries: {
+        list: (query = {}) => {
+          const parsed = AdminChallengeEntriesQuerySchema.parse(query);
+          const qs = toSearchParams({ status: parsed.status });
+          return requestJson('GET', `/v1/admin/challenge-entries${qs}`, (data) =>
+            AdminChallengeEntriesResponseSchema.parse(data),
+          );
+        },
+        get: (id) =>
+          requestJson('GET', `/v1/admin/challenge-entries/${encodeURIComponent(id)}`, (data) =>
+            AdminChallengeEntrySchema.parse(data),
+          ),
+        patch: (id, body) => {
+          const parsed = AdminChallengeEntryPatchSchema.parse(body);
+          return requestJson(
+            'PATCH',
+            `/v1/admin/challenge-entries/${encodeURIComponent(id)}`,
+            (data) => AdminChallengeEntrySchema.parse(data),
+            parsed,
+          );
+        },
+      },
+      ingestRuns: {
+        list: () =>
+          requestJson('GET', '/v1/admin/ingest-runs', (data) =>
+            AdminIngestRunsResponseSchema.parse(data),
+          ),
       },
     },
   };

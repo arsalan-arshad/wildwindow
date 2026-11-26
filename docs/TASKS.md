@@ -390,10 +390,11 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Acceptance test: an entry isn't listed before approval or before 7 days have passed; posting without the pledge → 400; responses pass `assertPublicSafe`.
   - Done: 2026-11-26 — `GET /v1/challenges/current|:slug|:slug/entries` + `POST …/entries`; 7-day `publish_after`; pledge + open-tier + species match; gallery photo via signed GET (`createPresignedGet`); e2e + `assertPublicSafe`. Status accepts DB `live`/`active` → API `active`.
 
-- [ ] **T5.13 Admin endpoints and audit log**
+- [x] **T5.13 Admin endpoints and audit log**
   - Depends on: T5.8
   - Do: species card and tier edits, moderation and ingest runs (§7). Every change writes `app.audit_log` and clears the affected `forecast_cache` rows.
   - Acceptance test: changing a tier writes an audit row and the next forecast reflects the new tier.
+  - Done: 2026-11-26 — `GET/PATCH /v1/admin/species/:taxonId`, `taxon-region/:taxonId/:region`, `challenge-entries`, `GET ingest-runs`; every write → `app.audit_log` + `forecast_cache` clear for taxon; `ww_api` UPDATE on cards/tiers; e2e acceptance (tier → audit + forecast).
 
 - [ ] **T5.14 Account deletion and export**
   - Depends on: T5.11, T5.12
