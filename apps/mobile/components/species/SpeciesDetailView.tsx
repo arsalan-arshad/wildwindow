@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { ActivityIndicator, ScrollView, StyleSheet } from 'react-native';
+import { ActivityIndicator, Pressable, ScrollView, StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 import { PrimaryButton } from '@/components/PrimaryButton';
@@ -7,6 +7,7 @@ import { SeasonalityChart } from '@/components/species/SeasonalityChart';
 import { TierBadge } from '@/components/species/TierBadge';
 import { Text, View, useThemeColor } from '@/components/Themed';
 import { useApiClient } from '@/lib/api-context';
+import { isReviewedCard } from '@/lib/field-card';
 import { getLayoutDirection } from '@/lib/i18n';
 import {
   canRequestForecast,
@@ -22,9 +23,16 @@ export type SpeciesDetailViewProps = {
   readonly region: RegionId;
   /** Override forecast CTA in tests. */
   readonly onGetForecast?: (taxonId: string) => void;
+  /** Open the full field card (S-08). */
+  readonly onOpenFieldCard?: (taxonId: string) => void;
 };
 
-export function SpeciesDetailView({ taxonId, region, onGetForecast }: SpeciesDetailViewProps) {
+export function SpeciesDetailView({
+  taxonId,
+  region,
+  onGetForecast,
+  onOpenFieldCard,
+}: SpeciesDetailViewProps) {
   const { t, i18n } = useTranslation();
   const api = useApiClient();
   const direction = getLayoutDirection();
@@ -113,29 +121,40 @@ export function SpeciesDetailView({ taxonId, region, onGetForecast }: SpeciesDet
         </Text>
       ) : null}
 
-      <View
-        style={[styles.cardSummary, { backgroundColor: surface, borderColor: border }]}
-        testID="species-field-card-summary"
-      >
-        <Text style={styles.cardTitle}>{t('species.detail.fieldCardTitle')}</Text>
-        {detail.card !== null ? (
-          <>
-            <Text style={[styles.cardBody, { color: muted }]}>
-              {t('species.detail.fieldCardReady')}
-            </Text>
-            <Text style={styles.reviewed} testID="species-card-reviewed">
-              {t('species.detail.reviewedBy', {
-                name: detail.card.reviewedBy,
-                date: formatReviewedAt(detail.card.reviewedAt, i18n.language),
-              })}
-            </Text>
-          </>
-        ) : (
+      {isReviewedCard(detail.card) ? (
+        <Pressable
+          accessibilityRole="button"
+          onPress={() => {
+            onOpenFieldCard?.(taxonId);
+          }}
+          style={[styles.cardSummary, { backgroundColor: surface, borderColor: border }]}
+          testID="species-field-card-summary"
+        >
+          <Text style={styles.cardTitle}>{t('species.detail.fieldCardTitle')}</Text>
+          <Text style={[styles.cardBody, { color: muted }]}>
+            {t('species.detail.fieldCardReady')}
+          </Text>
+          <Text style={styles.reviewed} testID="species-card-reviewed">
+            {t('species.detail.reviewedBy', {
+              name: detail.card.reviewedBy,
+              date: formatReviewedAt(detail.card.reviewedAt, i18n.language),
+            })}
+          </Text>
+          <Text style={[styles.openCard, { color: tint }]} testID="species-open-field-card">
+            {t('species.detail.openFieldCard')}
+          </Text>
+        </Pressable>
+      ) : (
+        <View
+          style={[styles.cardSummary, { backgroundColor: surface, borderColor: border }]}
+          testID="species-field-card-summary"
+        >
+          <Text style={styles.cardTitle}>{t('species.detail.fieldCardTitle')}</Text>
           <Text style={[styles.cardBody, { color: muted }]} testID="species-card-missing">
             {t('species.detail.fieldCardMissing')}
           </Text>
-        )}
-      </View>
+        </View>
+      )}
 
       {showForecast ? (
         <PrimaryButton
@@ -225,6 +244,11 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: '600',
     marginTop: 4,
+  },
+  openCard: {
+    fontSize: 14,
+    fontWeight: '600',
+    marginTop: 6,
   },
   forecastCta: {
     marginTop: 8,
