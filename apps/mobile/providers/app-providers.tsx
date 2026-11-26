@@ -3,6 +3,8 @@ import { type ReactNode, useState } from 'react';
 import { I18nextProvider } from 'react-i18next';
 
 import { ApiClientProvider } from '@/lib/api-context';
+import { AuthProvider, useAuth } from '@/lib/auth/auth-context';
+import type { AuthClient } from '@/lib/auth/types';
 import { i18n, initI18n } from '@/lib/i18n';
 import { PreferencesProvider } from '@/lib/preferences-context';
 import type { AppPreferences, PreferenceStorage } from '@/lib/preferences';
@@ -26,14 +28,36 @@ export type AppProvidersProps = {
   /** Test overrides. */
   readonly queryClient?: QueryClient;
   readonly apiClient?: ApiClient;
+  readonly authClient?: AuthClient;
   readonly preferenceStorage?: PreferenceStorage;
   readonly initialPreferences?: AppPreferences;
 };
+
+/**
+ * Wires Auth → API client so Bearer tokens from Firebase reach Nest (T6.7).
+ * When tests pass `apiClient`, the auth token hook is skipped.
+ */
+function AuthAwareApiTree({
+  children,
+  apiClient,
+}: {
+  readonly children: ReactNode;
+  readonly apiClient?: ApiClient;
+}) {
+  const { getIdToken } = useAuth();
+
+  if (apiClient !== undefined) {
+    return <ApiClientProvider client={apiClient}>{children}</ApiClientProvider>;
+  }
+
+  return <ApiClientProvider getToken={getIdToken}>{children}</ApiClientProvider>;
+}
 
 export function AppProviders({
   children,
   queryClient,
   apiClient,
+  authClient,
   preferenceStorage,
   initialPreferences,
 }: AppProvidersProps) {
@@ -42,28 +66,35 @@ export function AppProviders({
 
   const apiTree =
     apiClient !== undefined ? (
-      <ApiClientProvider client={apiClient}>{children}</ApiClientProvider>
+      <AuthAwareApiTree apiClient={apiClient}>{children}</AuthAwareApiTree>
     ) : (
-      <ApiClientProvider>{children}</ApiClientProvider>
+      <AuthAwareApiTree>{children}</AuthAwareApiTree>
+    );
+
+  const authTree =
+    authClient !== undefined ? (
+      <AuthProvider client={authClient}>{apiTree}</AuthProvider>
+    ) : (
+      <AuthProvider>{apiTree}</AuthProvider>
     );
 
   let preferencesTree: ReactNode;
   if (preferenceStorage !== undefined && initialPreferences !== undefined) {
     preferencesTree = (
       <PreferencesProvider storage={preferenceStorage} initial={initialPreferences}>
-        {apiTree}
+        {authTree}
       </PreferencesProvider>
     );
   } else if (preferenceStorage !== undefined) {
     preferencesTree = (
-      <PreferencesProvider storage={preferenceStorage}>{apiTree}</PreferencesProvider>
+      <PreferencesProvider storage={preferenceStorage}>{authTree}</PreferencesProvider>
     );
   } else if (initialPreferences !== undefined) {
     preferencesTree = (
-      <PreferencesProvider initial={initialPreferences}>{apiTree}</PreferencesProvider>
+      <PreferencesProvider initial={initialPreferences}>{authTree}</PreferencesProvider>
     );
   } else {
-    preferencesTree = <PreferencesProvider>{apiTree}</PreferencesProvider>;
+    preferencesTree = <PreferencesProvider>{authTree}</PreferencesProvider>;
   }
 
   return (

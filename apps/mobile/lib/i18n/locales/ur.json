@@ -90,6 +90,37 @@
     "noPinLink": "نو-پن وعدہ",
     "regionLabel": "گھر کا علاقہ"
   },
+  "auth": {
+    "title": "سائن ان",
+    "subtitle": "اپنی واچ لسٹ اور لاگ بک آلات پر محفوظ رکھیں۔ بغیر اکاؤنٹ بھی براؤز کیا جا سکتا ہے۔",
+    "email": "ای میل",
+    "emailPlaceholder": "you@example.com",
+    "password": "پاس ورڈ",
+    "passwordPlaceholder": "کم از کم ۶ حروف",
+    "signIn": "سائن ان",
+    "createAccount": "اکاؤنٹ بنائیں",
+    "signOut": "سائن آؤٹ",
+    "working": "براہِ کرم انتظار…",
+    "switchToCreate": "اکاؤنٹ چاہیے؟ بنائیں",
+    "switchToSignIn": "پہلے سے اکاؤنٹ ہے؟ سائن ان کریں",
+    "or": "یا",
+    "continueApple": "ایپل کے ساتھ جاری رکھیں",
+    "continueGoogle": "گوگل کے ساتھ جاری رکھیں",
+    "socialNeedsDevBuild": "ایپل اور گوگل سائن ان کے لیے EAS ڈیولپمنٹ بلڈ چاہیے۔ Firebase سیٹ ہونے پر ای میل Expo Go میں کام کرتا ہے۔",
+    "notConfigured": "اس بلڈ پر سائن ان ترتیب نہیں ہے۔ EXPO_PUBLIC_FIREBASE_CONFIG میں Firebase ویب-ایپ JSON رکھیں۔",
+    "signedInAnonymous": "سائن ان",
+    "errors": {
+      "not_configured": "Firebase Auth ابھی ترتیب نہیں دی گئی۔",
+      "invalid_email": "درست ای میل درج کریں۔",
+      "weak_password": "کم از کم ۶ حروف کا پاس ورڈ استعمال کریں۔",
+      "wrong_credentials": "ای میل یا پاس ورڈ غلط ہے۔",
+      "email_in_use": "اس ای میل پر پہلے سے اکاؤنٹ ہے۔ سائن ان آزمائیں۔",
+      "too_many_requests": "بہت زیادہ کوششیں۔ بعد میں دوبارہ آزمائیں۔",
+      "network": "نیٹ ورک خرابی۔ کنکشن چیک کر کے دوبارہ آزمائیں۔",
+      "provider_unavailable": "اس سائن ان طریقے کے لیے ڈیولپمنٹ بلڈ چاہیے۔",
+      "unknown": "کچھ غلط ہو گیا۔ دوبارہ کوشش کریں۔"
+    }
+  },
   "species": {
     "browse": {
       "title": "انواع",

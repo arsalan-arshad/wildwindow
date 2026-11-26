@@ -29,8 +29,8 @@ export type CreateMobileApiClientOptions = {
 };
 
 /**
- * Typed `/v1` client for the Expo app (ARCHITECTURE §7, T5.1).
- * Auth token wiring lands with T6.7; until then `getToken` is optional.
+ * Typed `/v1` client for the Expo app (ARCHITECTURE §7, T5.1 / T6.7).
+ * Pass `getToken` from Auth so Nest receives `Authorization: Bearer <idToken>`.
  */
 export function createMobileApiClient(options: CreateMobileApiClientOptions = {}): ApiClient {
   return createApiClient({

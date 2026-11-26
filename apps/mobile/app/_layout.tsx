@@ -85,8 +85,9 @@ function RootLayoutNav() {
     const root = segments[0];
     const inOnboarding = root === 'onboarding';
     const inNoPin = root === 'no-pin';
+    const inSignIn = root === 'sign-in';
 
-    if (!onboardingComplete && !inOnboarding && !inNoPin) {
+    if (!onboardingComplete && !inOnboarding && !inNoPin && !inSignIn) {
       router.replace('/onboarding');
       return;
     }
@@ -114,6 +115,7 @@ function RootLayoutNav() {
         <Stack.Screen name="field-card" options={{ presentation: 'card' }} />
         <Stack.Screen name="area" options={{ presentation: 'card' }} />
         <Stack.Screen name="forecast" options={{ presentation: 'card' }} />
+        <Stack.Screen name="sign-in" options={{ presentation: 'card', title: 'Sign in' }} />
         <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
       </Stack>
     </ThemeProvider>

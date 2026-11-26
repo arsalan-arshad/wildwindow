@@ -446,11 +446,13 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Acceptance test: component test; a card without review status isn't shown.
   - Done: 2026-11-26 — Expo `/field-card` (S-08): settings scenes, Markdown fieldcraft/ethics/legal via lightweight parser, "Reviewed by"; unpublished/null review hides all card body. Species detail opens card only when reviewed. jest-expo acceptance.
 
-- [ ] **T6.7 Sign in (S-02)** 🧑
+- [!] **T6.7 Sign in (S-02)** 🧑
   - Depends on: T6.1, T5.8
   - Do: Firebase JS SDK, Apple + Google (EAS dev build), email link if it's practical (§8), token passed to the API client, sign out.
   - Acceptance test: works on a device or simulator with a dev build (manual test steps written in the PR); unit tests for the auth state store.
   - 🧑 Arsalan sets up the Apple Developer account, Google OAuth clients and the Firebase iOS/Android apps.
+  - Blocked: needs Arsalan – (1) create/finish Firebase project: enable Email/Password, register iOS+Android+Web apps, put public web config JSON in `EXPO_PUBLIC_FIREBASE_CONFIG`; (2) set API `FIREBASE_PROJECT_ID` + `FIREBASE_SERVICE_ACCOUNT_JSON` (T5.8); (3) Apple Developer account + Apple Sign-In capability; (4) Google Cloud OAuth iOS/Android clients; (5) `eas build --profile development` (or local prebuild) with `expo-apple-authentication` + `@react-native-google-signin/google-signin`, then wire those providers and re-test sign-in on a device/simulator.
+  - Notes: Code landed without EAS — Firebase JS SDK + email/password UI (S-02), auth store, Bearer token → API client, Profile sign-out; Apple/Google buttons present but disabled pending EAS. Email-link skipped (Dynamic Links shutdown; §8). Unit/component tests use AuthClient mocks.
 
 - [ ] **T6.8 Home with watchlist (S-03)**
   - Depends on: T6.5, T6.7, T5.9

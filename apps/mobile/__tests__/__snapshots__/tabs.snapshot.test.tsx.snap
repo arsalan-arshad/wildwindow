@@ -764,6 +764,80 @@ exports[`tab screens (T6.1 snapshots) matches Profile snapshot 1`] = `
           "paddingVertical": 12,
         },
         {
+          "backgroundColor": "#1a4030",
+          "opacity": 1,
+        },
+        {
+          "alignSelf": "stretch",
+          "marginTop": 24,
+        },
+      ]
+    }
+    testID="profile-sign-in"
+  >
+    <Text
+      style={
+        [
+          {
+            "color": "#14201a",
+          },
+          [
+            {
+              "fontSize": 16,
+              "fontWeight": "600",
+            },
+            {
+              "color": "#ffffff",
+            },
+          ],
+        ]
+      }
+    >
+      Sign in
+    </Text>
+  </View>
+  <View
+    accessibilityRole="button"
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": false,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      [
+        {
+          "alignItems": "center",
+          "borderRadius": 10,
+          "justifyContent": "center",
+          "minHeight": 48,
+          "paddingHorizontal": 18,
+          "paddingVertical": 12,
+        },
+        {
           "backgroundColor": "#ffffff",
           "borderColor": "#d5e0d9",
           "borderWidth": 1,

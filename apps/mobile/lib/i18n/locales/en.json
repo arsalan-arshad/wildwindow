@@ -90,6 +90,37 @@
     "noPinLink": "No-Pin Promise",
     "regionLabel": "Home region"
   },
+  "auth": {
+    "title": "Sign in",
+    "subtitle": "Save your watchlist and logbook across devices. Browsing works without an account.",
+    "email": "Email",
+    "emailPlaceholder": "you@example.com",
+    "password": "Password",
+    "passwordPlaceholder": "At least 6 characters",
+    "signIn": "Sign in",
+    "createAccount": "Create account",
+    "signOut": "Sign out",
+    "working": "Please wait…",
+    "switchToCreate": "Need an account? Create one",
+    "switchToSignIn": "Already have an account? Sign in",
+    "or": "or",
+    "continueApple": "Continue with Apple",
+    "continueGoogle": "Continue with Google",
+    "socialNeedsDevBuild": "Apple and Google sign-in need an EAS development build. Email works in Expo Go once Firebase is configured.",
+    "notConfigured": "Sign-in is not configured on this build. Set EXPO_PUBLIC_FIREBASE_CONFIG to the Firebase web-app JSON.",
+    "signedInAnonymous": "Signed in",
+    "errors": {
+      "not_configured": "Firebase Auth is not configured yet.",
+      "invalid_email": "Enter a valid email address.",
+      "weak_password": "Use a password with at least 6 characters.",
+      "wrong_credentials": "Email or password is incorrect.",
+      "email_in_use": "That email already has an account. Try signing in.",
+      "too_many_requests": "Too many attempts. Try again later.",
+      "network": "Network error. Check your connection and try again.",
+      "provider_unavailable": "That sign-in method needs a development build.",
+      "unknown": "Something went wrong. Try again."
+    }
+  },
   "species": {
     "browse": {
       "title": "Species",
