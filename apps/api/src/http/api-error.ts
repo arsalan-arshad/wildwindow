@@ -32,6 +32,13 @@ export function unauthorizedError(message = 'Unauthorized'): ApiHttpException {
   });
 }
 
+export function forbiddenError(message = 'Forbidden'): ApiHttpException {
+  return new ApiHttpException(HttpStatus.FORBIDDEN, {
+    code: 'FORBIDDEN',
+    message,
+  });
+}
+
 export function serviceUnavailable(message: string): ApiHttpException {
   return new ApiHttpException(HttpStatus.SERVICE_UNAVAILABLE, {
     code: 'SERVICE_UNAVAILABLE',

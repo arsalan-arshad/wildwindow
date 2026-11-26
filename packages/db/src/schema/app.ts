@@ -27,6 +27,8 @@ export const users = appSchema.table(
   {
     id: uuid('id').defaultRandom().primaryKey(),
     firebaseUid: text('firebase_uid').notNull(),
+    /** Normalized lower(trim); used by `make-admin <email>` (T5.8). Not in public /v1/me. */
+    email: text('email'),
     displayName: text('display_name'),
     homeRegionId: integer('home_region_id').references(() => regions.id),
     locale: text('locale').notNull().default('en'),
@@ -34,7 +36,12 @@ export const users = appSchema.table(
     createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
     deletedAt: timestamp('deleted_at', { withTimezone: true }),
   },
-  (table) => [uniqueIndex('users_firebase_uid_uidx').on(table.firebaseUid)],
+  (table) => [
+    uniqueIndex('users_firebase_uid_uidx').on(table.firebaseUid),
+    uniqueIndex('users_email_lower_uidx')
+      .using('btree', sql`lower(${table.email})`)
+      .where(sql`${table.email} IS NOT NULL`),
+  ],
 );
 
 export const watchlist = appSchema.table(

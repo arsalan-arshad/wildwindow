@@ -5,6 +5,7 @@ import { runBacktest } from './backtest/run.js';
 import { runGbifFetch } from './gbif/fetch.js';
 import { runGbifLoad } from './gbif/load.js';
 import { runGbifRequest } from './gbif/request.js';
+import { runMakeAdmin } from './make-admin.js';
 import { defaultBetaSpeciesPath, defaultDownloadDir } from './paths.js';
 import { runScoreRefs } from './score-refs/run.js';
 
@@ -173,6 +174,22 @@ export function createProgram(): Command {
           failed: result.failed,
           insufficient: result.insufficient,
           skipped: result.skipped,
+        }),
+      );
+    });
+
+  program
+    .command('make-admin')
+    .description('Set app.users.role = admin for a user by email (T5.8; uses DATABASE_URL)')
+    .argument('<email>', 'user email (must already exist from a prior sign-in upsert)')
+    .action(async (email: string) => {
+      const result = await runMakeAdmin({ email });
+      console.log(
+        JSON.stringify({
+          userId: result.userId,
+          email: result.email,
+          role: result.role,
+          alreadyAdmin: result.alreadyAdmin,
         }),
       );
     });
