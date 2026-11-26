@@ -152,5 +152,98 @@
       "empty": "Search a place or use your location to see the coarse area cell.",
       "invalid": "Map unavailable for this cell."
     }
+  },
+  "forecast": {
+    "title": "This week's Window",
+    "missing": "Pick a species and area to see a forecast.",
+    "error": "Could not load this forecast. Try again.",
+    "score": {
+      "label": "Window score",
+      "a11y": "Window score {{score}}",
+      "limitedData": "Limited data in this area"
+    },
+    "confidence": {
+      "high": "High",
+      "medium": "Medium",
+      "low": "Low"
+    },
+    "days": {
+      "title": "This week"
+    },
+    "bestBlock": {
+      "title": "Best 2-hour block",
+      "bestDay": "best day"
+    },
+    "light": {
+      "title": "Light times",
+      "goldenAm": "Golden hour (morning)",
+      "goldenPm": "Golden hour (evening)",
+      "blueAm": "Blue hour (morning)",
+      "bluePm": "Blue hour (evening)",
+      "unavailable": "Not available",
+      "deviceNote": "Computed on this device for the coarse area cell."
+    },
+    "conditions": {
+      "title": "Weather and tide"
+    },
+    "factors": {
+      "seasonality": "Seasonality",
+      "timeOfDay": "Time of day",
+      "light": "Light",
+      "weather": "Weather",
+      "tide": "Tide",
+      "values": {
+        "notUsed": "Not used",
+        "pending": "Not available yet"
+      },
+      "reasons": {
+        "seasonality": {
+          "high": "Often reported here at this time of year.",
+          "mid": "Sometimes reported here at this time of year.",
+          "low": "Rarely reported here at this time of year."
+        },
+        "timeOfDay": {
+          "high": "The best block matches when this species is usually active.",
+          "mid": "The best block partly matches the usual activity window.",
+          "low": "The best block sits outside the usual activity window."
+        },
+        "light": {
+          "high": "The best block overlaps golden hour well.",
+          "mid": "The best block has some golden-hour overlap.",
+          "low": "The best block sits mostly outside golden hour."
+        },
+        "weather": {
+          "high": "Conditions look calm with low rain risk in the best block.",
+          "mid": "Weather is mixed in the best block — check closer to the day.",
+          "low": "Wind or rain may cut into the best block.",
+          "pending": "Weather forecast is not available yet for this day."
+        },
+        "tide": {
+          "high": "The best block sits in the preferred tide window.",
+          "mid": "Tide is only a partial match for the best block.",
+          "low": "The best block sits outside the preferred tide window.",
+          "notUsed": "Not used"
+        }
+      }
+    },
+    "why": {
+      "title": "Why this score",
+      "version": "Scoring version {{version}}"
+    },
+    "notes": {
+      "title": "Notes"
+    },
+    "lockout": {
+      "title": "Resting season: no forecast",
+      "body": "Forecasts are paused during the breeding / nesting lockout period."
+    },
+    "unavailable": {
+      "title": "Forecast unavailable",
+      "body": "WildWindow does not publish a Window score for this species in this region."
+    },
+    "notCovered": {
+      "title": "Not covered yet",
+      "body": "This area is outside the Scotland and Sindh beta regions."
+    }
   }
 }

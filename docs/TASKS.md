@@ -434,10 +434,11 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Acceptance test: a unit test shows that the location handler passes only the cell ID onwards (spy on the API client and storage; no lat/lng anywhere).
   - Done: 2026-11-26, PR #68 — Expo `/area` (S-06): place search via `GET /v1/places`, "use my location" (`expo-location` foreground) → `snapToCell` on device → only `cellR7` to storage/`GET /v1/areas`; coarse cell map (`react-native-maps` + `h3-js` boundaries). Privacy unit test spies API + storage (no lat/lng).
 
-- [ ] **T6.5 Forecast detail (S-07)**
+- [x] **T6.5 Forecast detail (S-07)**
   - Depends on: T6.4, T5.6, T4.2
   - Do: week score, 7-day strip, best block, light times (computed on the device), weather and tide rows, the "why this score" breakdown, the Low-confidence range, and lockout or unavailable states.
   - Acceptance test: component tests for the `ok`, `lockout`, `unavailable`, `not_covered` and low-confidence states; nowhere does the text say "% chance".
+  - Done: 2026-11-26 — Expo `/forecast` (S-07): week Window score + confidence, 7-day strip, best 2h block, on-device light (`@wildwindow/scoring/light` from display-cell centre), weather/tide rows, why-this-score factor breakdown + scoringVersion, low-confidence range ("Limited data…"); lockout / unavailable / not_covered callouts. Never "% chance". jest-expo acceptance for all five states.
 
 - [ ] **T6.6 Field card (S-08)**
   - Depends on: T6.3

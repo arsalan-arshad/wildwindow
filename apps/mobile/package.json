@@ -18,6 +18,7 @@
     "@react-native-async-storage/async-storage": "^3.1.1",
     "@tanstack/react-query": "^5.108.4",
     "@wildwindow/geoprivacy": "workspace:^",
+    "@wildwindow/scoring": "workspace:^",
     "@wildwindow/shared": "workspace:^",
     "expo": "~58.0.25",
     "expo-constants": "~58.0.16",
@@ -69,7 +70,7 @@
       "^react-native-maps$": "<rootDir>/__mocks__/react-native-maps.tsx"
     },
     "transformIgnorePatterns": [
-      "node_modules/(?!((jest-)?react-native|@react-native(-community)?|@react-native-async-storage/async-storage)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@sentry/react-native|native-base|react-native-svg|react-native-maps|@tanstack/.*|i18next|react-i18next|h3-js|@wildwindow/geoprivacy)"
+      "node_modules/(?!((jest-)?react-native|@react-native(-community)?|@react-native-async-storage/async-storage)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@sentry/react-native|native-base|react-native-svg|react-native-maps|@tanstack/.*|i18next|react-i18next|h3-js|suncalc|@wildwindow/geoprivacy|@wildwindow/scoring)"
     ],
     "setupFiles": [
       "<rootDir>/testing/jest-setup.ts"
