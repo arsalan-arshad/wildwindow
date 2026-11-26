@@ -1,7 +1,11 @@
 import type { ConfigContext, ExpoConfig } from 'expo/config';
 
-/** Expo / EAS project (expo.dev). Safe to commit — not a secret. */
-const EAS_PROJECT_ID = '8fe1fd78-40cf-4c40-8922-a5f9084fe7d0';
+/**
+ * Expo / EAS project linkage (expo.dev). Safe to commit — not a secret.
+ * Matches local `eas init`: owner + slug + extra.eas.projectId (see docs/EAS.md).
+ */
+const EAS_PROJECT_ID = '36e6ca10-4761-4338-b057-bee2208b142b';
+const EAS_OWNER = 'arsalandev';
 
 /**
  * Native Firebase config paths (T6.7 / T9.6).
@@ -16,6 +20,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
   name: 'WildWindow',
   slug: 'wildwindow',
+  owner: EAS_OWNER,
   version: '0.0.0',
   orientation: 'portrait',
   scheme: 'wildwindow',

@@ -1,0 +1,22 @@
+# OTA update to the preview channel (JS/asset-only; no new store binary).
+# Manual: cd apps/mobile && eas workflow:run .eas/workflows/publish-preview-update.yml
+name: Publish preview update
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches: ['cursor/**']
+    paths:
+      - 'apps/mobile/**'
+      - 'packages/geoprivacy/**'
+      - 'packages/scoring/**'
+      - 'packages/shared/**'
+
+jobs:
+  update_preview:
+    name: Publish preview OTA
+    type: update
+    environment: preview
+    params:
+      channel: preview
+      platform: all

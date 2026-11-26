@@ -605,8 +605,8 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Depends on: T6.7
   - Do: `eas.json` profiles `development`, `preview` and `production`; app icons and splash placeholders; EAS Update channels.
   - Acceptance test: `eas build --profile preview` succeeds for both platforms (Arsalan runs it if credentials are needed).
-  - Agent progress: 2026-11-26 — `apps/mobile/eas.json` (`development` / `preview` / `production` + Update channels); `extra.eas.projectId` `8fe1fd78-40cf-4c40-8922-a5f9084fe7d0`; `updates.url` + `runtimeVersion.policy: appVersion`; `android`/`ios.googleServicesFile` → `./google-services.json` / `./GoogleService-Info.plist` (or `GOOGLE_SERVICES_*` EAS file secrets); real files gitignored + `*.example` placeholders; `docs/EAS.md` + `apps/mobile/README.md`. Icons/splash already under `assets/images/`.
-  - Blocked: needs Arsalan – drop Firebase native downloads at the gitignored paths (or upload EAS file secrets), set `EXPO_PUBLIC_FIREBASE_CONFIG`, add GitHub `EXPO_TOKEN`, then run `eas build --profile preview` for iOS + Android (credentials).
+  - Agent progress: 2026-11-26 — `owner: arsalandev`, `slug: wildwindow`, `extra.eas.projectId` `36e6ca10-4761-4338-b057-bee2208b142b`; `eas.json` profiles + Update channels; `.eas/workflows/` (dev/preview builds, production deploy+submit, preview OTA); `googleServicesFile` + gitignore + `*.example`; `docs/EAS.md`.
+  - Blocked: needs Arsalan – EAS/store credentials (`eas credentials`), Firebase native file secrets or local drops, `EXPO_PUBLIC_FIREBASE_CONFIG`, GitHub `EXPO_TOKEN`, link GitHub↔Expo; then `eas build --profile preview` / workflow runs.
 
 - [x] **T9.7 End-to-end geoprivacy audit**
   - Depends on: T5.6, T5.7, T5.12

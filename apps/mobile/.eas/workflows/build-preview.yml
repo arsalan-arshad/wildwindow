@@ -1,0 +1,20 @@
+# Internal preview builds (TestFlight / Play internal). Does not submit to stores.
+# Manual: cd apps/mobile && eas workflow:run .eas/workflows/build-preview.yml
+name: Build preview
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  build_android:
+    name: Build Android preview
+    type: build
+    params:
+      platform: android
+      profile: preview
+  build_ios:
+    name: Build iOS preview
+    type: build
+    params:
+      platform: ios
+      profile: preview

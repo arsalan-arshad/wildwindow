@@ -33,9 +33,12 @@ yarn-error.*
 # local env files
 .env*.local
 
-# Firebase native config (download from console; see docs/EAS.md). Examples stay tracked.
+# Firebase native config (download from console; see docs/EAS.md).
+# Real files must never be committed. GoogleService-Info*.plist covers Dev/Release variants.
+# If a file was already tracked: git rm --cached google-services.json GoogleService-Info.plist
 google-services.json
 GoogleService-Info.plist
+GoogleService-Info*.plist
 !google-services.json.example
 !GoogleService-Info.plist.example
 

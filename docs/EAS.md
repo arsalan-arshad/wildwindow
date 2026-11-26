@@ -4,15 +4,32 @@ WildWindow’s Expo app lives in [`apps/mobile`](../apps/mobile). EAS project id
 
 Committed config:
 
-| Path                                                                                              | Role                                                                                  |
-| ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
-| [`apps/mobile/app.config.ts`](../apps/mobile/app.config.ts)                                       | Bundle/package ids, `googleServicesFile` paths, `extra.eas.projectId`, EAS Update URL |
-| [`apps/mobile/eas.json`](../apps/mobile/eas.json)                                                 | Build profiles `development`, `preview`, `production` + Update channels               |
-| [`apps/mobile/google-services.json.example`](../apps/mobile/google-services.json.example)         | Shape-only Android placeholder (not a real project)                                   |
-| [`apps/mobile/GoogleService-Info.plist.example`](../apps/mobile/GoogleService-Info.plist.example) | Shape-only iOS placeholder (not a real project)                                       |
-| [`apps/mobile/README.md`](../apps/mobile/README.md)                                               | Short drop-path + env reminder                                                        |
+| Path                                                                                              | Role                                                                             |
+| ------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| [`apps/mobile/app.config.ts`](../apps/mobile/app.config.ts)                                       | `owner`/`slug`/`extra.eas.projectId`, `googleServicesFile`, EAS Update URL       |
+| [`apps/mobile/eas.json`](../apps/mobile/eas.json)                                                 | Build profiles `development`, `preview`, `production` + Update channels          |
+| [`apps/mobile/.eas/workflows/`](../apps/mobile/.eas/workflows/)                                   | EAS Workflows: development/preview builds, production deploy+submit, preview OTA |
+| [`apps/mobile/google-services.json.example`](../apps/mobile/google-services.json.example)         | Shape-only Android placeholder (not a real project)                              |
+| [`apps/mobile/GoogleService-Info.plist.example`](../apps/mobile/GoogleService-Info.plist.example) | Shape-only iOS placeholder (not a real project)                                  |
+| [`apps/mobile/README.md`](../apps/mobile/README.md)                                               | Short drop-path + env reminder                                                   |
 
 Icons / splash placeholders already live under `apps/mobile/assets/images/` (T9.6).
+
+### What `eas init` writes vs what is committed
+
+`eas init --id 36e6ca10-4761-4338-b057-bee2208b142b` (or interactive link) typically patches `app.config` with **public** link fields only — never tokens or Firebase downloads:
+
+| Field                 | Usual `eas init`                  | In this repo                                                                       |
+| --------------------- | --------------------------------- | ---------------------------------------------------------------------------------- |
+| `extra.eas.projectId` | Yes — project UUID                | **Yes** — `36e6ca10-4761-4338-b057-bee2208b142b` (from Arsalan’s local `eas init`) |
+| `owner`               | Often — Expo account username     | **Yes** — `arsalandev`                                                             |
+| `slug`                | Yes                               | **Yes** — `wildwindow`                                                             |
+| `updates.url`         | Sometimes / with Update setup     | **Yes** — `https://u.expo.dev/<projectId>`                                         |
+| `runtimeVersion`      | Sometimes                         | **Yes** — `{ policy: 'appVersion' }`                                               |
+| `eas.json` profiles   | Separate `eas build:configure`    | **Yes** — `development` / `preview` / `production` + Update channels               |
+| EAS Workflows         | Separate (`.eas/workflows/*.yml`) | **Yes** — under `apps/mobile/.eas/workflows/`                                      |
+
+If your local `app.config.ts` still differs after pulling this branch, keep only those public fields — discard any accidental secret paths.
 
 ---
 
@@ -25,12 +42,28 @@ Register **Android** and **iOS** apps in Firebase with:
 | Android package | `studio.arsalandev.wildwindow` |
 | iOS bundle ID   | `studio.arsalandev.wildwindow` |
 
-Then download and place (filenames matter; both are **gitignored**):
+Then download and place (filenames matter; both are **gitignored** in the root `.gitignore` and `apps/mobile/.gitignore`, including `GoogleService-Info*.plist` variants):
 
 | Platform | Console download             | Local path (repo)                          |
 | -------- | ---------------------------- | ------------------------------------------ |
 | Android  | **google-services.json**     | **`apps/mobile/google-services.json`**     |
 | iOS      | **GoogleService-Info.plist** | **`apps/mobile/GoogleService-Info.plist`** |
+
+Confirm ignore after dropping files:
+
+```bash
+git check-ignore -v apps/mobile/google-services.json apps/mobile/GoogleService-Info.plist
+# expect a matching rule from .gitignore or apps/mobile/.gitignore
+git status   # must NOT list those two paths
+```
+
+If either file was force-added or tracked before the ignore rules landed:
+
+```bash
+git rm --cached apps/mobile/google-services.json apps/mobile/GoogleService-Info.plist
+```
+
+Never `git add -f` them.
 
 `app.config.ts` wires:
 
@@ -112,4 +145,41 @@ Keys match [`.env.example`](../.env.example). Restrict the web API key in the Fi
 | `preview`            | internal     | `preview`      | Internal TestFlight / Play testing                      |
 | `production`         | store        | `production`   | `autoIncrement`; submit profile ready                   |
 
-EAS Update URL in `app.config.ts`: `https://u.expo.dev/8fe1fd78-40cf-4c40-8922-a5f9084fe7d0` with `runtimeVersion.policy: 'appVersion'`.
+EAS Update URL in `app.config.ts`: `https://u.expo.dev/36e6ca10-4761-4338-b057-bee2208b142b` with `runtimeVersion.policy: 'appVersion'`.
+
+---
+
+## EAS Workflows (build / submit / OTA)
+
+Workflow YAML lives next to `eas.json` under [`apps/mobile/.eas/workflows/`](../apps/mobile/.eas/workflows/):
+
+| Workflow                        | Trigger                                                                 | What it does                                                           |
+| ------------------------------- | ----------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| `create-development-builds.yml` | Manual (`workflow_dispatch`)                                            | Android + iOS `development` builds                                     |
+| `build-preview.yml`             | Manual                                                                  | Android + iOS `preview` builds (no store submit)                       |
+| `deploy-to-production.yml`      | Push to `main` (paths under `apps/mobile` + scoring packages) or manual | Fingerprint → build+submit if needed, else OTA on `production` channel |
+| `publish-preview-update.yml`    | Manual or push to `cursor/**` touching mobile/packages                  | OTA to `preview` channel                                               |
+
+Run from the Expo app root:
+
+```bash
+cd apps/mobile
+eas workflow:run .eas/workflows/create-development-builds.yml
+eas workflow:run .eas/workflows/build-preview.yml
+eas workflow:run .eas/workflows/deploy-to-production.yml
+eas workflow:run .eas/workflows/publish-preview-update.yml
+```
+
+### Credentials Arsalan must configure (never commit)
+
+| Need                                 | Where / command                                                                            | Notes                           |
+| ------------------------------------ | ------------------------------------------------------------------------------------------ | ------------------------------- |
+| Expo login / robot token             | `eas login` locally; GitHub secret `EXPO_TOKEN` for Actions                                | No token in git                 |
+| iOS build signing                    | `eas credentials:configure-build -p ios -e production` (and development/preview as needed) | Apple Developer account         |
+| App Store Connect API key (submit)   | `eas credentials --platform ios`                                                           | For Expo Submit                 |
+| Android keystore                     | `eas credentials --platform android`                                                       | EAS can manage                  |
+| Google Play service account (submit) | `eas credentials --platform android`                                                       | Play Console API access         |
+| Firebase native files                | EAS file env `GOOGLE_SERVICES_JSON` / `GOOGLE_SERVICES_PLIST`                              | Or local gitignored paths       |
+| Link GitHub ↔ Expo project           | expo.dev → project → GitHub                                                                | So push triggers on `main` fire |
+
+Agents do **not** run `eas build` / `eas submit` / `eas workflow:run` with production credentials.

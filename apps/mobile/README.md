@@ -40,3 +40,5 @@ pnpm --filter mobile lint && pnpm --filter mobile typecheck && pnpm --filter mob
 ```
 
 Native Google / Apple Sign-In needs an EAS development build (see `docs/EAS.md`).
+
+EAS linkage (public): `owner: arsalandev`, `slug: wildwindow`, projectId `36e6ca10-4761-4338-b057-bee2208b142b`. Workflows under `.eas/workflows/`.
