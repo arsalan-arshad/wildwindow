@@ -3,6 +3,8 @@
 import Link from 'next/link';
 
 import { AdminGate } from '@/components/admin/admin-gate';
+import { IngestRunsTable } from '@/components/admin/ingest-runs-table';
+import { ModerationQueue } from '@/components/admin/moderation-queue';
 import { SpeciesCardEditor } from '@/components/admin/species-card-editor';
 import { TierLockoutEditor } from '@/components/admin/tier-lockout-editor';
 
@@ -26,13 +28,26 @@ export function AdminHub({ forbiddenRedirectTo = '/' }: AdminHubProps) {
         >
           Tiers and lockouts
         </a>
+        <a
+          href="#moderation-queue-heading"
+          className="text-forest-600 underline-offset-2 hover:underline"
+        >
+          Moderation
+        </a>
+        <a
+          href="#ingest-runs-heading"
+          className="text-forest-600 underline-offset-2 hover:underline"
+        >
+          Ingestion runs
+        </a>
         <Link href="/" className="text-ink-muted underline-offset-2 hover:underline">
           Back to site
         </Link>
       </nav>
       <SpeciesCardEditor />
       <TierLockoutEditor />
-      <p className="text-xs text-ink-muted">Moderation queue and ingestion runs land in T7.7.</p>
+      <ModerationQueue />
+      <IngestRunsTable />
     </AdminGate>
   );
 }
