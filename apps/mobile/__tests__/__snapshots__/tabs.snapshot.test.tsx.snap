@@ -505,117 +505,60 @@ exports[`tab screens (T6.1 snapshots) matches Explore snapshot 1`] = `
 `;
 
 exports[`tab screens (T6.1 snapshots) matches Home snapshot 1`] = `
-<RCTScrollView
-  contentContainerStyle={
-    {
-      "paddingBottom": 40,
-      "paddingHorizontal": 20,
-      "paddingTop": 16,
-    }
-  }
+<View
   style={
     [
       {
-        "flex": 1,
+        "backgroundColor": "#f7faf8",
       },
-      {
-        "direction": "ltr",
-      },
+      [
+        {
+          "flex": 1,
+        },
+        {
+          "direction": "ltr",
+        },
+      ],
     ]
   }
-  testID="home-signed-out"
+  testID="tab-home"
 >
-  <View>
-    <Text
-      style={
-        [
-          {
-            "color": "#14201a",
-          },
-          {
-            "fontSize": 28,
-            "fontWeight": "700",
-          },
-        ]
+  <RCTScrollView
+    contentContainerStyle={
+      {
+        "paddingBottom": 40,
+        "paddingHorizontal": 20,
+        "paddingTop": 16,
       }
-    >
-      This week
-    </Text>
-    <Text
-      style={
-        [
-          {
-            "color": "#14201a",
-          },
+    }
+    style={
+      [
+        {
+          "flex": 1,
+        },
+        {
+          "direction": "ltr",
+        },
+      ]
+    }
+    testID="home-signed-out"
+  >
+    <View>
+      <Text
+        style={
           [
             {
-              "fontSize": 15,
-              "lineHeight": 22,
-              "marginTop": 8,
+              "color": "#14201a",
             },
             {
-              "color": "#4a5c52",
+              "fontSize": 28,
+              "fontWeight": "700",
             },
-          ],
-        ]
-      }
-    >
-      Sign in to see your watchlist forecasts on Home.
-    </Text>
-    <View
-      accessibilityRole="button"
-      accessibilityState={
-        {
-          "busy": undefined,
-          "checked": undefined,
-          "disabled": false,
-          "expanded": undefined,
-          "selected": undefined,
+          ]
         }
-      }
-      accessibilityValue={
-        {
-          "max": undefined,
-          "min": undefined,
-          "now": undefined,
-          "text": undefined,
-        }
-      }
-      accessible={true}
-      collapsable={false}
-      focusable={true}
-      onBlur={[Function]}
-      onClick={[Function]}
-      onFocus={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
-      style={
-        [
-          {
-            "alignItems": "center",
-            "borderRadius": 10,
-            "justifyContent": "center",
-            "minHeight": 48,
-            "paddingHorizontal": 18,
-            "paddingVertical": 12,
-          },
-          {
-            "backgroundColor": "#1a4030",
-            "opacity": 1,
-          },
-          {
-            "alignSelf": "stretch",
-            "marginBottom": 24,
-            "marginTop": 16,
-          },
-        ]
-      }
-      testID="home-sign-in"
-    >
+      >
+        This week
+      </Text>
       <Text
         style={
           [
@@ -624,21 +567,97 @@ exports[`tab screens (T6.1 snapshots) matches Home snapshot 1`] = `
             },
             [
               {
-                "fontSize": 16,
-                "fontWeight": "600",
+                "fontSize": 15,
+                "lineHeight": 22,
+                "marginTop": 8,
               },
               {
-                "color": "#ffffff",
+                "color": "#4a5c52",
               },
             ],
           ]
         }
       >
-        Sign in
+        Sign in to see your watchlist forecasts on Home.
       </Text>
+      <View
+        accessibilityRole="button"
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": false,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          [
+            {
+              "alignItems": "center",
+              "borderRadius": 10,
+              "justifyContent": "center",
+              "minHeight": 48,
+              "paddingHorizontal": 18,
+              "paddingVertical": 12,
+            },
+            {
+              "backgroundColor": "#1a4030",
+              "opacity": 1,
+            },
+            {
+              "alignSelf": "stretch",
+              "marginBottom": 24,
+              "marginTop": 16,
+            },
+          ]
+        }
+        testID="home-sign-in"
+      >
+        <Text
+          style={
+            [
+              {
+                "color": "#14201a",
+              },
+              [
+                {
+                  "fontSize": 16,
+                  "fontWeight": "600",
+                },
+                {
+                  "color": "#ffffff",
+                },
+              ],
+            ]
+          }
+        >
+          Sign in
+        </Text>
+      </View>
     </View>
-  </View>
-</RCTScrollView>
+  </RCTScrollView>
+</View>
 `;
 
 exports[`tab screens (T6.1 snapshots) matches Logbook snapshot 1`] = `

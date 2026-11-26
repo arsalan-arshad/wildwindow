@@ -76,7 +76,8 @@ describe('Onboarding (T6.2 S-01)', () => {
       expect(view.getByTestId('post-onboarding')).toBeTruthy();
     });
     expect(view.getByTestId('tab-home')).toBeTruthy();
-    expect(view.getByText('Home')).toBeTruthy();
+    // S-03 Home title (T6.8); tab label "Home" lives on the tab bar.
+    expect(view.getByText('This week')).toBeTruthy();
 
     await waitFor(async () => {
       const prefs = await loadPreferences(storage);
