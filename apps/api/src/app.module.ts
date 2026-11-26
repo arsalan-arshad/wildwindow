@@ -13,6 +13,7 @@ import { PublicGeoInterceptor } from './geoprivacy/public-geo.interceptor.js';
 import { HealthController } from './health.controller.js';
 import { ThrottlerExceptionFilter } from './http/throttler-exception.filter.js';
 import { ApiLoggerModule } from './logging/logger.module.js';
+import { LogbookModule } from './me/logbook.module.js';
 import { WeatherModule } from './providers/weather/weather.module.js';
 import { UploadsModule } from './uploads/uploads.module.js';
 import { WaitlistModule } from './waitlist/waitlist.module.js';
@@ -34,6 +35,7 @@ import { WaitlistModule } from './waitlist/waitlist.module.js';
     AuthModule,
     WeatherModule,
     UploadsModule,
+    LogbookModule,
     WaitlistModule,
     AttributionsModule,
     CatalogueModule,

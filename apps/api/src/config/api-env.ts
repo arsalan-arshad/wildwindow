@@ -66,6 +66,12 @@ export const ApiEnvSchema = z.object({
    * Required when `STORAGE_DRIVER=local` in production; a fixed dev default otherwise.
    */
   STORAGE_SIGNING_SECRET: z.string().min(1).optional(),
+  /**
+   * AES-256-GCM key for `app.logbook_entries.exact_point_enc` (ARCHITECTURE §6.3 / T5.11).
+   * Base64 (32 bytes) or 64-char hex. Required in production at LogbookService boot;
+   * a fixed non-secret default is used in development/test when unset.
+   */
+  LOGBOOK_ENC_KEY: z.string().min(1).optional(),
 });
 
 export type ApiEnv = z.infer<typeof ApiEnvSchema>;
