@@ -356,7 +356,7 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Depends on: T5.4, T1.5
   - Do: `GET /v1/species/:taxonId/map` returning `{cell, level}` at the published resolution; `[]` for `highly_protected` and `no_forecast`.
   - Acceptance test: the response has no counts; no cell is finer than the tier allows (an automated check over every seeded taxon).
-  - Done: 2026-11-26 — `GET /v1/species/:taxonId/map`; `bucketise` levels 1–5 from `pub.taxon_cell_week`; `[]` when `mapCells=false`; e2e over every seeded taxon (no counts, tier resolution).
+  - Done: 2026-11-26, PR #51 (`f34cff3`) — `GET /v1/species/:taxonId/map`; `bucketise` levels 1–5 from `pub.taxon_cell_week`; `[]` when `mapCells=false`; e2e over every seeded taxon (no counts, tier resolution).
 
 - [ ] **T5.8 Firebase auth guard and `/v1/me`** 🧑
   - Depends on: T5.2
