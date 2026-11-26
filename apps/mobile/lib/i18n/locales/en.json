@@ -89,5 +89,48 @@
   "profile": {
     "noPinLink": "No-Pin Promise",
     "regionLabel": "Home region"
+  },
+  "species": {
+    "browse": {
+      "title": "Species",
+      "subtitle": "Browse {{region}} — search by common or scientific name.",
+      "searchPlaceholder": "Search species",
+      "empty": "No species match that search.",
+      "error": "Could not load species. Try again.",
+      "filters": {
+        "all": "All",
+        "bird": "Birds",
+        "mammal": "Mammals",
+        "marine": "Marine"
+      }
+    },
+    "detail": {
+      "title": "Species",
+      "missing": "Species not found.",
+      "error": "Could not load this species.",
+      "seasonalityError": "Seasonality is unavailable right now.",
+      "noForecastTitle": "No forecast for this species",
+      "noForecastBody": "This species is at the highest protection level in this region. WildWindow never shows a map or a Window score for it — so breeding sites stay off the grid.",
+      "fieldCardTitle": "Field card",
+      "fieldCardReady": "Starting camera settings, fieldcraft, ethics and legal notes are ready for this species.",
+      "fieldCardMissing": "A reviewed field card is not published for this species yet.",
+      "reviewedBy": "Reviewed by {{name}}, {{date}}",
+      "getForecast": "Get this week's Window"
+    },
+    "seasonality": {
+      "title": "Seasonality",
+      "label": "Relative reporting rate",
+      "weekStart": "Jan",
+      "weekMid": "Jul",
+      "weekEnd": "Dec"
+    },
+    "groups": {
+      "bird": "Bird",
+      "mammal": "Mammal",
+      "marine": "Marine",
+      "reptile": "Reptile",
+      "amphibian": "Amphibian",
+      "invertebrate": "Invertebrate"
+    }
   }
 }
