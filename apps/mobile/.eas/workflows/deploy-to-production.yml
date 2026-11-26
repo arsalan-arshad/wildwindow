@@ -4,14 +4,14 @@
 # Manual: cd apps/mobile && eas workflow:run .eas/workflows/deploy-to-production.yml
 name: Deploy to production
 
+# Manual until store credentials + GitHub↔Expo link are ready (docs/EAS.md).
+# Re-enable push-to-main after Arsalan confirms credentials:
+#   on:
+#     push:
+#       branches: ['main']
+#       paths: ['apps/mobile/**', 'packages/geoprivacy/**', 'packages/scoring/**', 'packages/shared/**']
+#     workflow_dispatch: {}
 on:
-  push:
-    branches: ['main']
-    paths:
-      - 'apps/mobile/**'
-      - 'packages/geoprivacy/**'
-      - 'packages/scoring/**'
-      - 'packages/shared/**'
   workflow_dispatch: {}
 
 jobs:
