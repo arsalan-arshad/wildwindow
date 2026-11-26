@@ -347,5 +347,51 @@
       "deleteError": "Could not delete this entry.",
       "privacyNote": "Deleting an entry also deletes its photo from storage. Exact locations are never shown publicly."
     }
+  },
+  "challenge": {
+    "home": {
+      "title": "Challenge",
+      "kicker": "Same species, different countries",
+      "none": "There is no live challenge right now. Check back next month.",
+      "error": "Could not load the challenge. Try again.",
+      "speciesFallback": "Taxon {{id}}",
+      "countsTitle": "Entries by country",
+      "countsTotal": "{{count}} public entries so far",
+      "countsEmpty": "No public entries yet — be among the first after approval.",
+      "countValue": "{{count}}",
+      "rulesTitle": "Rules",
+      "pledgeTitle": "Ethics pledge",
+      "pledgeBody": "Entries require a pledge: no baiting, no playback, and no nest disturbance. You tick it when you submit.",
+      "submitCta": "Submit an entry",
+      "closed": "This challenge is not open for new entries."
+    },
+    "gallery": {
+      "title": "Gallery",
+      "subtitle": "Approved entries show country and region only — never a pin.",
+      "allCountries": "All",
+      "countryChip": "{{code}} ({{count}})",
+      "empty": "No public entries in this filter yet.",
+      "error": "Could not load the gallery.",
+      "loadMore": "Load more",
+      "loadingMore": "Loading…"
+    },
+    "submit": {
+      "title": "Submit entry",
+      "missing": "Pick a challenge to submit an entry.",
+      "error": "Could not submit. Try again.",
+      "signInBody": "Sign in to submit a logbook photo to the challenge.",
+      "speciesHint": "Choose a logbook photo of {{species}}.",
+      "locationHint": "Your entry will show as {{region}}, {{country}} — never a finer location.",
+      "closed": "This challenge is not open for submissions.",
+      "pickEntry": "Your matching logbook photos",
+      "logbookError": "Could not load your logbook.",
+      "noEligible": "No logbook photos of {{species}} yet. Add one in Logbook first.",
+      "filteredOut": "{{count}} other logbook entries are hidden because they are the wrong species.",
+      "noNotes": "No notes",
+      "pledge": "I pledge: no baiting, no playback, and no nest disturbance for this photo.",
+      "submit": "Submit to challenge",
+      "working": "Submitting…",
+      "success": "Submitted. It stays private until approved and at least 7 days have passed."
+    }
   }
 }

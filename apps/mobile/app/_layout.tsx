@@ -118,6 +118,7 @@ function RootLayoutNav() {
         <Stack.Screen name="sign-in" options={{ presentation: 'card', title: 'Sign in' }} />
         <Stack.Screen name="logbook/new" options={{ presentation: 'card' }} />
         <Stack.Screen name="logbook/[id]" options={{ presentation: 'card' }} />
+        <Stack.Screen name="challenge/submit" options={{ presentation: 'card' }} />
         <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
       </Stack>
     </ThemeProvider>

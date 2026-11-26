@@ -10,6 +10,12 @@ import type {
   PresignUploadResponse,
 } from '@wildwindow/shared';
 
+import type {
+  ChallengeEntriesPage,
+  ChallengeEntryPublic,
+  ChallengeLogbookCandidate,
+  ChallengeSummary,
+} from '@/lib/challenge';
 import type { ForecastResponse } from '@/lib/forecast';
 import type { SeasonalityResponse, SpeciesDetail, SpeciesListItem } from '@/lib/species';
 
@@ -42,6 +48,15 @@ export type MockLogbookApi = {
   readonly presign?: (body: PresignUploadRequest) => Promise<PresignUploadResponse>;
 };
 
+export type MockChallengeApi = {
+  readonly current?: ChallengeSummary | null;
+  readonly bySlug?: Readonly<Record<string, ChallengeSummary>>;
+  readonly entriesBySlug?: Readonly<Record<string, readonly ChallengeEntryPublic[]>>;
+  /** Convenience seed for challenge submit tests (overrides logbook list items). */
+  readonly logbookItems?: readonly ChallengeLogbookCandidate[];
+  readonly submit?: (slug: string, body: unknown) => Promise<{ id: string; status: 'pending' }>;
+};
+
 const EMPTY_WEEKS = Array.from({ length: 52 }, () => 0);
 
 export function forecastFixtureKey(taxonId: string, cell: string, start: string): string {
@@ -53,14 +68,46 @@ export function createMockSpeciesApiClient(
   placesFixtures: MockPlacesApi = {},
   forecastFixtures: MockForecastApi = {},
   logbookFixtures: MockLogbookApi = {},
+  challengeFixtures: MockChallengeApi = {},
 ): ApiClient {
   const places = placesFixtures.places ?? [];
   const areasByCell = placesFixtures.areasByCell ?? {};
   const forecastByKey = forecastFixtures.byKey ?? {};
-  let logbookItems = [...(logbookFixtures.items ?? [])];
+  const challengeBySlug = challengeFixtures.bySlug ?? {};
+  const entriesBySlug = challengeFixtures.entriesBySlug ?? {};
+
+  let logbookItems: LogbookEntryPublic[] =
+    challengeFixtures.logbookItems !== undefined
+      ? challengeFixtures.logbookItems.map((row) => ({
+          id: row.id,
+          taxonId: row.taxonId,
+          takenAt: row.takenAt,
+          cellR7: null,
+          photoKey: `photos/${row.id}.jpg`,
+          thumbKey: null,
+          exif: {},
+          notes: row.notes,
+          createdAt: row.takenAt,
+          updatedAt: row.takenAt,
+        }))
+      : [...(logbookFixtures.items ?? [])];
+
   const logbookById: Record<string, LogbookEntryOwner> = {
     ...(logbookFixtures.byId ?? {}),
   };
+
+  async function resolveChallenge(slug: string): Promise<ChallengeSummary> {
+    const hit = challengeBySlug[slug];
+    if (hit !== undefined) {
+      return hit;
+    }
+    if (challengeFixtures.current !== undefined && challengeFixtures.current?.slug === slug) {
+      return challengeFixtures.current;
+    }
+    const err = new Error(`missing challenge ${slug}`) as Error & { status: number };
+    err.status = 404;
+    throw err;
+  }
 
   return {
     health: { get: async () => ({ status: 'ok' as const }) },
@@ -258,6 +305,47 @@ export function createMockSpeciesApiClient(
           photoKey: `uploads/user-1/${String(body.byteSize)}.jpg`,
           headers: { 'content-type': body.mimeType },
           expiresAt: '2026-11-26T13:00:00.000Z',
+        })),
+    },
+    challenges: {
+      current: async () => {
+        if (challengeFixtures.current === null) {
+          const err = new Error('No current challenge') as Error & { status: number };
+          err.status = 404;
+          throw err;
+        }
+        if (challengeFixtures.current !== undefined) {
+          return challengeFixtures.current;
+        }
+        const err = new Error('No current challenge') as Error & { status: number };
+        err.status = 404;
+        throw err;
+      },
+      get: async (slug: string) => resolveChallenge(slug),
+      entries: async (slug: string, query?: { country?: string; cursor?: string }) => {
+        let entries = [...(entriesBySlug[slug] ?? [])];
+        if (query?.country !== undefined) {
+          entries = entries.filter((row) => row.countryCode === query.country);
+        }
+        // Simple cursor: skip until after the cursor id.
+        if (query?.cursor !== undefined) {
+          const idx = entries.findIndex((row) => row.id === query.cursor);
+          entries = idx >= 0 ? entries.slice(idx + 1) : entries;
+        }
+        const pageSize = 20;
+        const page = entries.slice(0, pageSize);
+        const nextCursor =
+          entries.length > pageSize && page[page.length - 1] !== undefined
+            ? page[page.length - 1]!.id
+            : null;
+        return { entries: page, nextCursor } satisfies ChallengeEntriesPage;
+      },
+      submit:
+        challengeFixtures.submit ??
+        (async (_slug: string) => ({
+          id: 'ce-1',
+          status: 'pending' as const,
+          publishAfter: '2026-12-03T12:00:00.000Z',
         })),
     },
   } as unknown as ApiClient;
