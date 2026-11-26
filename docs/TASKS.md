@@ -549,10 +549,11 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Acceptance test: the report is generated for both regions.
   - 🧑 Reviewers sign off; the result goes into `sensitive-species.yaml` (`reviewer`, `reviewed_at`).
 
-- [ ] **T8.4 Seed Kingfisher Month**
+- [x] **T8.4 Seed Kingfisher Month**
   - Depends on: T5.12
   - Do: a seed for the first challenge (common kingfisher, both regions, rules and the ethics pledge text).
   - Acceptance test: `GET /v1/challenges/current` returns it during the configured dates.
+  - Done: 2026-11-26 — `data/challenges/kingfisher-month.yaml` (Alcedo atthis, Scotland+Sindh, rules + ethics pledge); `pnpm db:seed` upserts `app.challenges` (`live`, 2026-11-01..30). Zod loader in shared; e2e: `GET /v1/challenges/current` returns it when dates cover today.
 
 ## Phase 9: Beta hardening and deploy
 

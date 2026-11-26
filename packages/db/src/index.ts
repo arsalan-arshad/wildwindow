@@ -34,6 +34,12 @@ export {
   type SeedCardsResult,
 } from './seed-cards.js';
 export {
+  challengesFolder,
+  seedChallenges,
+  seedChallengesFromDir,
+  type SeedChallengesResult,
+} from './seed-challenges.js';
+export {
   isKeptGeonameFeature,
   parseGeonameLine,
   placeKindFor,

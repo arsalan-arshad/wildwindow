@@ -111,3 +111,38 @@ export type SpeciesCardFrontMatter = z.infer<typeof SpeciesCardFrontMatterSchema
 
 export const SpeciesCardStatusSchema = z.enum(['draft', 'reviewed']);
 export type SpeciesCardStatus = z.infer<typeof SpeciesCardStatusSchema>;
+
+/** DB / ARCHITECTURE §6.2 challenge lifecycle (API maps `live` → `active`). */
+export const ChallengeSeedStatusSchema = z.enum(['draft', 'live', 'closed']);
+export type ChallengeSeedStatus = z.infer<typeof ChallengeSeedStatusSchema>;
+
+/**
+ * Seed file for a monthly challenge under `data/challenges/*.yaml` (T8.4).
+ * `regions` documents the beta homes the challenge spans; the taxon must be
+ * challenge-eligible there. Rules Markdown includes the ethics pledge text.
+ */
+export const ChallengeSeedSchema = z
+  .object({
+    version: z.literal(1),
+    slug: z
+      .string()
+      .min(1)
+      .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'slug must be kebab-case'),
+    title: z.string().min(1),
+    scientificName: z.string().min(1),
+    regions: z.array(RegionIdSchema).min(1),
+    startsOn: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+    endsOn: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+    status: ChallengeSeedStatusSchema,
+    rulesMd: z.string().min(1),
+  })
+  .superRefine((file, ctx) => {
+    if (file.endsOn < file.startsOn) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'endsOn must be on or after startsOn',
+        path: ['endsOn'],
+      });
+    }
+  });
+export type ChallengeSeed = z.infer<typeof ChallengeSeedSchema>;

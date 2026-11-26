@@ -277,26 +277,33 @@ export type SeedAllResult = {
   readonly taxa: SeedTaxaResult;
   readonly places: { readonly inserted: number };
   readonly zones: { readonly zoneCount: number };
+  readonly challenges: { readonly upserted: number; readonly slugs: readonly string[] };
 };
 
-/** Seed regions, taxa, places fixture, and label-only zones (T2.6–T2.9). */
+/** Seed regions, taxa, places fixture, zones, and challenges (T2.6–T2.9, T8.4). */
 export async function seedAll(
   connectionString: string,
-  options: { boundariesDir?: string; dataDir?: string } = {},
+  options: { boundariesDir?: string; dataDir?: string; challengesDir?: string } = {},
 ): Promise<SeedAllResult> {
   const boundariesDir = options.boundariesDir ?? boundariesFolder();
   const regions = await seedRegions(connectionString, boundariesDir);
   const taxa = await seedTaxa(connectionString, options.dataDir ?? dataFolder());
-  // Lazy imports avoid cycles with seed-places / seed-zones.
+  // Lazy imports avoid cycles with seed-places / seed-zones / seed-challenges.
   const { seedPlacesFromFixture } = await import('./seed-places.js');
   const { seedZones, zonesFolder } = await import('./seed-zones.js');
+  const { challengesFolder, seedChallengesFromDir } = await import('./seed-challenges.js');
   const places = await seedPlacesFromFixture(connectionString);
   const zones = await seedZones(connectionString, zonesFolder(boundariesDir));
+  const challenges = await seedChallengesFromDir(
+    connectionString,
+    options.challengesDir ?? challengesFolder(),
+  );
   return {
     regions: regions.regions,
     taxa,
     places: { inserted: places.inserted },
     zones: { zoneCount: zones.zoneCount },
+    challenges: { upserted: challenges.upserted, slugs: challenges.slugs },
   };
 }
 
@@ -317,6 +324,12 @@ async function main(): Promise<void> {
   console.log(`Seeded ${String(result.places.inserted)} places (GeoNames fixture)`);
   // eslint-disable-next-line no-console -- CLI progress for pnpm db:seed
   console.log(`Seeded ${String(result.zones.zoneCount)} zones (label-only)`);
+  // eslint-disable-next-line no-console -- CLI progress for pnpm db:seed
+  console.log(
+    `Seeded ${String(result.challenges.upserted)} challenge(s): ${
+      result.challenges.slugs.join(', ') || '(none)'
+    }`,
+  );
 }
 
 /** True when invoked as `node …/seed.js` or `tsx …/seed.ts` (not when imported). */
