@@ -27,6 +27,7 @@
     "migrate": "tsx src/migrate.ts",
     "seed": "tsx src/seed.ts",
     "places": "tsx src/seed-places.ts",
+    "cards": "tsx src/seed-cards.ts",
     "generate": "drizzle-kit generate"
   },
   "dependencies": {
