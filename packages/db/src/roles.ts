@@ -65,9 +65,13 @@ export async function applyRoles(
     await client.query(`GRANT USAGE ON SCHEMA ref, pub, app TO ww_api`);
     await client.query(`GRANT USAGE ON SCHEMA raw, ref, pub, app TO ww_worker`);
 
-    // ww_api: read ref/pub; write caches; full DML on app.
+    // ww_api: read ref/pub; write caches; admin curates cards/tiers; full DML on app.
     await client.query(`GRANT SELECT ON ALL TABLES IN SCHEMA ref TO ww_api`);
     await client.query(`GRANT SELECT ON ALL TABLES IN SCHEMA pub TO ww_api`);
+    // T5.13: admin API edits species cards and sensitivity tiers (audit-logged).
+    await client.query(`GRANT INSERT, UPDATE ON TABLE ref.species_cards TO ww_api`);
+    await client.query(`GRANT UPDATE ON TABLE ref.taxon_region TO ww_api`);
+    await client.query(`GRANT USAGE, SELECT ON SEQUENCE ref.species_cards_id_seq TO ww_api`);
     await client.query(
       `GRANT INSERT, UPDATE, DELETE ON TABLE pub.weather_cache, pub.forecast_cache TO ww_api`,
     );

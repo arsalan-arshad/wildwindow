@@ -5,7 +5,6 @@ import { WatchlistController } from '../me/watchlist.controller.js';
 import { WatchlistService } from '../me/watchlist.service.js';
 
 import { AdminRoleGuard } from './admin-role.guard.js';
-import { AdminStubController } from './admin-stub.controller.js';
 import { FirebaseAdminTokenVerifier } from './firebase-admin.verifier.js';
 import { FirebaseAuthGuard } from './firebase-auth.guard.js';
 import { FIREBASE_TOKEN_VERIFIER } from './token-verifier.js';
@@ -13,7 +12,7 @@ import { UsersService } from './users.service.js';
 
 @Global()
 @Module({
-  controllers: [MeController, WatchlistController, AdminStubController],
+  controllers: [MeController, WatchlistController],
   providers: [
     UsersService,
     WatchlistService,

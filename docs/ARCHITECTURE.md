@@ -457,7 +457,7 @@ erDiagram
 
 - `ww_owner`: owns all objects and runs migrations.
 - `ww_worker`: `USAGE, SELECT, INSERT, UPDATE, DELETE` on `raw`, `pub` and `ref`; `SELECT, INSERT, UPDATE` on `app.ingest_runs` (read key/DOI/status for fetch/load).
-- `ww_api`: **no `USAGE` on schema `raw`**; `SELECT` on `ref` and `pub`; `INSERT/UPDATE/DELETE` on `pub.*_cache`; full DML on the `app` tables. An integration test connects as `ww_api` and checks that `SELECT * FROM raw.occurrences` fails.
+- `ww_api`: **no `USAGE` on schema `raw`**; `SELECT` on `ref` and `pub`; `INSERT/UPDATE` on `ref.species_cards` and `UPDATE` on `ref.taxon_region` (admin curate via `/v1/admin/*`, audit-logged); `INSERT/UPDATE/DELETE` on `pub.*_cache`; full DML on the `app` tables. An integration test connects as `ww_api` and checks that `SELECT * FROM raw.occurrences` fails.
 - Logbook `exact_point_enc` is encrypted with AES-256-GCM in the app. The key comes from `LOGBOOK_ENC_KEY` (dev) or an AWS KMS data key (prod).
 
 ## 7. API (NestJS, REST, `/v1`, OpenAPI at `/docs` in non-prod)

@@ -1,7 +1,24 @@
 import { z } from 'zod';
 
 import { RegionIdSchema, SensitivityTierSchema, TaxonIdSchema } from './common.js';
-import { SpeciesCardSchema } from './species.js';
+
+/** GET /v1/admin/species/:taxonId query */
+export const AdminSpeciesQuerySchema = z.object({
+  region: RegionIdSchema,
+});
+export type AdminSpeciesQuery = z.infer<typeof AdminSpeciesQuerySchema>;
+
+/** Admin card payload (draft or reviewed; reviewedBy may be null while draft). */
+export const AdminSpeciesCardSchema = z.object({
+  bodyMd: z.string().min(1),
+  settings: z.record(z.unknown()),
+  ethicsMd: z.string().nullable(),
+  legalMd: z.string().nullable(),
+  status: z.enum(['draft', 'reviewed']),
+  reviewedBy: z.string().nullable(),
+  reviewedAt: z.string().datetime().nullable(),
+});
+export type AdminSpeciesCard = z.infer<typeof AdminSpeciesCardSchema>;
 
 /** GET / PATCH /v1/admin/species/:taxonId — card body for a region. */
 export const AdminSpeciesCardPatchSchema = z.object({
@@ -17,7 +34,7 @@ export type AdminSpeciesCardPatch = z.infer<typeof AdminSpeciesCardPatchSchema>;
 export const AdminSpeciesResponseSchema = z.object({
   taxonId: TaxonIdSchema,
   regionSlug: RegionIdSchema,
-  card: SpeciesCardSchema.nullable(),
+  card: AdminSpeciesCardSchema.nullable(),
   cardStatus: z.enum(['draft', 'reviewed', 'missing']),
 });
 export type AdminSpeciesResponse = z.infer<typeof AdminSpeciesResponseSchema>;
@@ -69,19 +86,27 @@ export const AdminChallengeEntriesResponseSchema = z.object({
 export type AdminChallengeEntriesResponse = z.infer<typeof AdminChallengeEntriesResponseSchema>;
 
 /** PATCH /v1/admin/challenge-entries/:id */
-export const AdminChallengeEntryPatchSchema = z.object({
-  status: ChallengeEntryModerationStatusSchema,
-  rejectReason: z.string().max(1000).nullable().optional(),
-});
+export const AdminChallengeEntryPatchSchema = z
+  .object({
+    status: ChallengeEntryModerationStatusSchema,
+    rejectReason: z.string().max(1000).nullable().optional(),
+  })
+  .superRefine((value, ctx) => {
+    if (value.status === 'rejected') {
+      const reason = value.rejectReason;
+      if (reason === undefined || reason === null || reason.trim().length === 0) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'rejectReason is required when status is rejected',
+          path: ['rejectReason'],
+        });
+      }
+    }
+  });
 export type AdminChallengeEntryPatch = z.infer<typeof AdminChallengeEntryPatchSchema>;
 
-export const IngestRunStatusSchema = z.enum([
-  'queued',
-  'running',
-  'succeeded',
-  'failed',
-  'cancelled',
-]);
+/** Matches `apps/worker` ingest_runs.status values (Phase 3). */
+export const IngestRunStatusSchema = z.enum(['requested', 'succeeded', 'failed']);
 export type IngestRunStatus = z.infer<typeof IngestRunStatusSchema>;
 
 /** GET /v1/admin/ingest-runs */
