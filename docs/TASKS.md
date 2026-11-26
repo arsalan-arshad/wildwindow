@@ -525,10 +525,11 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Acceptance test: a non-admin is redirected; editing a tier calls the API and shows the audit entry.
   - Done: 2026-11-26, PR #79 (`8ee1df7`) — `/admin` Firebase email/password sign-in; `GET /v1/admin/session` gate (non-admin → redirect `/`); Markdown species card editor; tier/lockout editor with confirm (extra warning when lowering); audit entry panel after tier PATCH. Vitest acceptance tests. Needs `NEXT_PUBLIC_FIREBASE_CONFIG` build-time + `pnpm worker make-admin <email>`.
 
-- [ ] **T7.7 Admin: moderation and ingestion runs**
+- [x] **T7.7 Admin: moderation and ingestion runs**
   - Depends on: T7.6
   - Do: a moderation queue (approve or reject with a reason) and an ingestion runs table.
   - Acceptance test: component tests with fixtures.
+  - Done: 2026-11-26, PR #80 (`517a46c`) — `/admin` moderation queue (status filter, approve / reject-with-reason via `PATCH /v1/admin/challenge-entries/:id`) and ingestion runs table (`GET /v1/admin/ingest-runs`); place labels + photo keys only (no coordinates). Vitest component tests with MSW fixtures.
 
 ## Phase 8: Content and ethics
 
