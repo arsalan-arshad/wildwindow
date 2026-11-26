@@ -112,6 +112,7 @@ function RootLayoutNav() {
         <Stack.Screen name="no-pin" options={{ presentation: 'card' }} />
         <Stack.Screen name="species/[taxonId]" options={{ presentation: 'card' }} />
         <Stack.Screen name="area" options={{ presentation: 'card' }} />
+        <Stack.Screen name="forecast" options={{ presentation: 'card' }} />
         <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
       </Stack>
     </ThemeProvider>

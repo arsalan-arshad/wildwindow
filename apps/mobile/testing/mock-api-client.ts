@@ -1,6 +1,7 @@
 import type { ApiClient } from '@wildwindow/shared/client';
 import type { AreaResponse, PlaceSummary } from '@wildwindow/shared';
 
+import type { ForecastResponse } from '@/lib/forecast';
 import type { SeasonalityResponse, SpeciesDetail, SpeciesListItem } from '@/lib/species';
 
 export type MockSpeciesApi = {
@@ -14,14 +15,29 @@ export type MockPlacesApi = {
   readonly areasByCell?: Readonly<Record<string, AreaResponse>>;
 };
 
+export type MockForecastApi = {
+  readonly byKey?: Readonly<Record<string, ForecastResponse>>;
+  readonly get?: (query: {
+    readonly taxonId: string;
+    readonly cell: string;
+    readonly start: string;
+  }) => Promise<ForecastResponse>;
+};
+
 const EMPTY_WEEKS = Array.from({ length: 52 }, () => 0);
+
+export function forecastFixtureKey(taxonId: string, cell: string, start: string): string {
+  return `${taxonId}|${cell}|${start}`;
+}
 
 export function createMockSpeciesApiClient(
   fixtures: MockSpeciesApi,
   placesFixtures: MockPlacesApi = {},
+  forecastFixtures: MockForecastApi = {},
 ): ApiClient {
   const places = placesFixtures.places ?? [];
   const areasByCell = placesFixtures.areasByCell ?? {};
+  const forecastByKey = forecastFixtures.byKey ?? {};
 
   return {
     health: { get: async () => ({ status: 'ok' as const }) },
@@ -95,6 +111,24 @@ export function createMockSpeciesApiClient(
           covered: false,
         } satisfies AreaResponse;
       },
+    },
+    forecast: {
+      get:
+        forecastFixtures.get ??
+        (async (query: { taxonId: string; cell: string; start: string }) => {
+          const key = forecastFixtureKey(query.taxonId, query.cell, query.start);
+          const hit = forecastByKey[key];
+          if (hit !== undefined) {
+            return hit;
+          }
+          // Fall back to any fixture for this taxon+cell (start may vary in tests).
+          const prefix = `${query.taxonId}|${query.cell}|`;
+          const match = Object.entries(forecastByKey).find(([k]) => k.startsWith(prefix));
+          if (match !== undefined) {
+            return match[1];
+          }
+          throw new Error(`missing forecast ${key}`);
+        }),
     },
   } as unknown as ApiClient;
 }
