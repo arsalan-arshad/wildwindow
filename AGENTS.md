@@ -7,6 +7,7 @@ You are working on **WildWindow** (working name), a wildlife **photo forecast** 
 - Work queue: [docs/TASKS.md](docs/TASKS.md)
 - Railway beta host (PostGIS + api/web/worker): [docs/RAILWAY.md](docs/RAILWAY.md)
 - Vercel web + PR previews: [docs/VERCEL.md](docs/VERCEL.md)
+- EAS / Expo Firebase native files: [docs/EAS.md](docs/EAS.md)
 
 ### Current status / handoff
 

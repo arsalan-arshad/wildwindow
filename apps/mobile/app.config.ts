@@ -1,5 +1,17 @@
 import type { ConfigContext, ExpoConfig } from 'expo/config';
 
+/** Expo / EAS project (expo.dev). Safe to commit — not a secret. */
+const EAS_PROJECT_ID = '8fe1fd78-40cf-4c40-8922-a5f9084fe7d0';
+
+/**
+ * Native Firebase config paths (T6.7 / T9.6).
+ * Local: drop real files at these paths under apps/mobile/ (gitignored).
+ * EAS cloud: upload as file env vars; Expo injects absolute paths into these names.
+ * See docs/EAS.md and apps/mobile/README.md.
+ */
+const androidGoogleServicesFile = process.env['GOOGLE_SERVICES_JSON'] ?? './google-services.json';
+const iosGoogleServicesFile = process.env['GOOGLE_SERVICES_PLIST'] ?? './GoogleService-Info.plist';
+
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
   name: 'WildWindow',
@@ -9,9 +21,16 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   scheme: 'wildwindow',
   userInterfaceStyle: 'automatic',
   icon: './assets/images/icon.png',
+  runtimeVersion: {
+    policy: 'appVersion',
+  },
+  updates: {
+    url: `https://u.expo.dev/${EAS_PROJECT_ID}`,
+  },
   ios: {
     supportsTablet: true,
     bundleIdentifier: 'studio.arsalandev.wildwindow',
+    googleServicesFile: iosGoogleServicesFile,
     infoPlist: {
       NSLocationWhenInUseUsageDescription:
         'WildWindow uses your location only to snap to a coarse area cell on this device. Exact coordinates are never stored or sent.',
@@ -23,6 +42,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       backgroundColor: '#1a4030',
     },
     package: 'studio.arsalandev.wildwindow',
+    googleServicesFile: androidGoogleServicesFile,
     permissions: ['ACCESS_COARSE_LOCATION', 'ACCESS_FINE_LOCATION'],
   },
   web: {
@@ -70,5 +90,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     siteUrl: process.env['EXPO_PUBLIC_SITE_URL'] ?? 'https://wildwindow.arsalandev.studio',
     // Public web-app JSON (EXPO_PUBLIC_FIREBASE_CONFIG). Empty when unset.
     firebaseConfig: process.env['EXPO_PUBLIC_FIREBASE_CONFIG'] ?? '',
+    eas: {
+      projectId: EAS_PROJECT_ID,
+    },
   },
 });

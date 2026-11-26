@@ -95,10 +95,10 @@ Supporting jobs (also reported on the PR, but the ruleset keys off `CI` + `gitle
 ### EAS / mobile native builds
 
 1. Add repository secret **`EXPO_TOKEN`** (Expo access token).
-2. Add `apps/mobile/eas.json` when the mobile app is ready for EAS.
+2. Committed: [`apps/mobile/eas.json`](apps/mobile/eas.json) profiles + `extra.eas.projectId` in [`apps/mobile/app.config.ts`](apps/mobile/app.config.ts). Drop Firebase native files per [`docs/EAS.md`](docs/EAS.md) (gitignored paths under `apps/mobile/`).
 3. Run **Actions → EAS Build → Run workflow**, or push a `v*` tag.
 
-Until those exist, the EAS workflow is expected to fail closed rather than silently skip.
+Until `EXPO_TOKEN` and the google-services files (local or EAS file secrets) exist, native builds fail closed rather than silently skip.
 
 ## Assets pack
 

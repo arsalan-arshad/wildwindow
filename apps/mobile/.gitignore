@@ -33,6 +33,12 @@ yarn-error.*
 # local env files
 .env*.local
 
+# Firebase native config (download from console; see docs/EAS.md). Examples stay tracked.
+google-services.json
+GoogleService-Info.plist
+!google-services.json.example
+!GoogleService-Info.plist.example
+
 # typescript
 *.tsbuildinfo
 

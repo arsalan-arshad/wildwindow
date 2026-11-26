@@ -53,6 +53,9 @@ temp/
 # Mobile native
 apps/mobile/ios/
 apps/mobile/android/
+# Firebase native config under apps/mobile (real downloads; *.example stays tracked)
+apps/mobile/google-services.json
+apps/mobile/GoogleService-Info.plist
 
 # Reports generated locally
 reports/*.local.*

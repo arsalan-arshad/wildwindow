@@ -452,8 +452,8 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Do: Firebase JS SDK, Apple + Google (EAS dev build), email link if it's practical (§8), token passed to the API client, sign out.
   - Acceptance test: works on a device or simulator with a dev build (manual test steps written in the PR); unit tests for the auth state store.
   - 🧑 Arsalan sets up the Apple Developer account, Google OAuth clients and the Firebase iOS/Android apps.
-  - Blocked: needs Arsalan – (1) create/finish Firebase project: enable Email/Password, register iOS+Android+Web apps, put public web config JSON in `EXPO_PUBLIC_FIREBASE_CONFIG`; (2) set API `FIREBASE_PROJECT_ID` + `FIREBASE_SERVICE_ACCOUNT_JSON` (T5.8); (3) Apple Developer account + Apple Sign-In capability; (4) Google Cloud OAuth iOS/Android clients; (5) `eas build --profile development` (or local prebuild) with `expo-apple-authentication` + `@react-native-google-signin/google-signin`, then wire those providers and re-test sign-in on a device/simulator.
-  - Notes: Code landed without EAS — Firebase JS SDK + email/password UI (S-02), auth store, Bearer token → API client, Profile sign-out; Apple/Google buttons present but disabled pending EAS. Email-link skipped (Dynamic Links shutdown; §8). Unit/component tests use AuthClient mocks.
+  - Blocked: needs Arsalan – (1) create/finish Firebase project: enable Email/Password, register iOS+Android+Web apps, put public web config JSON in `EXPO_PUBLIC_FIREBASE_CONFIG`; (2) set API `FIREBASE_PROJECT_ID` + `FIREBASE_SERVICE_ACCOUNT_JSON` (T5.8); (3) Apple Developer account + Apple Sign-In capability; (4) Google Cloud OAuth iOS/Android clients; (5) drop `apps/mobile/google-services.json` + `apps/mobile/GoogleService-Info.plist` (or EAS file secrets) per `docs/EAS.md`; (6) `eas build --profile development` with `expo-apple-authentication` + `@react-native-google-signin/google-signin`, then wire those providers and re-test sign-in on a device/simulator.
+  - Notes: Code landed without EAS — Firebase JS SDK + email/password UI (S-02), auth store, Bearer token → API client, Profile sign-out; Apple/Google buttons present but disabled pending EAS. Email-link skipped (Dynamic Links shutdown; §8). Unit/component tests use AuthClient mocks. Agent 2026-11-26: `googleServicesFile` paths + gitignore + `docs/EAS.md` (T9.6 linkage); real Firebase downloads still Arsalan-only.
 
 - [x] **T6.8 Home with watchlist (S-03)**
   - Depends on: T6.5, T6.7, T5.9
@@ -601,11 +601,12 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Agent progress: 2026-11-26 — `apps/web/vercel.json` (pnpm monorepo install/build, region `lhr1`); `next.config.ts` skips `output: 'standalone'` when `VERCEL` is set (Railway Docker keeps standalone); `docs/VERCEL.md` documents preview URL → `/` landing (`page.tsx` / Landing) and env keys (no values); Vitest gates in `vercel-config.test.ts`. No Vercel project created, no deploy.
   - Blocked: needs Arsalan – create Vercel project for `arsalan-arshad/wildwindow`, Root Directory `apps/web`, set Preview/Production env from `.env.example` / `docs/VERCEL.md`, enable PR previews; then confirm a PR preview URL serves the landing page. Optionally commit `.vercel/project.json` after `vercel link`.
 
-- [ ] **T9.6 EAS setup** 🧑
+- [!] **T9.6 EAS setup** 🧑
   - Depends on: T6.7
   - Do: `eas.json` profiles `development`, `preview` and `production`; app icons and splash placeholders; EAS Update channels.
   - Acceptance test: `eas build --profile preview` succeeds for both platforms (Arsalan runs it if credentials are needed).
-  - Notes: 2026-11-26 — `eas init` failed because `app.config.ts` listed `expo-image-manipulator` under `plugins` (no `app.plugin.js`); removed so `expo config --json` / `eas init` work without secrets. Firebase iOS/Android id remains `studio.arsalandev.wildwindow`. Still needs Arsalan for `eas.json` + credentials builds.
+  - Agent progress: 2026-11-26 — `apps/mobile/eas.json` (`development` / `preview` / `production` + Update channels); `extra.eas.projectId` `8fe1fd78-40cf-4c40-8922-a5f9084fe7d0`; `updates.url` + `runtimeVersion.policy: appVersion`; `android`/`ios.googleServicesFile` → `./google-services.json` / `./GoogleService-Info.plist` (or `GOOGLE_SERVICES_*` EAS file secrets); real files gitignored + `*.example` placeholders; `docs/EAS.md` + `apps/mobile/README.md`. Icons/splash already under `assets/images/`.
+  - Blocked: needs Arsalan – drop Firebase native downloads at the gitignored paths (or upload EAS file secrets), set `EXPO_PUBLIC_FIREBASE_CONFIG`, add GitHub `EXPO_TOKEN`, then run `eas build --profile preview` for iOS + Android (credentials).
 
 - [x] **T9.7 End-to-end geoprivacy audit**
   - Depends on: T5.6, T5.7, T5.12
