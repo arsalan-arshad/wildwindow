@@ -5,6 +5,8 @@ build
 .next
 coverage
 pnpm-lock.yaml
+**/cdk.out
+cdk.context.json
 *.png
 *.jpg
 *.jpeg

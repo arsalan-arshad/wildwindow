@@ -1,0 +1,13 @@
+{
+  "extends": "@wildwindow/config/tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": ".",
+    "types": ["node"],
+    "noEmit": false,
+    "declaration": false,
+    "declarationMap": false,
+    "exactOptionalPropertyTypes": false
+  },
+  "include": ["bin/**/*.ts", "lib/**/*.ts", "test/**/*.ts", "vitest.config.ts"]
+}

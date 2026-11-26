@@ -236,11 +236,35 @@ jobs:
       - name: Build worker
         run: pnpm turbo run build --filter=worker
 
+  infra:
+    name: infra
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup
+        uses: ./.github/actions/setup-node-pnpm
+        with:
+          turbo-cache-key: infra
+
+      - name: Lint infra
+        run: pnpm turbo run lint --filter=@wildwindow/infra
+
+      - name: Typecheck infra
+        run: pnpm turbo run typecheck --filter=@wildwindow/infra
+
+      - name: Test infra (snapshot)
+        run: pnpm turbo run test --filter=@wildwindow/infra
+
+      - name: CDK synth
+        run: pnpm --filter @wildwindow/infra synth
+
   # Single required status check for branch protection / rulesets.
   ci:
     name: CI
     if: always()
-    needs: [gitleaks, format, packages, api, web, mobile, worker]
+    needs: [gitleaks, format, packages, api, web, mobile, worker, infra]
     runs-on: ubuntu-latest
     steps:
       - name: Require all jobs
@@ -254,8 +278,9 @@ jobs:
             "${{ needs.web.result }}"
             "${{ needs.mobile.result }}"
             "${{ needs.worker.result }}"
+            "${{ needs.infra.result }}"
           )
-          names=(gitleaks format packages api web mobile worker)
+          names=(gitleaks format packages api web mobile worker infra)
           failed=0
           for i in "${!results[@]}"; do
             echo "${names[$i]}: ${results[$i]}"
