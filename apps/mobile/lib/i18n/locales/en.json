@@ -14,5 +14,80 @@
     "errorRetry": "Try again",
     "notFoundTitle": "This screen doesn't exist.",
     "notFoundLink": "Go to home screen"
+  },
+  "regions": {
+    "scotland": {
+      "name": "Scotland",
+      "blurb": "United Kingdom beta region — Europe/London time."
+    },
+    "sindh": {
+      "name": "Sindh",
+      "blurb": "Pakistan beta region — Asia/Karachi time."
+    }
+  },
+  "onboarding": {
+    "progress": "Step {{current}} of {{total}}",
+    "continue": "Continue",
+    "back": "Back",
+    "getStarted": "Get started",
+    "what": {
+      "title": "A wildlife photo forecast",
+      "body": "Pick a species and an area to get a weekly Window score (0–100): the best days and the best two-hour block, drawn from historic sightings, golden hour, weather and tides — plus camera settings and fieldcraft. The score is an index, not a probability."
+    },
+    "noPin": {
+      "title": "The No-Pin Promise",
+      "body": "WildWindow never puts a pin on a wild animal. Sensitive species stay coarse — or off — during breeding. Your photo locations stay private.",
+      "readFull": "Read the full promise"
+    },
+    "region": {
+      "title": "Pick your region",
+      "body": "Beta covers Scotland and Sindh. You can change this later in Profile."
+    }
+  },
+  "noPin": {
+    "title": "The No-Pin Promise",
+    "pledgeLead": "WildWindow will never put a pin on a wild animal.",
+    "pledgeBody": "We show where species are likely at the level of an area, never an exact spot. For sensitive species we use much larger areas, delay recent records, and switch off forecasts completely in breeding season. We never publish the location of your photos. Our location-protection code is open source, so anyone can check it.",
+    "tiersTitle": "How protection levels work",
+    "tiersIntro": "Each species has a protection level per region. Higher levels mean coarser areas, older records, and sometimes no forecast at all.",
+    "openSourceNote": "Location protection lives in the open-source @wildwindow/geoprivacy package. Anyone can inspect the rules.",
+    "tiers": {
+      "open": {
+        "name": "Open",
+        "resolution": "Shown in small areas (about 5 km²).",
+        "delay": "No delay on records.",
+        "minimum": "A cell needs at least 5 records from 3 observers.",
+        "lockout": "Forecasts stay on in breeding season.",
+        "example": "Examples: common kingfisher, red squirrel, grey seal."
+      },
+      "protected": {
+        "name": "Protected",
+        "resolution": "Shown in larger areas (about 250 km²).",
+        "delay": "Records are at least 30 days old before they count.",
+        "minimum": "A cell needs at least 10 records from 5 observers.",
+        "lockout": "Breeding pause is optional and set per species.",
+        "example": "Examples: Eurasian otter, mountain hare, Indus river dolphin."
+      },
+      "highly_protected": {
+        "name": "Highly protected",
+        "resolution": "Named large areas only (about 1,770 km²). No map cells.",
+        "delay": "Records are at least a year old before they count.",
+        "minimum": "A cell needs at least 20 records from 8 observers.",
+        "lockout": "Forecasts switch off in breeding season.",
+        "example": "Examples: osprey, white-tailed eagle, nesting green turtle."
+      },
+      "no_forecast": {
+        "name": "No forecast",
+        "resolution": "Never shown on a map and never forecast.",
+        "delay": "Not applicable.",
+        "minimum": "Not applicable.",
+        "lockout": "Always locked out.",
+        "example": "Example: Capercaillie in Scotland."
+      }
+    }
+  },
+  "profile": {
+    "noPinLink": "No-Pin Promise",
+    "regionLabel": "Home region"
   }
 }
