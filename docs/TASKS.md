@@ -513,10 +513,11 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Do: `/api/og/forecast?taxonId&cell&start` and `/api/og/challenge/:entryId` with `next/og` at 1080×1920 and 1080×1080, with edge caching.
   - Acceptance test: route tests return PNGs at the right size; the forecast card shows `areaLabel`, never a cell or coordinates, and the label says "Window score".
 
-- [ ] **T7.5 Challenge gallery (W-04)**
+- [x] **T7.5 Challenge gallery (W-04)**
   - Depends on: T5.12
   - Do: `/challenges/[slug]` with tabs per country and pagination.
   - Acceptance test: component test with a fixture.
+  - Done: 2026-11-26 — `/challenges/[slug]` ISR (`revalidate=3600`); country tabs + cursor pagination; country+region place labels only; Vitest fixture component test + static No-Pin gates.
 
 - [ ] **T7.6 Admin: sign-in, species cards and tiers (W-07)**
   - Depends on: T5.13
