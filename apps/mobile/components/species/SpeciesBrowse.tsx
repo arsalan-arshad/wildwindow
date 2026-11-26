@@ -75,9 +75,7 @@ export function SpeciesBrowse({ onSelectSpecies }: SpeciesBrowseProps) {
       ([null, ...SPECIES_BROWSE_GROUPS] as const).map((value) => ({
         value,
         label:
-          value === null
-            ? t('species.browse.filters.all')
-            : t(`species.browse.filters.${value}`),
+          value === null ? t('species.browse.filters.all') : t(`species.browse.filters.${value}`),
         testID: value === null ? 'species-filter-all' : `species-filter-${value}`,
       })),
     [t],
@@ -144,8 +142,7 @@ export function SpeciesBrowse({ onSelectSpecies }: SpeciesBrowseProps) {
 
       <View style={styles.filters} testID="species-filters">
         {filters.map((filter) => {
-          const selected =
-            filter.value === null ? group === null : group === filter.value;
+          const selected = filter.value === null ? group === null : group === filter.value;
           return (
             <Pressable
               key={filter.testID}
@@ -169,12 +166,7 @@ export function SpeciesBrowse({ onSelectSpecies }: SpeciesBrowseProps) {
                 },
               ]}
             >
-              <Text
-                style={[
-                  styles.chipLabel,
-                  { color: selected ? '#ffffff' : text },
-                ]}
-              >
+              <Text style={[styles.chipLabel, { color: selected ? '#ffffff' : text }]}>
                 {filter.label}
               </Text>
             </Pressable>

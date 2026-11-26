@@ -8,9 +8,7 @@ import {
 
 describe('species helpers (T6.3)', () => {
   it('picks Urdu common name when language is ur', () => {
-    expect(
-      displayCommonName({ en: 'Kingfisher', ur: 'کنگ فششر' }, 'ur'),
-    ).toBe('کنگ فششر');
+    expect(displayCommonName({ en: 'Kingfisher', ur: 'کنگ فششر' }, 'ur')).toBe('کنگ فششر');
     expect(displayCommonName({ en: 'Kingfisher' }, 'ur')).toBe('Kingfisher');
     expect(displayCommonName({ en: 'Kingfisher', ur: 'کنگ فششر' }, 'en')).toBe('Kingfisher');
   });

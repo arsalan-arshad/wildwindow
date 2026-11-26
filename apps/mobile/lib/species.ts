@@ -3,12 +3,7 @@
  * Local wire shapes so jest does not need the shared package build.
  */
 
-export const SENSITIVITY_TIERS = [
-  'open',
-  'protected',
-  'highly_protected',
-  'no_forecast',
-] as const;
+export const SENSITIVITY_TIERS = ['open', 'protected', 'highly_protected', 'no_forecast'] as const;
 export type SensitivityTier = (typeof SENSITIVITY_TIERS)[number];
 
 /** Browse filter chips (PRD S-04: birds, mammals, marine). */
@@ -78,10 +73,7 @@ export function isSpeciesBrowseGroup(value: string): value is SpeciesBrowseGroup
 }
 
 /** Prefer Urdu common name when the UI language is `ur` and one exists. */
-export function displayCommonName(
-  names: SpeciesCommonNames,
-  language: string,
-): string {
+export function displayCommonName(names: SpeciesCommonNames, language: string): string {
   const base = language.split('-')[0] ?? language;
   if (base === 'ur' && names.ur !== undefined && names.ur.trim().length > 0) {
     return names.ur;

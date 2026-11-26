@@ -1,10 +1,6 @@
 import type { ApiClient } from '@wildwindow/shared/client';
 
-import type {
-  SeasonalityResponse,
-  SpeciesDetail,
-  SpeciesListItem,
-} from '@/lib/species';
+import type { SeasonalityResponse, SpeciesDetail, SpeciesListItem } from '@/lib/species';
 
 export type MockSpeciesApi = {
   readonly list: SpeciesListItem[];
@@ -28,11 +24,7 @@ export function createMockSpeciesApiClient(fixtures: MockSpeciesApi): ApiClient 
         const q = query?.q?.trim().toLowerCase();
         if (q !== undefined && q.length > 0) {
           species = species.filter((item) => {
-            const haystack = [
-              item.scientificName,
-              item.commonNames.en,
-              item.commonNames.ur ?? '',
-            ]
+            const haystack = [item.scientificName, item.commonNames.en, item.commonNames.ur ?? '']
               .join(' ')
               .toLowerCase();
             return haystack.includes(q);

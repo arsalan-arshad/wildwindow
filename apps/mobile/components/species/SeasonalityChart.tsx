@@ -38,7 +38,11 @@ export function SeasonalityChart({ weeks, testID }: SeasonalityChartProps) {
         {t('species.seasonality.label')}
       </Text>
       <View style={[styles.frame, { borderColor: border, backgroundColor: surface }]}>
-        <Svg width={chartWidth} height={CHART_HEIGHT} accessibilityLabel={t('species.seasonality.label')}>
+        <Svg
+          width={chartWidth}
+          height={CHART_HEIGHT}
+          accessibilityLabel={t('species.seasonality.label')}
+        >
           <Line
             x1={0}
             y1={CHART_HEIGHT - PAD_Y}

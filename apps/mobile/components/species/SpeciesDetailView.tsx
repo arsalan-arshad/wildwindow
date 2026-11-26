@@ -24,11 +24,7 @@ export type SpeciesDetailViewProps = {
   readonly onGetForecast?: (taxonId: string) => void;
 };
 
-export function SpeciesDetailView({
-  taxonId,
-  region,
-  onGetForecast,
-}: SpeciesDetailViewProps) {
+export function SpeciesDetailView({ taxonId, region, onGetForecast }: SpeciesDetailViewProps) {
   const { t, i18n } = useTranslation();
   const api = useApiClient();
   const direction = getLayoutDirection();
@@ -109,9 +105,7 @@ export function SpeciesDetailView({
         </View>
       ) : null}
 
-      {seasonalityQuery.isSuccess ? (
-        <SeasonalityChart weeks={seasonalityQuery.data.weeks} />
-      ) : null}
+      {seasonalityQuery.isSuccess ? <SeasonalityChart weeks={seasonalityQuery.data.weeks} /> : null}
 
       {seasonalityQuery.isError ? (
         <Text style={[styles.chartError, { color: muted }]} testID="species-seasonality-error">

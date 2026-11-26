@@ -4,10 +4,7 @@ import { act, fireEvent, waitFor } from '@testing-library/react-native';
 import { SpeciesBrowse } from '@/components/species/SpeciesBrowse';
 import { SpeciesDetailView } from '@/components/species/SpeciesDetailView';
 import type { SpeciesDetail, SpeciesListItem } from '@/lib/species';
-import {
-  createMockSpeciesApiClient,
-  weeksFromPattern,
-} from '../testing/mock-api-client';
+import { createMockSpeciesApiClient, weeksFromPattern } from '../testing/mock-api-client';
 import { renderWithProviders } from '../testing/test-utils';
 
 const OPEN_ROW: SpeciesListItem = {
