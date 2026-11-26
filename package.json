@@ -24,6 +24,7 @@
     "data:cards": "pnpm --filter @wildwindow/shared build && pnpm --filter @wildwindow/db cards",
     "data:cards:check": "pnpm --filter @wildwindow/shared build && pnpm --filter @wildwindow/db exec tsx src/seed-cards.ts --check",
     "data:cards:draft": "pnpm --filter @wildwindow/shared list-draft-cards",
+    "data:sensitivity-review": "pnpm --filter @wildwindow/shared sensitivity-review",
     "db:up": "docker compose up -d --wait db",
     "db:down": "docker compose down",
     "db:migrate": "pnpm --filter @wildwindow/shared build && pnpm --filter @wildwindow/db migrate",

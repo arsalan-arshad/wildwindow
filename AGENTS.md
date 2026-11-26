@@ -54,6 +54,7 @@ These exist once Phase 0 is done. If one you need is missing, adding it is part 
 | `pnpm data:validate`                                              | Validate the YAML config in `data/`                                                                                         |
 | `pnpm data:resolve-taxa` · `pnpm data:places` · `pnpm data:cards` | Data scripts (T2.7, T2.8, T8.1)                                                                                             |
 | `pnpm data:cards:check` · `pnpm data:cards:draft`                 | Parse cards without DB; list cards still `draft` (T8.2)                                                                     |
+| `pnpm data:sensitivity-review`                                    | Write `reports/sensitivity-review-<region>.md` for reviewers (T8.3 / PRD E6)                                                |
 | `pnpm worker <cmd>`                                               | Worker CLI: `gbif:request`, `gbif:fetch`, `gbif:load`, `aggregate`, `score:refs`, `backtest`, `purge-deleted`, `make-admin` |
 | `pnpm --filter <pkg> test -- <pattern>`                           | Run one package's tests                                                                                                     |
 

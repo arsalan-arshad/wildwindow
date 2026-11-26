@@ -551,11 +551,13 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Agent progress: 2026-11-26 — 52 draft Markdown cards under `data/species-cards/{scotland,sindh}/` (26+26, every beta taxon×region); settings for perched/flight/lowLight; Audubon ethics; Scotland/Sindh legal drafts; sources footer. `pnpm data:cards:check` parses all as draft; `pnpm data:cards:draft` lists still-draft cards; shared Vitest coverage. Upsert via `pnpm data:cards` still needs `DATABASE_URL` (PostGIS).
   - Blocked: needs Arsalan – expert photographer review of every draft card, then mark reviewed (`reviewedBy` / `reviewedAt`) so public field cards and web species pages can publish.
 
-- [ ] **T8.3 Sensitivity review pack** 🧑
+- [!] **T8.3 Sensitivity review pack** 🧑
   - Depends on: T2.7
   - Do: a script that writes `reports/sensitivity-review-<region>.md` (each species, its proposed tier, lockout months, the reason and links) for the conservation reviewers (PRD E6).
   - Acceptance test: the report is generated for both regions.
   - 🧑 Reviewers sign off; the result goes into `sensitive-species.yaml` (`reviewer`, `reviewed_at`).
+  - Agent progress: 2026-11-26 — `pnpm data:sensitivity-review` builds packs from beta + sensitive YAML; reports at `reports/sensitivity-review-scotland.md` and `reports/sensitivity-review-sindh.md` (tier, lockout months, reason, GBIF/IUCN/NatureScot links, sign-off checklist). Shared Vitest coverage.
+  - Blocked: needs Arsalan – conservation reviewers sign off each region’s pack into `data/sensitive-species.yaml` (`reviewer`, `reviewedAt`) before public launch (PRD E6).
 
 - [x] **T8.4 Seed Kingfisher Month**
   - Depends on: T5.12

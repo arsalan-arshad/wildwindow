@@ -38,7 +38,8 @@
     "validate-data": "tsx scripts/validate-data.ts",
     "resolve-taxa": "tsx scripts/resolve-taxa.ts",
     "generate-draft-cards": "tsx scripts/generate-draft-cards.ts",
-    "list-draft-cards": "tsx scripts/list-draft-cards.ts"
+    "list-draft-cards": "tsx scripts/list-draft-cards.ts",
+    "sensitivity-review": "tsx scripts/sensitivity-review.ts"
   },
   "dependencies": {
     "@wildwindow/geoprivacy": "workspace:^",
