@@ -343,9 +343,7 @@ describe('T5.12 Challenges /v1/challenges', () => {
       await pool.end();
     }
 
-    const approvedFuture = await request(server)
-      .get(`/v1/challenges/${SLUG}/entries`)
-      .expect(200);
+    const approvedFuture = await request(server).get(`/v1/challenges/${SLUG}/entries`).expect(200);
     expect(ChallengeEntriesResponseSchema.parse(approvedFuture.body).entries).toEqual([]);
 
     // Past publish_after + approved → listed with country/region only.

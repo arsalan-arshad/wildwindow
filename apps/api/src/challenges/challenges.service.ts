@@ -18,11 +18,7 @@ import {
 import { and, asc, count, desc, eq, gte, lt, lte, sql } from 'drizzle-orm';
 
 import { DB } from '../db/db.module.js';
-import {
-  conflictError,
-  notFoundError,
-  validationError,
-} from '../http/api-error.js';
+import { conflictError, notFoundError, validationError } from '../http/api-error.js';
 import { STORAGE_SERVICE, type StorageService } from '../storage/storage.types.js';
 
 /** Entries go public no sooner than 7 days after submit (PRD US-13 / ARCHITECTURE §6.2). */
@@ -105,8 +101,7 @@ export class ChallengesService {
     }
 
     const cursorId = parseCursor(query.cursor);
-    const country =
-      query.country !== undefined ? query.country.trim().toUpperCase() : undefined;
+    const country = query.country !== undefined ? query.country.trim().toUpperCase() : undefined;
 
     const conditions = [
       eq(challengeEntries.challengeId, challenge.id),
@@ -170,11 +165,7 @@ export class ChallengesService {
 
     const apiStatus = normalizeChallengeStatus(challenge.status);
     const today = utcDateString(now);
-    if (
-      apiStatus !== 'active' ||
-      challenge.startsOn > today ||
-      challenge.endsOn < today
-    ) {
+    if (apiStatus !== 'active' || challenge.startsOn > today || challenge.endsOn < today) {
       throw validationError('Challenge is not open for submissions');
     }
 
