@@ -459,10 +459,11 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Do: saved pairs with this week's score and best day, add and remove, the limit message, and the challenge banner.
   - Acceptance test: component tests covering the 3-item limit message.
 
-- [ ] **T6.9 Logbook (S-10, S-11, S-12)**
+- [x] **T6.9 Logbook (S-10, S-11, S-12)**
   - Depends on: T6.7, T5.11
   - Do: pick a photo (`expo-image-picker` with `exif:true`), read the camera settings, **re-encode with `expo-image-manipulator` to drop all metadata**, upload through presign, and save the entry. Optionally keep the exact point (owner only).
   - Acceptance test: a unit test shows that the upload payload has no GPS; a manual check that the uploaded file has no GPS EXIF (written down in the PR).
+  - Done: 2026-11-26 — Expo logbook list / add / detail (S-10..S-12); `expo-image-picker` (`exif:true`) → camera EXIF extract → `expo-image-manipulator` JPEG re-encode (strips metadata) → presign PUT → `POST /v1/me/logbook`; optional owner-only exact point (off by default). jest-expo: upload/create payload has no GPS keys; form save omits `exactLocation` unless toggled.
 
 - [ ] **T6.10 Challenge (S-13, S-14)**
   - Depends on: T6.9, T5.12

@@ -43,6 +43,14 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       },
     ],
     [
+      'expo-image-picker',
+      {
+        photosPermission:
+          'WildWindow reads your wildlife photo so you can log camera settings. GPS is stripped on this device before upload.',
+      },
+    ],
+    'expo-image-manipulator',
+    [
       'expo-splash-screen',
       {
         image: './assets/images/splash-icon.png',
