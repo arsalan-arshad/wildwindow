@@ -420,7 +420,7 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Depends on: T6.1
   - Do: 3 onboarding cards, region choice (saved locally) and the No-Pin Promise screen (PRD §9.1 text and the tier table in plain words).
   - Acceptance test: Testing Library: onboarding ends on Home and the region is saved.
-  - Done: 2026-11-26, PR pending — Expo Router `/onboarding` (3 cards: what / No-Pin / region) + `/no-pin` (PRD §9.1 pledge + plain-words tiers matching TIER_POLICY); region + completion in AsyncStorage; Profile link to No-Pin. jest-expo acceptance: finishes on Home with region saved.
+  - Done: 2026-11-26, PR #66 — Expo Router `/onboarding` (3 cards: what / No-Pin / region) + `/no-pin` (PRD §9.1 pledge + plain-words tiers matching TIER_POLICY); region + completion in AsyncStorage; Profile link to No-Pin. jest-expo acceptance: finishes on Home with region saved.
 
 - [ ] **T6.3 Species browse and detail (S-04, S-05)**
   - Depends on: T6.1, T5.4
