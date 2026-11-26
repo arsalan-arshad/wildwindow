@@ -26,12 +26,23 @@ export function createApiClient(options: {
   const fetcher = options.fetch ?? fetch;
   const base = options.baseUrl.replace(/\/+$/, '');
 
+  async function authHeaders(): Promise<Record<string, string>> {
+    const headers: Record<string, string> = { accept: 'application/json' };
+    if (options.getToken !== undefined) {
+      const token = await options.getToken();
+      if (token !== undefined && token.length > 0) {
+        headers['authorization'] = `Bearer ${token}`;
+      }
+    }
+    return headers;
+  }
+
   return {
     health: {
       get: async () => {
         const response = await fetcher(`${base}/v1/health`, {
           method: 'GET',
-          headers: { accept: 'application/json' },
+          headers: await authHeaders(),
         });
         const data: unknown = await response.json();
         return data;
@@ -83,7 +94,14 @@ export function createApiClient(options: {
       join: emptyAsync({ ok: true }),
     },
     me: {
-      get: emptyAsync({}),
+      get: async () => {
+        const response = await fetcher(`${base}/v1/me`, {
+          method: 'GET',
+          headers: await authHeaders(),
+        });
+        const data: unknown = await response.json();
+        return data;
+      },
       patch: emptyAsync({}),
       delete: emptyAsync({ ok: true }),
       export: emptyAsync({ ok: true }),

@@ -3,15 +3,18 @@ import { render, type RenderOptions, type RenderResult } from '@testing-library/
 import type { ApiClient } from '@wildwindow/shared/client';
 import type { ReactElement, ReactNode } from 'react';
 
+import type { AuthClient } from '@/lib/auth/types';
 import { AppProviders } from '@/providers/app-providers';
 import { initI18n, type AppLanguage } from '@/lib/i18n';
 import type { AppPreferences, PreferenceStorage } from '@/lib/preferences';
+import { createMockAuthClient } from '@/testing/mock-auth-client';
 
 export type RenderWithProvidersOptions = RenderOptions & {
   readonly language?: AppLanguage;
   readonly preferenceStorage?: PreferenceStorage;
   readonly initialPreferences?: AppPreferences;
   readonly apiClient?: ApiClient;
+  readonly authClient?: AuthClient;
   readonly queryClient?: QueryClient;
 };
 
@@ -42,12 +45,16 @@ export async function renderWithProviders(
       onboardingComplete: true,
     } satisfies AppPreferences);
   const apiClient = options?.apiClient;
+  // Default to an in-memory auth client so screens that call useAuth do not
+  // hit the real Firebase SDK in Jest.
+  const authClient = options?.authClient ?? createMockAuthClient({ initialUser: null });
   const queryClient = options?.queryClient ?? createTestQueryClient();
 
   function Wrapper({ children }: { readonly children: ReactNode }) {
     return (
       <AppProviders
         queryClient={queryClient}
+        authClient={authClient}
         {...(preferenceStorage !== undefined ? { preferenceStorage } : {})}
         {...(initialPreferences !== undefined ? { initialPreferences } : {})}
         {...(apiClient !== undefined ? { apiClient } : {})}
@@ -62,6 +69,7 @@ export async function renderWithProviders(
     preferenceStorage: _storage,
     initialPreferences: _prefs,
     apiClient: _api,
+    authClient: _auth,
     queryClient: _qc,
     ...renderOptions
   } = options ?? {};

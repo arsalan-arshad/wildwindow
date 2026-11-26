@@ -9,10 +9,19 @@ export type ApiClientProviderProps = {
   readonly children: ReactNode;
   /** Override for tests. */
   readonly client?: ApiClient;
+  /** Auth token supplier (T6.7). Ignored when `client` is provided. */
+  readonly getToken?: () => string | undefined | Promise<string | undefined>;
 };
 
-export function ApiClientProvider({ children, client }: ApiClientProviderProps) {
-  const value = useMemo(() => client ?? createMobileApiClient(), [client]);
+export function ApiClientProvider({ children, client, getToken }: ApiClientProviderProps) {
+  const value = useMemo(
+    () =>
+      client ??
+      createMobileApiClient({
+        ...(getToken !== undefined ? { getToken } : {}),
+      }),
+    [client, getToken],
+  );
   return <ApiClientContext.Provider value={value}>{children}</ApiClientContext.Provider>;
 }
 
