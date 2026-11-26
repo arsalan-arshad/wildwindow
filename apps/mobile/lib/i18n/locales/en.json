@@ -1,0 +1,18 @@
+{
+  "tabs": {
+    "home": "Home",
+    "explore": "Explore",
+    "logbook": "Logbook",
+    "challenge": "Challenge",
+    "profile": "Profile"
+  },
+  "shell": {
+    "placeholder": "WildWindow placeholder",
+    "brand": "WildWindow",
+    "errorTitle": "Something went wrong",
+    "errorBody": "The screen hit an unexpected error. You can try again.",
+    "errorRetry": "Try again",
+    "notFoundTitle": "This screen doesn't exist.",
+    "notFoundLink": "Go to home screen"
+  }
+}

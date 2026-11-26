@@ -410,10 +410,11 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
 
 ## Phase 6: Mobile app (`apps/mobile`)
 
-- [ ] **T6.1 App shell**
+- [x] **T6.1 App shell**
   - Depends on: T0.8, T5.1
   - Do: theme (light and dark), i18n (`en`, with the `ur` scaffold and RTL check), TanStack Query + the API client, an error boundary and a Sentry placeholder.
   - Acceptance test: a jest-expo snapshot of each tab; switching to `ur` flips the layout direction.
+  - Done: 2026-11-26, PR pending — light/dark theme tokens; i18next `en`+`ur` scaffold with `setAppLanguage` → RTL; TanStack Query + `createMobileApiClient` (`@wildwindow/shared`); ErrorBoundary; Sentry placeholder (full SDK = T9.1). jest-expo tab snapshots + RTL tests green.
 
 - [ ] **T6.2 Onboarding and the No-Pin Promise (S-01, S-09)**
   - Depends on: T6.1
