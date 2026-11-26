@@ -12,8 +12,17 @@ export function SiteFooter() {
           <p>© {year} WildWindow</p>
         </div>
         <div className="flex flex-wrap gap-x-5 gap-y-2">
+          <Link href="/no-pin" className="hover:text-forest-600">
+            No-Pin Promise
+          </Link>
           <Link href="/privacy" className="hover:text-forest-600">
             Privacy
+          </Link>
+          <Link href="/terms" className="hover:text-forest-600">
+            Terms
+          </Link>
+          <Link href="/attributions" className="hover:text-forest-600">
+            Attributions
           </Link>
           <Link href="/waitlist" className="hover:text-forest-600">
             Waitlist

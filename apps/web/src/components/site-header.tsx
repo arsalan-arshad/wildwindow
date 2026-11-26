@@ -10,7 +10,10 @@ export function SiteHeader() {
         >
           WildWindow
         </Link>
-        <nav aria-label="Primary" className="flex items-center gap-5 text-sm text-ink">
+        <nav aria-label="Primary" className="flex items-center gap-4 text-sm text-ink sm:gap-5">
+          <Link href="/no-pin" className="hidden hover:text-forest-600 transition-colors sm:inline">
+            No-Pin
+          </Link>
           <Link href="/privacy" className="hover:text-forest-600 transition-colors">
             Privacy
           </Link>

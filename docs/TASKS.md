@@ -492,11 +492,12 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Acceptance test: a Vitest component test, plus a submit to a mocked API.
   - Done: 2026-11-25 — Landing `/` + `/landing-page`, `/waitlist`, draft `/privacy`; Nest waitlist API slice; Fraunces + Source Sans 3; sample Window score 82/100 High. Depends-on note: waitlist API shipped here ahead of full T5.15 attributions.
 
-- [ ] **T7.2 Pledge and legal pages (W-02, W-06)**
+- [x] **T7.2 Pledge and legal pages (W-02, W-06)**
   - Depends on: T7.1
   - Do: the No-Pin Promise page, privacy, terms and attributions (data from `/v1/attributions`). The privacy and terms texts are marked **DRAFT – needs legal review**.
   - Acceptance test: pages build statically; the attributions list renders from a fixture.
-  - Notes: Draft `/privacy` shipped with T7.1 (banner + waitlist fields). Dedicated No-Pin pledge page, terms, and attributions UI remain.
+  - Done: 2026-11-26 — `/no-pin` (PRD §9.1 + plain-words tiers), expanded draft `/privacy`, draft `/terms`, `/attributions` (client load from `GET /v1/attributions`); Vitest fixture + `force-static` gates; `next build` shows ○ for all four.
+  - Notes: Privacy/terms remain DRAFT – needs legal review (🧑 T9.9).
 
 - [ ] **T7.3 Species pages (W-03)**
   - Depends on: T5.4
