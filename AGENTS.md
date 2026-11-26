@@ -33,7 +33,7 @@ packages/geoprivacy  @wildwindow/geoprivacy – MIT, open source, location prote
 packages/scoring     Window score v1 + light (suncalc) + provider interfaces
 packages/config      tsconfig / eslint / prettier presets
 data/                beta-species.yaml, sensitive-species.yaml, species-cards/, boundaries/
-docs/                PRD, ARCHITECTURE, TASKS (+ reports/ for generated reports)
+docs/                PRD, ARCHITECTURE, TASKS, runbooks/ (+ reports/ for generated reports)
 infra/               AWS CDK (Phase 9) + railway/ interim host config
 ```
 

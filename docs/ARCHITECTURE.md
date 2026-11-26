@@ -584,7 +584,7 @@ wildwindow/
 │  └─ species-cards/{scotland,sindh}/*.md
 ├─ infra/            AWS CDK (TypeScript) – Phase 9; `infra/railway/` interim beta host
 ├─ reports/          Generated backtest reports
-├─ docs/             PRD, ARCHITECTURE, TASKS
+├─ docs/             PRD, ARCHITECTURE, TASKS, runbooks/ (e.g. moderation)
 ├─ docker-compose.yml  PostGIS for local dev
 ├─ AGENTS.md
 ├─ CURSOR_PROMPT.md

@@ -52,6 +52,10 @@ describe('challenge seed YAML (T8.4)', () => {
     expect(seed.slug).toBe('kingfisher-month-2026-11');
     expect(seed.scientificName).toBe('Alcedo atthis');
     expect(seed.status).toBe('live');
+    // T10.2 go-live dates locked in the seed.
+    expect(seed.startsOn).toBe('2026-11-01');
+    expect(seed.endsOn).toBe('2026-11-30');
+    expect(seed.regions).toEqual(['scotland', 'sindh']);
     expect(seed.rulesMd.toLowerCase()).toMatch(/baiting/);
     expect(seed.rulesMd.toLowerCase()).toMatch(/playback/);
     expect(seed.rulesMd.toLowerCase()).toMatch(/nest/);
