@@ -4,6 +4,7 @@ import { join } from 'node:path';
 
 import { describe, expect, it } from 'vitest';
 
+import { verifyLocalGetToken } from './local-get-token.js';
 import { verifyLocalPutToken } from './local-put-token.js';
 import { LocalStorage } from './local.storage.js';
 
@@ -34,6 +35,24 @@ describe('LocalStorage', () => {
       await expect(storage.getObject(key)).resolves.toEqual(Buffer.from('test'));
       await storage.deleteObject(key);
       await expect(storage.getObject(key)).resolves.toBeNull();
+    } finally {
+      await rm(root, { recursive: true, force: true });
+    }
+  });
+
+  it('presigns a GET URL with a verifiable token', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'ww-local-get-'));
+    try {
+      const storage = new LocalStorage({
+        rootDir: root,
+        publicBaseUrl: 'http://127.0.0.1:3001',
+        signingSecret: 'secret',
+      });
+      const key = 'uploads/u1/gallery.jpg';
+      const presign = await storage.createPresignedGet({ key, expiresInSeconds: 300 });
+      expect(presign.url.startsWith('http://127.0.0.1:3001/v1/uploads/object/')).toBe(true);
+      const token = decodeURIComponent(presign.url.split('/').pop() ?? '');
+      expect(verifyLocalGetToken(token, 'secret')?.key).toBe(key);
     } finally {
       await rm(root, { recursive: true, force: true });
     }

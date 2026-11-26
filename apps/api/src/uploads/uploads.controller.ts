@@ -1,12 +1,14 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   Inject,
   Param,
   Post,
   Put,
   Req,
+  Res,
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
@@ -20,12 +22,13 @@ import { createZodDto } from 'nestjs-zod';
 import { FirebaseAuthGuard } from '../auth/firebase-auth.guard.js';
 import { API_ENV, type ApiEnv } from '../config/api-env.js';
 import { type RequestWithOptionalUser } from '../geoprivacy/owner-location.js';
-import { unauthorizedError, validationError } from '../http/api-error.js';
+import { notFoundError, unauthorizedError, validationError } from '../http/api-error.js';
+import { verifyLocalGetToken } from '../storage/local-get-token.js';
 import { STORAGE_SERVICE, type StorageService } from '../storage/storage.types.js';
 
 import { UploadsService } from './uploads.service.js';
 
-import type { Request } from 'express';
+import type { Request, Response } from 'express';
 
 class PresignUploadRequestDto extends createZodDto(PresignUploadRequestSchema) {}
 class PresignUploadResponseDto extends createZodDto(PresignUploadResponseSchema) {}
@@ -76,6 +79,47 @@ export class UploadsController {
     const contentType = headerString(req.headers['content-type']);
     return this.uploads.putLocal(decodeURIComponent(token), body, contentType, signingSecret);
   }
+
+  /**
+   * Local storage driver target for presigned GETs (challenge gallery photoUrl).
+   */
+  @Get('object/:token')
+  @ApiOperation({ summary: 'Local-driver photo GET (dev/test); not used with S3' })
+  async getLocal(@Param('token') token: string, @Res() res: Response): Promise<void> {
+    if (this.storage.driver !== 'local') {
+      throw validationError('Local GET is only available when STORAGE_DRIVER=local');
+    }
+    const signingSecret = resolveLocalSigningSecret(this.env);
+    if (signingSecret === null) {
+      throw validationError('Local uploads are not configured');
+    }
+
+    const payload = verifyLocalGetToken(decodeURIComponent(token), signingSecret);
+    if (payload === null) {
+      throw notFoundError('Object not found');
+    }
+    const body = await this.storage.getObject(payload.key);
+    if (body === null) {
+      throw notFoundError('Object not found');
+    }
+    res.setHeader('Content-Type', contentTypeForKey(payload.key));
+    res.setHeader('Cache-Control', 'private, max-age=300');
+    res.status(200).send(body);
+  }
+}
+
+function contentTypeForKey(key: string): string {
+  const lower = key.toLowerCase();
+  if (lower.endsWith('.webp')) {
+    return 'image/webp';
+  }
+  if (lower.endsWith('.heic') || lower.endsWith('.heif')) {
+    return 'image/heic';
+  }
+  if (lower.endsWith('.png')) {
+    return 'image/png';
+  }
+  return 'image/jpeg';
 }
 
 /** Must match `resolveSigningSecret` in `storage/factory.ts`. */

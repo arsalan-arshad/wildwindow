@@ -384,10 +384,11 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Acceptance test: the owner can read their exact point; another user gets 404; the database row stores ciphertext, not plain text.
   - Done: 2026-11-26 — `GET/POST/PATCH/DELETE /v1/me/logbook` with `@OwnerLocation()`; AES-256-GCM `exact_point_enc` via `LOGBOOK_ENC_KEY`; delete removes photo objects; e2e owner decrypt + cross-user 404 + ciphertext-at-rest.
 
-- [ ] **T5.12 Challenges and entries**
+- [x] **T5.12 Challenges and entries**
   - Depends on: T5.11
   - Do: `GET /v1/challenges/current`, `/:slug`, `/:slug/entries` (approved and past `publish_after` only) and `POST /:slug/entries` (pledge required, species must match, challenge taxon must be `open`, output shows only country and region).
   - Acceptance test: an entry isn't listed before approval or before 7 days have passed; posting without the pledge → 400; responses pass `assertPublicSafe`.
+  - Done: 2026-11-26 — `GET /v1/challenges/current|:slug|:slug/entries` + `POST …/entries`; 7-day `publish_after`; pledge + open-tier + species match; gallery photo via signed GET (`createPresignedGet`); e2e + `assertPublicSafe`. Status accepts DB `live`/`active` → API `active`.
 
 - [ ] **T5.13 Admin endpoints and audit log**
   - Depends on: T5.8

@@ -1,8 +1,11 @@
 import { mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { dirname, join, resolve, sep } from 'node:path';
 
+import { mintLocalGetToken, type LocalGetTokenPayload } from './local-get-token.js';
 import { mintLocalPutToken, type LocalPutTokenPayload } from './local-put-token.js';
 import {
+  type PresignGetInput,
+  type PresignGetResult,
   type PresignPutInput,
   type PresignPutResult,
   type StorageService,
@@ -16,7 +19,8 @@ export type LocalStorageOptions = {
 };
 
 /**
- * Dev/test filesystem driver. Presigned PUTs hit `/v1/uploads/put/:token` on this API.
+ * Dev/test filesystem driver.
+ * Presigned PUTs hit `/v1/uploads/put/:token`; GETs hit `/v1/uploads/object/:token`.
  */
 export class LocalStorage implements StorageService {
   readonly driver = 'local' as const;
@@ -46,6 +50,19 @@ export class LocalStorage implements StorageService {
         'Content-Type': input.mimeType,
         'Content-Length': String(input.byteSize),
       },
+      expiresAt,
+    });
+  }
+
+  createPresignedGet(input: PresignGetInput): Promise<PresignGetResult> {
+    const expiresAt = new Date(Date.now() + input.expiresInSeconds * 1000);
+    const payload: LocalGetTokenPayload = {
+      key: input.key,
+      exp: Math.floor(expiresAt.getTime() / 1000),
+    };
+    const token = mintLocalGetToken(payload, this.signingSecret);
+    return Promise.resolve({
+      url: `${this.publicBaseUrl}/v1/uploads/object/${encodeURIComponent(token)}`,
       expiresAt,
     });
   }

@@ -8,6 +8,8 @@ import {
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
 import {
+  type PresignGetInput,
+  type PresignGetResult,
   type PresignPutInput,
   type PresignPutResult,
   type StorageService,
@@ -22,7 +24,8 @@ export type S3StorageOptions = {
 };
 
 /**
- * Private S3 bucket driver with presigned PUT URLs (ARCHITECTURE §2 / T5.10).
+ * Private S3 bucket driver with presigned PUT/GET URLs (ARCHITECTURE §2 / T5.10).
+ * CloudFront signed URLs (CLOUDFRONT_*) land with the AWS cutover (T9.x).
  */
 export class S3Storage implements StorageService {
   readonly driver = 's3' as const;
@@ -59,6 +62,18 @@ export class S3Storage implements StorageService {
       },
       expiresAt,
     };
+  }
+
+  async createPresignedGet(input: PresignGetInput): Promise<PresignGetResult> {
+    const command = new GetObjectCommand({
+      Bucket: this.bucket,
+      Key: input.key,
+    });
+    const url = await getSignedUrl(this.client, command, {
+      expiresIn: input.expiresInSeconds,
+    });
+    const expiresAt = new Date(Date.now() + input.expiresInSeconds * 1000);
+    return { url, expiresAt };
   }
 
   async putObject(key: string, body: Buffer, contentType: string): Promise<void> {
