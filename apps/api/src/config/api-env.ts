@@ -29,6 +29,8 @@ export const ApiEnvSchema = z.object({
   ADMIN_TOKEN: z.string().min(1).optional(),
   /** When false (default), waitlist confirmation email is a no-op stub. */
   WAITLIST_EMAIL_ENABLED: boolish,
+  /** Free-tier watchlist capacity (ARCHITECTURE §7 / T5.9). */
+  WATCHLIST_LIMIT_FREE: z.coerce.number().int().positive().default(3),
   /**
    * Tide provider switch (ARCHITECTURE §3.5 / T4.8). MVP: `none` only → factor D is
    * `not_used`. Real providers are added later after licence checks (P3.1).
