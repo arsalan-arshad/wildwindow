@@ -348,6 +348,39 @@
       "privacyNote": "Deleting an entry also deletes its photo from storage. Exact locations are never shown publicly."
     }
   },
+  "home": {
+    "title": "This week",
+    "subtitle": "Your saved species and areas, with this week's Window score.",
+    "signInBody": "Sign in to see your watchlist forecasts on Home.",
+    "challenge": {
+      "kicker": "Monthly challenge",
+      "open": "Open challenge",
+      "speciesFallback": "Taxon {{id}}"
+    },
+    "watchlist": {
+      "title": "Watchlist",
+      "capacity": "{{count}} of {{limit}}",
+      "add": "Add a species",
+      "empty": "No saved pairs yet. Browse a species, pick an area, then save it to your watchlist.",
+      "error": "Could not load your watchlist. Try again.",
+      "remove": "Remove",
+      "save": "Save to watchlist",
+      "saved": "Remove from watchlist",
+      "saveNeedsSignIn": "Sign in to save this pair",
+      "saveError": "Could not update your watchlist. Try again.",
+      "taxonFallback": "Taxon {{id}}",
+      "scorePending": "…",
+      "scoreError": "Score unavailable",
+      "bestDay": "Best day {{day}}",
+      "limitTitle": "Watchlist is full",
+      "limitBody": "You can save up to 3 species and area pairs for free. Remove one to add another.",
+      "status": {
+        "lockout": "Resting season",
+        "notCovered": "Not covered",
+        "unavailable": "Unavailable"
+      }
+    }
+  },
   "challenge": {
     "home": {
       "title": "Challenge",

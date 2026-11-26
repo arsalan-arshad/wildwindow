@@ -17,8 +17,14 @@ const emptySpeciesClient = createMockSpeciesApiClient({
 
 describe('tab screens (T6.1 snapshots)', () => {
   it('matches Home snapshot', async () => {
-    const tree = (await renderWithProviders(<HomeScreen />)).toJSON();
-    expect(tree).toMatchSnapshot();
+    const view = await renderWithProviders(<HomeScreen />, {
+      apiClient: emptySpeciesClient,
+      initialPreferences: { region: 'scotland', onboardingComplete: true },
+    });
+    await waitFor(() => {
+      expect(view.getByTestId('home-signed-out')).toBeTruthy();
+    });
+    expect(view.toJSON()).toMatchSnapshot();
   });
 
   it('matches Explore snapshot', async () => {

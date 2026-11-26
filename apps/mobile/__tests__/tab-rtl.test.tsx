@@ -12,6 +12,7 @@ describe('tab layout direction (T6.1)', () => {
     const view = await renderWithProviders(<HomeScreen />, { language: 'ur' });
     const root = view.getByTestId('tab-home');
     expect(JSON.stringify(root.props.style)).toContain('"direction":"rtl"');
-    expect(view.getByText('ہوم')).toBeTruthy();
+    // S-03 home title (tabs.home "ہوم" remains on the tab bar, not this screen).
+    expect(view.getByText('اس ہفتے')).toBeTruthy();
   });
 });

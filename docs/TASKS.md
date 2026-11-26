@@ -454,10 +454,11 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Blocked: needs Arsalan – (1) create/finish Firebase project: enable Email/Password, register iOS+Android+Web apps, put public web config JSON in `EXPO_PUBLIC_FIREBASE_CONFIG`; (2) set API `FIREBASE_PROJECT_ID` + `FIREBASE_SERVICE_ACCOUNT_JSON` (T5.8); (3) Apple Developer account + Apple Sign-In capability; (4) Google Cloud OAuth iOS/Android clients; (5) `eas build --profile development` (or local prebuild) with `expo-apple-authentication` + `@react-native-google-signin/google-signin`, then wire those providers and re-test sign-in on a device/simulator.
   - Notes: Code landed without EAS — Firebase JS SDK + email/password UI (S-02), auth store, Bearer token → API client, Profile sign-out; Apple/Google buttons present but disabled pending EAS. Email-link skipped (Dynamic Links shutdown; §8). Unit/component tests use AuthClient mocks.
 
-- [ ] **T6.8 Home with watchlist (S-03)**
+- [x] **T6.8 Home with watchlist (S-03)**
   - Depends on: T6.5, T6.7, T5.9
   - Do: saved pairs with this week's score and best day, add and remove, the limit message, and the challenge banner.
   - Acceptance test: component tests covering the 3-item limit message.
+  - Done: 2026-11-26 — Expo Home (S-03): watchlist pairs with week score + best day, add (Explore) / remove, friendly 3-item limit (no paywall), challenge banner; forecast Save to watchlist. jest-expo: limit message when full + 4th save blocked.
 
 - [x] **T6.9 Logbook (S-10, S-11, S-12)**
   - Depends on: T6.7, T5.11

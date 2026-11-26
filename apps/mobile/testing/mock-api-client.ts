@@ -57,6 +57,20 @@ export type MockChallengeApi = {
   readonly submit?: (slug: string, body: unknown) => Promise<{ id: string; status: 'pending' }>;
 };
 
+export type MockWatchlistItem = {
+  readonly id: string;
+  readonly taxonId: string;
+  readonly cellR7: string;
+  readonly createdAt?: string;
+};
+
+export type MockWatchlistApi = {
+  readonly items?: readonly MockWatchlistItem[];
+  readonly limit?: number;
+  readonly add?: (body: { taxonId: string; cellR7: string }) => Promise<MockWatchlistItem>;
+  readonly remove?: (id: string) => Promise<void>;
+};
+
 const EMPTY_WEEKS = Array.from({ length: 52 }, () => 0);
 
 export function forecastFixtureKey(taxonId: string, cell: string, start: string): string {
@@ -69,12 +83,16 @@ export function createMockSpeciesApiClient(
   forecastFixtures: MockForecastApi = {},
   logbookFixtures: MockLogbookApi = {},
   challengeFixtures: MockChallengeApi = {},
+  watchlistFixtures: MockWatchlistApi = {},
 ): ApiClient {
   const places = placesFixtures.places ?? [];
   const areasByCell = placesFixtures.areasByCell ?? {};
   const forecastByKey = forecastFixtures.byKey ?? {};
   const challengeBySlug = challengeFixtures.bySlug ?? {};
   const entriesBySlug = challengeFixtures.entriesBySlug ?? {};
+  const watchlistLimit = watchlistFixtures.limit ?? 3;
+
+  let watchlistItems: MockWatchlistItem[] = [...(watchlistFixtures.items ?? [])];
 
   let logbookItems: LogbookEntryPublic[] =
     challengeFixtures.logbookItems !== undefined
@@ -217,11 +235,57 @@ export function createMockSpeciesApiClient(
         downloadUrl: 'https://example.test/export.json',
       }),
       watchlist: {
-        list: async () => ({ items: [] }),
-        add: async () => {
-          throw new Error('not implemented in mock');
-        },
-        remove: async () => undefined,
+        list: async () => ({
+          items: watchlistItems.map((item) => ({
+            id: item.id,
+            taxonId: item.taxonId,
+            cellR7: item.cellR7,
+            createdAt: item.createdAt ?? '2026-11-26T12:00:00.000Z',
+          })),
+          limit: watchlistLimit,
+        }),
+        add:
+          watchlistFixtures.add ??
+          (async (body: { taxonId: string; cellR7: string }) => {
+            if (watchlistItems.length >= watchlistLimit) {
+              const err = new Error(
+                `Watchlist limit of ${String(watchlistLimit)} reached`,
+              ) as Error & { code: string; status: number };
+              err.code = 'WATCHLIST_LIMIT';
+              err.status = 409;
+              throw err;
+            }
+            const cell = body.cellR7.toLowerCase();
+            const existing = watchlistItems.find(
+              (item) => item.taxonId === body.taxonId && item.cellR7.toLowerCase() === cell,
+            );
+            if (existing !== undefined) {
+              return {
+                id: existing.id,
+                taxonId: existing.taxonId,
+                cellR7: existing.cellR7,
+                createdAt: existing.createdAt ?? '2026-11-26T12:00:00.000Z',
+              };
+            }
+            const created: MockWatchlistItem = {
+              id: `wl-${String(watchlistItems.length + 1)}`,
+              taxonId: body.taxonId,
+              cellR7: cell,
+              createdAt: '2026-11-26T12:00:00.000Z',
+            };
+            watchlistItems = [...watchlistItems, created];
+            return {
+              id: created.id,
+              taxonId: created.taxonId,
+              cellR7: created.cellR7,
+              createdAt: created.createdAt ?? '2026-11-26T12:00:00.000Z',
+            };
+          }),
+        remove:
+          watchlistFixtures.remove ??
+          (async (id: string) => {
+            watchlistItems = watchlistItems.filter((item) => item.id !== id);
+          }),
       },
       logbook: {
         list: async () => ({ items: logbookItems }),
