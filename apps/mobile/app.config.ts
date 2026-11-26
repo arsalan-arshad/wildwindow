@@ -50,7 +50,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
           'WildWindow reads your wildlife photo so you can log camera settings. GPS is stripped on this device before upload.',
       },
     ],
-    'expo-image-manipulator',
+    // expo-image-manipulator is a runtime dependency (logbook EXIF strip), not a
+    // config plugin — listing it here makes `expo config` / `eas init` fail.
     [
       'expo-splash-screen',
       {

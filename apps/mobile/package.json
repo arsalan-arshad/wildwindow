@@ -11,6 +11,7 @@
     "lint": "eslint app components constants lib providers testing __tests__ --max-warnings=0",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "jest",
+    "config:check": "expo config --json",
     "export:web": "expo export --platform web"
   },
   "dependencies": {
