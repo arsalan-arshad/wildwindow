@@ -209,7 +209,8 @@
     },
     "map": {
       "empty": "Search a place or use your location to see the coarse area cell.",
-      "invalid": "Map unavailable for this cell."
+      "invalid": "Map unavailable for this cell.",
+      "webUnavailable": "The coarse area map is available in the iOS and Android apps."
     }
   },
   "forecast": {

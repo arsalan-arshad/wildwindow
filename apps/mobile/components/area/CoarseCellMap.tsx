@@ -1,3 +1,7 @@
+/**
+ * Native coarse cell map (react-native-maps). Web uses CoarseCellMap.web.tsx
+ * so Metro never pulls maps into the browser/SSR graph.
+ */
 import { StyleSheet, View } from 'react-native';
 import MapView, { Polygon, type Region } from 'react-native-maps';
 import { useTranslation } from 'react-i18next';
