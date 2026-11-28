@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
 
 import { WaitlistForm } from '@/components/waitlist-form';
 
@@ -11,17 +10,19 @@ export const metadata: Metadata = {
 export default function WaitlistPage() {
   return (
     <main className="bg-paper">
-      <div className="relative isolate overflow-hidden border-b border-forest-800/10">
-        {/* Brand waitlist banner — canonical source: assets/marketing/waitlist-banner.png */}
-        <Image
-          src="/marketing/waitlist-banner.png"
-          alt=""
-          fill
-          className="object-cover opacity-40"
-          sizes="100vw"
-          priority
+      {/*
+        One HTML banner composition only. Do not underlay assets/marketing/waitlist-banner.png —
+        that pack graphic ships its own headlines/CTAs and stacks under this copy (WPO-106).
+      */}
+      <div className="relative isolate overflow-hidden border-b border-forest-800/10 bg-forest-950">
+        <div
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_15%_0%,rgb(47_107_79/0.5),transparent_50%),radial-gradient(ellipse_at_85%_80%,rgb(196_137_42/0.18),transparent_45%)]"
+          aria-hidden
         />
-        <div className="absolute inset-0 bg-forest-950/55" aria-hidden />
+        <div
+          className="hero-mist pointer-events-none absolute -inset-[10%] bg-[radial-gradient(circle_at_70%_30%,rgb(243_226_194/0.16),transparent_40%)]"
+          aria-hidden
+        />
         <div className="relative mx-auto max-w-3xl px-5 pb-16 pt-16 sm:px-8">
           <h1 className="font-[family-name:var(--font-fraunces)] text-4xl text-paper sm:text-5xl">
             Join the WildWindow waitlist

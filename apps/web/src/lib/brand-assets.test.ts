@@ -48,3 +48,21 @@ describe('brand assets in public/ (WPO-105)', () => {
     }
   });
 });
+
+describe('App Router favicon (WPO-106)', () => {
+  it('serves the brand favicon via app/favicon.ico (not the Next.js default)', () => {
+    const appFavicon = path.join(webRoot, 'src/app/favicon.ico');
+    const brandFavicon = path.join(repoRoot, 'assets/favicon/favicon.ico');
+    expect(existsSync(appFavicon)).toBe(true);
+    expect(sha256(appFavicon)).toBe(sha256(brandFavicon));
+    // create-next-app default is ~25KB with 4 icon sizes; brand pack is a single 32×32.
+    expect(readFileSync(appFavicon).byteLength).toBeLessThan(8_000);
+  });
+
+  it('ships app/icon.png from the brand 32×32 PNG for modern browsers', () => {
+    const appIcon = path.join(webRoot, 'src/app/icon.png');
+    const brandPng = path.join(repoRoot, 'assets/favicon/favicon-32.png');
+    expect(existsSync(appIcon)).toBe(true);
+    expect(sha256(appIcon)).toBe(sha256(brandPng));
+  });
+});
