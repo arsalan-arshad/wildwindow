@@ -1,13 +1,17 @@
 # WildWindow (working name)
 
+<p align="center">
+  <img src="assets/brand/logo-horizontal.svg" alt="WildWindow" width="520" />
+</p>
+
 > Know when wildlife shows up near you, and how to shoot it, without putting it at risk.
 
 WildWindow is a wildlife **photo forecast** app. Pick a species and an area, and it gives you a weekly
-**Window score (0–100)** built from historic sightings (season and time of day), golden hour,
-weather and tides, plus camera settings and fieldcraft tips. Its **No-Pin Promise** means the app
-never shows an exact location for a sensitive species.
+**Window score (0–100)** — an honest **index**, never a “% chance” — built from historic sightings
+(season and time of day), golden hour, weather and tides, plus camera settings and fieldcraft tips.
+Its **No-Pin Promise** means the app never shows an exact location for a sensitive species.
 
-Beta regions: **Scotland** and **Sindh (Pakistan)**.
+Beta regions: **Scotland** and **Sindh (Pakistan)**. Brand assets live in [`assets/`](assets/README.md).
 
 > The name "WildWindow" is a placeholder. Check the trademark and domain before using it in public.
 

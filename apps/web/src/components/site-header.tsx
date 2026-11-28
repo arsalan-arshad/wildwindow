@@ -6,9 +6,12 @@ export function SiteHeader() {
       <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4 sm:px-8">
         <Link
           href="/"
-          className="font-[family-name:var(--font-fraunces)] text-xl font-semibold tracking-tight text-forest-800 sm:text-2xl"
+          className="inline-flex items-center gap-2.5 font-[family-name:var(--font-fraunces)] text-xl font-semibold tracking-tight text-forest-800 sm:text-2xl"
         >
-          WildWindow
+          {/* Static SVG mark — next/image does not optimize local SVGs by default. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/brand/mark.svg" alt="" width={36} height={36} className="h-9 w-9" />
+          <span>WildWindow</span>
         </Link>
         <nav aria-label="Primary" className="flex items-center gap-4 text-sm text-ink sm:gap-5">
           <Link href="/no-pin" className="hidden hover:text-forest-600 transition-colors sm:inline">

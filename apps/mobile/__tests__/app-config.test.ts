@@ -83,6 +83,38 @@ describe('app.config (eas init / expo config)', () => {
     expect(parsed.android?.adaptiveIcon?.backgroundColor?.toUpperCase()).toBe('#F4F7F5');
   }, 30_000);
 
+  it('wires Expo icon/splash/adaptive/favicon paths to brand PNGs under assets/images', () => {
+    const fs = jest.requireActual('fs') as {
+      existsSync: (filePath: string) => boolean;
+      readFileSync: (filePath: string) => Buffer;
+    };
+    const path = jest.requireActual('path') as {
+      join: (...parts: string[]) => string;
+      resolve: (...parts: string[]) => string;
+    };
+    const { createHash } = jest.requireActual('crypto') as {
+      createHash: (algo: string) => { update: (b: Buffer) => { digest: (enc: string) => string } };
+    };
+
+    const mobileRoot = process.cwd();
+    const repoRoot = path.resolve(mobileRoot, '../..');
+    const local = {
+      icon: path.join(mobileRoot, 'assets/images/icon.png'),
+      splash: path.join(mobileRoot, 'assets/images/splash-icon.png'),
+      adaptiveFg: path.join(mobileRoot, 'assets/images/android-icon-foreground.png'),
+      favicon: path.join(mobileRoot, 'assets/images/favicon.png'),
+    };
+    for (const filePath of Object.values(local)) {
+      expect(fs.existsSync(filePath)).toBe(true);
+    }
+
+    const sha = (p: string) => createHash('sha256').update(fs.readFileSync(p)).digest('hex');
+    expect(sha(local.icon)).toBe(sha(path.join(repoRoot, 'assets/icons/icon-1024.png')));
+    expect(sha(local.splash)).toBe(sha(path.join(repoRoot, 'assets/icons/splash-icon.png')));
+    expect(sha(local.adaptiveFg)).toBe(sha(path.join(repoRoot, 'assets/icons/adaptive-icon.png')));
+    expect(sha(local.favicon)).toBe(sha(path.join(repoRoot, 'assets/favicon/favicon-32.png')));
+  });
+
   it('ships eas.json with development, preview, and production profiles', () => {
     const fs = jest.requireActual('fs') as {
       readFileSync: (filePath: string, encoding: string) => string;
