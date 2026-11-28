@@ -1,6 +1,6 @@
-# Railway deploy (beta / pre–Milestone H)
+# Railway deploy (production)
 
-WildWindow’s **preferred cloud host** before AWS CDK (Phase 9) is **Railway**: PostGIS + `api` + `web` + `worker`. Prefer this over Mac Docker Desktop (battery). Secrets live only in **Railway Variables** (and local `.env`) — never in git or chat.
+WildWindow’s **production host** is **Railway**: PostGIS + `api` + `web` + `worker` (+ cron / migrate). AWS CDK (Phase 9) remains an optional cutover. Prefer Railway over Mac Docker Desktop (battery). Secrets live only in **Railway Variables** (and local `.env`) — never in git or chat.
 
 Config snippets: [`infra/railway/`](../infra/railway/). Dockerfiles: `apps/{api,web,worker,migrate}/Dockerfile`.
 
@@ -250,6 +250,63 @@ CLI locally / one-off: `pnpm worker ingest:pipeline --region scotland|sindh|all 
 
 ---
 
+## Continuous deployment (T9.4)
+
+**Production CD path is Railway’s GitHub integration**, not AWS OIDC → ECR → ECS. There is **one** live Railway environment today (no separate staging project). Optional AWS staging/prod CD with manual approval is **T9.4b**.
+
+Constants under test: `RAILWAY_CD_SERVICES` / `RAILWAY_HEALTHCHECK` / `RAILWAY_SMOKE_URLS` in [`infra/lib/railway-cd.ts`](../infra/lib/railway-cd.ts).
+
+### How a merge to `main` ships
+
+1. Squash-merge to `main` → GitHub Actions **CI** runs (lint / typecheck / test / build / `cdk synth`).
+2. Each GitHub-linked Railway service with **Autodeploy** on branch `main` starts a deployment.
+3. Prefer **Wait for CI** on every app service so Railway stays in `WAITING` until the CI check suite on that commit succeeds (skips deploy on CI failure). Requirements: a workflow with `on.push.branches: [main]` (this repo’s `.github/workflows/ci.yml`).
+4. Watch patterns in `infra/railway/*.toml` limit which path changes rebuild which service (paste into Settings → Build → Watch Paths if not already applied).
+5. Healthchecks (Deploy settings / TOML):
+   - `api` → `/v1/health` (expect JSON `{ "status": "ok" }`)
+   - `web` → `/`
+6. **Migrate-on-deploy:** keep the `migrate` service Autodeploy + Wait for CI + restart **Never**. When `packages/db/**` (or other migrate watch paths) change on `main`, Railway builds `apps/migrate/Dockerfile` and runs the entrypoint once (Drizzle + roles). Do **not** put migrations in an `api` pre-deploy command — the API image has no migrate entrypoint and must not hold the owner `DATABASE_URL`. Leave `RUN_SEED` unset on routine CD runs.
+
+Cron services (`worker-purge`, `worker-ingest`) also rebuild from `main` when their watch paths change; the crontab still controls when the start command runs.
+
+### G. What Arsalan must click (CD checklist)
+
+In [Wild Window](https://railway.com/project/5f95e310-379a-430b-b6dc-ef6307461963), for **each** of `api`, `web`, `worker`, `migrate`, and (once created) `worker-purge` / `worker-ingest`:
+
+1. **Settings → Source** → repo `arsalan-arshad/wildwindow`, branch **`main`**, Autodeploy **on**.
+2. Toggle **Wait for CI** **on** (needs the Railway GitHub App permissions for check suites).
+3. Confirm Dockerfile path, watch paths, healthcheck (api/web), and restart policy match `infra/railway/<service>.toml`.
+4. Confirm `migrate` restart is **Never** and owner `DATABASE_URL` + `WW_*` passwords are set (no seed flag for CD).
+
+Agents must **not** create Railway environments, flip Wait for CI, or paste tokens into git.
+
+### Dry-run / smoke (acceptance)
+
+After a green CI merge (or anytime):
+
+1. GitHub → **Actions** → **Railway CD smoke** → **Run workflow** (`.github/workflows/railway-cd.yml`, `workflow_dispatch` only).
+2. Expect both steps green: api health URL returns 200 + `"status":"ok"`; web `/` returns 200.
+3. Or curl locally:
+
+```bash
+curl -sS https://api-production-fb747925.up.railway.app/v1/health
+# {"status":"ok"}
+curl -sS -o /dev/null -w '%{http_code}\n' https://wildwindow.arsalandev.studio/
+# 200
+```
+
+**Why smoke is not on `push` to `main`:** if Wait for CI is enabled, a push-triggered smoke that waits for Railway while Railway waits for that workflow would deadlock. Manual dispatch (or a laptop curl) is the dry-run.
+
+### Staging vs production
+
+| Lane        | Host                                                                 | Gate                               |
+| ----------- | -------------------------------------------------------------------- | ---------------------------------- |
+| Production  | This Railway project (api + web + worker + migrate + cron)           | Merge to `main` + CI + Wait for CI |
+| Staging     | **Not patterned** — no second Railway environment in this repo yet   | —                                  |
+| AWS (later) | T9.4b: build/push images → migrate → staging; manual approval → prod | OIDC to AWS; no long-lived keys    |
+
+---
+
 ## Image layout notes (runtime crashes we already fixed)
 
 - **`api`:** CORS is off unless `WEB_ORIGIN` is set. When set, Nest `enableCors` allows that origin (trailing-slash tolerant) with `credentials: true`. Direct curls to `/v1/health` need no CORS header; browser fetches from `web` do.
@@ -277,17 +334,20 @@ Prefer constructing these in the Variables UI (secret values) rather than commit
 ## Out of scope / do not do yet
 
 - Creating Railway cron services from an agent (Arsalan applies §F in the dashboard).
+- Flipping Wait for CI / Autodeploy from an agent (Arsalan applies §G).
 - Committing `.env`, tokens, or service-account JSON.
 - Weakening geoprivacy / giving `ww_api` access to `raw`.
-- AWS CDK production cutover (Phase 9 / T9.3b) — Railway is production; CDK remains optional.
+- AWS CDK / OIDC CD cutover (T9.3b / T9.4b) — Railway is production; CDK remains optional.
+- A push-to-`main` GitHub smoke that waits on Railway while Wait for CI is on (deadlock).
 
 ---
 
 ## Local vs Railway
 
-| Concern        | Local                         | Railway                                                          |
-| -------------- | ----------------------------- | ---------------------------------------------------------------- |
-| PostGIS        | `pnpm db:up` (`18-3.7`)       | PostGIS template `18-3.7`                                        |
-| Migrate / seed | `pnpm db:migrate` / `db:seed` | `migrate` service one-off                                        |
-| API / web      | `pnpm --filter …`             | Dockerfile services                                              |
-| Worker         | `pnpm worker <cmd>`           | Hello smoke + cron services (`purge-deleted`, `ingest:pipeline`) |
+| Concern        | Local                         | Railway                                                                      |
+| -------------- | ----------------------------- | ---------------------------------------------------------------------------- |
+| PostGIS        | `pnpm db:up` (`18-3.7`)       | PostGIS template `18-3.7`                                                    |
+| Migrate / seed | `pnpm db:migrate` / `db:seed` | `migrate` service one-off + **migrate-on-deploy** when `packages/db` changes |
+| API / web      | `pnpm --filter …`             | Dockerfile services; Autodeploy from `main` + Wait for CI (T9.4)             |
+| Worker         | `pnpm worker <cmd>`           | Hello smoke + cron services (`purge-deleted`, `ingest:pipeline`)             |
+| CD smoke       | curl health URLs              | Actions → **Railway CD smoke** (`workflow_dispatch`)                         |

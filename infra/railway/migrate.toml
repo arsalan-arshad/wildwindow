@@ -1,10 +1,25 @@
 # Railway "migrate" one-off service (Root Directory = monorepo root).
-# Deploy manually after PostGIS is up; set restart to never / remove after success.
+#
+# Continuous deployment (T9.4): keep GitHub autodeploy + Wait for CI on.
+# When `packages/db` (or other watch paths) change on `main`, Railway builds
+# this image and runs the entrypoint once (migrations + optional seed).
+# Restart must stay NEVER so a successful migrate does not loop.
+#
+# First-time / manual: Settings → Deploy → Deploy Latest Commit, or
+# Redeploy after setting DATABASE_URL + WW_* passwords (docs/RAILWAY.md §D).
+# Do not set RUN_SEED=1 on routine CD runs (seeds are idempotent but slow).
 
 [build]
 builder = "DOCKERFILE"
 dockerfilePath = "apps/migrate/Dockerfile"
-watchPatterns = ["apps/migrate/**", "packages/db/**", "packages/shared/**", "packages/geoprivacy/**", "data/**", "pnpm-lock.yaml"]
+watchPatterns = [
+  "apps/migrate/**",
+  "packages/db/**",
+  "packages/shared/**",
+  "packages/geoprivacy/**",
+  "data/**",
+  "pnpm-lock.yaml",
+]
 
 [deploy]
 restartPolicyType = "NEVER"

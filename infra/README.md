@@ -1,6 +1,6 @@
 # WildWindow AWS CDK (Milestone H)
 
-TypeScript CDK app for the production AWS path (ARCHITECTURE §11). **Railway** (`infra/railway/`, [docs/RAILWAY.md](../docs/RAILWAY.md)) remains the interim staging host until cutover.
+TypeScript CDK app for the optional AWS path (ARCHITECTURE §11). **Railway** (`infra/railway/`, [docs/RAILWAY.md](../docs/RAILWAY.md)) is production; CD is GitHub Autodeploy on `main` (T9.4), not this CDK package.
 
 ## T9.2 scope (this package)
 
@@ -14,6 +14,8 @@ TypeScript CDK app for the production AWS path (ARCHITECTURE §11). **Railway** 
 | Secrets Manager   | Empty shells for API app secrets and DB app-role URLs (no values in CDK)  |
 
 **T9.3 (Railway, live):** scheduled worker jobs + Cloudflare R2 are documented in [`infra/railway/`](./railway/) and [docs/RAILWAY.md](../docs/RAILWAY.md) — daily `purge-deleted`, monthly `ingest:pipeline`, R2 already used by api/worker. **Optional AWS cutover (T9.3b):** EventBridge Scheduler, S3, CloudFront, and KMS on top of this CDK network — not required while Railway is production.
+
+**T9.4 (Railway, live):** CD is Railway GitHub Autodeploy + Wait for CI + migrate-on-deploy + healthchecks; smoke via `.github/workflows/railway-cd.yml` (`workflow_dispatch`). Constants: [`lib/railway-cd.ts`](./lib/railway-cd.ts). **Optional AWS CD (T9.4b):** OIDC → ECR → migrate → staging → manual prod approval.
 
 ## Commands
 
