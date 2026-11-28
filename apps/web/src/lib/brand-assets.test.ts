@@ -13,9 +13,8 @@ function sha256(filePath: string): string {
 }
 
 describe('brand assets in public/ (WPO-105)', () => {
-  it('ships favicon, apple-touch, PWA icons, OG, and mark from assets/', () => {
+  it('ships apple-touch, PWA icons, OG, and mark from assets/', () => {
     const required = [
-      'favicon.ico',
       'favicon-32.png',
       'apple-touch-icon.png',
       'icon-192.png',
@@ -30,11 +29,12 @@ describe('brand assets in public/ (WPO-105)', () => {
     for (const rel of required) {
       expect(existsSync(path.join(webRoot, 'public', rel)), rel).toBe(true);
     }
+    // App Router owns /favicon.ico — a public copy conflicts and 500s (WPO-106).
+    expect(existsSync(path.join(webRoot, 'public', 'favicon.ico'))).toBe(false);
   });
 
   it('keeps public copies byte-identical to canonical assets/', () => {
     const pairs: Array<[string, string]> = [
-      ['assets/favicon/favicon.ico', 'apps/web/public/favicon.ico'],
       ['assets/favicon/favicon-32.png', 'apps/web/public/favicon-32.png'],
       ['assets/favicon/apple-touch-icon.png', 'apps/web/public/apple-touch-icon.png'],
       ['assets/icons/icon-192.png', 'apps/web/public/icon-192.png'],

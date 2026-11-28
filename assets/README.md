@@ -104,10 +104,11 @@ High-resolution 1290×2796 (iPhone 6.7" portrait display / Google Play tablet co
 
 Canonical files stay under `assets/`. Runtime hosts that require local paths get thin copies only:
 
-| Consumer       | Path                                                                                            | Source                                                            |
-| :------------- | :---------------------------------------------------------------------------------------------- | :---------------------------------------------------------------- |
-| Next.js public | `apps/web/public/favicon*`, `icon-*.png`, `apple-touch-icon.png`, `og/`, `brand/`, `marketing/` | `assets/favicon`, `icons`, `og`, `brand`, `marketing`             |
-| Expo           | `apps/mobile/assets/images/icon.png`, `splash-icon.png`, `android-icon-*.png`, `favicon.png`    | `assets/icons`, `favicon` (+ cream `#F4F7F5` adaptive background) |
+| Consumer           | Path                                                                                                  | Source                                                                             |
+| :----------------- | :---------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------- |
+| Next.js App Router | `apps/web/src/app/favicon.ico`, `apps/web/src/app/icon.png`                                           | `assets/favicon` (do **not** also put `favicon.ico` in `public/` — Next conflicts) |
+| Next.js public     | `apps/web/public/favicon-32.png`, `icon-*.png`, `apple-touch-icon.png`, `og/`, `brand/`, `marketing/` | `assets/favicon`, `icons`, `og`, `brand`, `marketing`                              |
+| Expo               | `apps/mobile/assets/images/icon.png`, `splash-icon.png`, `android-icon-*.png`, `favicon.png`          | `assets/icons`, `favicon` (+ cream `#F4F7F5` adaptive background)                  |
 
 Re-copy from `assets/` when the brand pack updates. Do not invent new art in app folders.
 

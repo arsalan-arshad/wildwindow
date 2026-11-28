@@ -36,9 +36,10 @@ export const metadata: Metadata = {
   },
   description:
     'Wildlife photo forecasts for Scotland and Sindh — a weekly Window score without pinning sensitive species.',
+  // app/favicon.ico + app/icon.png are the App Router sources of truth (do not also
+  // ship public/favicon.ico — Next 500s on the conflict). Extra PNG sizes stay in public/.
   icons: {
     icon: [
-      { url: '/favicon.ico', sizes: 'any' },
       { url: '/favicon-32.png', sizes: '32x32', type: 'image/png' },
       { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
       { url: '/icon-512.png', sizes: '512x512', type: 'image/png' },
