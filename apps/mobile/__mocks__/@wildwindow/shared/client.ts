@@ -88,7 +88,7 @@ export function createApiClient(options: {
       get: emptyAsync({ status: 'unavailable' }),
     },
     attributions: {
-      list: emptyAsync({ items: [] }),
+      list: emptyAsync({ datasets: [], providers: [] }),
     },
     waitlist: {
       join: emptyAsync({ ok: true }),

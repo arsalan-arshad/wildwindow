@@ -91,8 +91,45 @@
     }
   },
   "profile": {
+    "settingsTitle": "Settings",
+    "accountTitle": "Account",
     "noPinLink": "No-Pin Promise",
-    "regionLabel": "Home region"
+    "regionLabel": "Home region",
+    "unitsLabel": "Units",
+    "units": {
+      "metric": "Metric",
+      "imperial": "Imperial"
+    },
+    "languageLabel": "Language",
+    "languages": {
+      "en": "English",
+      "ur": "Urdu"
+    },
+    "privacyTitle": "Privacy and the No-Pin Promise",
+    "privacyBody": "WildWindow never puts a pin on a wild animal. Exact coordinates are never shown for any species. Your photo locations stay private. Location protection is open source.",
+    "attributionsLink": "Data attributions",
+    "exportButton": "Export my data",
+    "exportReady": "Your export is ready. Opening the download link.",
+    "exportQueued": "Your export is queued. Check back shortly — it may take up to 24 hours.",
+    "exportError": "Could not start the export. Try again.",
+    "deleteButton": "Delete account",
+    "deleteConfirmTitle": "Delete your account?",
+    "deleteConfirmBody": "Your account, logbook, photos, watchlist and challenge entries will be removed within 30 days. This cannot be undone from the app.",
+    "deleteConfirmAction": "Yes, delete my account",
+    "deleteCancel": "Cancel",
+    "deleteError": "Could not delete the account. Try again.",
+    "settingsError": "Could not save that setting. Try again."
+  },
+  "attributions": {
+    "title": "Attributions",
+    "intro": "Credits for occurrence data, weather, tides, place names and open-source libraries used by WildWindow.",
+    "datasetsTitle": "Occurrence datasets",
+    "datasetsIntro": "Historic sightings used for Window scores. Only GBIF records licensed CC0 1.0 or CC BY 4.0 are kept.",
+    "datasetsEmpty": "No occurrence datasets have been loaded yet. Credits appear here after GBIF ingestion.",
+    "providersTitle": "Providers and libraries",
+    "providersIntro": "Weather, tides, place names, boundaries, and light calculations.",
+    "doi": "DOI: {{doi}}",
+    "loadError": "Could not load attributions. Check your connection and try again."
   },
   "auth": {
     "title": "Sign in",

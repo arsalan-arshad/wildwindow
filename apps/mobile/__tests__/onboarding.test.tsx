@@ -81,7 +81,12 @@ describe('Onboarding (T6.2 S-01)', () => {
 
     await waitFor(async () => {
       const prefs = await loadPreferences(storage);
-      expect(prefs).toEqual({ region: 'scotland', onboardingComplete: true });
+      expect(prefs).toEqual({
+        region: 'scotland',
+        onboardingComplete: true,
+        units: 'metric',
+        language: null,
+      });
     });
   });
 
