@@ -2,8 +2,7 @@
  * Local device preferences for onboarding and home region (T6.2).
  * Region is stored on-device only; nothing here sends coordinates.
  */
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { deviceStorage, type DeviceStorage } from '@/lib/device-storage';
 import { isRegionId, type RegionId } from '@/lib/regions';
 
 export const PREF_KEYS = {
@@ -11,18 +10,14 @@ export const PREF_KEYS = {
   onboardingComplete: 'ww.onboardingComplete',
 } as const;
 
-export type PreferenceStorage = {
-  getItem(key: string): Promise<string | null>;
-  setItem(key: string, value: string): Promise<void>;
-  removeItem(key: string): Promise<void>;
-};
+export type PreferenceStorage = DeviceStorage;
 
 export type AppPreferences = {
   readonly region: RegionId | null;
   readonly onboardingComplete: boolean;
 };
 
-const defaultStorage: PreferenceStorage = AsyncStorage;
+const defaultStorage: PreferenceStorage = deviceStorage;
 
 let activeStorage: PreferenceStorage = defaultStorage;
 

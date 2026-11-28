@@ -134,6 +134,8 @@ describe('app.config (eas init / expo config)', () => {
     expect(pkg.scripts?.['start:dev-client']).toBe('expo start --dev-client');
     // Kept for EAS developmentClient builds; must not be the default start path.
     expect(pkg.dependencies?.['expo-dev-client']).toBeDefined();
+    // Expo Go / SDK 58 ships AsyncStorage 2.x — 3.x throws Native module is null.
+    expect(pkg.dependencies?.['@react-native-async-storage/async-storage']).toMatch(/^[\^~]?2\./);
   });
 
   it('ships eas.json with development, preview, and production profiles', () => {

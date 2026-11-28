@@ -43,10 +43,21 @@ export function PreferencesProvider({ children, storage, initial }: PreferencesP
   );
 
   const refresh = useCallback(async () => {
-    const prefs = await loadPreferences(storage);
-    setRegionState(prefs.region);
-    setOnboardingComplete(prefs.onboardingComplete);
-    setReady(true);
+    try {
+      const prefs = await loadPreferences(storage);
+      setRegionState(prefs.region);
+      setOnboardingComplete(prefs.onboardingComplete);
+    } catch (error) {
+      // deviceStorage already soft-falls back; this keeps the UI unblocked if
+      // an unexpected storage failure still escapes.
+      if (typeof __DEV__ !== 'undefined' && __DEV__) {
+        console.warn('[preferences] load failed; using defaults', error);
+      }
+      setRegionState(null);
+      setOnboardingComplete(false);
+    } finally {
+      setReady(true);
+    }
   }, [storage]);
 
   useEffect(() => {

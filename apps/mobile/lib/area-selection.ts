@@ -1,8 +1,7 @@
 /**
  * Persist the user's chosen H3 res-7 cell (T6.4). Never stores lat/lng.
  */
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { deviceStorage } from '@/lib/device-storage';
 import type { PreferenceStorage } from '@/lib/preferences';
 
 export const AREA_PREF_KEYS = {
@@ -11,7 +10,7 @@ export const AREA_PREF_KEYS = {
 
 const CELL_R7_PATTERN = /^[0-9a-f]{15}$/i;
 
-const defaultStorage: PreferenceStorage = AsyncStorage;
+const defaultStorage: PreferenceStorage = deviceStorage;
 
 function isCellR7(value: string): boolean {
   return CELL_R7_PATTERN.test(value);

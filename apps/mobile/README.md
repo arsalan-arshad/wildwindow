@@ -36,12 +36,15 @@ Put it in the repo-root `.env` (gitignored) for local `expo start`, or in EAS en
 **Default local path is Expo Go** (no custom `studio.arsalandev.wildwindow` install required):
 
 ```bash
+pnpm install                        # from repo root after pull
 pnpm --filter mobile start          # expo start --go (Expo Go on iOS / Android)
 pnpm --filter mobile android        # Expo Go → Android emulator/device
 pnpm --filter mobile ios            # Expo Go → iOS simulator/device
 pnpm --filter mobile config:check   # expo config --json (no secrets required)
 pnpm --filter mobile lint && pnpm --filter mobile typecheck && pnpm --filter mobile test
 ```
+
+AsyncStorage is pinned to **2.2.0** (Expo Go / SDK 58). Do not upgrade to 3.x — Expo Go’s native module is v2-only and 3.x throws `Native module is null`. Preferences fall back to memory/web storage if native storage is still missing.
 
 `expo-dev-client` stays in `package.json` for optional EAS development builds. Use it only when you already have a development client installed:
 
