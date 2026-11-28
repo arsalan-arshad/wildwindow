@@ -97,6 +97,12 @@ export const ApiEnvSchema = z.object({
   POSTHOG_KEY: z.string().min(1).optional(),
   /** PostHog host; defaults to EU (`https://eu.i.posthog.com`) in the analytics module. */
   POSTHOG_HOST: z.string().min(1).optional(),
+  /**
+   * Fine-grained GitHub PAT (Issues write) for in-app bug reports (T9.11).
+   * Server-only — never sent to clients. When unset, POST /v1/bug-reports returns
+   * a prefilled GitHub new-issue fallback URL.
+   */
+  GITHUB_BUG_REPORT_TOKEN: z.string().min(1).optional(),
 });
 
 export type ApiEnv = z.infer<typeof ApiEnvSchema>;

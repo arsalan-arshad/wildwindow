@@ -258,6 +258,16 @@ export function ProfileSettings({ testID = 'tab-profile' }: ProfileSettingsProps
         style={styles.link}
       />
 
+      <PrimaryButton
+        label={t('profile.reportBugLink')}
+        onPress={() => {
+          router.push('/report-bug');
+        }}
+        variant="secondary"
+        testID="profile-report-bug"
+        style={styles.link}
+      />
+
       {signedIn ? (
         <View style={styles.accountBlock} testID="profile-account">
           <Text style={styles.sectionTitle}>{t('profile.accountTitle')}</Text>

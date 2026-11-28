@@ -25,6 +25,14 @@
       "types": "./dist/api/waitlist.d.ts",
       "import": "./dist/api/waitlist.js"
     },
+    "./api/bug-reports": {
+      "types": "./dist/api/bug-reports.d.ts",
+      "import": "./dist/api/bug-reports.js"
+    },
+    "./bug-report-scrub": {
+      "types": "./dist/bug-report-scrub.d.ts",
+      "import": "./dist/bug-report-scrub.js"
+    },
     "./analytics": {
       "types": "./dist/analytics.d.ts",
       "import": "./dist/analytics.js"

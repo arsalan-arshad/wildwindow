@@ -108,6 +108,7 @@
     "privacyTitle": "رازداری اور نو-پن وعدہ",
     "privacyBody": "وائلڈ ونڈو کبھی جنگلی جانور پر پن نہیں لگاتا۔ کسی بھی نوع کے لیے درست کوآرڈینیٹ نہیں دکھائے۔ آپ کی تصاویر کے مقامات نجی رہتے ہیں۔ مقام کے تحفظ کا کوڈ اوپن سورس ہے۔",
     "attributionsLink": "ڈیٹا انتساب",
+    "reportBugLink": "بگ رپورٹ کریں",
     "exportButton": "میرا ڈیٹا برآمد کریں",
     "exportReady": "آپ کا برآمد تیار ہے۔ ڈاؤن لوڈ لنک کھولا جا رہا ہے۔",
     "exportQueued": "آپ کا برآمد قطار میں ہے۔ جلد چیک کریں — ۲۴ گھنٹے تک لگ سکتے ہیں۔",
@@ -119,6 +120,22 @@
     "deleteCancel": "منسوخ",
     "deleteError": "اکاؤنٹ حذف نہیں ہو سکا۔ دوبارہ کوشش کریں۔",
     "settingsError": "یہ ترتیب محفوظ نہیں ہو سکی۔ دوبارہ کوشش کریں۔"
+  },
+  "bugReport": {
+    "title": "بگ رپورٹ کریں",
+    "subtitle": "بتائیں کیا غلط ہوا۔ یہ مسئلہ GitHub پر عوامی ہوگا۔",
+    "noPinReminder": "درست کوآرڈینیٹ، میپ پن، GPS EXIF، یا درست مشاہدہ مقام شامل نہ کریں۔ جگہ یا علاقے کا نام کافی ہے۔",
+    "steps": "دوبارہ پیدا کرنے کے مراحل",
+    "stepsPlaceholder": "1. Explore کھولیں\n2. نوع چنیں\n3. پیشن گوئی کھولیں",
+    "expected": "متوقع رویہ",
+    "expectedPlaceholder": "آپ کیا ہونے کی توقع رکھتے تھے",
+    "actual": "اصل رویہ",
+    "actualPlaceholder": "اس کے بجائے کیا ہوا",
+    "meta": "{{platform}} · {{version}} · {{device}}",
+    "submit": "رپورٹ بھیجیں",
+    "filed": "شکریہ — GitHub مسئلہ #{{number}} کے طور پر درج۔",
+    "fallbackOpened": "GitHub کھولا جا رہا ہے تاکہ آپ رپورٹ مکمل کر سکیں۔",
+    "error": "رپورٹ نہیں بھیجی جا سکی۔ دوبارہ کوشش کریں۔"
   },
   "attributions": {
     "title": "انتساب",
@@ -149,6 +166,7 @@
     "continueGoogle": "گوگل کے ساتھ جاری رکھیں",
     "socialNeedsDevBuild": "ایپل اور گوگل سائن ان کے لیے EAS ڈیولپمنٹ بلڈ چاہیے۔ Firebase سیٹ ہونے پر ای میل Expo Go میں کام کرتا ہے۔",
     "notConfigured": "اس بلڈ پر سائن ان ترتیب نہیں ہے۔ EXPO_PUBLIC_FIREBASE_CONFIG میں Firebase ویب-ایپ JSON رکھیں۔",
+    "reportBugLink": "بگ رپورٹ کریں",
     "signedInAnonymous": "سائن ان",
     "errors": {
       "not_configured": "Firebase Auth ابھی ترتیب نہیں دی گئی۔",

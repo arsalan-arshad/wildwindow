@@ -89,8 +89,16 @@ function RootLayoutNav() {
     const inNoPin = root === 'no-pin';
     const inAttributions = root === 'attributions';
     const inSignIn = root === 'sign-in';
+    const inReportBug = root === 'report-bug';
 
-    if (!onboardingComplete && !inOnboarding && !inNoPin && !inAttributions && !inSignIn) {
+    if (
+      !onboardingComplete &&
+      !inOnboarding &&
+      !inNoPin &&
+      !inAttributions &&
+      !inSignIn &&
+      !inReportBug
+    ) {
       router.replace('/onboarding');
       return;
     }
@@ -121,6 +129,7 @@ function RootLayoutNav() {
         <Stack.Screen name="forecast" options={{ presentation: 'card' }} />
         <Stack.Screen name="share" options={{ presentation: 'card' }} />
         <Stack.Screen name="sign-in" options={{ presentation: 'card', title: 'Sign in' }} />
+        <Stack.Screen name="report-bug" options={{ presentation: 'card', title: 'Report a bug' }} />
         <Stack.Screen name="logbook/new" options={{ presentation: 'card' }} />
         <Stack.Screen name="logbook/[id]" options={{ presentation: 'card' }} />
         <Stack.Screen name="challenge/submit" options={{ presentation: 'card' }} />

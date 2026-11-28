@@ -87,6 +87,15 @@ export type MockAttributionsApi = {
   readonly list?: () => Promise<AttributionsResponse>;
 };
 
+export type MockBugReportsApi = {
+  readonly create?: (
+    body: unknown,
+  ) => Promise<
+    | { readonly status: 'filed'; readonly issueNumber: number }
+    | { readonly status: 'fallback'; readonly url: string }
+  >;
+};
+
 export const emptyAttributionsFixture: AttributionsResponse = {
   datasets: [],
   providers: [],
@@ -107,6 +116,7 @@ export function createMockSpeciesApiClient(
   watchlistFixtures: MockWatchlistApi = {},
   meFixtures: MockMeApi = {},
   attributionsFixtures: MockAttributionsApi = {},
+  bugReportsFixtures: MockBugReportsApi = {},
 ): ApiClient {
   const places = placesFixtures.places ?? [];
   const areasByCell = placesFixtures.areasByCell ?? {};
@@ -245,6 +255,17 @@ export function createMockSpeciesApiClient(
       list:
         attributionsFixtures.list ??
         (async () => attributionsFixtures.data ?? emptyAttributionsFixture),
+    },
+    waitlist: {
+      join: async () => ({ ok: true as const }),
+    },
+    bugReports: {
+      create:
+        bugReportsFixtures.create ??
+        (async () => ({
+          status: 'fallback' as const,
+          url: 'https://github.com/arsalan-arshad/wildwindow/issues/new?template=bug_report.yml',
+        })),
     },
     me: {
       get: async () =>

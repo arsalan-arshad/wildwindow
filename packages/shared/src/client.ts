@@ -25,6 +25,13 @@ import {
 import { AreaResponseSchema, type AreaResponse } from './api/areas.js';
 import { AttributionsResponseSchema, type AttributionsResponse } from './api/attributions.js';
 import {
+  BugReportRequestSchema,
+  BugReportResponseSchema,
+  type BugReportRequest,
+  type BugReportRequestInput,
+  type BugReportResponse,
+} from './api/bug-reports.js';
+import {
   ChallengeEntriesQuerySchema,
   ChallengeEntriesResponseSchema,
   ChallengeResponseSchema,
@@ -140,6 +147,9 @@ export type ApiClient = {
   };
   readonly waitlist: {
     join: (body: WaitlistSignupRequest) => Promise<WaitlistSignupOk>;
+  };
+  readonly bugReports: {
+    create: (body: BugReportRequestInput) => Promise<BugReportResponse>;
   };
   readonly me: {
     get: () => Promise<MeProfile>;
@@ -348,6 +358,17 @@ export function createApiClient(options: CreateApiClientOptions): ApiClient {
           'POST',
           '/v1/waitlist',
           (data) => WaitlistSignupOkSchema.parse(data),
+          parsed,
+        );
+      },
+    },
+    bugReports: {
+      async create(body) {
+        const parsed: BugReportRequest = BugReportRequestSchema.parse(body);
+        return requestJson(
+          'POST',
+          '/v1/bug-reports',
+          (data) => BugReportResponseSchema.parse(data),
           parsed,
         );
       },

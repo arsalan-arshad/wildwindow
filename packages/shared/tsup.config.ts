@@ -9,6 +9,8 @@ export default defineConfig({
     'src/sentry-scrub.ts',
     'src/api/index.ts',
     'src/api/waitlist.ts',
+    'src/api/bug-reports.ts',
+    'src/bug-report-scrub.ts',
   ],
   format: ['esm'],
   dts: true,

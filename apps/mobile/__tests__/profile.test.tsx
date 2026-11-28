@@ -25,6 +25,7 @@ describe('Profile settings (T6.12 S-16)', () => {
     expect(view.getByTestId('profile-privacy')).toBeTruthy();
     expect(view.getByTestId('profile-nopin-link')).toBeTruthy();
     expect(view.getByTestId('profile-attributions-link')).toBeTruthy();
+    expect(view.getByTestId('profile-report-bug')).toBeTruthy();
   });
 
   it('changes home region locally when signed out', async () => {

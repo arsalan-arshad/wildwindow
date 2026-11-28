@@ -15,6 +15,7 @@ import {
 } from './admin.js';
 import { AreaResponseSchema } from './areas.js';
 import { AttributionsResponseSchema } from './attributions.js';
+import { BugReportRequestSchema, BugReportResponseSchema } from './bug-reports.js';
 import {
   ChallengeEntriesQuerySchema,
   ChallengeEntriesResponseSchema,
@@ -101,6 +102,8 @@ export const PUBLIC_API_SCHEMAS: readonly ZodTypeAny[] = [
   AttributionsResponseSchema,
   WaitlistSignupRequestSchema,
   WaitlistSignupOkSchema,
+  BugReportRequestSchema,
+  BugReportResponseSchema,
   MeProfileSchema,
   MePatchRequestSchema,
   MeDeleteOkSchema,
