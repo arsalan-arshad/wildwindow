@@ -1,4 +1,3 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getApps, initializeApp, type FirebaseApp } from 'firebase/app';
 import * as firebaseAuth from 'firebase/auth';
 import {
@@ -17,6 +16,7 @@ import { Platform } from 'react-native';
 import { readFirebaseWebConfig } from '@/lib/auth/firebase-config';
 import { mapFirebaseAuthError } from '@/lib/auth/map-firebase-error';
 import { AuthClientError, type AuthClient, type AuthUser } from '@/lib/auth/types';
+import { deviceStorage } from '@/lib/device-storage';
 
 type AsyncStorageLike = {
   getItem: (key: string) => Promise<string | null>;
@@ -84,7 +84,7 @@ function getOrInitAuth(app: FirebaseApp): Auth {
 
   try {
     return initializeAuth(app, {
-      persistence: factory(AsyncStorage),
+      persistence: factory(deviceStorage),
     });
   } catch {
     // Hot reload / second call: auth already initialized on this app.

@@ -12,7 +12,7 @@ export default function WaitlistPage() {
   return (
     <main className="bg-paper">
       <div className="relative isolate overflow-hidden border-b border-forest-800/10">
-        {/* Placeholder imagery — assets/marketing/waitlist-banner.png */}
+        {/* Brand waitlist banner — canonical source: assets/marketing/waitlist-banner.png */}
         <Image
           src="/marketing/waitlist-banner.png"
           alt=""

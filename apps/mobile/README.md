@@ -33,12 +33,30 @@ Put it in the repo-root `.env` (gitignored) for local `expo start`, or in EAS en
 
 ## Commands
 
+**Default local path is Expo Go** (no custom `studio.arsalandev.wildwindow` install required):
+
 ```bash
-pnpm --filter mobile start          # Expo dev server
+pnpm install                        # from repo root after pull
+pnpm --filter mobile start          # expo start --go (Expo Go on iOS / Android)
+pnpm --filter mobile android        # Expo Go → Android emulator/device
+pnpm --filter mobile ios            # Expo Go → iOS simulator/device
 pnpm --filter mobile config:check   # expo config --json (no secrets required)
 pnpm --filter mobile lint && pnpm --filter mobile typecheck && pnpm --filter mobile test
 ```
 
-Native Google / Apple Sign-In needs an EAS development build (see `docs/EAS.md`).
+AsyncStorage is pinned to **2.2.0** (Expo Go / SDK 58). Do not upgrade to 3.x — Expo Go’s native module is v2-only and 3.x throws `Native module is null`. Preferences fall back to memory/web storage if native storage is still missing.
+
+`expo-dev-client` stays in `package.json` for optional EAS development builds. Use it only when you already have a development client installed:
+
+```bash
+pnpm --filter mobile start:dev-client   # expo start --dev-client
+```
+
+| Works in Expo Go                                           | Needs an EAS development / preview build                          |
+| ---------------------------------------------------------- | ----------------------------------------------------------------- |
+| Most screens, email Firebase JS auth, area picker web stub | Native Google / Apple Sign-In                                     |
+| Brand icons / splash (config)                              | Full `react-native-maps` on device (web uses a stub; see WPO-104) |
+
+See [`docs/EAS.md`](../../docs/EAS.md) for building the optional development client.
 
 EAS linkage (public): `owner: arsalandev`, `slug: wildwindow`, projectId `36e6ca10-4761-4338-b057-bee2208b142b`. Workflows under `.eas/workflows/`.

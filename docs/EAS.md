@@ -13,7 +13,26 @@ Committed config:
 | [`apps/mobile/GoogleService-Info.plist.example`](../apps/mobile/GoogleService-Info.plist.example) | Shape-only iOS placeholder (not a real project)                                  |
 | [`apps/mobile/README.md`](../apps/mobile/README.md)                                               | Short drop-path + env reminder                                                   |
 
-Icons / splash placeholders already live under `apps/mobile/assets/images/` (T9.6).
+Icons / splash already live under `apps/mobile/assets/images/` (synced from `assets/`).
+
+### Local day-to-day: Expo Go (default)
+
+You do **not** need a custom `studio.arsalandev.wildwindow` development build to iterate. Default scripts force Expo Go even though `expo-dev-client` is installed (needed later for EAS `development` profile):
+
+```bash
+pnpm --filter mobile start     # expo start --go
+pnpm --filter mobile android   # Expo Go on Android
+pnpm --filter mobile ios       # Expo Go on iOS
+```
+
+Optional custom client (Google/Apple native sign-in, full native maps):
+
+```bash
+eas build --profile development --platform android   # or ios / all
+pnpm --filter mobile start:dev-client                # expo start --dev-client
+```
+
+Without `--go`, `expo start` prefers a development build when `expo-dev-client` is present — that is what produced `No development build (studio.arsalandev.wildwindow) is installed`.
 
 ### What `eas init` writes vs what is committed
 

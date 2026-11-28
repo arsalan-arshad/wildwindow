@@ -9,7 +9,7 @@ export function Landing() {
   return (
     <main>
       <section className="relative isolate min-h-[100svh] overflow-hidden">
-        {/* Placeholder imagery until licensed photography ships — see assets/marketing/. */}
+        {/* Brand hero — canonical source: assets/marketing/hero-placeholder.png */}
         <Image
           src="/marketing/hero-placeholder.png"
           alt=""

@@ -1,20 +1,17 @@
 /**
  * AsyncStorage persister for the TanStack Query cache (T6.13).
  */
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister';
+
+import { deviceStorage, type DeviceStorage } from '@/lib/device-storage';
 
 export const QUERY_PERSIST_KEY = 'ww.tanstack-query';
 
-export type QueryPersistStorage = {
-  getItem(key: string): Promise<string | null>;
-  setItem(key: string, value: string): Promise<void>;
-  removeItem(key: string): Promise<void>;
-};
+export type QueryPersistStorage = DeviceStorage;
 
 export type QueryPersister = ReturnType<typeof createAsyncStoragePersister>;
 
-export function createQueryPersister(storage: QueryPersistStorage = AsyncStorage): QueryPersister {
+export function createQueryPersister(storage: QueryPersistStorage = deviceStorage): QueryPersister {
   return createAsyncStoragePersister({
     storage,
     key: QUERY_PERSIST_KEY,

@@ -98,9 +98,25 @@ High-resolution 1290×2796 (iPhone 6.7" portrait display / Google Play tablet co
 
 ---
 
-## 3. Brand Principles
+## 3. App wiring (thin copies)
+
+Canonical files stay under `assets/`. Runtime hosts that require local paths get thin copies only:
+
+| Consumer       | Path                                                                                            | Source                                                            |
+| :------------- | :---------------------------------------------------------------------------------------------- | :---------------------------------------------------------------- |
+| Next.js public | `apps/web/public/favicon*`, `icon-*.png`, `apple-touch-icon.png`, `og/`, `brand/`, `marketing/` | `assets/favicon`, `icons`, `og`, `brand`, `marketing`             |
+| Expo           | `apps/mobile/assets/images/icon.png`, `splash-icon.png`, `android-icon-*.png`, `favicon.png`    | `assets/icons`, `favicon` (+ cream `#F4F7F5` adaptive background) |
+
+Re-copy from `assets/` when the brand pack updates. Do not invent new art in app folders.
+
+## 4. Brand Principles
 
 1. **Light-Forward First:** Wildlife photographers check forecasts outdoors in bright daylight. Avoid dark-mode-first canvases.
 2. **Honest Index Scoring:** The score is a relative index from `0–100`. Never write "82% chance" or guarantee sightings.
 3. **The No-Pin Promise:** Enforce geoprivacy at every level. Never store or expose exact GPS pins or nesting coordinates.
 4. **Conservation Trust:** Prioritize animal welfare over viral social pins.
+
+### Still needed (optional follow-ups)
+
+- Android adaptive **monochrome** layer (Expo still ships a scaffold PNG).
+- Licensed photography to replace marketing hero / waitlist banner composites when ready.

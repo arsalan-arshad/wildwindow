@@ -83,6 +83,61 @@ describe('app.config (eas init / expo config)', () => {
     expect(parsed.android?.adaptiveIcon?.backgroundColor?.toUpperCase()).toBe('#F4F7F5');
   }, 30_000);
 
+  it('wires Expo icon/splash/adaptive/favicon paths to brand PNGs under assets/images', () => {
+    const fs = jest.requireActual('fs') as {
+      existsSync: (filePath: string) => boolean;
+      readFileSync: (filePath: string) => Uint8Array;
+    };
+    const path = jest.requireActual('path') as {
+      join: (...parts: string[]) => string;
+      resolve: (...parts: string[]) => string;
+    };
+    const { createHash } = jest.requireActual('crypto') as {
+      createHash: (algo: string) => {
+        update: (b: Uint8Array) => { digest: (enc: string) => string };
+      };
+    };
+
+    const mobileRoot = process.cwd();
+    const repoRoot = path.resolve(mobileRoot, '../..');
+    const local = {
+      icon: path.join(mobileRoot, 'assets/images/icon.png'),
+      splash: path.join(mobileRoot, 'assets/images/splash-icon.png'),
+      adaptiveFg: path.join(mobileRoot, 'assets/images/android-icon-foreground.png'),
+      favicon: path.join(mobileRoot, 'assets/images/favicon.png'),
+    };
+    for (const filePath of Object.values(local)) {
+      expect(fs.existsSync(filePath)).toBe(true);
+    }
+
+    const sha = (p: string) => createHash('sha256').update(fs.readFileSync(p)).digest('hex');
+    expect(sha(local.icon)).toBe(sha(path.join(repoRoot, 'assets/icons/icon-1024.png')));
+    expect(sha(local.splash)).toBe(sha(path.join(repoRoot, 'assets/icons/splash-icon.png')));
+    expect(sha(local.adaptiveFg)).toBe(sha(path.join(repoRoot, 'assets/icons/adaptive-icon.png')));
+    expect(sha(local.favicon)).toBe(sha(path.join(repoRoot, 'assets/favicon/favicon-32.png')));
+  });
+
+  it('defaults package scripts to Expo Go (--go), with an optional dev-client script', () => {
+    const fs = jest.requireActual('fs') as {
+      readFileSync: (filePath: string, encoding: string) => string;
+    };
+    const path = jest.requireActual('path') as {
+      join: (...parts: string[]) => string;
+    };
+    const pkg = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'package.json'), 'utf8')) as {
+      scripts?: Record<string, string>;
+      dependencies?: Record<string, string>;
+    };
+    expect(pkg.scripts?.['start']).toBe('expo start --go');
+    expect(pkg.scripts?.['android']).toBe('expo start --go --android');
+    expect(pkg.scripts?.['ios']).toBe('expo start --go --ios');
+    expect(pkg.scripts?.['start:dev-client']).toBe('expo start --dev-client');
+    // Kept for EAS developmentClient builds; must not be the default start path.
+    expect(pkg.dependencies?.['expo-dev-client']).toBeDefined();
+    // Expo Go / SDK 58 ships AsyncStorage 2.x — 3.x throws Native module is null.
+    expect(pkg.dependencies?.['@react-native-async-storage/async-storage']).toMatch(/^[\^~]?2\./);
+  });
+
   it('ships eas.json with development, preview, and production profiles', () => {
     const fs = jest.requireActual('fs') as {
       readFileSync: (filePath: string, encoding: string) => string;

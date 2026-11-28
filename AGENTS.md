@@ -48,7 +48,7 @@ These exist once Phase 0 is done. If one you need is missing, adding it is part 
 | ----------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
 | `pnpm install`                                                    | Install everything (Node 22 LTS; see `.nvmrc`)                                                                              |
 | `pnpm dev`                                                        | Run api, web and worker watchers through Turborepo                                                                          |
-| `pnpm --filter mobile start`                                      | Expo dev server (sign-in needs an EAS dev build)                                                                            |
+| `pnpm --filter mobile start`                                      | Expo Go (`expo start --go`). Optional: `start:dev-client` for EAS native modules                                            |
 | `pnpm lint` · `pnpm typecheck` · `pnpm test` · `pnpm build`       | Quality gates (CI runs all of these)                                                                                        |
 | `pnpm format` / `pnpm format:check`                               | Prettier                                                                                                                    |
 | `pnpm db:up` / `pnpm db:down`                                     | Start or stop local PostGIS (Docker)                                                                                        |
