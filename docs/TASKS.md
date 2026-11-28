@@ -569,7 +569,7 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
 
 ## Phase 9: Beta hardening and deploy
 
-> **Railway is production** for PostGIS + api/web/worker/migrate (and T9.3 cron services). Scaffolding lives in `docs/RAILWAY.md` and `infra/railway/`. T9.2 / T9.3b / T9.4 AWS CDK remain optional Milestone H paths unless Arsalan asks. Vercel web config is T9.5 (`docs/VERCEL.md`); Railway may still serve beta web until Vercel is linked.
+> **Railway is production** for PostGIS + api/web/worker/migrate (and T9.3 cron services). Scaffolding lives in `docs/RAILWAY.md` and `infra/railway/`. T9.2 / T9.3b / T9.4b AWS CDK/OIDC remain optional Milestone H paths unless Arsalan asks. Vercel web config is T9.5 (`docs/VERCEL.md`); Railway may still serve beta web until Vercel is linked.
 
 - [x] **T9.1 Observability**
   - Depends on: T5.2, T6.1, T7.1
@@ -597,10 +597,18 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Acceptance test: `cdk synth` and snapshot test.
   - Blocked: needs Arsalan – AWS account + approve CDK deploy; skip while Railway + R2 remain production.
 
-- [ ] **T9.4 CD pipeline**
+- [x] **T9.4 CD pipeline (Railway)**
+  - Depends on: T9.2 (AWS CDK optional; Railway path does not block), T0.10
+  - Do (Railway / live): document + wire production CD on `main` via Railway GitHub Autodeploy + Wait for CI; migrate-on-deploy via the `migrate` one-off service (restart Never, watch `packages/db`); healthchecks on api/web; manual dry-run smoke workflow (no push-to-main smoke — avoids Wait-for-CI deadlock). No long-lived AWS keys.
+  - Acceptance test: Vitest gates in `infra/test/railway-cd.test.ts`; dry-run steps in `docs/RAILWAY.md` § Continuous deployment + Actions → **Railway CD smoke** (`workflow_dispatch`); live probes already return 200/`{"status":"ok"}`.
+  - Done: 2026-11-28 — `infra/lib/railway-cd.ts`, `.github/workflows/railway-cd.yml`, migrate.toml CD notes, docs. **Arsalan:** enable Wait for CI + confirm Autodeploy on `main` for api/web/worker/migrate (and cron services once created) per §G.
+  - Optional AWS OIDC/ECS CD tracked as **T9.4b** (not required while Railway is production).
+
+- [!] **T9.4b CD pipeline: AWS OIDC / ECS** 🧑
   - Depends on: T9.2, T0.10
-  - Do: a GitHub Actions deploy workflow: build and push images on `main` → migrate → deploy to staging; a manual approval for prod. Use OIDC to AWS, no long-lived keys.
-  - Acceptance test: a dry run in staging (the steps written down in the PR).
+  - Do: GitHub Actions deploy workflow: build and push images on `main` → migrate → deploy to staging; manual approval for prod. Use OIDC to AWS, no long-lived keys.
+  - Acceptance test: a dry run in staging (steps written down in the PR).
+  - Blocked: needs Arsalan – AWS account + OIDC trust + approve staging/prod; skip while Railway Autodeploy remains production CD.
 
 - [!] **T9.5 Web deploy**
   - Depends on: T7.1

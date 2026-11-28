@@ -1,0 +1,58 @@
+# Railway production CD smoke (T9.4).
+#
+# Deploys themselves are Railway GitHub autodeploy on `main` (see
+# docs/RAILWAY.md § Continuous deployment). This workflow is a *manual*
+# dry-run only: it must NOT run on push to main, or Wait for CI would
+# deadlock (Railway waits for this job while this job waits for Railway).
+#
+# No AWS keys. No long-lived cloud credentials. Public health URLs only.
+
+name: Railway CD smoke
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: railway-cd-smoke
+  cancel-in-progress: true
+
+jobs:
+  smoke:
+    name: production health smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      API_HEALTH_URL: https://api-production-fb747925.up.railway.app/v1/health
+      WEB_HEALTH_URL: https://wildwindow.arsalandev.studio/
+    steps:
+      - name: Probe api /v1/health
+        run: |
+          set -euo pipefail
+          for i in $(seq 1 12); do
+            code=$(curl -sS -o /tmp/api-health.json -w '%{http_code}' "$API_HEALTH_URL" || true)
+            if [[ "$code" == "200" ]] && grep -q '"status"[[:space:]]*:[[:space:]]*"ok"' /tmp/api-health.json; then
+              echo "api health ok (attempt $i)"
+              cat /tmp/api-health.json
+              exit 0
+            fi
+            echo "attempt $i: HTTP $code — retry in 10s"
+            sleep 10
+          done
+          echo "::error::api health failed after retries"
+          cat /tmp/api-health.json || true
+          exit 1
+
+      - name: Probe web /
+        run: |
+          set -euo pipefail
+          for i in $(seq 1 12); do
+            code=$(curl -sS -o /dev/null -w '%{http_code}' "$WEB_HEALTH_URL" || true)
+            if [[ "$code" == "200" ]]; then
+              echo "web home ok (attempt $i)"
+              exit 0
+            fi
+            echo "attempt $i: HTTP $code — retry in 10s"
+            sleep 10
+          done
+          echo "::error::web health failed after retries"
+          exit 1

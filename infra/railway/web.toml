@@ -12,6 +12,7 @@ watchPatterns = [
 ]
 
 [deploy]
+# Must match RAILWAY_HEALTHCHECK.web in infra/lib/railway-cd.ts (T9.4).
 healthcheckPath = "/"
 healthcheckTimeout = 30
 restartPolicyType = "ON_FAILURE"
