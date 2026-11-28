@@ -30,6 +30,8 @@ export type {
   TidePref,
 } from './data-schemas.js';
 export * from './api/index.js';
+export { BUG_REPORT_REDACT, scrubBugReportFields, scrubBugReportText } from './bug-report-scrub.js';
+export type { BugReportTextFields } from './bug-report-scrub.js';
 export { ApiClientError, createApiClient } from './client.js';
 export type { ApiClient, CreateApiClientOptions } from './client.js';
 export { validateDataDir } from './validate-data.js';

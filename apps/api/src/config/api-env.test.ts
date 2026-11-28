@@ -118,3 +118,15 @@ describe('ApiEnv observability (T9.1)', () => {
     expect(env.POSTHOG_HOST).toBe('https://eu.i.posthog.com');
   });
 });
+
+describe('ApiEnv GITHUB_BUG_REPORT_TOKEN (T9.11)', () => {
+  it('allows missing token (fallback URL path)', () => {
+    expect(loadApiEnv({}).GITHUB_BUG_REPORT_TOKEN).toBeUndefined();
+  });
+
+  it('passes through when set', () => {
+    expect(loadApiEnv({ GITHUB_BUG_REPORT_TOKEN: 'ghp_test_token' }).GITHUB_BUG_REPORT_TOKEN).toBe(
+      'ghp_test_token',
+    );
+  });
+});

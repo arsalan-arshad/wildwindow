@@ -1,3 +1,4 @@
+import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import {
   ActivityIndicator,
@@ -60,6 +61,7 @@ function Field({
 
 export function SignInForm({ onSignedIn }: SignInFormProps) {
   const { t } = useTranslation();
+  const router = useRouter();
   const direction = getLayoutDirection();
   const muted = useThemeColor({}, 'textMuted');
   const tint = useThemeColor({}, 'tint');
@@ -103,6 +105,15 @@ export function SignInForm({ onSignedIn }: SignInFormProps) {
       <View style={[styles.root, { direction }]} testID="sign-in-unconfigured">
         <Text style={styles.title}>{t('auth.title')}</Text>
         <Text style={[styles.body, { color: muted }]}>{t('auth.notConfigured')}</Text>
+        <PrimaryButton
+          label={t('auth.reportBugLink')}
+          onPress={() => {
+            router.push('/report-bug');
+          }}
+          variant="secondary"
+          testID="sign-in-report-bug"
+          style={styles.social}
+        />
       </View>
     );
   }
@@ -195,6 +206,16 @@ export function SignInForm({ onSignedIn }: SignInFormProps) {
       <Text style={[styles.socialHint, { color: muted }]} testID="sign-in-social-hint">
         {t('auth.socialNeedsDevBuild')}
       </Text>
+
+      <PrimaryButton
+        label={t('auth.reportBugLink')}
+        onPress={() => {
+          router.push('/report-bug');
+        }}
+        variant="secondary"
+        testID="sign-in-report-bug"
+        style={styles.social}
+      />
     </View>
   );
 }

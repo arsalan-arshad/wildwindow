@@ -74,6 +74,41 @@ describe('createApiClient', () => {
     );
   });
 
+  it('POSTs /v1/bug-reports (T9.11)', async () => {
+    const fetchMock = vi.fn().mockResolvedValue(
+      new Response(JSON.stringify({ status: 'filed', issueNumber: 99 }), {
+        status: 200,
+        headers: { 'content-type': 'application/json' },
+      }),
+    );
+
+    const client = createApiClient({
+      baseUrl: 'https://api.example.test',
+      fetch: fetchMock,
+    });
+
+    await expect(
+      client.bugReports.create({
+        steps: '1. Open app',
+        expected: 'Works',
+        actual: 'Crashes',
+        platform: 'Android',
+        version: '1.0.0',
+        device: 'Pixel 8, Android 15',
+      }),
+    ).resolves.toEqual({ status: 'filed', issueNumber: 99 });
+
+    expect(fetchMock).toHaveBeenCalledWith(
+      'https://api.example.test/v1/bug-reports',
+      expect.objectContaining({ method: 'POST' }),
+    );
+    const init = fetchMock.mock.calls[0]?.[1] as RequestInit;
+    const rawBody = init.body;
+    expect(typeof rawBody).toBe('string');
+    const body = JSON.parse(rawBody as string) as { severity: string };
+    expect(body.severity).toBe('P2');
+  });
+
   it('throws ApiClientError on non-OK responses', async () => {
     const fetchMock = vi.fn().mockResolvedValue(
       new Response(JSON.stringify({ code: 'WATCHLIST_LIMIT', message: 'Limit reached' }), {

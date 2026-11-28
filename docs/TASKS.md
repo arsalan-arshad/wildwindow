@@ -631,13 +631,14 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Do: a TestFlight and Play internal track for 50–100 testers in Scotland and Sindh; confirm the Report a bug entry from T9.11 is on Profile; a metrics dashboard (PRD §8).
   - Acceptance test: the beta checklist in the PR is all ticked; the first forecast view from a real tester shows up in PostHog.
 
-- [ ] **T9.11 In-app Report a bug**
+- [x] **T9.11 In-app Report a bug**
   - Depends on: T6.12, T5.3, T1.6
   - Do: a "Report a bug" action on Profile (S-16) and on the sign-in screen (S-02), so a tester who cannot sign in can still report. The app posts the draft (steps, expected, actual, platform, app version, device and OS) to `POST /v1/bug-reports`. The API opens a GitHub issue with `.github/ISSUE_TEMPLATE/bug_report.yml` (labels `bug` and `needs-triage`) using `GITHUB_BUG_REPORT_TOKEN`, which stays in the server env. The token is never sent to the client and never logged. The API logs the new issue number only, not the body. Rate-limit the route with the throttler from T5.2. If the token is unset, the API returns a prefilled `https://github.com/arsalan-arshad/wildwindow/issues/new?template=bug_report.yml` URL (query keys are the form field ids) and the app opens that. Before either path, scrub the text: redact the geoprivacy forbidden keys (`lat`, `lng`, `latitude`, `longitude`, `coordinates`, `geom`, `point`, `wkt`, and the rest of that list) and anything that looks like a coordinate pair or GPS EXIF. The scrubber is a pure function. Add `GITHUB_BUG_REPORT_TOKEN` to `.env.example` with no value, and add the route to ARCHITECTURE §7.
   - Deliverable: the Profile and sign-in actions, `POST /v1/bug-reports`, the scrubber, and the fallback URL.
   - Acceptance test: an API test posts a body that includes a coordinate pair and a forbidden key, and the mocked GitHub issue payload has neither; the HTTP response has no token. A mobile test shows Profile calls the API, and when the response says to use the fallback, opens the prefilled URL with the scrubbed text. With the token unset, the tester can still file the report.
   - Refs: AGENTS.md §7, ARCHITECTURE §5.3 and §7, S-16, S-02
   - 🧑 Arsalan stores a fine-grained personal access token (Issues write on this repo) as `GITHUB_BUG_REPORT_TOKEN` on the API. The fallback URL works before that exists.
+  - Done: 2026-11-28 — Profile + sign-in "Report a bug"; `POST /v1/bug-reports` with scrubber, GitHub Issues create (or prefilled fallback URL); `GITHUB_BUG_REPORT_TOKEN` in `.env.example`; ARCHITECTURE §7.
 
 ## Phase 10: MVP launch
 

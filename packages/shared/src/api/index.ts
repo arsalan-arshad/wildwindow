@@ -1,6 +1,7 @@
 export * from './admin.js';
 export * from './areas.js';
 export * from './attributions.js';
+export * from './bug-reports.js';
 export * from './challenges.js';
 export * from './common.js';
 export * from './forecast.js';

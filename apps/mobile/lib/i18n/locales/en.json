@@ -108,6 +108,7 @@
     "privacyTitle": "Privacy and the No-Pin Promise",
     "privacyBody": "WildWindow never puts a pin on a wild animal. Exact coordinates are never shown for any species. Your photo locations stay private. Location protection is open source.",
     "attributionsLink": "Data attributions",
+    "reportBugLink": "Report a bug",
     "exportButton": "Export my data",
     "exportReady": "Your export is ready. Opening the download link.",
     "exportQueued": "Your export is queued. Check back shortly — it may take up to 24 hours.",
@@ -119,6 +120,22 @@
     "deleteCancel": "Cancel",
     "deleteError": "Could not delete the account. Try again.",
     "settingsError": "Could not save that setting. Try again."
+  },
+  "bugReport": {
+    "title": "Report a bug",
+    "subtitle": "Tell us what went wrong. This issue will be public on GitHub.",
+    "noPinReminder": "Do not include exact coordinates, a map pin, GPS EXIF, or a precise sighting. A place name or region is enough.",
+    "steps": "Steps to reproduce",
+    "stepsPlaceholder": "1. Open Explore\n2. Choose a species\n3. Open the forecast",
+    "expected": "Expected behaviour",
+    "expectedPlaceholder": "What you expected to happen",
+    "actual": "Actual behaviour",
+    "actualPlaceholder": "What happened instead",
+    "meta": "{{platform}} · {{version}} · {{device}}",
+    "submit": "Submit report",
+    "filed": "Thanks — filed as GitHub issue #{{number}}.",
+    "fallbackOpened": "Opening GitHub so you can finish filing the report.",
+    "error": "Could not send the report. Try again."
   },
   "attributions": {
     "title": "Attributions",
@@ -149,6 +166,7 @@
     "continueGoogle": "Continue with Google",
     "socialNeedsDevBuild": "Apple and Google sign-in need an EAS development build. Email works in Expo Go once Firebase is configured.",
     "notConfigured": "Sign-in is not configured on this build. Set EXPO_PUBLIC_FIREBASE_CONFIG to the Firebase web-app JSON.",
+    "reportBugLink": "Report a bug",
     "signedInAnonymous": "Signed in",
     "errors": {
       "not_configured": "Firebase Auth is not configured yet.",
