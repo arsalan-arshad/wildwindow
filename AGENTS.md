@@ -44,23 +44,23 @@ Dependency rules (§10): `geoprivacy` imports nothing internal. **Only `apps/wor
 
 These exist once Phase 0 is done. If one you need is missing, adding it is part of your task.
 
-| Command                                                           | What it does                                                                                                                |
-| ----------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| `pnpm install`                                                    | Install everything (Node 22 LTS; see `.nvmrc`)                                                                              |
-| `pnpm dev`                                                        | Run api, web and worker watchers through Turborepo                                                                          |
-| `pnpm --filter mobile start`                                      | Expo Go (`expo start --go`). Optional: `start:dev-client` for EAS native modules                                            |
-| `pnpm lint` · `pnpm typecheck` · `pnpm test` · `pnpm build`       | Quality gates (CI runs all of these)                                                                                        |
-| `pnpm format` / `pnpm format:check`                               | Prettier                                                                                                                    |
-| `pnpm db:up` / `pnpm db:down`                                     | Start or stop local PostGIS (Docker)                                                                                        |
-| `pnpm db:migrate` · `pnpm db:seed`                                | Run migrations and seeds                                                                                                    |
-| `pnpm perf:forecast` · `pnpm perf:forecast:smoke`                 | T9.8 autocannon `/v1/forecast` (full local p95 gate; CI smoke skips without data)                                           |
-| `pnpm data:validate`                                              | Validate the YAML config in `data/`                                                                                         |
-| `pnpm data:resolve-taxa` · `pnpm data:places` · `pnpm data:cards` | Data scripts (T2.7, T2.8, T8.1)                                                                                             |
-| `pnpm data:cards:check` · `pnpm data:cards:draft`                 | Parse cards without DB; list cards still `draft` (T8.2)                                                                     |
-| `pnpm data:sensitivity-review`                                    | Write `reports/sensitivity-review-<region>.md` for reviewers (T8.3 / PRD E6)                                                |
-| `pnpm worker <cmd>`                                               | Worker CLI: `gbif:request`, `gbif:fetch`, `gbif:load`, `aggregate`, `score:refs`, `backtest`, `purge-deleted`, `make-admin` |
-| `pnpm --filter @wildwindow/infra synth` · `test`                  | AWS CDK synth + infra snapshot tests (T9.2+; no `cdk deploy` from agents)                                                   |
-| `pnpm --filter <pkg> test -- <pattern>`                           | Run one package's tests                                                                                                     |
+| Command                                                           | What it does                                                                                                                                   |
+| ----------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `pnpm install`                                                    | Install everything (Node 22 LTS; see `.nvmrc`)                                                                                                 |
+| `pnpm dev`                                                        | Run api, web and worker watchers through Turborepo                                                                                             |
+| `pnpm --filter mobile start`                                      | Expo Go (`expo start --go`). Optional: `start:dev-client` for EAS native modules                                                               |
+| `pnpm lint` · `pnpm typecheck` · `pnpm test` · `pnpm build`       | Quality gates (CI runs all of these)                                                                                                           |
+| `pnpm format` / `pnpm format:check`                               | Prettier                                                                                                                                       |
+| `pnpm db:up` / `pnpm db:down`                                     | Start or stop local PostGIS (Docker)                                                                                                           |
+| `pnpm db:migrate` · `pnpm db:seed`                                | Run migrations and seeds                                                                                                                       |
+| `pnpm perf:forecast` · `pnpm perf:forecast:smoke`                 | T9.8 autocannon `/v1/forecast` (full local p95 gate; CI smoke skips without data)                                                              |
+| `pnpm data:validate`                                              | Validate the YAML config in `data/`                                                                                                            |
+| `pnpm data:resolve-taxa` · `pnpm data:places` · `pnpm data:cards` | Data scripts (T2.7, T2.8, T8.1)                                                                                                                |
+| `pnpm data:cards:check` · `pnpm data:cards:draft`                 | Parse cards without DB; list cards still `draft` (T8.2)                                                                                        |
+| `pnpm data:sensitivity-review`                                    | Write `reports/sensitivity-review-<region>.md` for reviewers (T8.3 / PRD E6)                                                                   |
+| `pnpm worker <cmd>`                                               | Worker CLI: `gbif:request`, `gbif:fetch`, `gbif:load`, `aggregate`, `score:refs`, `backtest`, `purge-deleted`, `make-admin`, `ingest:pipeline` |
+| `pnpm --filter @wildwindow/infra synth` · `test`                  | AWS CDK synth + infra snapshot tests (T9.2+; no `cdk deploy` from agents)                                                                      |
+| `pnpm --filter <pkg> test -- <pattern>`                           | Run one package's tests                                                                                                                        |
 
 Environment keys (put them in `.env.example` with **no values**; load them with `loadEnv` from `packages/shared`):
 

@@ -45,12 +45,14 @@ For **each** of `api`, `web`, `worker`, `migrate`:
 4. Apply watch patterns / healthchecks from `infra/railway/*.toml` (copy into the UI, or `railway.toml` when linking one service at a time).
 5. **Generate domain** for `api` and `web` (Settings → Networking).
 
-| Service   | Dockerfile                | Role                                                                              |
-| --------- | ------------------------- | --------------------------------------------------------------------------------- |
-| `api`     | `apps/api/Dockerfile`     | NestJS `/v1` (health: `/v1/health`)                                               |
-| `web`     | `apps/web/Dockerfile`     | Next.js App Router                                                                |
-| `worker`  | `apps/worker/Dockerfile`  | CLI; default `hello` smoke (no live GBIF)                                         |
-| `migrate` | `apps/migrate/Dockerfile` | One-off: migrations + optional seed (compiled `node …/dist/migrate.js`, not pnpm) |
+| Service         | Dockerfile                | Role                                                                              |
+| --------------- | ------------------------- | --------------------------------------------------------------------------------- |
+| `api`           | `apps/api/Dockerfile`     | NestJS `/v1` (health: `/v1/health`)                                               |
+| `web`           | `apps/web/Dockerfile`     | Next.js App Router                                                                |
+| `worker`        | `apps/worker/Dockerfile`  | CLI; default `hello` smoke (no live GBIF)                                         |
+| `worker-purge`  | `apps/worker/Dockerfile`  | Cron: daily `purge-deleted` (T9.3) — create as a **separate** service             |
+| `worker-ingest` | `apps/worker/Dockerfile`  | Cron: monthly `ingest:pipeline --region all` (T9.3) — create separately           |
+| `migrate`       | `apps/migrate/Dockerfile` | One-off: migrations + optional seed (compiled `node …/dist/migrate.js`, not pnpm) |
 
 ### D. First migrate, then smoke
 
@@ -116,7 +118,7 @@ Legend: **R** = required for that service to start / do its job · **O** = optio
 | `GBIF_USER`                     | **Secret** | —                | —                        | —      | O        | **Do not set until T3.9**                                                                                                                                                                                                                                                                              |
 | `GBIF_PASSWORD`                 | **Secret** | —                | —                        | —      | O        | **Do not set until T3.9**                                                                                                                                                                                                                                                                              |
 | `GBIF_EMAIL`                    | Public     | —                | —                        | —      | O        | **Do not set until T3.9**                                                                                                                                                                                                                                                                              |
-| `GBIF_ENABLED`                  | Public     | —                | —                        | —      | O        | Keep unset/`false` until T3.9                                                                                                                                                                                                                                                                          |
+| `GBIF_ENABLED`                  | Public     | —                | —                        | —      | O†       | †Required `"true"` on **`worker-ingest`** for the monthly cron (`ingest:pipeline` refuses otherwise). Leave unset on the hello smoke `worker`.                                                                                                                                                         |
 | `INAT_DIRECT_ENABLED`           | Public     | —                | O                        | —      | O        | MVP: leave unset/false                                                                                                                                                                                                                                                                                 |
 | `EBIRD_ENABLED`                 | Public     | —                | O                        | —      | O        | Must stay off without written permission                                                                                                                                                                                                                                                               |
 | `EBIRD_PERMISSION_REF`          | Public     | —                | O                        | —      | O        | Required only if eBird ever enabled                                                                                                                                                                                                                                                                    |
@@ -138,8 +140,8 @@ Legend: **R** = required for that service to start / do its job · **O** = optio
 | `R2_PUBLIC_URL`                 | Public     | —                | O                        | —      | —        | Optional custom domain / `*.r2.dev` public base. When set, gallery/export GET URLs use this host; leave unset for private signed GETs only.                                                                                                                                                            |
 | `LOCAL_STORAGE_DIR`             | Public     | —                | O                        | —      | O        | Shared filesystem root when `STORAGE_DRIVER=local` (api + worker must see the same path for purge).                                                                                                                                                                                                    |
 | `STORAGE_SIGNING_SECRET`        | **Secret** | —                | O                        | —      | —        | Local presigned PUT/GET HMAC (api only).                                                                                                                                                                                                                                                               |
-| `CLOUDFRONT_KEY_PAIR_ID`        | Public     | —                | O                        | —      | —        | Optional AWS cutover only (T9.3).                                                                                                                                                                                                                                                                      |
-| `CLOUDFRONT_PRIVATE_KEY`        | **Secret** | —                | O                        | —      | —        | Optional AWS cutover only (T9.3).                                                                                                                                                                                                                                                                      |
+| `CLOUDFRONT_KEY_PAIR_ID`        | Public     | —                | O                        | —      | —        | Optional AWS cutover only (T9.3b).                                                                                                                                                                                                                                                                     |
+| `CLOUDFRONT_PRIVATE_KEY`        | **Secret** | —                | O                        | —      | —        | Optional AWS cutover only (T9.3b).                                                                                                                                                                                                                                                                     |
 | `WATCHLIST_LIMIT_FREE`          | Public     | —                | O                        | —      | —        |                                                                                                                                                                                                                                                                                                        |
 | `API_PUBLIC_URL`                | Public     | —                | O                        | —      | —        | Public https URL of `api`                                                                                                                                                                                                                                                                              |
 | `WEB_ORIGIN`                    | Public     | —                | **R**†                   | —      | —        | †Public https origin of `web` (no path). API enables CORS from this value (`apps/api` `corsOptionsFromWebOrigin`); trailing slash is normalized. Without it, browsers get no `Access-Control-Allow-Origin`.                                                                                            |
@@ -188,7 +190,63 @@ Set the same values on **`api`** and **`worker`**:
 
 `POST /v1/uploads/presign` returns a signed PUT URL against the R2 S3 API endpoint. Gallery/export GET uses signed R2 URLs unless `R2_PUBLIC_URL` is set (then GETs are `${R2_PUBLIC_URL}/${key}`). GPS EXIF is still rejected before objects are trusted for the logbook.
 
-`STORAGE_DRIVER=s3` remains for an optional later AWS cutover (T9.3); prefer `r2` on Railway.
+`STORAGE_DRIVER=s3` remains for an optional later AWS cutover (T9.3b); prefer `r2` on Railway.
+
+Logbook exact points use **`LOGBOOK_ENC_KEY`** (AES-256-GCM on the API). There is no AWS KMS on Railway; T9.3b would add KMS only on the Milestone H CDK path.
+
+---
+
+## Scheduled worker jobs (T9.3)
+
+Railway cron runs a **service’s start command** on a crontab (UTC), then expects the process to **exit** and close DB/storage connections. If a previous run is still `Active`, Railway **skips** the next tick.
+
+Config snippets (copy into the dashboard — do not treat root `railway.toml` as required):
+
+| Snippet                                                                   | Suggested service name | Cron (UTC)  | Start command                                   |
+| ------------------------------------------------------------------------- | ---------------------- | ----------- | ----------------------------------------------- |
+| [`infra/railway/worker-purge.toml`](../infra/railway/worker-purge.toml)   | `worker-purge`         | `0 4 * * *` | `node dist/cli.js purge-deleted`                |
+| [`infra/railway/worker-ingest.toml`](../infra/railway/worker-ingest.toml) | `worker-ingest`        | `0 5 1 * *` | `node dist/cli.js ingest:pipeline --region all` |
+
+Constants under test: `RAILWAY_WORKER_CRON` in `apps/worker/src/schedule/cron.ts` (must match the TOML `cronSchedule` values).
+
+### F. What Arsalan must click (cron services)
+
+Agents must **not** create Railway services or paste secrets. In the [Wild Window](https://railway.com/project/5f95e310-379a-430b-b6dc-ef6307461963) project:
+
+#### Daily purge (`worker-purge`)
+
+1. **+ New** → **GitHub Repo** → `arsalan-arshad/wildwindow` (same project). Name it e.g. `worker-purge`.
+2. **Settings → Build**: Dockerfile · path `apps/worker/Dockerfile` · watch patterns from `worker-purge.toml`.
+3. **Settings → Deploy**:
+   - **Custom Start Command:** `node dist/cli.js purge-deleted`
+   - **Cron Schedule:** `0 4 * * *` (daily 04:00 UTC)
+   - **Restart Policy:** **Never**
+4. **Variables** (same secrets as needed for purge — never commit):
+   - `NODE_ENV=production`
+   - `DATABASE_URL` — **owner** URL (required; `ww_worker` cannot DML `app.users` / logbook)
+   - `STORAGE_DRIVER=r2` plus the same `R2_*` set as on `api` (photo object delete)
+5. Deploy once (or wait for the next cron). Confirm logs show JSON `{ "purgedUsers": … }` and the deployment exits (not left Active).
+
+#### Monthly GBIF ingest (`worker-ingest`)
+
+1. **+ New** → another GitHub-linked service from the same repo. Name it e.g. `worker-ingest`.
+2. Same Dockerfile / watch patterns as `worker-ingest.toml`.
+3. **Settings → Deploy**:
+   - **Custom Start Command:** `node dist/cli.js ingest:pipeline --region all`
+   - **Cron Schedule:** `0 5 1 * *` (1st of month 05:00 UTC)
+   - **Restart Policy:** **Never**
+4. **Variables:**
+   - `NODE_ENV=production`
+   - `DATABASE_URL_WORKER` (`ww_worker`)
+   - `GBIF_ENABLED=true` (pipeline **refuses** without this)
+   - `GBIF_USER`, `GBIF_PASSWORD`, `GBIF_EMAIL`
+   - `OBSERVER_HASH_SALT` (required by `gbif:load`)
+5. Optional dry-run before enabling the cron (one-off start command override):  
+   `node dist/cli.js ingest:pipeline --region all --dry-run`  
+   Expect JSON with `plannedSteps` and no GBIF traffic.
+6. First live run can take **hours** (GBIF download + load). Ensure the service has enough ephemeral disk for zips under `data/downloads`. Leave the hello smoke `worker` service as-is (restart Never, command `hello`).
+
+CLI locally / one-off: `pnpm worker ingest:pipeline --region scotland|sindh|all [--dry-run]`.
 
 ---
 
@@ -218,18 +276,18 @@ Prefer constructing these in the Variables UI (secret values) rather than commit
 
 ## Out of scope / do not do yet
 
-- Live GBIF download (`T3.9`) — needs Arsalan GBIF credentials and an explicit go-ahead.
+- Creating Railway cron services from an agent (Arsalan applies §F in the dashboard).
 - Committing `.env`, tokens, or service-account JSON.
 - Weakening geoprivacy / giving `ww_api` access to `raw`.
-- AWS CDK production cutover (Phase 9) — Railway is the interim host.
+- AWS CDK production cutover (Phase 9 / T9.3b) — Railway is production; CDK remains optional.
 
 ---
 
 ## Local vs Railway
 
-| Concern        | Local                         | Railway                                |
-| -------------- | ----------------------------- | -------------------------------------- |
-| PostGIS        | `pnpm db:up` (`18-3.7`)       | PostGIS template `18-3.7`              |
-| Migrate / seed | `pnpm db:migrate` / `db:seed` | `migrate` service one-off              |
-| API / web      | `pnpm --filter …`             | Dockerfile services                    |
-| Worker         | `pnpm worker <cmd>`           | Service smoke + one-off/cron overrides |
+| Concern        | Local                         | Railway                                                          |
+| -------------- | ----------------------------- | ---------------------------------------------------------------- |
+| PostGIS        | `pnpm db:up` (`18-3.7`)       | PostGIS template `18-3.7`                                        |
+| Migrate / seed | `pnpm db:migrate` / `db:seed` | `migrate` service one-off                                        |
+| API / web      | `pnpm --filter …`             | Dockerfile services                                              |
+| Worker         | `pnpm worker <cmd>`           | Hello smoke + cron services (`purge-deleted`, `ingest:pipeline`) |

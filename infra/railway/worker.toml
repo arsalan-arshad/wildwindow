@@ -1,6 +1,7 @@
 # Railway "worker" service settings (Root Directory = monorepo root).
-# Default CMD is `hello` (smoke). Override start command / use Cron for real jobs.
-# Do NOT enable GBIF until T3.9 + credentials are ready.
+# Default CMD is `hello` (smoke). Keep this service as the smoke check.
+# Scheduled jobs are separate services — see worker-purge.toml / worker-ingest.toml
+# and docs/RAILWAY.md § Scheduled worker jobs (T9.3).
 
 [build]
 builder = "DOCKERFILE"

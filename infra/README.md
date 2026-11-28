@@ -13,7 +13,7 @@ TypeScript CDK app for the production AWS path (ARCHITECTURE §11). **Railway** 
 | ALB               | HTTP :80 → `/v1/health` (TLS/ACM when Arsalan attaches a cert)            |
 | Secrets Manager   | Empty shells for API app secrets and DB app-role URLs (no values in CDK)  |
 
-T9.3 adds worker schedules, S3, CloudFront, and KMS on top of this network.
+**T9.3 (Railway, live):** scheduled worker jobs + Cloudflare R2 are documented in [`infra/railway/`](./railway/) and [docs/RAILWAY.md](../docs/RAILWAY.md) — daily `purge-deleted`, monthly `ingest:pipeline`, R2 already used by api/worker. **Optional AWS cutover (T9.3b):** EventBridge Scheduler, S3, CloudFront, and KMS on top of this CDK network — not required while Railway is production.
 
 ## Commands
 

@@ -8,6 +8,7 @@ import { runGbifRequest } from './gbif/request.js';
 import { runMakeAdmin } from './make-admin.js';
 import { defaultBetaSpeciesPath, defaultDownloadDir } from './paths.js';
 import { runPurgeDeleted } from './purge-deleted.js';
+import { parsePipelineRegions, runIngestPipeline } from './schedule/ingest-pipeline.js';
 import { runScoreRefs } from './score-refs/run.js';
 
 import type { IngestKind, IngestRegion } from './gbif/predicate.js';
@@ -220,6 +221,56 @@ export function createProgram(): Command {
           userIds: result.userIds,
         }),
       );
+    });
+
+  program
+    .command('ingest:pipeline')
+    .description(
+      'Monthly GBIF refresh: request→fetch→load (target+effort) then aggregate+score:refs (T9.3 Railway cron)',
+    )
+    .requiredOption('--region <slug>', 'scotland|sindh|all')
+    .option('--beta <path>', 'path to beta-species.yaml', defaultBetaSpeciesPath())
+    .option('--dir <path>', 'directory for zip downloads', defaultDownloadDir())
+    .option('--dry-run', 'print planned steps without calling GBIF or the database', false)
+    .action(async (opts: { region: string; beta: string; dir: string; dryRun: boolean }) => {
+      const regions = parsePipelineRegions(opts.region);
+      const result = await runIngestPipeline({
+        regions,
+        betaSpeciesPath: opts.beta,
+        downloadDir: opts.dir,
+        dryRun: opts.dryRun,
+      });
+      if (result.dryRun) {
+        console.log(
+          JSON.stringify({
+            dryRun: true,
+            regions: result.regions,
+            plannedSteps: result.plannedSteps,
+          }),
+        );
+        return;
+      }
+      const regionSummaries = result.regions.map((regionResult) => ({
+        region: regionResult.region,
+        kinds: regionResult.kinds.map((kindResult) => ({
+          kind: kindResult.kind,
+          runId: kindResult.request.runId,
+          downloadKey: kindResult.request.downloadKey,
+          doi: kindResult.fetch.doi,
+          total: kindResult.fetch.total,
+          loaded: kindResult.load.loaded,
+          rejectedLicence: kindResult.load.rejectedLicence,
+        })),
+        aggregate: {
+          taxaProcessed: regionResult.aggregate.taxaProcessed,
+          cellWeekRows: regionResult.aggregate.cellWeekRows,
+        },
+        scoreRefs: {
+          taxaProcessed: regionResult.scoreRefs.taxaProcessed,
+          refsWritten: regionResult.scoreRefs.refsWritten,
+        },
+      }));
+      console.log(JSON.stringify({ dryRun: false, regions: regionSummaries }));
     });
 
   return program;
