@@ -28,6 +28,8 @@ describe('device-storage fallback (Expo Go / AsyncStorage v3 mismatch)', () => {
     await expect(loadPreferences(storage)).resolves.toEqual({
       region: 'scotland',
       onboardingComplete: false,
+      units: 'metric',
+      language: null,
     });
   });
 

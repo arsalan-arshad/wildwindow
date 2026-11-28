@@ -794,233 +794,909 @@ exports[`tab screens (T6.1 snapshots) matches Logbook snapshot 1`] = `
 `;
 
 exports[`tab screens (T6.1 snapshots) matches Profile snapshot 1`] = `
-<View
+<RCTScrollView
+  contentContainerStyle={
+    {
+      "paddingBottom": 48,
+      "paddingHorizontal": 24,
+      "paddingTop": 24,
+    }
+  }
+  keyboardShouldPersistTaps="handled"
   style={
-    [
-      {
-        "backgroundColor": "#f7faf8",
-      },
-      [
-        {
-          "flex": 1,
-          "justifyContent": "center",
-          "padding": 24,
-        },
-        {
-          "direction": "ltr",
-        },
-      ],
-    ]
+    {
+      "direction": "ltr",
+    }
   }
   testID="tab-profile"
 >
-  <Text
-    style={
-      [
-        {
-          "color": "#14201a",
-        },
-        {
-          "fontSize": 28,
-          "fontWeight": "700",
-        },
-      ]
-    }
-  >
-    Profile
-  </Text>
-  <Text
-    style={
-      [
-        {
-          "color": "#14201a",
-        },
-        [
-          {
-            "fontSize": 16,
-            "marginTop": 12,
-          },
-          {
-            "color": "#4a5c52",
-          },
-        ],
-      ]
-    }
-  >
-    Home region
-    : 
-    —
-  </Text>
-  <View
-    accessibilityRole="button"
-    accessibilityState={
-      {
-        "busy": undefined,
-        "checked": undefined,
-        "disabled": false,
-        "expanded": undefined,
-        "selected": undefined,
-      }
-    }
-    accessibilityValue={
-      {
-        "max": undefined,
-        "min": undefined,
-        "now": undefined,
-        "text": undefined,
-      }
-    }
-    accessible={true}
-    collapsable={false}
-    focusable={true}
-    onBlur={[Function]}
-    onClick={[Function]}
-    onFocus={[Function]}
-    onResponderGrant={[Function]}
-    onResponderMove={[Function]}
-    onResponderRelease={[Function]}
-    onResponderTerminate={[Function]}
-    onResponderTerminationRequest={[Function]}
-    onStartShouldSetResponder={[Function]}
-    style={
-      [
-        {
-          "alignItems": "center",
-          "borderRadius": 10,
-          "justifyContent": "center",
-          "minHeight": 48,
-          "paddingHorizontal": 18,
-          "paddingVertical": 12,
-        },
-        {
-          "backgroundColor": "#1a4030",
-          "opacity": 1,
-        },
-        {
-          "alignSelf": "stretch",
-          "marginTop": 24,
-        },
-      ]
-    }
-    testID="profile-sign-in"
-  >
+  <View>
     <Text
       style={
         [
           {
             "color": "#14201a",
           },
-          [
-            {
-              "fontSize": 16,
-              "fontWeight": "600",
-            },
-            {
-              "color": "#ffffff",
-            },
-          ],
+          {
+            "fontSize": 28,
+            "fontWeight": "700",
+          },
         ]
       }
     >
-      Sign in
+      Profile
     </Text>
-  </View>
-  <View
-    accessibilityRole="button"
-    accessibilityState={
-      {
-        "busy": undefined,
-        "checked": undefined,
-        "disabled": false,
-        "expanded": undefined,
-        "selected": undefined,
+    <View
+      accessibilityRole="button"
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": false,
+          "expanded": undefined,
+          "selected": undefined,
+        }
       }
-    }
-    accessibilityValue={
-      {
-        "max": undefined,
-        "min": undefined,
-        "now": undefined,
-        "text": undefined,
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
       }
-    }
-    accessible={true}
-    collapsable={false}
-    focusable={true}
-    onBlur={[Function]}
-    onClick={[Function]}
-    onFocus={[Function]}
-    onResponderGrant={[Function]}
-    onResponderMove={[Function]}
-    onResponderRelease={[Function]}
-    onResponderTerminate={[Function]}
-    onResponderTerminationRequest={[Function]}
-    onStartShouldSetResponder={[Function]}
-    style={
-      [
-        {
-          "alignItems": "center",
-          "borderRadius": 10,
-          "justifyContent": "center",
-          "minHeight": 48,
-          "paddingHorizontal": 18,
-          "paddingVertical": 12,
-        },
-        {
-          "backgroundColor": "#ffffff",
-          "borderColor": "#d5e0d9",
-          "borderWidth": 1,
-          "opacity": 1,
-        },
-        {
-          "alignSelf": "stretch",
-          "marginTop": 24,
-        },
-      ]
-    }
-    testID="profile-nopin-link"
-  >
-    <Text
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
       style={
         [
           {
-            "color": "#14201a",
+            "alignItems": "center",
+            "borderRadius": 10,
+            "justifyContent": "center",
+            "minHeight": 48,
+            "paddingHorizontal": 18,
+            "paddingVertical": 12,
           },
+          {
+            "backgroundColor": "#1a4030",
+            "opacity": 1,
+          },
+          {
+            "alignSelf": "stretch",
+            "marginTop": 16,
+          },
+        ]
+      }
+      testID="profile-sign-in"
+    >
+      <Text
+        style={
           [
-            {
-              "fontSize": 16,
-              "fontWeight": "600",
-            },
             {
               "color": "#14201a",
             },
+            [
+              {
+                "fontSize": 16,
+                "fontWeight": "600",
+              },
+              {
+                "color": "#ffffff",
+              },
+            ],
+          ]
+        }
+      >
+        Sign in
+      </Text>
+    </View>
+    <Text
+      style={
+        [
+          {
+            "color": "#14201a",
+          },
+          {
+            "fontSize": 18,
+            "fontWeight": "700",
+            "marginTop": 28,
+          },
+        ]
+      }
+    >
+      Settings
+    </Text>
+    <View
+      style={
+        [
+          {
+            "backgroundColor": "#f7faf8",
+          },
+          {
+            "marginTop": 20,
+          },
+        ]
+      }
+      testID="profile-region"
+    >
+      <Text
+        style={
+          [
+            {
+              "color": "#14201a",
+            },
+            [
+              {
+                "fontSize": 13,
+                "fontWeight": "600",
+                "letterSpacing": 0.3,
+                "marginBottom": 8,
+              },
+              {
+                "color": "#4a5c52",
+              },
+            ],
+          ]
+        }
+      >
+        Home region
+      </Text>
+      <View
+        style={
+          [
+            {
+              "backgroundColor": "#f7faf8",
+            },
+            {
+              "flexDirection": "row",
+              "flexWrap": "wrap",
+              "gap": 8,
+            },
+          ]
+        }
+      >
+        <View
+          accessibilityRole="button"
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": false,
+              "expanded": undefined,
+              "selected": false,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            [
+              {
+                "alignItems": "center",
+                "borderRadius": 10,
+                "minWidth": 96,
+                "paddingHorizontal": 14,
+                "paddingVertical": 10,
+              },
+              {
+                "backgroundColor": "#ffffff",
+                "borderColor": "#d5e0d9",
+                "borderWidth": 1,
+                "opacity": 1,
+              },
+            ]
+          }
+          testID="profile-region-scotland"
+        >
+          <Text
+            style={
+              [
+                {
+                  "color": "#14201a",
+                },
+                {
+                  "fontSize": 15,
+                  "fontWeight": "600",
+                },
+              ]
+            }
+          >
+            Scotland
+          </Text>
+        </View>
+        <View
+          accessibilityRole="button"
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": false,
+              "expanded": undefined,
+              "selected": false,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            [
+              {
+                "alignItems": "center",
+                "borderRadius": 10,
+                "minWidth": 96,
+                "paddingHorizontal": 14,
+                "paddingVertical": 10,
+              },
+              {
+                "backgroundColor": "#ffffff",
+                "borderColor": "#d5e0d9",
+                "borderWidth": 1,
+                "opacity": 1,
+              },
+            ]
+          }
+          testID="profile-region-sindh"
+        >
+          <Text
+            style={
+              [
+                {
+                  "color": "#14201a",
+                },
+                {
+                  "fontSize": 15,
+                  "fontWeight": "600",
+                },
+              ]
+            }
+          >
+            Sindh
+          </Text>
+        </View>
+      </View>
+    </View>
+    <View
+      style={
+        [
+          {
+            "backgroundColor": "#f7faf8",
+          },
+          {
+            "marginTop": 20,
+          },
+        ]
+      }
+      testID="profile-units"
+    >
+      <Text
+        style={
+          [
+            {
+              "color": "#14201a",
+            },
+            [
+              {
+                "fontSize": 13,
+                "fontWeight": "600",
+                "letterSpacing": 0.3,
+                "marginBottom": 8,
+              },
+              {
+                "color": "#4a5c52",
+              },
+            ],
+          ]
+        }
+      >
+        Units
+      </Text>
+      <View
+        style={
+          [
+            {
+              "backgroundColor": "#f7faf8",
+            },
+            {
+              "flexDirection": "row",
+              "flexWrap": "wrap",
+              "gap": 8,
+            },
+          ]
+        }
+      >
+        <View
+          accessibilityRole="button"
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": false,
+              "expanded": undefined,
+              "selected": true,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            [
+              {
+                "alignItems": "center",
+                "borderRadius": 10,
+                "minWidth": 96,
+                "paddingHorizontal": 14,
+                "paddingVertical": 10,
+              },
+              {
+                "backgroundColor": "#ffffff",
+                "borderColor": "#1a4030",
+                "borderWidth": 2,
+                "opacity": 1,
+              },
+            ]
+          }
+          testID="profile-units-metric"
+        >
+          <Text
+            style={
+              [
+                {
+                  "color": "#14201a",
+                },
+                {
+                  "fontSize": 15,
+                  "fontWeight": "600",
+                },
+              ]
+            }
+          >
+            Metric
+          </Text>
+        </View>
+        <View
+          accessibilityRole="button"
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": false,
+              "expanded": undefined,
+              "selected": false,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            [
+              {
+                "alignItems": "center",
+                "borderRadius": 10,
+                "minWidth": 96,
+                "paddingHorizontal": 14,
+                "paddingVertical": 10,
+              },
+              {
+                "backgroundColor": "#ffffff",
+                "borderColor": "#d5e0d9",
+                "borderWidth": 1,
+                "opacity": 1,
+              },
+            ]
+          }
+          testID="profile-units-imperial"
+        >
+          <Text
+            style={
+              [
+                {
+                  "color": "#14201a",
+                },
+                {
+                  "fontSize": 15,
+                  "fontWeight": "600",
+                },
+              ]
+            }
+          >
+            Imperial
+          </Text>
+        </View>
+      </View>
+    </View>
+    <View
+      style={
+        [
+          {
+            "backgroundColor": "#f7faf8",
+          },
+          {
+            "marginTop": 20,
+          },
+        ]
+      }
+      testID="profile-language"
+    >
+      <Text
+        style={
+          [
+            {
+              "color": "#14201a",
+            },
+            [
+              {
+                "fontSize": 13,
+                "fontWeight": "600",
+                "letterSpacing": 0.3,
+                "marginBottom": 8,
+              },
+              {
+                "color": "#4a5c52",
+              },
+            ],
+          ]
+        }
+      >
+        Language
+      </Text>
+      <View
+        style={
+          [
+            {
+              "backgroundColor": "#f7faf8",
+            },
+            {
+              "flexDirection": "row",
+              "flexWrap": "wrap",
+              "gap": 8,
+            },
+          ]
+        }
+      >
+        <View
+          accessibilityRole="button"
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": false,
+              "expanded": undefined,
+              "selected": true,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            [
+              {
+                "alignItems": "center",
+                "borderRadius": 10,
+                "minWidth": 96,
+                "paddingHorizontal": 14,
+                "paddingVertical": 10,
+              },
+              {
+                "backgroundColor": "#ffffff",
+                "borderColor": "#1a4030",
+                "borderWidth": 2,
+                "opacity": 1,
+              },
+            ]
+          }
+          testID="profile-language-en"
+        >
+          <Text
+            style={
+              [
+                {
+                  "color": "#14201a",
+                },
+                {
+                  "fontSize": 15,
+                  "fontWeight": "600",
+                },
+              ]
+            }
+          >
+            English
+          </Text>
+        </View>
+        <View
+          accessibilityRole="button"
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": false,
+              "expanded": undefined,
+              "selected": false,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            [
+              {
+                "alignItems": "center",
+                "borderRadius": 10,
+                "minWidth": 96,
+                "paddingHorizontal": 14,
+                "paddingVertical": 10,
+              },
+              {
+                "backgroundColor": "#ffffff",
+                "borderColor": "#d5e0d9",
+                "borderWidth": 1,
+                "opacity": 1,
+              },
+            ]
+          }
+          testID="profile-language-ur"
+        >
+          <Text
+            style={
+              [
+                {
+                  "color": "#14201a",
+                },
+                {
+                  "fontSize": 15,
+                  "fontWeight": "600",
+                },
+              ]
+            }
+          >
+            Urdu
+          </Text>
+        </View>
+      </View>
+    </View>
+    <View
+      style={
+        [
+          {
+            "backgroundColor": "#f7faf8",
+          },
+          [
+            {
+              "borderRadius": 12,
+              "borderWidth": 1,
+              "marginTop": 28,
+              "padding": 16,
+            },
+            {
+              "backgroundColor": "#ffffff",
+              "borderColor": "#d5e0d9",
+            },
+          ],
+        ]
+      }
+      testID="profile-privacy"
+    >
+      <Text
+        style={
+          [
+            {
+              "color": "#14201a",
+            },
+            {
+              "fontSize": 16,
+              "fontWeight": "700",
+            },
+          ]
+        }
+      >
+        Privacy and the No-Pin Promise
+      </Text>
+      <Text
+        style={
+          [
+            {
+              "color": "#14201a",
+            },
+            [
+              {
+                "fontSize": 15,
+                "lineHeight": 22,
+                "marginTop": 8,
+              },
+              {
+                "color": "#4a5c52",
+              },
+            ],
+          ]
+        }
+      >
+        WildWindow never puts a pin on a wild animal. Exact coordinates are never shown for any species. Your photo locations stay private. Location protection is open source.
+      </Text>
+      <View
+        accessibilityRole="button"
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": false,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          [
+            {
+              "alignItems": "center",
+              "borderRadius": 10,
+              "justifyContent": "center",
+              "minHeight": 48,
+              "paddingHorizontal": 18,
+              "paddingVertical": 12,
+            },
+            {
+              "backgroundColor": "#ffffff",
+              "borderColor": "#d5e0d9",
+              "borderWidth": 1,
+              "opacity": 1,
+            },
+            {
+              "alignSelf": "stretch",
+              "marginTop": 12,
+            },
+          ]
+        }
+        testID="profile-nopin-link"
+      >
+        <Text
+          style={
+            [
+              {
+                "color": "#14201a",
+              },
+              [
+                {
+                  "fontSize": 16,
+                  "fontWeight": "600",
+                },
+                {
+                  "color": "#14201a",
+                },
+              ],
+            ]
+          }
+        >
+          No-Pin Promise
+        </Text>
+      </View>
+    </View>
+    <View
+      accessibilityRole="button"
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": false,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        [
+          {
+            "alignItems": "center",
+            "borderRadius": 10,
+            "justifyContent": "center",
+            "minHeight": 48,
+            "paddingHorizontal": 18,
+            "paddingVertical": 12,
+          },
+          {
+            "backgroundColor": "#ffffff",
+            "borderColor": "#d5e0d9",
+            "borderWidth": 1,
+            "opacity": 1,
+          },
+          {
+            "alignSelf": "stretch",
+            "marginTop": 16,
+          },
+        ]
+      }
+      testID="profile-attributions-link"
+    >
+      <Text
+        style={
+          [
+            {
+              "color": "#14201a",
+            },
+            [
+              {
+                "fontSize": 16,
+                "fontWeight": "600",
+              },
+              {
+                "color": "#14201a",
+              },
+            ],
+          ]
+        }
+      >
+        Data attributions
+      </Text>
+    </View>
+    <Text
+      style={
+        [
+          {
+            "color": "#14201a",
+          },
+          [
+            {
+              "fontSize": 14,
+              "letterSpacing": 0.4,
+              "marginTop": 32,
+            },
+            {
+              "color": "#4a5c52",
+            },
           ],
         ]
       }
     >
-      No-Pin Promise
+      WildWindow
     </Text>
   </View>
-  <Text
-    style={
-      [
-        {
-          "color": "#14201a",
-        },
-        [
-          {
-            "fontSize": 14,
-            "letterSpacing": 0.4,
-            "marginTop": 32,
-          },
-          {
-            "color": "#4a5c52",
-          },
-        ],
-      ]
-    }
-  >
-    WildWindow
-  </Text>
-</View>
+</RCTScrollView>
 `;

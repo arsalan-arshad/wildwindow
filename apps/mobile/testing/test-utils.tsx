@@ -6,13 +6,13 @@ import type { ReactElement, ReactNode } from 'react';
 import type { AuthClient } from '@/lib/auth/types';
 import { AppProviders } from '@/providers/app-providers';
 import { initI18n, type AppLanguage } from '@/lib/i18n';
-import type { AppPreferences, PreferenceStorage } from '@/lib/preferences';
+import type { AppPreferencesInit, PreferenceStorage } from '@/lib/preferences';
 import { createMockAuthClient } from '@/testing/mock-auth-client';
 
 export type RenderWithProvidersOptions = RenderOptions & {
   readonly language?: AppLanguage;
   readonly preferenceStorage?: PreferenceStorage;
-  readonly initialPreferences?: AppPreferences;
+  readonly initialPreferences?: AppPreferencesInit;
   readonly apiClient?: ApiClient;
   readonly authClient?: AuthClient;
   readonly queryClient?: QueryClient;
@@ -38,12 +38,14 @@ export async function renderWithProviders(
   initI18n(language);
 
   const preferenceStorage = options?.preferenceStorage;
-  const initialPreferences =
+  const initialPreferences: AppPreferencesInit =
     options?.initialPreferences ??
     ({
       region: null,
       onboardingComplete: true,
-    } satisfies AppPreferences);
+      units: 'metric',
+      language: null,
+    } satisfies AppPreferencesInit);
   const apiClient = options?.apiClient;
   // Default to an in-memory auth client so screens that call useAuth do not
   // hit the real Firebase SDK in Jest.

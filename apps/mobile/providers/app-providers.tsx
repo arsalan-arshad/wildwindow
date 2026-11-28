@@ -9,7 +9,7 @@ import type { AuthClient } from '@/lib/auth/types';
 import { i18n, initI18n } from '@/lib/i18n';
 import { setupOnlineManager } from '@/lib/online';
 import { PreferencesProvider } from '@/lib/preferences-context';
-import type { AppPreferences, PreferenceStorage } from '@/lib/preferences';
+import type { AppPreferencesInit, PreferenceStorage } from '@/lib/preferences';
 import {
   createAppQueryClient,
   QUERY_CACHE_MAX_AGE_MS,
@@ -27,7 +27,7 @@ export type AppProvidersProps = {
   readonly apiClient?: ApiClient;
   readonly authClient?: AuthClient;
   readonly preferenceStorage?: PreferenceStorage;
-  readonly initialPreferences?: AppPreferences;
+  readonly initialPreferences?: AppPreferencesInit;
 };
 
 /**

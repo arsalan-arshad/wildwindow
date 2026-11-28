@@ -479,10 +479,11 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Acceptance test: component test; the card URL has no coordinates.
   - Done: 2026-11-26 — Expo S-15 share preview (`/share`): loads web `/api/og/forecast` or `/api/og/challenge/:entryId` image, shares PNG via `expo-sharing` (download to cache first). Entry points from forecast detail and challenge gallery. jest-expo: card URL has no lat/lng; share helper downloads then `shareAsync`.
 
-- [ ] **T6.12 Profile, settings, attributions, delete and export (S-16, S-17)**
+- [x] **T6.12 Profile, settings, attributions, delete and export (S-16, S-17)**
   - Depends on: T6.7, T5.14, T5.15
   - Do: region, units, language, privacy text, export, delete account (confirmation) and the attributions list.
   - Acceptance test: component tests; deletion calls `DELETE /v1/me` and signs out.
+  - Done: 2026-11-28 — S-16 Profile settings (region, units, language, No-Pin privacy, export, delete with confirm); S-17 attributions from `GET /v1/attributions`; units local-only; region/locale PATCH `/v1/me` when signed in; delete → `DELETE /v1/me` + sign out. jest-expo component tests. Expo Go compatible (no EAS).
 
 - [x] **T6.13 Offline cache (should)**
   - Depends on: T6.5

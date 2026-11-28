@@ -87,9 +87,10 @@ function RootLayoutNav() {
     const root = segments[0];
     const inOnboarding = root === 'onboarding';
     const inNoPin = root === 'no-pin';
+    const inAttributions = root === 'attributions';
     const inSignIn = root === 'sign-in';
 
-    if (!onboardingComplete && !inOnboarding && !inNoPin && !inSignIn) {
+    if (!onboardingComplete && !inOnboarding && !inNoPin && !inAttributions && !inSignIn) {
       router.replace('/onboarding');
       return;
     }
@@ -113,6 +114,7 @@ function RootLayoutNav() {
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="onboarding" options={{ headerShown: false }} />
         <Stack.Screen name="no-pin" options={{ presentation: 'card' }} />
+        <Stack.Screen name="attributions" options={{ presentation: 'card' }} />
         <Stack.Screen name="species/[taxonId]" options={{ presentation: 'card' }} />
         <Stack.Screen name="field-card" options={{ presentation: 'card' }} />
         <Stack.Screen name="area" options={{ presentation: 'card' }} />

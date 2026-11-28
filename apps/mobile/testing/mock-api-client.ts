@@ -1,10 +1,14 @@
 import type { ApiClient } from '@wildwindow/shared/client';
 import type {
   AreaResponse,
+  AttributionsResponse,
   LogbookCreateRequest,
   LogbookEntryOwner,
   LogbookEntryPublic,
   LogbookPatchRequest,
+  MeExportOk,
+  MePatchRequest,
+  MeProfile,
   PlaceSummary,
   PresignUploadRequest,
   PresignUploadResponse,
@@ -71,6 +75,23 @@ export type MockWatchlistApi = {
   readonly remove?: (id: string) => Promise<void>;
 };
 
+export type MockMeApi = {
+  readonly profile?: MeProfile;
+  readonly patch?: (body: MePatchRequest) => Promise<MeProfile>;
+  readonly delete?: () => Promise<{ ok: true; purgeAfterDays: 30 }>;
+  readonly export?: () => Promise<MeExportOk>;
+};
+
+export type MockAttributionsApi = {
+  readonly data?: AttributionsResponse;
+  readonly list?: () => Promise<AttributionsResponse>;
+};
+
+export const emptyAttributionsFixture: AttributionsResponse = {
+  datasets: [],
+  providers: [],
+};
+
 const EMPTY_WEEKS = Array.from({ length: 52 }, () => 0);
 
 export function forecastFixtureKey(taxonId: string, cell: string, start: string): string {
@@ -84,6 +105,8 @@ export function createMockSpeciesApiClient(
   logbookFixtures: MockLogbookApi = {},
   challengeFixtures: MockChallengeApi = {},
   watchlistFixtures: MockWatchlistApi = {},
+  meFixtures: MockMeApi = {},
+  attributionsFixtures: MockAttributionsApi = {},
 ): ApiClient {
   const places = placesFixtures.places ?? [];
   const areasByCell = placesFixtures.areasByCell ?? {};
@@ -218,22 +241,45 @@ export function createMockSpeciesApiClient(
           throw new Error(`missing forecast ${key}`);
         }),
     },
+    attributions: {
+      list:
+        attributionsFixtures.list ??
+        (async () => attributionsFixtures.data ?? emptyAttributionsFixture),
+    },
     me: {
-      get: async () => ({
-        id: '00000000-0000-4000-8000-000000000001',
-        displayName: null,
-        homeRegionSlug: 'scotland' as const,
-        locale: 'en' as const,
-        role: 'user' as const,
-      }),
-      patch: async () => {
-        throw new Error('not implemented in mock');
-      },
-      delete: async () => ({ ok: true as const, purgeAfterDays: 30 as const }),
-      export: async () => ({
-        status: 'ready' as const,
-        downloadUrl: 'https://example.test/export.json',
-      }),
+      get: async () =>
+        meFixtures.profile ?? {
+          id: '00000000-0000-4000-8000-000000000001',
+          displayName: null,
+          homeRegionSlug: 'scotland' as const,
+          locale: 'en' as const,
+          role: 'user' as const,
+        },
+      patch:
+        meFixtures.patch ??
+        (async (body: MePatchRequest) => {
+          const base: MeProfile = meFixtures.profile ?? {
+            id: '00000000-0000-4000-8000-000000000001',
+            displayName: null,
+            homeRegionSlug: 'scotland',
+            locale: 'en',
+            role: 'user',
+          };
+          return {
+            ...base,
+            ...(body.displayName !== undefined ? { displayName: body.displayName } : {}),
+            ...(body.homeRegionSlug !== undefined ? { homeRegionSlug: body.homeRegionSlug } : {}),
+            ...(body.locale !== undefined ? { locale: body.locale } : {}),
+          };
+        }),
+      delete:
+        meFixtures.delete ?? (async () => ({ ok: true as const, purgeAfterDays: 30 as const })),
+      export:
+        meFixtures.export ??
+        (async () => ({
+          status: 'ready' as const,
+          downloadUrl: 'https://example.test/export.json',
+        })),
       watchlist: {
         list: async () => ({
           items: watchlistItems.map((item) => ({
