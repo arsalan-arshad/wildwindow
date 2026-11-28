@@ -51,18 +51,20 @@ High-resolution 1290×2796 (iPhone 6.7" portrait display / Google Play tablet co
 
 ### Marketing &amp; Open Graph Banners (`banners/`, `og/`, `marketing/`)
 
-| File                                  | Dimensions | Platform / Use                                       |
-| :------------------------------------ | :--------- | :--------------------------------------------------- |
-| `og/og-1200x630.png`                  | 1200×630   | Primary Next.js Open Graph social sharing image.     |
-| `og/default-og.png`                   | 1200×630   | Default web social fallback card.                    |
-| `og/challenge-og-template.png`        | 1200×630   | Twin-region monthly challenge dynamic OG share card. |
-| `banners/twitter-header-1500x500.png` | 1500×500   | Twitter / X profile header banner.                   |
-| `social/twitter-card.png`             | 1200×675   | Twitter / X feed card post graphic.                  |
-| `social/linkedin-share.png`           | 1200×627   | LinkedIn &amp; Facebook feed share banner.           |
-| `banners/play-feature-graphic.png`    | 1024×500   | Google Play Store listing promotional banner.        |
-| `banners/app-store-banner.png`        | 1200×630   | Apple App Store editorial banner.                    |
-| `marketing/waitlist-banner.png`       | 1200×630   | Early invite waitlist landing header.                |
-| `marketing/hero-placeholder.png`      | 1920×1080  | Full-bleed web landing hero graphic.                 |
+| File                                  | Dimensions | Platform / Use                                        |
+| :------------------------------------ | :--------- | :---------------------------------------------------- |
+| `og/og-1200x630.png`                  | 1200×630   | Primary Next.js Open Graph social sharing image.      |
+| `og/default-og.png`                   | 1200×630   | Default web social fallback card.                     |
+| `og/challenge-og-template.png`        | 1200×630   | Twin-region monthly challenge dynamic OG share card.  |
+| `banners/twitter-header-1500x500.png` | 1500×500   | Twitter / X profile header banner.                    |
+| `social/twitter-card.png`             | 1200×675   | Twitter / X feed card post graphic.                   |
+| `social/linkedin-share.png`           | 1200×627   | LinkedIn &amp; Facebook feed share banner.            |
+| `banners/play-feature-graphic.png`    | 1024×500   | Google Play Store listing promotional banner.         |
+| `banners/app-store-banner.png`        | 1200×630   | Apple App Store editorial banner.                     |
+| `marketing/waitlist-banner.png`       | 1200×630   | Designed waitlist share/mock (includes painted copy). |
+| `marketing/hero-placeholder.png`      | 1920×1080  | Designed landing share/mock (includes painted copy).  |
+
+> **Live web pages:** do **not** underlay these marketing composites behind HTML heroes — the painted headlines/CTAs stack with live copy (WPO-106). Keep them for social/docs; live `/` and `/waitlist` use the HTML composition + brand mark atmosphere.
 
 ### Social Media Post Templates (`social/`)
 
@@ -102,10 +104,11 @@ High-resolution 1290×2796 (iPhone 6.7" portrait display / Google Play tablet co
 
 Canonical files stay under `assets/`. Runtime hosts that require local paths get thin copies only:
 
-| Consumer       | Path                                                                                            | Source                                                            |
-| :------------- | :---------------------------------------------------------------------------------------------- | :---------------------------------------------------------------- |
-| Next.js public | `apps/web/public/favicon*`, `icon-*.png`, `apple-touch-icon.png`, `og/`, `brand/`, `marketing/` | `assets/favicon`, `icons`, `og`, `brand`, `marketing`             |
-| Expo           | `apps/mobile/assets/images/icon.png`, `splash-icon.png`, `android-icon-*.png`, `favicon.png`    | `assets/icons`, `favicon` (+ cream `#F4F7F5` adaptive background) |
+| Consumer           | Path                                                                                                  | Source                                                                             |
+| :----------------- | :---------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------- |
+| Next.js App Router | `apps/web/src/app/favicon.ico`, `apps/web/src/app/icon.png`                                           | `assets/favicon` (do **not** also put `favicon.ico` in `public/` — Next conflicts) |
+| Next.js public     | `apps/web/public/favicon-32.png`, `icon-*.png`, `apple-touch-icon.png`, `og/`, `brand/`, `marketing/` | `assets/favicon`, `icons`, `og`, `brand`, `marketing`                              |
+| Expo               | `apps/mobile/assets/images/icon.png`, `splash-icon.png`, `android-icon-*.png`, `favicon.png`          | `assets/icons`, `favicon` (+ cream `#F4F7F5` adaptive background)                  |
 
 Re-copy from `assets/` when the brand pack updates. Do not invent new art in app folders.
 

@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import Link from 'next/link';
 
 import { SampleForecast } from '@/components/sample-forecast';
@@ -8,19 +7,27 @@ const GEOPRIVACY_URL = 'https://github.com/arsalan-arshad/wildwindow/tree/main/p
 export function Landing() {
   return (
     <main>
-      <section className="relative isolate min-h-[100svh] overflow-hidden">
-        {/* Brand hero — canonical source: assets/marketing/hero-placeholder.png */}
-        <Image
-          src="/marketing/hero-placeholder.png"
-          alt=""
-          fill
-          priority
-          className="object-cover"
-          sizes="100vw"
-        />
-        <div className="absolute inset-0 bg-[var(--color-hero-veil)]" aria-hidden />
+      {/*
+        One HTML hero composition only. Do not underlay assets/marketing/hero-placeholder.png —
+        that pack graphic ships its own headlines/CTAs and stacks under this copy (WPO-106).
+      */}
+      <section className="relative isolate min-h-[100svh] overflow-hidden bg-forest-950">
         <div
-          className="hero-mist pointer-events-none absolute -inset-[12%] bg-[radial-gradient(circle_at_30%_20%,rgb(243_226_194/0.28),transparent_45%),radial-gradient(circle_at_80%_60%,rgb(47_107_79/0.35),transparent_50%)]"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_20%_0%,rgb(47_107_79/0.55),transparent_55%),radial-gradient(ellipse_at_90%_40%,rgb(196_137_42/0.22),transparent_45%),linear-gradient(180deg,rgb(11_31_20)_0%,rgb(22_53_40)_55%,rgb(11_31_20)_100%)]"
+          aria-hidden
+        />
+        <div
+          className="hero-mist pointer-events-none absolute -inset-[12%] bg-[radial-gradient(circle_at_30%_20%,rgb(243_226_194/0.22),transparent_45%),radial-gradient(circle_at_80%_60%,rgb(47_107_79/0.4),transparent_50%)]"
+          aria-hidden
+        />
+        {/* Brand mark as soft visual anchor — not a second headline stack */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/brand/mark.svg"
+          alt=""
+          width={520}
+          height={520}
+          className="pointer-events-none absolute -right-16 top-1/2 hidden w-[min(42vw,28rem)] -translate-y-1/2 opacity-[0.14] sm:block lg:-right-8 lg:opacity-[0.18]"
           aria-hidden
         />
 

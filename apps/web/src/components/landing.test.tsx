@@ -28,4 +28,12 @@ describe('Landing', () => {
       '/no-pin',
     );
   });
+
+  it('keeps a single HTML hero (no pack-graphic copy underlay)', () => {
+    const { container } = render(<Landing />);
+    // Marketing hero-placeholder.png paints “Know when wildlife…” — must not appear in DOM.
+    expect(container.textContent).not.toMatch(/Know when wildlife/i);
+    expect(container.querySelectorAll('h1')).toHaveLength(1);
+    expect(container.querySelector('img[src="/marketing/hero-placeholder.png"]')).toBeNull();
+  });
 });
