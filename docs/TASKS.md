@@ -569,7 +569,7 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
 
 ## Phase 9: Beta hardening and deploy
 
-> **Railway interim (pre–Milestone H):** scaffolding for PostGIS + api/web/worker/migrate Docker deploy lives in `docs/RAILWAY.md` and `infra/railway/`. This does **not** complete T9.2–T9.4 (AWS CDK). Vercel web config is T9.5 (`docs/VERCEL.md`); Railway may still serve beta web until Vercel is linked. Prefer Railway over Mac Docker until CDK cutover.
+> **Railway is production** for PostGIS + api/web/worker/migrate (and T9.3 cron services). Scaffolding lives in `docs/RAILWAY.md` and `infra/railway/`. T9.2 / T9.3b / T9.4 AWS CDK remain optional Milestone H paths unless Arsalan asks. Vercel web config is T9.5 (`docs/VERCEL.md`); Railway may still serve beta web until Vercel is linked.
 
 - [x] **T9.1 Observability**
   - Depends on: T5.2, T6.1, T7.1
@@ -584,11 +584,18 @@ Status legend: `- [ ]` todo · `- [x]` done · `- [~]` in progress (add a note) 
   - Agent work done: 2026-11-26 — `@wildwindow/infra` CDK app (VPC, RDS Postgres 16 encrypted `db.t4g.micro`, ECR, ECS Fargate API + ALB HTTP→`/v1/health`, empty Secrets Manager shells); snapshot + resource tests; CI `infra` job runs lint/typecheck/test/`cdk synth`. Railway interim remains staging host (`docs/RAILWAY.md`); this is the Milestone H CDK path — **no `cdk deploy`**.
   - [!] Blocked: needs Arsalan – AWS account, region (default eu-west-2), approve `cdk bootstrap` / `cdk deploy`, then populate Secrets Manager shells and push an API image to ECR.
 
-- [ ] **T9.3 Infra: worker schedule and storage**
+- [x] **T9.3 Infra: worker schedule and storage (Railway)**
+  - Depends on: T9.2 (AWS CDK optional; Railway path does not block)
+  - Do (Railway / live): document + ship in-repo cron service configs for daily `purge-deleted` and monthly GBIF `ingest:pipeline`; keep **Cloudflare R2** as object storage (`STORAGE_DRIVER=r2`); logbook encryption stays `LOGBOOK_ENC_KEY` (AES) — not AWS KMS.
+  - Acceptance test: worker Vitest covers `RAILWAY_WORKER_CRON` ↔ `infra/railway/worker-{purge,ingest}.toml`, `ingest:pipeline` dry-run / `GBIF_ENABLED` gate / mocked request→fetch→load→aggregate→score:refs; docs click-path in `docs/RAILWAY.md`.
+  - Done: 2026-11-28 — `ingest:pipeline` CLI; `infra/railway/worker-purge.toml` (`0 4 * * *`) + `worker-ingest.toml` (`0 5 1 * *`); R2 already live. **Arsalan:** create the two cron services in the Railway dashboard (no agent cloud resources).
+  - Optional AWS cutover tracked as **T9.3b** (not required while Railway is production).
+
+- [!] **T9.3b Infra: AWS worker schedule and storage** 🧑
   - Depends on: T9.2
-  - Do: an EventBridge Scheduler monthly ingestion task, a daily `purge-deleted`, an S3 private bucket and CloudFront with signed URLs, and a KMS key for the logbook.
+  - Do: EventBridge Scheduler monthly ingestion + daily `purge-deleted`, S3 private bucket + CloudFront signed URLs, KMS for the logbook (Milestone H CDK on top of T9.2).
   - Acceptance test: `cdk synth` and snapshot test.
-  - Note: Railway beta object storage is **Cloudflare R2** via `STORAGE_DRIVER=r2` (app code + `docs/RAILWAY.md`). This task remains the optional AWS CDK cutover (S3 + CloudFront), not a prerequisite for beta uploads.
+  - Blocked: needs Arsalan – AWS account + approve CDK deploy; skip while Railway + R2 remain production.
 
 - [ ] **T9.4 CD pipeline**
   - Depends on: T9.2, T0.10

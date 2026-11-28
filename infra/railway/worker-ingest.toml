@@ -1,0 +1,34 @@
+# Railway cron service: monthly GBIF ingest pipeline (T9.3).
+# Create a NEW service from the same worker Dockerfile (keep the hello smoke
+# `worker` service separate). Copy Build/Deploy settings into the dashboard
+# and set Settings → Cron Schedule to the cronSchedule value below (UTC).
+#
+# Root Directory: / (monorepo root)
+# Required Variables: NODE_ENV, DATABASE_URL_WORKER, GBIF_ENABLED=true,
+# GBIF_USER, GBIF_PASSWORD, GBIF_EMAIL, OBSERVER_HASH_SALT.
+# Do NOT enable this cron until credentials are set and a dry-run looks right:
+#   railway run --service worker-ingest -- node dist/cli.js ingest:pipeline --region all --dry-run
+# See docs/RAILWAY.md § Scheduled worker jobs.
+
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "apps/worker/Dockerfile"
+watchPatterns = [
+  "apps/worker/**",
+  "packages/db/**",
+  "packages/geoprivacy/**",
+  "packages/scoring/**",
+  "packages/shared/**",
+  "packages/config/**",
+  "data/**",
+  "pnpm-lock.yaml",
+]
+
+[deploy]
+# Monthly 1st 05:00 UTC — must match RAILWAY_WORKER_CRON.ingestPipeline in
+# apps/worker/src/schedule/cron.ts
+cronSchedule = "0 5 1 * *"
+startCommand = "node dist/cli.js ingest:pipeline --region all"
+# Cron jobs must exit; NEVER so a successful run does not loop.
+# GBIF downloads can take hours; Railway skips the next tick while Active.
+restartPolicyType = "NEVER"

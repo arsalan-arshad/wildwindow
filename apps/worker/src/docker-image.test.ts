@@ -39,6 +39,17 @@ describe('Railway worker image (bundled CLI, no nested workspace resolve)', () =
     expect(toml).toMatch(/hello/);
   });
 
+  it('Railway cron tomls keep NEVER restart and do not replace the hello smoke', () => {
+    const purge = readFileSync(resolve(repoRoot, 'infra/railway/worker-purge.toml'), 'utf8');
+    const ingest = readFileSync(resolve(repoRoot, 'infra/railway/worker-ingest.toml'), 'utf8');
+    expect(purge).toMatch(/cronSchedule/);
+    expect(purge).toMatch(/purge-deleted/);
+    expect(ingest).toMatch(/cronSchedule/);
+    expect(ingest).toMatch(/ingest:pipeline --region all/);
+    expect(purge).toMatch(/restartPolicyType\s*=\s*"NEVER"/);
+    expect(ingest).toMatch(/restartPolicyType\s*=\s*"NEVER"/);
+  });
+
   it('Dockerfile runner ships bundled dist + root node_modules + worker commander', () => {
     const dockerfile = readFileSync(resolve(repoRoot, 'apps/worker/Dockerfile'), 'utf8');
     const runnerStage = dockerfile.split('AS runner')[1];

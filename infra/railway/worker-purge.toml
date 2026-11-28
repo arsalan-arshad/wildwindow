@@ -1,0 +1,31 @@
+# Railway cron service: daily purge-deleted (T9.3).
+# Create a NEW service from the same worker Dockerfile (do not replace the
+# hello smoke `worker` service). Copy Build/Deploy settings into the dashboard
+# and set Settings → Cron Schedule to the cronSchedule value below (UTC).
+#
+# Root Directory: / (monorepo root)
+# Required Variables: NODE_ENV, DATABASE_URL (owner — ww_worker cannot DML
+# app.users/logbook), STORAGE_DRIVER=r2 + R2_* (same as api) for photo cleanup.
+# See docs/RAILWAY.md § Scheduled worker jobs.
+
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "apps/worker/Dockerfile"
+watchPatterns = [
+  "apps/worker/**",
+  "packages/db/**",
+  "packages/geoprivacy/**",
+  "packages/scoring/**",
+  "packages/shared/**",
+  "packages/config/**",
+  "data/**",
+  "pnpm-lock.yaml",
+]
+
+[deploy]
+# Daily 04:00 UTC — must match RAILWAY_WORKER_CRON.purgeDeleted in
+# apps/worker/src/schedule/cron.ts
+cronSchedule = "0 4 * * *"
+startCommand = "node dist/cli.js purge-deleted"
+# Cron jobs must exit; NEVER so a successful run does not loop.
+restartPolicyType = "NEVER"
